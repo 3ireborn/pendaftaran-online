@@ -33,14 +33,29 @@
       <p><strong>Rinciannya:</strong><br>
       • Rp.50.000 untuk <strong>ID CARD ONLINE</strong><br>
       <strong>KONTRIBUSI PREMI:</strong><br>
-      Rp.350.000 | Rp.500.000 | Rp.700.000 | Rp.1.000.000 | Rp.2.000.000<br>
+      350.000 | 500.000 | 700.000 | 1.000.000 | 2.000.000<br>
       <em>(Disesuaikan dengan Kemampuan)</em></p>
     </div>
 
     <form id="regForm">
       <h2>Data Pribadi</h2>
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
-      <label>Kode ID Leader: <input type="text" name="leader" placeholder="kosongkan dulu"></label>
+      <label>Kode ID Leader: 
+        <select name="leader" id="leaderSelect" required>
+          <option value="">Pilih Leader</option>
+        </select>
+      </label>
+
+      <!-- Dropdown Kontribusi Premi -->
+      <label>Kontribusi Premi (Rp):</label>
+      <select name="premi" required>
+        <option value="">Pilih Premi</option>
+        <option value="350.000">350.000</option>
+        <option value="500.000">500.000</option>
+        <option value="700.000">700.000</option>
+        <option value="1.000.000">1.000.000</option>
+        <option value="2.000.000">2.000.000</option>
+      </select>
 
       <label>Nama:</label>
       <input type="text" name="nama" required>
@@ -200,19 +215,28 @@
     </div>
   </div>
 
+  <!-- Load data leader -->
+  <script src="leader.js"></script>
+
   <script>
     // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // Submit → kirim ke WA (tanpa bold)
+    // Submit → kirim ke WA Leader
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
-      let msg = "PENDAFTARAN 3IREBORN\n\n";
+      const leaderCode = data.get('leader');
+      const leader = leaders.find(l => l.code === leaderCode);
 
-      // Tambahkan semua field yang diisi
+      if (!leader) {
+        alert('Pilih Leader terlebih dahulu!');
+        return;
+      }
+
+      let msg = "PENDAFTARAN 3IREBORN\n\n";
       for (let [key, val] of data) {
         if (val) {
           let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -220,20 +244,15 @@
         }
       }
 
-      // Data tambahan jika dicentang
       if (document.getElementById('tertanggungLain').checked) {
         msg += "\nDATA TERTANGGUNG BERBEDA\n";
-        // (data tambahan sudah masuk dari FormData)
       }
 
-      // Pesan penutup
       msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
 
-      // GANTI NOMOR WA ANDA DI SINI:
-      const nomorWA = "6285218453131"; // ← UBAH KE NOMOR ANDA
-      const waLink = `https://wa.me/${nomorWA}?text=${encodeURIComponent(msg)}`;
+      const waLink = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
       window.open(waLink, '_blank');
     });
   </script>
 </body>
-                       </html>
+  </html>
