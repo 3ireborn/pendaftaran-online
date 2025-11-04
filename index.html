@@ -18,7 +18,7 @@
     .submit-btn:hover{background:#09307a}
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
     .highlight{color:#d4380d;font-weight:bold}
-    .leader-locked{background:#e9ecef !important;color:#495057 !important;border-color:#ced4da !important;cursor:not-allowed !important}
+    .leader-info{background:#f8f9fa;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #0b3d91}
     @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
@@ -38,14 +38,21 @@
       <em>(Disesuaikan dengan Kemampuan)</em></p>
     </div>
 
+    <!-- Leader Info (akan diisi otomatis) -->
+    <div id="leaderInfo" class="leader-info" style="display:none"></div>
+
     <form id="regForm">
       <h2>Data Pribadi</h2>
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
-      <label>Kode ID Leader: 
-        <select name="leader" id="leaderSelect" required>
-          <option value="">Memuat Leader...</option>
-        </select>
-      </label>
+
+      <!-- Dropdown Leader (HILANG jika dari link) -->
+      <div id="leaderSelectWrapper">
+        <label>Kode ID Leader: 
+          <select name="leader" id="leaderSelect" required>
+            <option value="">Memuat Leader...</option>
+          </select>
+        </label>
+      </div>
 
       <label>Kontribusi Premi (Rp):</label>
       <select name="premi" required>
@@ -57,6 +64,7 @@
         <option value="2.000.000">2.000.000</option>
       </select>
 
+      <!-- SEMUA FIELD LAIN (sama) -->
       <label>Nama:</label><input type="text" name="nama" required>
       <label>Alamat:</label>
       <div class="row">
@@ -183,57 +191,62 @@
     </div>
   </div>
 
-  <!-- Load leader.js -->
   <script src="leader.js"></script>
 
   <script>
-    let selectedLeader = null;
+    let finalLeader = null;
 
-    // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // TUNGGU leader.js SELESAI
     const script = document.querySelector('script[src="leader.js"]');
     script.onload = () => {
+      const params = new URLSearchParams(location.search);
+      const urlSlug = params.get('leader');
+      const selectWrapper = document.getElementById('leaderSelectWrapper');
+      const leaderInfo = document.getElementById('leaderInfo');
+
+      if (urlSlug && window.leaders) {
+        const leader = window.leaders.find(l => l.slug === urlSlug);
+        if (leader) {
+          // SEMBUNYIKAN DROPDOWN
+          selectWrapper.style.display = 'none';
+          // TAMPILKAN INFO LEADER
+          leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Data akan dikirim ke WA: <strong>${leader.phone}</strong>`;
+          leaderInfo.style.display = 'block';
+          finalLeader = leader;
+          return;
+        }
+      }
+
+      // Jika tidak dari link → tampilkan dropdown
       const select = document.getElementById('leaderSelect');
       select.innerHTML = '<option value="">Pilih Leader</option>';
-
       window.leaders.forEach(l => {
         const opt = document.createElement('option');
         opt.value = l.code;
         opt.textContent = `${l.code} - ${l.name}`;
         select.appendChild(opt);
       });
-
-      // AUTO SELECT DARI URL
-      const params = new URLSearchParams(location.search);
-      const urlSlug = params.get('leader');
-      if (urlSlug) {
-        const leader = window.leaders.find(l => l.slug === urlSlug);
-        if (leader) {
-          select.value = leader.code;
-          selectedLeader = leader;
-          select.classList.add('leader-locked');
-          select.disabled = false; // tetap aktif untuk FormData
-        }
-      }
     };
 
-    // SUBMIT
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
-      const leaderCode = data.get('leader') || (selectedLeader ? selectedLeader.code : null);
 
-      if (!leaderCode) {
+      let leader;
+      if (finalLeader) {
+        leader = finalLeader;
+      } else {
+        const code = data.get('leader');
+        leader = window.leaders.find(l => l.code === code);
+      }
+
+      if (!leader) {
         alert('Pilih Leader terlebih dahulu!');
         return;
       }
-
-      const leader = window.leaders.find(l => l.code === leaderCode);
-      if (!leader) return;
 
       let msg = "PENDAFTARAN 3IREBORN\n\n";
       for (let [key, val] of data.entries()) {
@@ -254,4 +267,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
