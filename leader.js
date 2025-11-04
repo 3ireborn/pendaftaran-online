@@ -1,5 +1,5 @@
 // === FILE: leader.js ===
-const leaders = [
+window.leaders = [
   { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
   { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
   { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
@@ -17,7 +17,7 @@ const leaders = [
 // Isi dropdown
 document.addEventListener('DOMContentLoaded', () => {
   const select = document.getElementById('leaderSelect');
-  leaders.forEach(l => {
+  window.leaders.forEach(l => {
     const opt = document.createElement('option');
     opt.value = l.code;
     opt.textContent = `${l.code} - ${l.name}`;
