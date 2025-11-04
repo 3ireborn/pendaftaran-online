@@ -18,7 +18,7 @@
     .submit-btn:hover{background:#09307a}
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
     .highlight{color:#d4380d;font-weight:bold}
-    .leader-info{background:#f8f9fa;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #0b3d91}
+    .leader-info{background:#e8f5e8;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #28a745}
     @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
@@ -38,18 +38,18 @@
       <em>(Disesuaikan dengan Kemampuan)</em></p>
     </div>
 
-    <!-- Leader Info (akan diisi otomatis) -->
+    <!-- Leader Info -->
     <div id="leaderInfo" class="leader-info" style="display:none"></div>
 
     <form id="regForm">
       <h2>Data Pribadi</h2>
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
 
-      <!-- Dropdown Leader (HILANG jika dari link) -->
+      <!-- Dropdown Leader -->
       <div id="leaderSelectWrapper">
         <label>Kode ID Leader: 
           <select name="leader" id="leaderSelect" required>
-            <option value="">Memuat Leader...</option>
+            <option value="">Pilih Leader</option>
           </select>
         </label>
       </div>
@@ -64,7 +64,7 @@
         <option value="2.000.000">2.000.000</option>
       </select>
 
-      <!-- SEMUA FIELD LAIN (sama) -->
+      <!-- SEMUA FIELD (sama) -->
       <label>Nama:</label><input type="text" name="nama" required>
       <label>Alamat:</label>
       <div class="row">
@@ -191,46 +191,67 @@
     </div>
   </div>
 
-  <script src="leader.js"></script>
-
   <script>
+    // === DATA LEADER (GABUNG DI SINI) ===
+    const leaders = [
+      { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
+      { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
+      { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
+      { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
+      { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
+      { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
+      { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
+      { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
+      { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
+      { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
+      { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
+      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
+    ];
+
     let finalLeader = null;
 
+    // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    const script = document.querySelector('script[src="leader.js"]');
-    script.onload = () => {
-      const params = new URLSearchParams(location.search);
-      const urlSlug = params.get('leader');
-      const selectWrapper = document.getElementById('leaderSelectWrapper');
-      const leaderInfo = document.getElementById('leaderInfo');
+    // === AUTO DETECT LEADER DARI URL ===
+    const params = new URLSearchParams(location.search);
+    const urlSlug = params.get('leader');
+    const selectWrapper = document.getElementById('leaderSelectWrapper');
+    const leaderInfo = document.getElementById('leaderInfo');
+    const select = document.getElementById('leaderSelect');
 
-      if (urlSlug && window.leaders) {
-        const leader = window.leaders.find(l => l.slug === urlSlug);
-        if (leader) {
-          // SEMBUNYIKAN DROPDOWN
-          selectWrapper.style.display = 'none';
-          // TAMPILKAN INFO LEADER
-          leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Data akan dikirim ke WA: <strong>${leader.phone}</strong>`;
-          leaderInfo.style.display = 'block';
-          finalLeader = leader;
-          return;
-        }
+    if (urlSlug) {
+      const leader = leaders.find(l => l.slug === urlSlug);
+      if (leader) {
+        // HILANGKAN DROPDOWN
+        selectWrapper.style.display = 'none';
+        // TAMPILKAN INFO
+        leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Data akan dikirim ke WA: <strong>${leader.phone}</strong>`;
+        leaderInfo.style.display = 'block';
+        finalLeader = leader;
+      } else {
+        // Jika slug salah → tetap tampilkan dropdown
+        selectWrapper.style.display = 'block';
+        isiDropdown();
       }
+    } else {
+      // Tidak ada ?leader → tampilkan dropdown
+      isiDropdown();
+    }
 
-      // Jika tidak dari link → tampilkan dropdown
-      const select = document.getElementById('leaderSelect');
+    function isiDropdown() {
       select.innerHTML = '<option value="">Pilih Leader</option>';
-      window.leaders.forEach(l => {
+      leaders.forEach(l => {
         const opt = document.createElement('option');
         opt.value = l.code;
         opt.textContent = `${l.code} - ${l.name}`;
         select.appendChild(opt);
       });
-    };
+    }
 
+    // === SUBMIT ===
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
@@ -240,7 +261,7 @@
         leader = finalLeader;
       } else {
         const code = data.get('leader');
-        leader = window.leaders.find(l => l.code === code);
+        leader = leaders.find(l => l.code === code);
       }
 
       if (!leader) {
@@ -267,4 +288,4 @@
     });
   </script>
 </body>
-</html>
+        </html>
