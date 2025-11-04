@@ -13,7 +13,6 @@
     input, select, textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:14px}
     .row{display:flex;gap:10px}
     .col{flex:1}
-    .checkbox{margin:15px 0}
     .submit-btn{background:#0b3d91;color:#fff;padding:14px;border:none;border-radius:8px;font-size:16px;cursor:pointer;width:100%;margin-top:20px;font-weight:bold}
     .submit-btn:hover{background:#09307a}
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
@@ -38,14 +37,12 @@
       <em>(Disesuaikan dengan Kemampuan)</em></p>
     </div>
 
-    <!-- Leader Info -->
     <div id="leaderInfo" class="leader-info" style="display:none"></div>
 
     <form id="regForm">
       <h2>Data Pribadi</h2>
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
 
-      <!-- Dropdown Leader (HILANG jika dari link) -->
       <div id="leaderSelectWrapper">
         <label>Kode ID Leader: 
           <select name="leader" id="leaderSelect">
@@ -54,7 +51,6 @@
         </label>
       </div>
 
-      <!-- HANYA 3 FIELD WAJIB -->
       <label>Kontribusi Premi (Rp): <span style="color:red">*</span></label>
       <select name="premi" required>
         <option value="">Pilih Premi</option>
@@ -71,31 +67,10 @@
       <label>No HP (WA): <span style="color:red">*</span></label>
       <input type="tel" name="hp" required placeholder="628123456789">
 
-      <!-- SEMUA FIELD LAIN BEBAS (tidak required) -->
       <label>Alamat:</label>
       <div class="row">
         <div class="col"><input type="text" name="alamat" placeholder="Jalan / Gang"></div>
       </div>
-      <div class="row">
-        <div class="col"><input type="text" name="rt" placeholder="RT"></div>
-        <div class="col"><input type="text" name="rw" placeholder="RW"></div>
-        <div class="col"><input type="text" name="kodepos" placeholder="Kode Pos"></div>
-      </div>
-      <div class="row">
-        <div class="col"><input type="text" name="kelurahan" placeholder="Kelurahan"></div>
-        <div class="col"><input type="text" name="kecamatan" placeholder="Kecamatan"></div>
-      </div>
-      <div class="row">
-        <div class="col"><input type="text" name="kota" placeholder="Kota/Kabupaten"></div>
-      </div>
-
-      <label>Tempat Lahir:</label><input type="text" name="tempat_lahir" placeholder="Tempat">
-      <label>Tanggal Lahir:</label><input type="date" name="tgl_lahir">
-
-      <label>No KTP:</label><input type="text" name="no_ktp">
-
-      <!-- ... (semua field lain tetap, tapi TIDAK required) ... -->
-      <!-- (Saya ringkas biar cepat, tapi kamu bisa copy dari versi lama) -->
 
       <button type="submit" class="submit-btn">KIRIM KE WA LEADER</button>
     </form>
@@ -141,7 +116,6 @@
         }
       }
 
-      // Jika tidak dari link → isi dropdown
       const select = document.getElementById('leaderSelect');
       leaders.forEach(l => {
         const opt = document.createElement('option');
@@ -151,7 +125,6 @@
       });
     });
 
-    // SUBMIT — LANGSUNG BUKA WA
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -164,22 +137,22 @@
       }
 
       if (!leader) {
-        alert('Pilih Leader terlebih dahulu!');
+        alert('⚠️ Pilih Leader terlebih dahulu!');
         return;
       }
 
-      // HANYA AMBIL YANG DIISI
-      let msg = "PENDAFTARAN 3IREBORN\n\n";
+      let msg = "📋 *PENDAFTARAN 3IREBORN*\n\n";
       for (let [key, val] of data.entries()) {
         if (val) {
           let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          msg += `${label}: ${val}\n`;
+          msg += `• ${label}: ${val}\n`;
         }
       }
-      msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
+      msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda 🙏🏻";
 
-      const waLink = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
-      window.location.href = waLink; // PAKAI location.href → PASTI BUKA DI HP
+      const waLink = `https://api.whatsapp.com/send?phone=${leader.phone}&text=${encodeURIComponent(msg)}`;
+      alert("Akan dikirim ke WA leader: " + leader.name + "\n\nNomor: " + leader.phone);
+      window.open(waLink, "_blank");
     });
   </script>
 </body>
