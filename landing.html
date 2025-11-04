@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3iReborn - Asuransi Istikmal Syariah Anti Rugi, Anti Gagal</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
+    .hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}
+    .hero h1{font-size:36px;margin:0 0 10px}
+    .hero p{font-size:18px}
+    .cta{background:#d4380d;color:#fff;padding:15px 30px;border:none;border-radius:5px;font-size:20px;cursor:pointer;margin:20px}
+    .cta:hover{background:#b32d0b}
+    .section{background:#fff;margin:20px auto;max-width:800px;padding:30px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    .section h2{text-align:center;color:#0b3d91}
+    .benefits{ display:flex;flex-wrap:wrap;justify-content:space-around}
+    .benefit{width:30%;margin:10px;text-align:center}
+    .benefit img{width:50px;height:50px}
+    .testimonial{background:#f9f9f9;padding:20px;margin:20px 0;border-radius:5px}
+    .form{text-align:center}
+    .form input, .form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}
+    @media (max-width:768px){.benefit{width:100%}}
+  </style>
+</head>
+<body>
+  <!-- Hero Section - Headline Manfaat Anti Rugi -->
+  <div class="hero">
+    <h1>3iReborn: Bisnis Asuransi Istikmal Syariah</h1>
+    <p><strong>Proteksi Keluarga + Investasi Aman + Penghasilan Anti Rugi, Anti Gagal</strong></p>
+    <p>Konversi 25% dari Seminar Gratis - Join 100.000+ Agen Sukses!</p>
+    <button class="cta" onclick="scrollToForm()">Daftar Seminar Gratis Sekarang!</button>
+  </div>
+
+  <!-- Rincian Premi - Anti Rugi -->
+  <div class="section">
+    <h2>Rangkuman Premi Fleksibel - Mulai Rp350.000/Bulan</h2>
+    <p style="text-align:center">Investasi Anda aman, premi disesuaikan kemampuan. Tidak ada risiko bangkrut!</p>
+    <div class="benefits">
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50?text=💳" alt="Premi">
+        <h3>Rp350.000</h3>
+        <p>Proteksi Dasar + Bonus Rekrut</p>
+      </div>
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50?text=🚀" alt="Premi">
+        <h3>Rp700.000</h3>
+        <p>Investasi Tinggi + Anti Rugi 100%</p>
+      </div>
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50?text=🏆" alt="Premi">
+        <h3>Rp2.000.000</h3>
+        <p>Penghasilan Maksimal + Car Insurance</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonial - High Engagement -->
+  <div class="section">
+    <h2>Mengapa 3iReborn Anti Gagal? - Testimoni Sukses</h2>
+    <div class="testimonial">
+      <p>"Dari premi Rp500.000/bulan, sekarang penghasilan Rp10jt + proteksi keluarga aman. Anti rugi total!" - Agnes M. (Agen 3iReborn)</p>
+    </div>
+    <div class="testimonial">
+      <p>"Rekrut 3 orang, bonus langsung masuk. Bisnis syariah tanpa resiko bangkrut!" - Sugiarto K. (Leader Top)</p>
+    </div>
+    <p style="text-align:center">Trafik 50k+ views/bulan dari YT Seminar - Klosis 28% di Mobile</p>
+  </div>
+
+  <!-- Form Klosis - High Converting CTA -->
+  <div class="section">
+    <h2>Dapatkan Quote Gratis & Seminar Zoom Malam Ini!</h2>
+    <form class="form" id="leadForm">
+      <input type="text" name="nama" placeholder="Nama Lengkap *" required>
+      <input type="tel" name="hp" placeholder="No WA (628xxxxxxxxx) *" required>
+      <select name="premi" required>
+        <option value="">Pilih Premi *</option>
+        <option value="350.000">Rp350.000 - Dasar</option>
+        <option value="500.000">Rp500.000 - Standar</option>
+        <option value="700.000">Rp700.000 - Premium</option>
+        <option value="1.000.000">Rp1.000.000 - Elite</option>
+        <option value="2.000.000">Rp2.000.000 - Pro</option>
+      </select>
+      <button type="submit" class="cta">Daftar & Dapatkan Bonus Anti Rugi!</button>
+    </form>
+  </div>
+
+  <!-- CTA Final - Anti Gagal Stats -->
+  <div class="hero" style="background:#d4380d">
+    <h2>Join 3iReborn - Bisnis Syariah Car Insurance Anti Bangkrut!</h2>
+    <p>99% Agen Sukses - Seminar Gratis: Senin/Rabu/Jumat 19:00 WIB</p>
+    <button class="cta" onclick="scrollToForm()">Klik untuk Zoom Gratis</button>
+  </div>
+
+  <script>
+    // Form Submit - Kirim ke WA (High Klosis: 28% dari Quote)
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      let msg = "LEAD 3IREBORN DARI LANDING PAGE\n\n";
+      for (let [key, val] of data.entries()) {
+        if (val) msg += `${key.toUpperCase()}: ${val}\n`;
+      }
+      msg += "\nFollow-up: Seminar Zoom malam ini!";
+      const waNumber = "6285218453131"; // WA Admin (ganti kalau perlu)
+      const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
+      window.location.href = waLink;
+    });
+
+    function scrollToForm() {
+      document.getElementById('leadForm').scrollIntoView({behavior: 'smooth'});
+    }
+  </script>
+</body>
+</html>
