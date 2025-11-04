@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel 3iReborn</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:20px}
+    .container{max-width:500px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:center}
+    h1{color:#0b3d91;margin-bottom:20px;font-size:22px}
+    input, button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
+    button{background:#0b3d91;color:#fff;cursor:pointer;font-weight:bold;border:none}
+    button:hover{background:#09307a}
+    .result{margin-top:20px;padding:15px;background:#e8f5e8;border-radius:8px;display:none}
+    .qr img{width:200px;height:200px;margin:10px auto;display:block}
+    .link{font-weight:bold;color:#0b3d91;word-break:break-all}
+    .success{color:#28a745;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ADMIN PANEL</h1>
+    <p><strong>Tambah Leader Baru</strong></p>
+
+    <input type="text" id="name" placeholder="Nama Leader (contoh: Rita)" />
+    <input type="text" id="phone" placeholder="No WA (6281234567890)" />
+    <input type="text" id="code" placeholder="Kode (RT013)" />
+
+    <button onclick="addLeader()">TAMBAH LEADER</button>
+
+    <div id="result" class="result">
+      <p class="success">Leader berhasil ditambah!</p>
+      <p>Link: <span id="link" class="link"></span></p>
+      <div class="qr" id="qr"></div>
+      <button onclick="copyLink()">Copy Link</button>
+      <button onclick="shareWA()" style="margin-top:10px;background:#25D366">Share ke WA</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+  <script>
+    function addLeader() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const code = document.getElementById('code').value.trim().toUpperCase();
+
+      if (!name || !phone || !code) {
+        alert('Isi semua field!');
+        return;
+      }
+
+      if (!phone.startsWith('62') || phone.length < 10) {
+        alert('No WA harus diawali 62 dan valid!');
+        return;
+      }
+
+      const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
+
+      // Simpan ke localStorage
+      const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+      const exists = leaders.some(l => l.code === code || l.slug === slug);
+      if (exists) {
+        alert('Kode atau nama sudah ada!');
+        return;
+      }
+
+      const newLeader = { code, name, phone, slug };
+      leaders.push(newLeader);
+      localStorage.setItem('leaders', JSON.stringify(leaders));
+
+      // Tampilkan hasil
+      const link = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
+      document.getElementById('link').textContent = link;
+      document.getElementById('result').style.display = 'block';
+
+      // Generate QR
+      const qrDiv = document.getElementById('qr');
+      qrDiv.innerHTML = '';
+      QRCode.toCanvas(qrDiv, link, { width: 200, color: { dark: '#0b3d91' } });
+
+      // Reset form
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('code').value = '';
+
+      alert('Website otomatis terupdate! Buka link baru dalam 30 detik.');
+    }
+
+    function copyLink() {
+      const link = document.getElementById('link').textContent;
+      navigator.clipboard.writeText(link).then(() => alert('Link disalin!'));
+    }
+
+    function shareWA() {
+      const link = document.getElementById('link').textContent;
+      const text = `Link pendaftaran 3iReborn:\n${link}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
