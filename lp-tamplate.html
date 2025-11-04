@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3iReborn - Asuransi Istikmal Syariah Anti Rugi</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
+    .hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}
+    .hero h1{font-size:36px;margin:0 0 10px}
+    .hero p{font-size:18px}
+    .cta{background:#d4380d;color:#fff;padding:15px 30px;border:none;border-radius:5px;font-size:20px;cursor:pointer;margin:20px}
+    .cta:hover{background:#b32d0b}
+    .section{background:#fff;margin:20px auto;max-width:800px;padding:30px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    .section h2{text-align:center;color:#0b3d91}
+    .benefits{display:flex;flex-wrap:wrap;justify-content:space-around}
+    .benefit{width:30%;margin:10px;text-align:center}
+    .benefit img{width:50px;height:50px}
+    .testimonial{background:#f9f9f9;padding:20px;margin:20px 0;border-radius:5px}
+    .form{text-align:center}
+    .form input, .form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}
+    .leader-name{color:#d4380d;font-weight:bold}
+    @media (max-width:768px){.benefit{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>3iReborn: Bisnis Asuransi <span id="leaderName">Anti Rugi</span></h1>
+    <p><strong>Proteksi + Investasi + Penghasilan Anti Gagal</strong></p>
+    <p>Konversi 25% dari Seminar Gratis - Join 100.000+ Agen Sukses!</p>
+    <button class="cta" onclick="scrollToForm()">Daftar Sekarang!</button>
+  </div>
+
+  <div class="section">
+    <h2>Rangkuman Premi Fleksibel</h2>
+    <p style="text-align:center">Mulai <strong>Rp350.000/Bulan</strong> — Tidak ada risiko bangkrut!</p>
+    <div class="benefits">
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50/4CAF50/white?text=Rp350.000" alt="Premi">
+        <h3>Rp350.000</h3>
+        <p>Proteksi Dasar + Bonus Rekrut</p>
+      </div>
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50/2196F3/white?text=Rp700.000" alt="Premi">
+        <h3>Rp700.000</h3>
+        <p>Investasi Tinggi + Anti Rugi 100%</p>
+      </div>
+      <div class="benefit">
+        <img src="https://via.placeholder.com/50/FF9800/white?text=Rp2.000.000" alt="Premi">
+        <h3>Rp2.000.000</h3>
+        <p>Penghasilan Maksimal + Car Insurance</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Mengapa 3iReborn Anti Gagal?</h2>
+    <div class="testimonial">
+      <p>"Dari Rp500.000/bulan, sekarang Rp10jt + proteksi aman!" - <span class="leader-name" id="leaderTesti">Leader</span></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Daftar Sekarang — Langsung ke WA <span id="leaderWA">Leader</span>!</h2>
+    <form class="form" id="leadForm">
+      <input type="text" name="nama" placeholder="Nama Lengkap *" required>
+      <input type="tel" name="hp" placeholder="No WA (628xxxxxxxxx) *" required>
+      <select name="premi" required>
+        <option value="">Pilih Premi *</option>
+        <option value="350.000">Rp350.000</option>
+        <option value="500.000">Rp500.000</option>
+        <option value="700.000">Rp700.000</option>
+        <option value="1.000.000">Rp1.000.000</option>
+        <option value="2.000.000">Rp2.000.000</option>
+      </select>
+      <button type="submit" class="cta">KIRIM KE WA LEADER</button>
+    </form>
+  </div>
+
+  <script>
+    const slug = location.pathname.split('/').pop().replace('lp-', '').replace('.html', '');
+    const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+    const leader = leaders.find(l => l.slug === slug);
+
+    if (leader) {
+      document.getElementById('leaderName').textContent = leader.name;
+      document.getElementById('leaderTesti').textContent = leader.name;
+      document.getElementById('leaderWA').textContent = leader.name;
+    }
+
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      let msg = "LEAD DARI LP 3IREBORN\n\n";
+      for (let [key, val] of data.entries()) {
+        if (val) msg += `${key.toUpperCase()}: ${val}\n`;
+      }
+      msg += `\nLeader: ${leader ? leader.name + ' (' + leader.code + ')' : 'Umum'}`;
+      const wa = leader ? leader.phone : "6285218453131";
+      window.location.href = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+    });
+
+    function scrollToForm() {
+      document.getElementById('leadForm').scrollIntoView({behavior: 'smooth'});
+    }
+  </script>
+</body>
+</html>
