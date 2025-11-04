@@ -43,8 +43,29 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
+    // === 12 LEADER LAMA SUDAH OTOMATIS MASUK ===
+    const legacyLeaders = [
+      { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
+      { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
+      { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
+      { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
+      { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
+      { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
+      { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
+      { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
+      { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
+      { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
+      { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
+      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
+    ];
+
+    let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+    if (leaders.length === 0) {
+      leaders = [...legacyLeaders];
+      localStorage.setItem('leaders', JSON.stringify(leaders));
+    }
+
     function updateNextCode() {
-      const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
       const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
       const numbers = rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0);
       const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 13;
@@ -58,7 +79,6 @@
       if (!phone.startsWith('62')) return alert('No WA harus diawali 62!');
 
       const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
-      const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
       if (leaders.some(l => l.slug === slug)) return alert('Nama sudah ada!');
 
       const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
@@ -85,7 +105,7 @@
       document.getElementById('phone').value = '';
       updateNextCode();
 
-      alert(`SUKSES!\nKode: ${code}\nLP: ${lpLink}\nCopy & sebar!`);
+      alert(`SUKSES!\nKode: ${code}\nLP: ${lpLink}`);
     }
 
     function copyForm() { copyText('formLink'); }
