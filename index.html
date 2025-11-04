@@ -18,7 +18,7 @@
     .submit-btn:hover{background:#09307a}
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
     .highlight{color:#d4380d;font-weight:bold}
-    .leader-locked{background:#f0f0f0;color:#555;cursor:not-allowed}
+    .leader-locked{background:#e9ecef !important;color:#495057 !important;border-color:#ced4da !important;cursor:not-allowed !important}
     @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
@@ -43,7 +43,7 @@
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
       <label>Kode ID Leader: 
         <select name="leader" id="leaderSelect" required>
-          <option value="">Pilih Leader</option>
+          <option value="">Memuat Leader...</option>
         </select>
       </label>
 
@@ -57,7 +57,6 @@
         <option value="2.000.000">2.000.000</option>
       </select>
 
-      <!-- SEMUA FIELD LAIN (sama seperti sebelumnya) -->
       <label>Nama:</label><input type="text" name="nama" required>
       <label>Alamat:</label>
       <div class="row">
@@ -188,44 +187,56 @@
   <script src="leader.js"></script>
 
   <script>
-    let leaders = []; // akan diisi oleh leader.js
+    let selectedLeader = null;
 
     // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // TUNGGU leader.js SELESAI LOAD
-    const leaderScript = document.querySelector('script[src="leader.js"]');
-    leaderScript.onload = () => {
-      // Auto-fill dari URL
+    // TUNGGU leader.js SELESAI
+    const script = document.querySelector('script[src="leader.js"]');
+    script.onload = () => {
+      const select = document.getElementById('leaderSelect');
+      select.innerHTML = '<option value="">Pilih Leader</option>';
+
+      window.leaders.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.code;
+        opt.textContent = `${l.code} - ${l.name}`;
+        select.appendChild(opt);
+      });
+
+      // AUTO SELECT DARI URL
       const params = new URLSearchParams(location.search);
-      const urlLeader = params.get('leader');
-      if (urlLeader && window.leaders) {
-        const found = window.leaders.find(l => l.slug === urlLeader);
-        if (found) {
-          const select = document.getElementById('leaderSelect');
-          select.value = found.code;
-          // Visual lock (tapi tetap bisa submit)
+      const urlSlug = params.get('leader');
+      if (urlSlug) {
+        const leader = window.leaders.find(l => l.slug === urlSlug);
+        if (leader) {
+          select.value = leader.code;
+          selectedLeader = leader;
           select.classList.add('leader-locked');
+          select.disabled = false; // tetap aktif untuk FormData
         }
       }
     };
 
-    // Submit
+    // SUBMIT
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
-      const leaderCode = data.get('leader');
-      const leader = window.leaders.find(l => l.code === leaderCode);
+      const leaderCode = data.get('leader') || (selectedLeader ? selectedLeader.code : null);
 
-      if (!leader) {
+      if (!leaderCode) {
         alert('Pilih Leader terlebih dahulu!');
         return;
       }
 
+      const leader = window.leaders.find(l => l.code === leaderCode);
+      if (!leader) return;
+
       let msg = "PENDAFTARAN 3IREBORN\n\n";
-      for (let [key, val] of data) {
+      for (let [key, val] of data.entries()) {
         if (val) {
           let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
           msg += `${label}: ${val}\n`;
