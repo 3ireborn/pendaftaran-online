@@ -18,6 +18,7 @@
     .submit-btn:hover{background:#09307a}
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
     .highlight{color:#d4380d;font-weight:bold}
+    .leader-locked{background:#f0f0f0;color:#555;cursor:not-allowed}
     @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
@@ -56,9 +57,7 @@
         <option value="2.000.000">2.000.000</option>
       </select>
 
-      <!-- SEMUA FIELD LAIN SAMA SEPERTI SEBELUMNYA -->
-      <!-- (Saya potong untuk singkat, tapi copy dari versi sebelumnya) -->
-
+      <!-- SEMUA FIELD LAIN (sama seperti sebelumnya) -->
       <label>Nama:</label><input type="text" name="nama" required>
       <label>Alamat:</label>
       <div class="row">
@@ -185,34 +184,40 @@
     </div>
   </div>
 
+  <!-- Load leader.js -->
   <script src="leader.js"></script>
 
   <script>
+    let leaders = []; // akan diisi oleh leader.js
+
     // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // AUTO-FILL LEADER DARI URL
-    document.addEventListener('DOMContentLoaded', () => {
+    // TUNGGU leader.js SELESAI LOAD
+    const leaderScript = document.querySelector('script[src="leader.js"]');
+    leaderScript.onload = () => {
+      // Auto-fill dari URL
       const params = new URLSearchParams(location.search);
       const urlLeader = params.get('leader');
-      if (urlLeader && leaders) {
-        const found = leaders.find(l => l.slug === urlLeader);
+      if (urlLeader && window.leaders) {
+        const found = window.leaders.find(l => l.slug === urlLeader);
         if (found) {
           const select = document.getElementById('leaderSelect');
           select.value = found.code;
-          select.disabled = true; // kunci pilihan
+          // Visual lock (tapi tetap bisa submit)
+          select.classList.add('leader-locked');
         }
       }
-    });
+    };
 
-    // Submit → kirim ke WA Leader
+    // Submit
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
       const leaderCode = data.get('leader');
-      const leader = leaders.find(l => l.code === leaderCode);
+      const leader = window.leaders.find(l => l.code === leaderCode);
 
       if (!leader) {
         alert('Pilih Leader terlebih dahulu!');
@@ -238,4 +243,4 @@
     });
   </script>
 </body>
-                             </html>
+  </html>
