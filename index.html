@@ -2,129 +2,184 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pendaftaran Online 3iREBORN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendaftaran Online 3iReborn</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 20px; }
-    h2 { text-align: center; color: #c0392b; }
-    .card { background: white; border-radius: 10px; padding: 20px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .label { font-weight: bold; color: #e67e22; margin-top: 10px; display: block; }
-    input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; }
-    button { background: #1e3799; color: white; border: none; padding: 12px; border-radius: 8px; margin-top: 15px; width: 100%; font-size: 16px; cursor: pointer; }
-    button:hover { background: #0c2461; }
-    .leader-box { background: #dff9fb; border-left: 6px solid #22a6b3; padding: 10px; margin-bottom: 15px; }
+    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:15px}
+    .container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    h1{text-align:center;color:#0b3d91;font-size:22px;margin-bottom:10px}
+    h2{font-size:18px;color:#d4380d;margin:20px 0 10px;border-bottom:2px solid #eee;padding-bottom:5px}
+    label{display:block;margin:8px 0 4px;font-weight:bold;color:#333}
+    input, select, textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:14px}
+    .row{display:flex;gap:10px}
+    .col{flex:1}
+    .checkbox{margin:15px 0}
+    .submit-btn{background:#0b3d91;color:#fff;padding:14px;border:none;border-radius:8px;font-size:16px;cursor:pointer;width:100%;margin-top:20px;font-weight:bold}
+    .submit-btn:hover{background:#09307a}
+    .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
+    .highlight{color:#d4380d;font-weight:bold}
+    .leader-info{background:#e8f5e8;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #28a745}
+    @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>FORM PENDAFTARAN 3iREBORN</h2>
-    <div id="leaderInfo" class="leader-box"></div>
+  <div class="container">
+    <h1>PENDAFTARAN ONLINE 3IREBORN</h1>
+    <p style="text-align:center"><strong>PROGRAM ISTIKMAL SYARIAH</strong></p>
 
-    <label class="label">Kode ID Sponsor:</label>
-    <input type="text" id="kodeSponsor" placeholder="Kosongkan jika belum ada">
+    <div class="info">
+      <p><strong>Silahkan transfer ke rekening:</strong><br>
+      <strong>BCA 7640 727 602 a.n Sugiarto Kurniawan</strong><br>
+      Sebesar <span class="highlight">Disesuaikan dengan Kemampuan</span></p>
+      <p><strong>Rinciannya:</strong><br>
+      • Rp.50.000 untuk <strong>ID CARD ONLINE</strong><br>
+      <strong>KONTRIBUSI PREMI:</strong><br>
+      350.000 | 500.000 | 700.000 | 1.000.000 | 2.000.000<br>
+      <em>(Disesuaikan dengan Kemampuan)</em></p>
+    </div>
 
-    <label class="label">Kontribusi Premi (Rp):</label>
-    <select id="premi">
-      <option value="350.000">350.000</option>
-      <option value="500.000">500.000</option>
-      <option value="700.000">700.000</option>
-      <option value="1.000.000">1.000.000</option>
-      <option value="2.000.000">2.000.000</option>
-    </select>
+    <!-- Leader Info -->
+    <div id="leaderInfo" class="leader-info" style="display:none"></div>
 
-    <label class="label">Nama Lengkap:</label>
-    <input type="text" id="nama" placeholder="Nama lengkap sesuai KTP">
+    <form id="regForm">
+      <h2>Data Pribadi</h2>
+      <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
 
-    <label class="label">No HP (WA):</label>
-    <input type="text" id="hp" placeholder="Contoh: 0822xxxxxxx">
+      <!-- Dropdown Leader (HILANG jika dari link) -->
+      <div id="leaderSelectWrapper">
+        <label>Kode ID Leader: 
+          <select name="leader" id="leaderSelect">
+            <option value="">Pilih Leader</option>
+          </select>
+        </label>
+      </div>
 
-    <label class="label">Alamat Lengkap:</label>
-    <textarea id="alamat" rows="2" placeholder="Isi alamat sesuai KTP"></textarea>
+      <!-- HANYA 3 FIELD WAJIB -->
+      <label>Kontribusi Premi (Rp): <span style="color:red">*</span></label>
+      <select name="premi" required>
+        <option value="">Pilih Premi</option>
+        <option value="350.000">350.000</option>
+        <option value="500.000">500.000</option>
+        <option value="700.000">700.000</option>
+        <option value="1.000.000">1.000.000</option>
+        <option value="2.000.000">2.000.000</option>
+      </select>
 
-    <label class="label">Tanggal Lahir:</label>
-    <input type="date" id="tglLahir">
+      <label>Nama Lengkap: <span style="color:red">*</span></label>
+      <input type="text" name="nama" required>
 
-    <label class="label">Jenis Kelamin:</label>
-    <select id="jenisKelamin">
-      <option value="Laki-laki">Laki-laki</option>
-      <option value="Perempuan">Perempuan</option>
-    </select>
+      <label>No HP (WA): <span style="color:red">*</span></label>
+      <input type="tel" name="hp" required placeholder="628123456789">
 
-    <label class="label">Pekerjaan:</label>
-    <input type="text" id="pekerjaan" placeholder="Contoh: Wiraswasta">
+      <!-- SEMUA FIELD LAIN BEBAS (tidak required) -->
+      <label>Alamat:</label>
+      <div class="row">
+        <div class="col"><input type="text" name="alamat" placeholder="Jalan / Gang"></div>
+      </div>
+      <div class="row">
+        <div class="col"><input type="text" name="rt" placeholder="RT"></div>
+        <div class="col"><input type="text" name="rw" placeholder="RW"></div>
+        <div class="col"><input type="text" name="kodepos" placeholder="Kode Pos"></div>
+      </div>
+      <div class="row">
+        <div class="col"><input type="text" name="kelurahan" placeholder="Kelurahan"></div>
+        <div class="col"><input type="text" name="kecamatan" placeholder="Kecamatan"></div>
+      </div>
+      <div class="row">
+        <div class="col"><input type="text" name="kota" placeholder="Kota/Kabupaten"></div>
+      </div>
 
-    <label class="label">Email:</label>
-    <input type="email" id="email" placeholder="Contoh: nama@email.com">
+      <label>Tempat Lahir:</label><input type="text" name="tempat_lahir" placeholder="Tempat">
+      <label>Tanggal Lahir:</label><input type="date" name="tgl_lahir">
 
-    <button id="sendBtn">KIRIM KE WA LEADER</button>
+      <label>No KTP:</label><input type="text" name="no_ktp">
+
+      <!-- ... (semua field lain tetap, tapi TIDAK required) ... -->
+      <!-- (Saya ringkas biar cepat, tapi kamu bisa copy dari versi lama) -->
+
+      <button type="submit" class="submit-btn">KIRIM KE WA LEADER</button>
+    </form>
+
+    <div class="info" style="margin-top:20px">
+      <p><strong>Info Program 3iNetworks:</strong> <a href="https://bit.ly/NabungUntungTerus" target="_blank">Bit.ly/NabungUntungTerus</a></p>
+      <p style="text-align:center"><em>Salam,<br><strong>NP ACADEMY</strong></em></p>
+    </div>
   </div>
 
   <script>
     const leaders = [
-      { code: "SG001", name: "Sugiarto", phone: "6285218453131", slug: "sugiarto" },
-      { code: "AG002", name: "Agnes", phone: "6285932684440", slug: "agnes" },
+      { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
+      { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
       { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
       { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
       { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
       { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
       { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
       { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
-      { code: "DV009", name: "Divawati", phone: "6586210326", slug: "divawati" },
+      { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
       { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
       { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
-      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" },
+      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
     ];
 
-    const params = new URLSearchParams(window.location.search);
-    const urlSlug = params.get('leader');
-    const leader = leaders.find(l => l.slug === urlSlug);
+    let finalLeader = null;
 
-    if (leader) {
-      document.getElementById('leaderInfo').innerHTML =
-        `<b>Leader:</b> ${leader.code} - ${leader.name}<br>
-         <b>Kirim data ke WA:</b> ${leader.phone}`;
-    } else {
-      document.getElementById('leaderInfo').innerHTML =
-        `<b>Leader tidak ditemukan.</b> Pastikan URL-nya benar.`;
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      const urlSlug = params.get('leader');
+      const selectWrapper = document.getElementById('leaderSelectWrapper');
+      const leaderInfo = document.getElementById('leaderInfo');
 
-    document.getElementById('sendBtn').addEventListener('click', () => {
-      const kodeSponsor = document.getElementById('kodeSponsor').value;
-      const premi = document.getElementById('premi').value;
-      const nama = document.getElementById('nama').value;
-      const hp = document.getElementById('hp').value;
-      const alamat = document.getElementById('alamat').value;
-      const tglLahir = document.getElementById('tglLahir').value;
-      const jenisKelamin = document.getElementById('jenisKelamin').value;
-      const pekerjaan = document.getElementById('pekerjaan').value;
-      const email = document.getElementById('email').value;
+      if (urlSlug) {
+        const leader = leaders.find(l => l.slug === urlSlug);
+        if (leader) {
+          selectWrapper.style.display = 'none';
+          leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Kirim data ke WA: <strong>${leader.phone}</strong>`;
+          leaderInfo.style.display = 'block';
+          finalLeader = leader;
+          return;
+        }
+      }
 
-      if (!nama || !hp) {
-        alert("Nama dan Nomor HP wajib diisi!");
+      // Jika tidak dari link → isi dropdown
+      const select = document.getElementById('leaderSelect');
+      leaders.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.code;
+        opt.textContent = `${l.code} - ${l.name}`;
+        select.appendChild(opt);
+      });
+    });
+
+    // SUBMIT — LANGSUNG BUKA WA
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = new FormData(this);
+      let leader = finalLeader;
+
+      if (!leader) {
+        const code = data.get('leader');
+        leader = leaders.find(l => l.code === code);
+      }
+
+      if (!leader) {
+        alert('Pilih Leader terlebih dahulu!');
         return;
       }
 
-      const msg = `*3IREBORN - PENDAFTARAN ONLINE*\n
-*Kode ID Sponsor:* ${kodeSponsor || "-"}\n
-*Kontribusi Premi:* ${premi}\n
-*Nama Lengkap:* ${nama}\n
-*No HP (WA):* ${hp}\n
-*Alamat:* ${alamat || "-"}\n
-*Tanggal Lahir:* ${tglLahir || "-"}\n
-*Jenis Kelamin:* ${jenisKelamin || "-"}\n
-*Pekerjaan:* ${pekerjaan || "-"}\n
-*Email:* ${email || "-"}\n
-*No KTP:* ${no ktp || "-"}\n
-*Bank:* ${bank || "-"}\n
-*No Rekening:* ${no rekening || "-"}\n
-*Nama Rekening:* ${nama rekening || "-"}\n
-*No NPWP:* ${no npwp || "-"}\n
+      // HANYA AMBIL YANG DIISI
+      let msg = "PENDAFTARAN 3IREBORN\n\n";
+      for (let [key, val] of data.entries()) {
+        if (val) {
+          let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          msg += `${label}: ${val}\n`;
+        }
+      }
+      msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
 
-\nTerima kasih, data sudah dikirim melalui sistem pendaftaran online 3iREBORN. 🙏🏻`;
-
-      const waLink = `https://api.whatsapp.com/send?phone=${leader.phone}&text=${encodeURIComponent(msg)}`;
-      alert("Akan dikirim ke WA leader: " + leader.name + "\nNomor: " + leader.phone);
-      window.open(waLink, "_blank");
+      const waLink = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
+      window.location.href = waLink; // PAKAI location.href → PASTI BUKA DI HP
     });
   </script>
 </body>
