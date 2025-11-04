@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Form Pendaftaran 3iReborn</title>
+  <title>Pendaftaran Online 3iReborn</title>
   <style>
     body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:15px}
     .container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
@@ -30,11 +30,10 @@
       <p><strong>Silahkan transfer ke rekening:</strong><br>
       <strong>BCA 7640 727 602 a.n Sugiarto Kurniawan</strong><br>
       Sebesar <span class="highlight">Disesuaikan dengan Kemampuan</span></p>
-      <p><strong>➡️ Rinciannya:</strong><br>
+      <p><strong>Rinciannya:</strong><br>
       • Rp.50.000 untuk <strong>ID CARD ONLINE</strong><br>
-      <strong>➡️ KONTRIBUSI PREMI:</strong><br>
-      ✅ Rp.350.000 &nbsp; ✅ Rp.500.000 &nbsp; ✅ Rp.700.000<br>
-      ✅ Rp.1.000.000 &nbsp; ✅ Rp.2.000.000<br>
+      <strong>KONTRIBUSI PREMI:</strong><br>
+      Rp.350.000 | Rp.500.000 | Rp.700.000 | Rp.1.000.000 | Rp.2.000.000<br>
       <em>(Disesuaikan dengan Kemampuan)</em></p>
     </div>
 
@@ -43,10 +42,10 @@
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
       <label>Kode ID Leader: <input type="text" name="leader" placeholder="kosongkan dulu"></label>
 
-      <label>■ Nama:</label>
+      <label>Nama:</label>
       <input type="text" name="nama" required>
 
-      <label>■ Alamat:</label>
+      <label>Alamat:</label>
       <div class="row">
         <div class="col"><input type="text" name="alamat" placeholder="Jalan / Gang" required></div>
       </div>
@@ -63,71 +62,67 @@
         <div class="col"><input type="text" name="kota" placeholder="Kota/Kabupaten" required></div>
       </div>
 
-      <label>■ Tempat & Tgl Lahir:</label>
+      <label>Tempat & Tgl Lahir:</label>
       <div class="row">
         <div class="col"><input type="text" name="tempat_lahir" placeholder="Tempat" required></div>
         <div class="col"><input type="date" name="tgl_lahir" required></div>
       </div>
 
-      <label>■ Agama:</label>
+      <label>Agama:</label>
       <select name="agama" required>
         <option value="">Pilih Agama</option>
-        <option>Islam</option>
-        <option>Kristen</option>
-        <option>Katolik</option>
-        <option>Hindu</option>
-        <option>Budha</option>
-        <option>Lainnya</option>
+        <option>Islam</option><option>Kristen</option><option>Katolik</option>
+        <option>Hindu</option><option>Budha</option><option>Lainnya</option>
       </select>
 
-      <label>■ Jenis Kelamin:</label>
+      <label>Jenis Kelamin:</label>
       <select name="jk" required>
         <option value="">Pilih</option>
         <option>Laki-laki</option>
         <option>Perempuan</option>
       </select>
 
-      <label>■ No HP:</label>
+      <label>No HP:</label>
       <input type="tel" name="hp" required>
 
-      <label>■ Email:</label>
+      <label>Email:</label>
       <input type="email" name="email">
 
-      <label>■ No Identitas (KTP):</label>
+      <label>No Identitas (KTP):</label>
       <input type="text" name="no_ktp" required>
 
       <h2>Bank</h2>
-      <label>■ Nama Bank:</label>
+      <label>Nama Bank:</label>
       <input type="text" name="bank" required>
-      <label>■ No Rekening:</label>
+      <label>No Rekening:</label>
       <input type="text" name="norek" required>
-      <label>■ Nama di Rekening:</label>
+      <label>Nama di Rekening:</label>
       <input type="text" name="nama_rek" required>
 
       <h2>Pajak</h2>
-      <label>■ No NPWP:</label>
+      <label>No NPWP:</label>
       <input type="text" name="npwp">
-      <label>■ Status Pajak:</label>
+      <label>Status Pajak:</label>
       <select name="status_pajak">
         <option>Kawin</option>
         <option>Tidak Kawin</option>
       </select>
-      <label>■ Jumlah Tanggungan:</label>
+      <label>Jumlah Tanggungan:</label>
       <input type="number" name="tanggungan" min="0" value="0">
 
-      <label>■ Tinggi & Berat Badan:</label>
+      <label>Tinggi & Berat Badan:</label>
       <div class="row">
         <div class="col"><input type="number" name="tinggi" placeholder="Tinggi (cm)" required></div>
         <div class="col"><input type="number" name="berat" placeholder="Berat (kg)" required></div>
       </div>
 
-      <label>■ Pekerjaan/Jabatan:</label>
+      <label>Pekerjaan/Jabatan:</label>
       <input type="text" name="pekerjaan" required>
 
-      <label>■ Penghasilan/Tahun:</label>
+      <label>Penghasilan/Tahun:</label>
       <input type="text" name="penghasilan" placeholder="Contoh: 50 juta" required>
 
-      <label>■ Nama Ibu Kandung:</label>
+      <label>Nama Ibu Kandung:</label>
       <input type="text" name="ibu" required>
 
       <h2>Ahli Waris Bisnis</h2>
@@ -164,27 +159,27 @@
 
       <div id="dataTambahan" style="display:none">
         <h2>Data Tambahan (Tertanggung)</h2>
-        <label>■ Nama:</label><input type="text" name="ttd_nama">
-        <label>■ Tempat & Tgl Lahir:</label>
+        <label>Nama:</label><input type="text" name="ttd_nama">
+        <label>Tempat & Tgl Lahir:</label>
         <div class="row">
           <div class="col"><input type="text" name="ttd_tempat"></div>
           <div class="col"><input type="date" name="ttd_tgl"></div>
         </div>
-        <label>■ Agama:</label>
+        <label>Agama:</label>
         <select name="ttd_agama">
           <option value="">Pilih</option>
           <option>Islam</option><option>Kristen</option><option>Katolik</option>
           <option>Hindu</option><option>Budha</option><option>Lainnya</option>
         </select>
-        <label>■ Jenis Kelamin:</label>
+        <label>Jenis Kelamin:</label>
         <select name="ttd_jk"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select>
-        <label>■ No Identitas:</label><input type="text" name="ttd_ktp">
-        <label>■ Tinggi & Berat Badan:</label>
+        <label>No Identitas:</label><input type="text" name="ttd_ktp">
+        <label>Tinggi & Berat Badan:</label>
         <div class="row">
           <div class="col"><input type="number" name="ttd_tinggi" placeholder="cm"></div>
           <div class="col"><input type="number" name="ttd_berat" placeholder="kg"></div>
         </div>
-        <label>■ Hubungan dengan PP:</label>
+        <label>Hubungan dengan PP:</label>
         <select name="ttd_hub">
           <option value="">Pilih</option>
           <option>Anak</option><option>Cucu</option><option>Orang Tua</option>
@@ -206,25 +201,39 @@
   </div>
 
   <script>
+    // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
+    // Submit → kirim ke WA (tanpa bold)
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
-      let msg = `*PENDAFTARAN 3IREBORN*%0A%0A`;
+      let msg = "PENDAFTARAN 3IREBORN\n\n";
+
+      // Tambahkan semua field yang diisi
       for (let [key, val] of data) {
-        if (val) msg += `*${key.replace(/_/g,' ').toUpperCase()}:* ${val}%0A`;
+        if (val) {
+          let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          msg += `${label}: ${val}\n`;
+        }
       }
+
+      // Data tambahan jika dicentang
       if (document.getElementById('tertanggungLain').checked) {
-        msg += `%0A*DATA TERTANGGUNG BERBEDA*%0A`;
-        // tambahkan data tambahan jika ada
+        msg += "\nDATA TERTANGGUNG BERBEDA\n";
+        // (data tambahan sudah masuk dari FormData)
       }
-      msg += `%0A---%0AKirim bukti transfer & KTP ke Sponsor Anda.`;
-      const wa = `https://wa.me/6285218453131?text=${msg}`; // GANTI NOMOR SPONSOR!
-      location.href = wa;
+
+      // Pesan penutup
+      msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
+
+      // GANTI NOMOR WA ANDA DI SINI:
+      const nomorWA = "6285218453131"; // ← UBAH KE NOMOR ANDA
+      const waLink = `https://wa.me/${nomorWA}?text=${encodeURIComponent(msg)}`;
+      window.open(waLink, '_blank');
     });
   </script>
 </body>
-  </html>
+                       </html>
