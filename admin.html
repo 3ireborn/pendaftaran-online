@@ -32,16 +32,17 @@
     <div id="result" class="result">
       <p class="success">Leader berhasil ditambah!</p>
       <p>Kode: <strong id="newCode"></strong></p>
-      <p>Link: <span id="link" class="link"></span></p>
+      <p>Link Form: <span id="formLink" class="link"></span></p>
+      <p>Link LP: <span id="lpLink" class="link"></span></p>
       <div class="qr" id="qr"></div>
-      <button onclick="copyLink()">Copy Link</button>
-      <button onclick="shareWA()" style="margin-top:10px;background:#25D366">Share ke WA</button>
+      <button onclick="copyForm()">Copy Link Form</button>
+      <button onclick="copyLP()">Copy Link LP</button>
+      <button onclick="shareWA()" style="background:#25D366">Share ke WA</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
-    // Update kode otomatis saat halaman dibuka
     function updateNextCode() {
       const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
       const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
@@ -53,71 +54,55 @@
     function addLeader() {
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
-
-      if (!name || !phone) {
-        alert('Isi Nama dan No WA!');
-        return;
-      }
-
-      if (!phone.startsWith('62') || phone.length < 10) {
-        alert('No WA harus diawali 62 dan valid!');
-        return;
-      }
+      if (!name || !phone) return alert('Isi Nama dan No WA!');
+      if (!phone.startsWith('62')) return alert('No WA harus diawali 62!');
 
       const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
-
-      // Ambil leader lama
       const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-      if (leaders.some(l => l.slug === slug)) {
-        alert('Nama sudah digunakan! Ganti nama sedikit.');
-        return;
-      }
+      if (leaders.some(l => l.slug === slug)) return alert('Nama sudah ada!');
 
-      // OTOMATIS BUAT KODE RT
       const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
-      const numbers = rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0);
-      const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 13;
+      const nextNum = rtLeaders.length > 0 ? Math.max(...rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0)) + 1 : 13;
       const code = `RT${String(nextNum).padStart(3, '0')}`;
 
-      // Tambah leader baru
       const newLeader = { code, name, phone, slug };
       leaders.push(newLeader);
       localStorage.setItem('leaders', JSON.stringify(leaders));
 
-      // Tampilkan hasil
+      const formLink = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
+      const lpLink = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
+
       document.getElementById('newCode').textContent = code;
-      const link = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
-      document.getElementById('link').textContent = link;
+      document.getElementById('formLink').textContent = formLink;
+      document.getElementById('lpLink').textContent = lpLink;
       document.getElementById('result').style.display = 'block';
 
-      // Generate QR
       const qrDiv = document.getElementById('qr');
       qrDiv.innerHTML = '';
-      QRCode.toCanvas(qrDiv, link, { width: 200, color: { dark: '#0b3d91' } });
+      QRCode.toCanvas(qrDiv, lpLink, { width: 200, color: { dark: '#0b3d91' } });
 
-      // Reset form
       document.getElementById('name').value = '';
       document.getElementById('phone').value = '';
-
-      // Update kode berikutnya
       updateNextCode();
 
-      alert(`Leader ${name} berhasil ditambah!\nKode: ${code}\nLink siap sebar!`);
+      alert(`SUKSES!\nKode: ${code}\nLP: ${lpLink}\nCopy & sebar!`);
     }
 
-    function copyLink() {
-      const link = document.getElementById('link').textContent;
-      navigator.clipboard.writeText(link).then(() => alert('Link disalin!'));
+    function copyForm() { copyText('formLink'); }
+    function copyLP() { copyText('lpLink'); }
+    function copyText(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => alert('Link disalin!'));
     }
 
     function shareWA() {
-      const link = document.getElementById('link').textContent;
+      const form = document.getElementById('formLink').textContent;
+      const lp = document.getElementById('lpLink').textContent;
       const code = document.getElementById('newCode').textContent;
-      const text = `Link pendaftaran 3iReborn\nKode: ${code}\n${link}`;
+      const text = `LEADER BARU\nKode: ${code}\nForm: ${form}\nLP: ${lp}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     }
 
-    // Jalankan saat halaman dibuka
     document.addEventListener('DOMContentLoaded', updateNextCode);
   </script>
 </body>
