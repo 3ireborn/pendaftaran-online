@@ -19,6 +19,7 @@
     .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
     .highlight{color:#d4380d;font-weight:bold}
     .leader-info{background:#e8f5e8;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #28a745}
+    .error-msg{color:#dc3545;font-weight:bold;text-align:center;padding:10px;background:#f8d7da;border-radius:6px;margin:10px 0}
     @media (max-width:600px){.row{flex-direction:column}}
   </style>
 </head>
@@ -40,6 +41,7 @@
 
     <!-- Leader Info -->
     <div id="leaderInfo" class="leader-info" style="display:none"></div>
+    <div id="errorMsg" class="error-msg" style="display:none"></div>
 
     <form id="regForm">
       <h2>Data Pribadi</h2>
@@ -64,7 +66,6 @@
         <option value="2.000.000">2.000.000</option>
       </select>
 
-      <!-- SEMUA FIELD (sama) -->
       <label>Nama:</label><input type="text" name="nama" required>
       <label>Alamat:</label>
       <div class="row">
@@ -192,7 +193,7 @@
   </div>
 
   <script>
-    // === DATA LEADER (GABUNG DI SINI) ===
+    // === DATA LEADER (INLINE - CEPAT LOAD) ===
     const leaders = [
       { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
       { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
@@ -209,39 +210,44 @@
     ];
 
     let finalLeader = null;
+    const errorMsg = document.getElementById('errorMsg');
 
     // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // === AUTO DETECT LEADER DARI URL ===
-    const params = new URLSearchParams(location.search);
-    const urlSlug = params.get('leader');
-    const selectWrapper = document.getElementById('leaderSelectWrapper');
-    const leaderInfo = document.getElementById('leaderInfo');
-    const select = document.getElementById('leaderSelect');
+    // === AUTO DETECT LEADER ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      const urlSlug = params.get('leader');
+      const selectWrapper = document.getElementById('leaderSelectWrapper');
+      const leaderInfo = document.getElementById('leaderInfo');
+      const select = document.getElementById('leaderSelect');
 
-    if (urlSlug) {
-      const leader = leaders.find(l => l.slug === urlSlug);
-      if (leader) {
-        // HILANGKAN DROPDOWN
-        selectWrapper.style.display = 'none';
-        // TAMPILKAN INFO
-        leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Data akan dikirim ke WA: <strong>${leader.phone}</strong>`;
-        leaderInfo.style.display = 'block';
-        finalLeader = leader;
-      } else {
-        // Jika slug salah → tetap tampilkan dropdown
-        selectWrapper.style.display = 'block';
-        isiDropdown();
+      if (urlSlug) {
+        const leader = leaders.find(l => l.slug === urlSlug);
+        if (leader) {
+          // HILANGKAN DROPDOWN
+          selectWrapper.style.display = 'none';
+          // TAMPILKAN INFO
+          leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Data akan dikirim ke WA: <strong>${leader.phone}</strong>`;
+          leaderInfo.style.display = 'block';
+          finalLeader = leader;
+          console.log('Leader locked:', leader.name); // Debug
+          return;
+        } else {
+          errorMsg.innerHTML = 'Leader tidak ditemukan. Pilih manual.';
+          errorMsg.style.display = 'block';
+        }
       }
-    } else {
-      // Tidak ada ?leader → tampilkan dropdown
+
+      // Tampilkan dropdown jika tidak dari link
       isiDropdown();
-    }
+    });
 
     function isiDropdown() {
+      const select = document.getElementById('leaderSelect');
       select.innerHTML = '<option value="">Pilih Leader</option>';
       leaders.forEach(l => {
         const opt = document.createElement('option');
@@ -251,7 +257,7 @@
       });
     }
 
-    // === SUBMIT ===
+    // === SUBMIT WITH ERROR HANDLING ===
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
@@ -265,7 +271,8 @@
       }
 
       if (!leader) {
-        alert('Pilih Leader terlebih dahulu!');
+        errorMsg.innerHTML = 'Pilih Leader terlebih dahulu!';
+        errorMsg.style.display = 'block';
         return;
       }
 
@@ -284,8 +291,14 @@
       msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
 
       const waLink = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
-      window.open(waLink, '_blank');
+      try {
+        window.open(waLink, '_blank');
+        console.log('WA opened for:', leader.name); // Debug
+      } catch (err) {
+        errorMsg.innerHTML = 'Error membuka WA: ' + err.message;
+        errorMsg.style.display = 'block';
+      }
     });
   </script>
 </body>
-        </html>
+  </html>
