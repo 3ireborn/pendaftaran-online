@@ -69,7 +69,7 @@
       <label>No HP (WA): <span style="color:red">*</span></label>
       <input type="tel" name="hp" required placeholder="628123456789">
 
-      <!-- SEMUA FIELD LAIN (BEBAS) -->
+      <!-- SEMUA FIELD LAIN -->
       <label>Alamat:</label>
       <div class="row">
         <div class="col"><input type="text" name="alamat" placeholder="Jalan / Gang"></div>
@@ -195,9 +195,8 @@
   </div>
 
   <script>
-    // === AUTO LOAD LEADER DARI ADMIN (localStorage) ===
+    // === AUTO LOAD LEADER DARI ADMIN ===
     let leaders = [];
-
     const saved = localStorage.getItem('leaders');
     if (saved) {
       try {
@@ -207,8 +206,6 @@
         }
       } catch(e) {}
     }
-
-    // Fallback jika kosong
     if (leaders.length === 0) {
       leaders = [
         { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
@@ -228,12 +225,10 @@
 
     let finalLeader = null;
 
-    // Toggle data tambahan
     document.getElementById('tertanggungLain').addEventListener('change', function() {
       document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
     });
 
-    // Auto detect leader dari URL
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(location.search);
       const urlSlug = params.get('leader');
@@ -251,7 +246,6 @@
         }
       }
 
-      // Isi dropdown
       const select = document.getElementById('leaderSelect');
       leaders.forEach(l => {
         const opt = document.createElement('option');
@@ -261,16 +255,11 @@
       });
     });
 
-    // Submit → kirim ke WA
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
       let leader = finalLeader || leaders.find(l => l.code === data.get('leader'));
-
-      if (!leader) {
-        alert('Pilih Leader terlebih dahulu!');
-        return;
-      }
+      if (!leader) return alert('Pilih Leader terlebih dahulu!');
 
       let msg = "PENDAFTARAN 3IREBORN\n\n";
       for (let [key, val] of data.entries()) {
@@ -279,14 +268,11 @@
           msg += `${label}: ${val}\n`;
         }
       }
-      if (document.getElementById('tertanggungLain').checked) {
-        msg += "\nDATA TERTANGGUNG BERBEDA\n";
-      }
+      if (document.getElementById('tertanggungLain').checked) msg += "\nDATA TERTANGGUNG BERBEDA\n";
       msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
 
-      const waLink = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
-      window.location.href = waLink;
+      window.location.href = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
     });
   </script>
 </body>
-      </html>
+  </html>
