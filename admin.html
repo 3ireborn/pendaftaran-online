@@ -15,21 +15,23 @@
     .qr img{width:200px;height:200px;margin:10px auto;display:block}
     .link{font-weight:bold;color:#0b3d91;word-break:break-all}
     .success{color:#28a745;font-weight:bold}
+    .info-text{font-size:14px;color:#666;margin:10px 0}
   </style>
 </head>
 <body>
   <div class="container">
     <h1>ADMIN PANEL</h1>
     <p><strong>Tambah Leader Baru</strong></p>
+    <p class="info-text">Kode otomatis: <strong id="nextCode">RT013</strong></p>
 
     <input type="text" id="name" placeholder="Nama Leader (contoh: Rita)" />
     <input type="text" id="phone" placeholder="No WA (6281234567890)" />
-    <input type="text" id="code" placeholder="Kode (RT013)" />
 
     <button onclick="addLeader()">TAMBAH LEADER</button>
 
     <div id="result" class="result">
       <p class="success">Leader berhasil ditambah!</p>
+      <p>Kode: <strong id="newCode"></strong></p>
       <p>Link: <span id="link" class="link"></span></p>
       <div class="qr" id="qr"></div>
       <button onclick="copyLink()">Copy Link</button>
@@ -39,13 +41,21 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
+    // Update kode otomatis saat halaman dibuka
+    function updateNextCode() {
+      const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
+      const numbers = rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0);
+      const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 13;
+      document.getElementById('nextCode').textContent = `RT${String(nextNum).padStart(3, '0')}`;
+    }
+
     function addLeader() {
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
-      const code = document.getElementById('code').value.trim().toUpperCase();
 
-      if (!name || !phone || !code) {
-        alert('Isi semua field!');
+      if (!name || !phone) {
+        alert('Isi Nama dan No WA!');
         return;
       }
 
@@ -56,19 +66,26 @@
 
       const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
 
-      // Simpan ke localStorage
+      // Ambil leader lama
       const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-      const exists = leaders.some(l => l.code === code || l.slug === slug);
-      if (exists) {
-        alert('Kode atau nama sudah ada!');
+      if (leaders.some(l => l.slug === slug)) {
+        alert('Nama sudah digunakan! Ganti nama sedikit.');
         return;
       }
 
+      // OTOMATIS BUAT KODE RT
+      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
+      const numbers = rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0);
+      const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 13;
+      const code = `RT${String(nextNum).padStart(3, '0')}`;
+
+      // Tambah leader baru
       const newLeader = { code, name, phone, slug };
       leaders.push(newLeader);
       localStorage.setItem('leaders', JSON.stringify(leaders));
 
       // Tampilkan hasil
+      document.getElementById('newCode').textContent = code;
       const link = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
       document.getElementById('link').textContent = link;
       document.getElementById('result').style.display = 'block';
@@ -81,9 +98,11 @@
       // Reset form
       document.getElementById('name').value = '';
       document.getElementById('phone').value = '';
-      document.getElementById('code').value = '';
 
-      alert('Website otomatis terupdate! Buka link baru dalam 30 detik.');
+      // Update kode berikutnya
+      updateNextCode();
+
+      alert(`Leader ${name} berhasil ditambah!\nKode: ${code}\nLink siap sebar!`);
     }
 
     function copyLink() {
@@ -93,9 +112,13 @@
 
     function shareWA() {
       const link = document.getElementById('link').textContent;
-      const text = `Link pendaftaran 3iReborn:\n${link}`;
+      const code = document.getElementById('newCode').textContent;
+      const text = `Link pendaftaran 3iReborn\nKode: ${code}\n${link}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     }
+
+    // Jalankan saat halaman dibuka
+    document.addEventListener('DOMContentLoaded', updateNextCode);
   </script>
 </body>
 </html>
