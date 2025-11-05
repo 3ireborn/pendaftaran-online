@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3iReborn - Replika Leader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:#f8f9fa;color:#333}
+    .hero{background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url('https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover;color:#fff;text-align:center;padding:100px 20px}
+    .hero h1{font-size:42px;margin-bottom:15px}
+    .badge{background:#d4380d;padding:8px 20px;border-radius:50px;font-weight:bold;display:inline-block;margin:15px 0}
+    .video-container{max-width:800px;margin:30px auto;padding:0 20px}
+    iframe{width:100%;height:450px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+    .section{max-width:900px;margin:40px auto;padding:30px;background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1);text-align:center}
+    .countdown{font-size:28px;font-weight:bold;color:#0b3d91;margin:20px 0}
+    .form-container{background:#f0f7ff;padding:30px;border-radius:15px}
+    input,select{width:100%;padding:14px;margin:10px 0;border:1px solid #ddd;border-radius:10px;font-size:16px}
+    button{background:#25D366;color:#fff;padding:15px 30px;border:none;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;width:100%;margin-top:15px}
+    button:hover{background:#1ebe57}
+    .testi{margin:20px 0;padding:20px;background:#f9f9f9;border-left:5px solid #d4380d;border-radius:10px}
+    .replica-form{background:#fff;padding:20px;border-radius:10px;margin:20px auto;max-width:500px}
+    .replica-link{margin-top:20px;padding:15px;background:#e6f7ff;border-radius:10px;font-weight:bold}
+    @media (max-width:768px){
+      .hero h1{font-size:32px}
+      iframe{height:250px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>3iReborn Bersama <span id="leaderName" style="color:#d4380d">Leader</span></h1>
+    <p><strong>Proteksi + Investasi Syariah + Penghasilan Anti Rugi!</strong></p>
+    <div class="badge">Seminar Gratis Malam Ini!</div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/JW9OmqnXSz8" title="3iReborn" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="section">
+    <h2>Seminar Zoom Gratis!</h2>
+    <div class="countdown" id="countdown">Loading...</div>
+  </div>
+
+  <!-- TESTIMONI -->
+  <div class="section">
+    <div class="testi">
+      <p>"Dari Rp500k/bulan → Rp15jt/bulan. Anti rugi!"</p>
+      <cite>— Agnes M.</cite>
+    </div>
+  </div>
+
+  <!-- FORM UTAMA -->
+  <div class="section form-container">
+    <h2>Daftar Sekarang!</h2>
+    <form onsubmit="sendLead(event)">
+      <input type="text" name="nama" placeholder="Nama Lengkap *" required>
+      <input type="tel" name="hp" placeholder="No WA (628...) *" required>
+      <select name="premi" required>
+        <option value="">Pilih Premi *</option>
+        <option value="350.000">Rp350.000</option>
+        <option value="700.000">Rp700.000</option>
+        <option value="2.000.000">Rp2.000.000</option>
+      </select>
+      <button type="submit">KIRIM KE WA LEADER</button>
+    </form>
+  </div>
+
+  <!-- FORM BUAT REPLIKA (UNTUK LEADER) -->
+  <div class="section">
+    <h2>Buat Replika Web Kamu Sendiri!</h2>
+    <div class="replica-form">
+      <input type="text" id="repName" placeholder="Nama Leader" required>
+      <input type="tel" id="repWA" placeholder="No WA (628...)" required>
+      <button onclick="createReplica()" style="background:#0b3d91">BUAT REPLIKA SEKARANG</button>
+      <div class="replica-link" id="repLink" style="display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    // DETEKSI LEADER DARI URL
+    const params = new URLSearchParams(location.search);
+    const leaderSlug = params.get('leader');
+    let currentLeader = { name: "Leader", phone: "6282240001731" };
+    if (leaderSlug) {
+      const stored = localStorage.getItem('3ireborn_leaders');
+      const leaders = stored ? JSON.parse(stored) : [];
+      const found = leaders.find(l => l.slug === leaderSlug);
+      if (found) {
+        currentLeader = found;
+        document.getElementById('leaderName').textContent = found.name;
+      }
+    }
+
+    // COUNTDOWN
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date(now);
+      const day = now.getDay();
+      const next = day === 1 || day === 3 || day === 5 ? (now.getHours() < 19 ? 0 : (day === 5 ? 3 : 2)) : [0,1,1,2,3,3,4][day];
+      target.setDate(now.getDate() + next);
+      target.setHours(19,0,0,0);
+      const diff = target - now;
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('countdown').innerHTML = `${h}j ${m}m ${s}d lagi!`;
+      setTimeout(updateCountdown, 1000);
+    }
+    updateCountdown();
+
+    // KIRIM LEAD KE WA LEADER
+    function sendLead(e) {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      let m = "LEAD DARI REPLIKA 3IREBORN\n\n";
+      for (let [k, v] of f) m += k.toUpperCase() + ": " + v + "\n";
+      m += `\nLeader: ${currentLeader.name} (${currentLeader.code || 'N/A'})`;
+      location.href = `https://wa.me/${currentLeader.phone}?text=` + encodeURIComponent(m);
+    }
+
+    // BUAT REPLIKA
+    function createReplica() {
+      const name = document.getElementById('repName').value.trim();
+      const phone = document.getElementById('repWA').value.trim();
+      if (!name || !phone) return alert('Isi semua!');
+      const slug = name.toLowerCase().replace(/ /g, '-');
+      const code = name.split(' ').map(w => w[0]).join('').toUpperCase() + ('00' + Date.now()).slice(-3);
+      
+      let leaders = JSON.parse(localStorage.getItem('3ireborn_leaders') || '[]');
+      leaders = leaders.filter(l => l.slug !== slug);
+      leaders.push({ name, phone, slug, code });
+      localStorage.setItem('3ireborn_leaders', JSON.stringify(leaders));
+      
+      const link = `${location.origin}${location.pathname}?leader=${slug}`;
+      const linkEl = document.getElementById('repLink');
+      linkEl.style.display = 'block';
+      linkEl.innerHTML = `Link Replika Kamu:<br><a href="${link}" target="_blank">${link}</a><br><button onclick="navigator.clipboard.writeText('${link}').then(()=>alert('Link disalin!'))" style="margin-top:10px;padding:8px 15px;font-size:14px">SALIN LINK</button>`;
+    }
+  </script>
+</body>
+  </html>
