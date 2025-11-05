@@ -3,139 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel 3iReborn</title>
+  <title>3iReborn - Pendaftaran</title>
   <style>
-    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:20px}
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
     .container{max-width:500px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:center}
-    h1{color:#0b3d91;margin-bottom:20px;font-size:22px}
-    input, button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
-    button{background:#0b3d91;color:#fff;cursor:pointer;font-weight:bold;border:none}
-    button:hover{background:#09307a}
-    .result{margin-top:20px;padding:15px;background:#e8f5e8;border-radius:8px;display:none}
-    .qr img{width:200px;height:200px;margin:10px auto;display:block}
-    .link{font-weight:bold;color:#0b3d91;word-break:break-all}
-    .success{color:#28a745;font-weight:bold}
-    .info-text{font-size:14px;color:#666;margin:10px 0}
-    .btn-lp{background:#FF9800;margin-top:10px}
+    h1{color:#0b3d91;margin-bottom:20px}
+    input, select, button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
+    button{background:#25D366;color:#fff;cursor:pointer;font-weight:bold;border:none}
+    button:hover{background:#1ebe57}
+    .leader-name{font-weight:bold;color:#d4380d}
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>ADMIN PANEL</h1>
-    <p><strong>Tambah Leader & Buat LP Otomatis</strong></p>
-    <p class="info-text">Kode otomatis: <strong id="nextCode">RT013</strong></p>
-
-    <input type="text" id="name" placeholder="Nama Leader (contoh: Rita)" />
-    <input type="text" id="phone" placeholder="No WA (6281234567890)" />
-
-    <button onclick="addLeader()">TAMBAH & BUAT LP</button>
-
-    <div id="result" class="result">
-      <p class="success">LP berhasil dibuat!</p>
-      <p>Kode: <strong id="newCode"></strong></p>
-      <p>Link Form: <span id="formLink" class="link"></span></p>
-      <p>Link LP: <span id="lpLink" class="link"></span></p>
-      <div class="qr" id="qr"></div>
-      <button onclick="copyForm()">Copy Link Form</button>
-      <button onclick="copyLP()">Copy Link LP</button>
-      <button onclick="shareWA()" style="background:#25D366">Share ke WA</button>
-      <button onclick="downloadLP()" class="btn-lp">Download File LP (Upload ke GitHub)</button>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
-  <script>
-    let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-
-    // Inisialisasi 12 leader lama
-    if (leaders.length === 0) {
-      leaders = [
-        { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
-        { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
-        { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
-        { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
-        { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
-        { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
-        { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
-        { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
-        { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
-        { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
-        { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
-        { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
-      ];
-      localStorage.setItem('leaders', JSON.stringify(leaders));
-    }
-
-    function updateNextCode() {
-      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
-      const nextNum = rtLeaders.length > 0 ? Math.max(...rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0)) + 1 : 13;
-      document.getElementById('nextCode').textContent = `RT${String(nextNum).padStart(3, '0')}`;
-    }
-
-    function addLeader() {
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      if (!name || !phone) return alert('Isi Nama dan WA!');
-      if (!phone.startsWith('62')) return alert('WA harus diawali 62!');
-
-      const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
-      if (leaders.some(l => l.slug === slug)) return alert('Nama sudah ada!');
-
-      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
-      const nextNum = rtLeaders.length > 0 ? Math.max(...rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0)) + 1 : 13;
-      const code = `RT${String(nextNum).padStart(3, '0')}`;
-
-      const newLeader = { code, name, phone, slug };
-      leaders.push(newLeader);
-      localStorage.setItem('leaders', JSON.stringify(leaders));
-
-      const formLink = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
-      const lpLink = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
-
-      // Simpan data untuk download
-      window.currentLP = { name, phone, code, slug, content: generateLPContent(name, phone, code) };
-
-      document.getElementById('newCode').textContent = code;
-      document.getElementById('formLink').textContent = formLink;
-      document.getElementById('lpLink').textContent = lpLink;
-      document.getElementById('result').style.display = 'block';
-
-      const qrDiv = document.getElementById('qr');
-      qrDiv.innerHTML = '';
-      QRCode.toCanvas(qrDiv, lpLink, { width: 200, color: { dark: '#0b3d91' } });
-
-      document.getElementById('name').value = '';
-      document.getElementById('phone').value = '';
-      updateNextCode();
-    }
-
-    function generateLPContent(name, phone, code) {
-      return `<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3iReborn - ${name}</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
-    .hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}
-    .hero h1{font-size:36px;margin:0 0 10px}
-    .cta{background:#d4380d;color:#fff;padding:15px 30px;border:none;border-radius:5px;font-size:20px;cursor:pointer;margin:20px}
-    .section{background:#fff;margin:20px auto;max-width:800px;padding:30px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
-    .section h2{text-align:center;color:#0b3d91}
-    .form{text-align:center}
-    .form input,.form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}
-  </style>
-</head>
-<body>
-  <div class="hero">
-    <h1>3iReborn: Bisnis Asuransi <span style="color:#d4380d">${name}</span></h1>
-    <p><strong>Proteksi + Investasi + Penghasilan Anti Gagal</strong></p>
-    <button class="cta" onclick="document.querySelector('form').scrollIntoView({behavior:'smooth'})">Daftar Sekarang!</button>
-  </div>
-  <div class="section">
-    <h2>Daftar ke WA ${name}!</h2>
-    <form class="form" onsubmit="sendWA(event)">
+    <h1>3iReborn</h1>
+    <p>Daftar bersama <span class="leader-name" id="leaderName">Leader</span></p>
+    <form onsubmit="sendWA(event)">
       <input type="text" name="nama" placeholder="Nama Lengkap *" required>
       <input type="tel" name="hp" placeholder="No WA (628xxxxxxxxx) *" required>
       <select name="premi" required>
@@ -144,44 +27,28 @@
         <option value="700.000">Rp700.000</option>
         <option value="2.000.000">Rp2.000.000</option>
       </select>
-      <button type="submit" class="cta">KIRIM KE WA ${name}</button>
+      <button type="submit">KIRIM KE WA LEADER</button>
     </form>
   </div>
   <script>
-    function sendWA(e){e.preventDefault();const f=new FormData(e.target);let m="LEAD DARI LP 3IREBORN\\n\\n";for(let[k,v]of f)m+=k.toUpperCase()+": "+v+"\\n";m+="\\nLeader: ${name} (${code})";location.href="https://wa.me/${phone}?text="+encodeURIComponent(m);}
-  </script>
-</body>
-</html>`;
+    const urlParams = new URLSearchParams(window.location.search);
+    const leaderSlug = urlParams.get('leader');
+    if (leaderSlug) {
+      const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+      const leader = leaders.find(l => l.slug === leaderSlug);
+      if (leader) {
+        document.getElementById('leaderName').textContent = leader.name;
+        window.currentLeader = leader;
+      }
     }
-
-    function copyForm() { copyText('formLink'); }
-    function copyLP() { copyText('lpLink'); }
-    function copyText(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text).then(() => alert('Link disalin!'));
+    function sendWA(e) {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      let m = "LEAD DARI FORM 3IREBORN\n\n";
+      for (let [k, v] of f) m += k.toUpperCase() + ": " + v + "\n";
+      if (window.currentLeader) m += "\nLeader: " + window.currentLeader.name + " (" + window.currentLeader.code + ")";
+      location.href = "https://wa.me/" + (window.currentLeader?.phone || '6282240001731') + "?text=" + encodeURIComponent(m);
     }
-
-    function shareWA() {
-      const form = document.getElementById('formLink').textContent;
-      const lp = document.getElementById('lpLink').textContent;
-      const code = document.getElementById('newCode').textContent;
-      const text = `LEADER BARU 3IREBORN\nKode: ${code}\nForm: ${form}\nLP: ${lp}`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    function downloadLP() {
-      if (!window.currentLP) return alert('Buat leader dulu!');
-      const blob = new Blob([window.currentLP.content], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `lp-${window.currentLP.slug}.html`;
-      a.click();
-      URL.revokeObjectURL(url);
-      alert(`File LP ${window.currentLP.slug}.html siap di-upload ke GitHub!`);
-    }
-
-    document.addEventListener('DOMContentLoaded', updateNextCode);
   </script>
 </body>
 </html>
