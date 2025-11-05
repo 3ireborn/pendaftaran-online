@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3iReborn - Replika Leader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:#f8f9fa;color:#333;line-height:1.6}
+    .hero{
+      background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+      url('https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?auto=format&fit=crop&w=1350&q=80') center/cover;
+      color:#fff;text-align:center;padding:80px 20px
+    }
+    .hero h1{font-size:38px;margin-bottom:10px}
+    .hero p{font-size:18px;max-width:700px;margin:0 auto}
+    .section{max-width:900px;margin:40px auto;padding:25px;background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.08)}
+    h2{color:#d4380d;margin-bottom:10px}
+    .countdown{text-align:center;font-size:26px;font-weight:600;color:#0b3d91;margin-top:10px}
+    .cta-btn{display:block;text-align:center;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;padding:16px 25px;border-radius:50px;margin:25px auto 5px;width:80%;max-width:340px;transition:.3s}
+    .cta-btn:hover{background:#1ebe57}
+    input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
+    button{background:#d4380d;color:#fff;padding:12px 25px;border:none;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+    button:hover{background:#b22e0b}
+    .form-container{text-align:center}
+    @media(max-width:768px){.hero h1{font-size:28px}.section{margin:20px 10px}}
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Bersama <span id="leader-name" style="color:#d4380d">Leader 3iReborn</span></h1>
+    <p>Proteksi + Investasi Syariah + Penghasilan Tanpa Risiko</p>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="section" style="text-align:center">
+    <h2>📅 Zoom Gratis Berikutnya</h2>
+    <div id="countdown" class="countdown">Menghitung waktu...</div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="section" style="text-align:center">
+    <iframe width="100%" height="380" style="border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1)" 
+      src="https://www.youtube.com/embed/JW9OmqnXSz8" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <!-- FORM -->
+  <div class="section form-container">
+    <h2>Daftar Zoom Sekarang</h2>
+    <form onsubmit="sendLead(event)">
+      <input type="text" name="nama" placeholder="Nama Lengkap *" required>
+      <input type="tel" name="hp" placeholder="No WA (628...) *" required>
+      <select name="premi" required>
+        <option value="">Pilih Premi *</option>
+        <option value="350.000">Rp350.000</option>
+        <option value="700.000">Rp700.000</option>
+        <option value="2.000.000">Rp2.000.000</option>
+      </select>
+      <button type="submit">KIRIM KE WHATSAPP LEADER</button>
+    </form>
+  </div>
+
+  <div class="section" style="text-align:center">
+    <p><i>“Mungkin kamu bisa tunda investasi, tapi kamu nggak bisa tunda proteksi.”</i></p>
+    <p style="margin-top:10px;font-weight:bold;color:#d4380d">3iReborn Indonesia</p>
+  </div>
+
+  <script>
+    // --- Ambil Nama Leader & Mapping Nomor WA ---
+    const params = new URLSearchParams(window.location.search);
+    const leader = params.get("leader");
+    let LEADER_NAME = "Leader 3iReborn";
+    let LEADER_WA = "6282240001731";
+
+    const waMap = {
+      "sugiarto": "6285218453131",
+      "regina": "6285218453131",
+      "agnes": "6285218453131",
+      "wawan": "6282240001731",
+      "tasya": "6287771234567"
+    };
+
+    if (leader) {
+      const nameFormatted = leader.charAt(0).toUpperCase() + leader.slice(1).toLowerCase();
+      LEADER_NAME = nameFormatted;
+      LEADER_WA = waMap[leader.toLowerCase()] || "6282240001731";
+    }
+    document.getElementById("leader-name").textContent = LEADER_NAME;
+
+    // --- Countdown Dinamis (Senin, Rabu, Jumat) ---
+    function getNextZoomDate() {
+      const now = new Date();
+      const day = now.getDay();
+      const date = new Date(now);
+      let target = new Date(now);
+      let hour = 19;
+      const weekOfMonth = Math.ceil((date.getDate() - 1) / 7) + 1;
+
+      if (day === 1) {
+        target.setHours(hour, 0, 0, 0);
+        if (now > target) target.setDate(date.getDate() + 2);
+      } else if (day === 3) {
+        if (weekOfMonth === 2 || weekOfMonth === 4) hour = 14;
+        target.setHours(hour, 0, 0, 0);
+        if (now > target) target.setDate(date.getDate() + 2);
+      } else if (day === 5) {
+        target.setHours(hour, 0, 0, 0);
+        if (now > target) target.setDate(date.getDate() + 3);
+      } else {
+        const daysToNext = [1,3,5].map(d => (d - day + 7) % 7).filter(x => x>0).sort()[0];
+        target.setDate(date.getDate() + daysToNext);
+        const nextDay = (day + daysToNext) % 7;
+        const nextDate = new Date(target);
+        const nextWeek = Math.ceil((nextDate.getDate() - 1) / 7) + 1;
+        hour = (nextDay === 3 && (nextWeek===2||nextWeek===4)) ? 14 : 19;
+        target.setHours(hour, 0, 0, 0);
+      }
+      return target;
+    }
+
+    function updateCountdown() {
+      const target = getNextZoomDate();
+      const now = new Date();
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "Zoom sedang berlangsung!";
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById("countdown").innerHTML = `${h}j ${m}m ${s}d lagi`;
+      setTimeout(updateCountdown, 1000);
+    }
+    updateCountdown();
+
+    // --- Kirim ke WA Leader ---
+    function sendLead(e) {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      let m = "LEAD DARI WEB REPLIKA 3IREBORN\n\n";
+      for (let [k, v] of f) m += k.toUpperCase() + ": " + v + "\n";
+      m += `\nLeader: ${LEADER_NAME}`;
+      location.href = `https://wa.me/${LEADER_WA}?text=` + encodeURIComponent(m);
+    }
+  </script>
+
+</body>
+</html>
