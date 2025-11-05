@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3iReborn - Replika Leader</title>
+  <title>3iReborn - Replika Mini</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
     body{background:#f8f9fa;color:#333;line-height:1.6}
     .hero{
-      background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+      background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
       url('https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?auto=format&fit=crop&w=1350&q=80') center/cover;
       color:#fff;text-align:center;padding:80px 20px
     }
-    .hero h1{font-size:38px;margin-bottom:10px}
+    .hero h1{font-size:36px;margin-bottom:10px}
     .hero p{font-size:18px;max-width:700px;margin:0 auto}
     .section{max-width:900px;margin:40px auto;padding:25px;background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.08)}
     h2{color:#d4380d;margin-bottom:10px}
     .countdown{text-align:center;font-size:26px;font-weight:600;color:#0b3d91;margin-top:10px}
-    .cta-btn{display:block;text-align:center;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;padding:16px 25px;border-radius:50px;margin:25px auto 5px;width:80%;max-width:340px;transition:.3s}
-    .cta-btn:hover{background:#1ebe57}
     input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
-    button{background:#d4380d;color:#fff;padding:12px 25px;border:none;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
-    button:hover{background:#b22e0b}
-    .form-container{text-align:center}
+    button,.cta-btn{background:#25D366;color:#fff;padding:14px 20px;border:none;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;transition:.3s}
+    button:hover,.cta-btn:hover{background:#1ebe57}
+    .cta-btn{text-decoration:none;display:inline-block;text-align:center}
+    table{border-collapse:collapse;width:100%;margin-top:10px}
+    th,td{border:1px solid #ccc;padding:8px;text-align:left}
+    th{background:#d4380d;color:#fff}
     @media(max-width:768px){.hero h1{font-size:28px}.section{margin:20px 10px}}
   </style>
 </head>
@@ -32,7 +33,7 @@
   <!-- HERO -->
   <div class="hero">
     <h1>Bersama <span id="leader-name" style="color:#d4380d">Leader 3iReborn</span></h1>
-    <p>Proteksi + Investasi Syariah + Penghasilan Tanpa Risiko</p>
+    <p>Proteksi • Investasi Syariah • Penghasilan Tanpa Risiko</p>
   </div>
 
   <!-- COUNTDOWN -->
@@ -41,14 +42,8 @@
     <div id="countdown" class="countdown">Menghitung waktu...</div>
   </div>
 
-  <!-- VIDEO -->
-  <div class="section" style="text-align:center">
-    <iframe width="100%" height="380" style="border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1)" 
-      src="https://www.youtube.com/embed/JW9OmqnXSz8" frameborder="0" allowfullscreen></iframe>
-  </div>
-
   <!-- FORM -->
-  <div class="section form-container">
+  <div class="section" style="text-align:center">
     <h2>Daftar Zoom Sekarang</h2>
     <form onsubmit="sendLead(event)">
       <input type="text" name="nama" placeholder="Nama Lengkap *" required>
@@ -63,25 +58,42 @@
     </form>
   </div>
 
+  <!-- GENERATOR REPLIKA -->
+  <div class="section" style="text-align:center">
+    <h2>✨ Buat Replika Web Kamu Sendiri!</h2>
+    <input type="text" id="gen-name" placeholder="Nama Leader *" required>
+    <input type="tel" id="gen-wa" placeholder="Nomor WA (628...) *" required>
+    <button onclick="buatReplika()">BUAT LINK REPLIKA</button>
+    <p id="gen-result" style="margin-top:10px;font-weight:bold;color:#d4380d"></p>
+  </div>
+
+  <!-- LIHAT SEMUA LEADER -->
+  <div class="section" style="text-align:center">
+    <h2>📋 Data Leader yang Tersimpan</h2>
+    <button onclick="lihatLeader()">Lihat Semua Leader</button>
+    <div id="leader-list" style="margin-top:15px;text-align:left;max-width:600px;margin-inline:auto"></div>
+  </div>
+
   <div class="section" style="text-align:center">
     <p><i>“Mungkin kamu bisa tunda investasi, tapi kamu nggak bisa tunda proteksi.”</i></p>
     <p style="margin-top:10px;font-weight:bold;color:#d4380d">3iReborn Indonesia</p>
   </div>
 
   <script>
-    // --- Ambil Nama Leader & Mapping Nomor WA ---
-    const params = new URLSearchParams(window.location.search);
-    const leader = params.get("leader");
-    let LEADER_NAME = "Leader 3iReborn";
-    let LEADER_WA = "6282240001731";
-
-    const waMap = {
+    // 🔹 Load Mapping WA (localStorage)
+    let waMap = JSON.parse(localStorage.getItem("waMap")) || {
       "sugiarto": "6285218453131",
       "regina": "6285218453131",
       "agnes": "6285218453131",
       "wawan": "6282240001731",
       "tasya": "6287771234567"
     };
+
+    // 🔹 Ambil Leader dari URL
+    const params = new URLSearchParams(window.location.search);
+    const leader = params.get("leader");
+    let LEADER_NAME = "Leader 3iReborn";
+    let LEADER_WA = "6282240001731";
 
     if (leader) {
       const nameFormatted = leader.charAt(0).toUpperCase() + leader.slice(1).toLowerCase();
@@ -90,7 +102,7 @@
     }
     document.getElementById("leader-name").textContent = LEADER_NAME;
 
-    // --- Countdown Dinamis (Senin, Rabu, Jumat) ---
+    // 🔹 Countdown Dinamis
     function getNextZoomDate() {
       const now = new Date();
       const day = now.getDay();
@@ -100,51 +112,82 @@
       const weekOfMonth = Math.ceil((date.getDate() - 1) / 7) + 1;
 
       if (day === 1) {
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 2);
+        target.setHours(hour,0,0,0);
+        if (now > target) target.setDate(date.getDate()+2);
       } else if (day === 3) {
-        if (weekOfMonth === 2 || weekOfMonth === 4) hour = 14;
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 2);
+        if (weekOfMonth===2||weekOfMonth===4) hour=14;
+        target.setHours(hour,0,0,0);
+        if (now > target) target.setDate(date.getDate()+2);
       } else if (day === 5) {
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 3);
+        target.setHours(hour,0,0,0);
+        if (now > target) target.setDate(date.getDate()+3);
       } else {
-        const daysToNext = [1,3,5].map(d => (d - day + 7) % 7).filter(x => x>0).sort()[0];
-        target.setDate(date.getDate() + daysToNext);
-        const nextDay = (day + daysToNext) % 7;
-        const nextDate = new Date(target);
-        const nextWeek = Math.ceil((nextDate.getDate() - 1) / 7) + 1;
-        hour = (nextDay === 3 && (nextWeek===2||nextWeek===4)) ? 14 : 19;
-        target.setHours(hour, 0, 0, 0);
+        const daysToNext=[1,3,5].map(d=>(d-day+7)%7).filter(x=>x>0).sort()[0];
+        target.setDate(date.getDate()+daysToNext);
+        const nextDay=(day+daysToNext)%7;
+        const nextDate=new Date(target);
+        const nextWeek=Math.ceil((nextDate.getDate()-1)/7)+1;
+        hour=(nextDay===3&&(nextWeek===2||nextWeek===4))?14:19;
+        target.setHours(hour,0,0,0);
       }
       return target;
     }
 
     function updateCountdown() {
-      const target = getNextZoomDate();
-      const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "Zoom sedang berlangsung!";
-        return;
-      }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById("countdown").innerHTML = `${h}j ${m}m ${s}d lagi`;
-      setTimeout(updateCountdown, 1000);
+      const target=getNextZoomDate();
+      const now=new Date();
+      const diff=target-now;
+      if(diff<=0){document.getElementById("countdown").innerHTML="Zoom sedang berlangsung!";return;}
+      const h=Math.floor(diff/3600000);
+      const m=Math.floor((diff%3600000)/60000);
+      const s=Math.floor((diff%60000)/1000);
+      document.getElementById("countdown").innerHTML=`${h}j ${m}m ${s}d lagi`;
+      setTimeout(updateCountdown,1000);
     }
     updateCountdown();
 
-    // --- Kirim ke WA Leader ---
-    function sendLead(e) {
+    // 🔹 Kirim ke WA Leader
+    function sendLead(e){
       e.preventDefault();
-      const f = new FormData(e.target);
-      let m = "LEAD DARI WEB REPLIKA 3IREBORN\n\n";
-      for (let [k, v] of f) m += k.toUpperCase() + ": " + v + "\n";
-      m += `\nLeader: ${LEADER_NAME}`;
-      location.href = `https://wa.me/${LEADER_WA}?text=` + encodeURIComponent(m);
+      const f=new FormData(e.target);
+      let m="LEAD DARI WEB REPLIKA 3IREBORN\n\n";
+      for(let [k,v] of f) m+=k.toUpperCase()+": "+v+"\n";
+      m+=`\nLeader: ${LEADER_NAME}`;
+      location.href=`https://wa.me/${LEADER_WA}?text=`+encodeURIComponent(m);
+    }
+
+    // 🔹 Generator Replika + Simpan ke localStorage
+    function buatReplika(){
+      const nama=document.getElementById("gen-name").value.trim().toLowerCase().replace(/[^a-z0-9]/g,"");
+      const wa=document.getElementById("gen-wa").value.trim();
+      const result=document.getElementById("gen-result");
+
+      if(!nama||!wa){result.innerHTML="⚠️ Isi nama dan nomor WA dulu, beb!";return;}
+
+      waMap[nama]=wa;
+      localStorage.setItem("waMap",JSON.stringify(waMap));
+
+      const link=`${window.location.origin}${window.location.pathname}?leader=${nama}`;
+      result.innerHTML=`✅ Link replika kamu siap:<br>
+      <a href="${link}" target="_blank">${link}</a><br><br>
+      <button onclick="navigator.clipboard.writeText('${link}')">📋 Salin Link</button><br><br>
+      Nomor WA (${wa}) telah disimpan otomatis ✔️`;
+    }
+
+    // 🔹 Lihat Semua Leader
+    function lihatLeader(){
+      const resultDiv=document.getElementById("leader-list");
+      const savedMap=JSON.parse(localStorage.getItem("waMap"))||{};
+      if(Object.keys(savedMap).length===0){
+        resultDiv.innerHTML="<p><i>Belum ada data leader tersimpan.</i></p>";
+        return;
+      }
+      let html="<table><tr><th>Leader</th><th>Nomor WA</th></tr>";
+      for(const [name,wa] of Object.entries(savedMap)){
+        html+=`<tr><td>${name}</td><td>${wa}</td></tr>`;
+      }
+      html+="</table>";
+      resultDiv.innerHTML=html;
     }
   </script>
 
