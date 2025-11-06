@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pendaftaran Online 3iReborn</title>
   <style>
-    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:15px}
+    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:15px;scroll-behavior:smooth}
     .container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
     h1{text-align:center;color:#0b3d91;font-size:22px;margin-bottom:10px}
     h2{font-size:18px;color:#d4380d;margin:20px 0 10px;border-bottom:2px solid #eee;padding-bottom:5px}
@@ -43,7 +43,7 @@
       <h2>Data Pribadi</h2>
       <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
 
-      <!-- Dropdown Leader (HILANG jika dari link) -->
+      <!-- Dropdown Leader -->
       <div id="leaderSelectWrapper">
         <label>Kode ID Leader: 
           <select name="leader" id="leaderSelect">
@@ -52,7 +52,6 @@
         </label>
       </div>
 
-      <!-- HANYA 3 WAJIB -->
       <label>Kontribusi Premi (Rp): <span style="color:red">*</span></label>
       <select name="premi" required>
         <option value="">Pilih Premi</option>
@@ -69,23 +68,8 @@
       <label>No HP (WA): <span style="color:red">*</span></label>
       <input type="tel" name="hp" required placeholder="628123456789">
 
-      <!-- SEMUA FIELD LAIN -->
       <label>Alamat:</label>
-      <div class="row">
-        <div class="col"><input type="text" name="alamat" placeholder="Jalan / Gang"></div>
-      </div>
-      <div class="row">
-        <div class="col"><input type="text" name="rt" placeholder="RT"></div>
-        <div class="col"><input type="text" name="rw" placeholder="RW"></div>
-        <div class="col"><input type="text" name="kodepos" placeholder="Kode Pos"></div>
-      </div>
-      <div class="row">
-        <div class="col"><input type="text" name="kelurahan" placeholder="Kelurahan"></div>
-        <div class="col"><input type="text" name="kecamatan" placeholder="Kecamatan"></div>
-      </div>
-      <div class="row">
-        <div class="col"><input type="text" name="kota" placeholder="Kota/Kabupaten"></div>
-      </div>
+      <input type="text" name="alamat" placeholder="Jalan / Gang">
 
       <label>Tempat & Tgl Lahir:</label>
       <div class="row">
@@ -93,93 +77,12 @@
         <div class="col"><input type="date" name="tgl_lahir"></div>
       </div>
 
-      <label>Agama:</label>
-      <select name="agama">
-        <option value="">Pilih Agama</option>
-        <option>Islam</option><option>Kristen</option><option>Katolik</option>
-        <option>Hindu</option><option>Budha</option><option>Lainnya</option>
-      </select>
-
       <label>Jenis Kelamin:</label>
       <select name="jk">
         <option value="">Pilih</option>
         <option>Laki-laki</option>
         <option>Perempuan</option>
       </select>
-
-      <label>No Identitas (KTP):</label>
-      <input type="text" name="no_ktp">
-
-      <h2>Bank</h2>
-      <label>Nama Bank:</label><input type="text" name="bank">
-      <label>No Rekening:</label><input type="text" name="norek">
-      <label>Nama di Rekening:</label><input type="text" name="nama_rek">
-
-      <h2>Pajak</h2>
-      <label>No NPWP:</label><input type="text" name="npwp">
-      <label>Status Pajak:</label>
-      <select name="status_pajak"><option>Kawin</option><option>Tidak Kawin</option></select>
-      <label>Jumlah Tanggungan:</label><input type="number" name="tanggungan" min="0" value="0">
-
-      <label>Tinggi & Berat Badan:</label>
-      <div class="row">
-        <div class="col"><input type="number" name="tinggi" placeholder="Tinggi (cm)"></div>
-        <div class="col"><input type="number" name="berat" placeholder="Berat (kg)"></div>
-      </div>
-
-      <label>Pekerjaan/Jabatan:</label><input type="text" name="pekerjaan">
-      <label>Penghasilan/Tahun:</label><input type="text" name="penghasilan" placeholder="Contoh: 50 juta">
-      <label>Nama Ibu Kandung:</label><input type="text" name="ibu">
-
-      <h2>Ahli Waris Bisnis</h2>
-      <label>Nama:</label><input type="text" name="waris_bisnis_nama">
-      <div class="row">
-        <div class="col"><input type="date" name="waris_bisnis_tgl"></div>
-        <div class="col"><select name="waris_bisnis_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-      </div>
-      <label>Hubungan:</label><input type="text" name="waris_bisnis_hub">
-
-      <h2>Ahli Waris Manfaat</h2>
-      <label>Nama:</label><input type="text" name="waris_manfaat_nama">
-      <div class="row">
-        <div class="col"><input type="date" name="waris_manfaat_tgl"></div>
-        <div class="col"><select name="waris_manfaat_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-      </div>
-      <label>Hubungan:</label><input type="text" name="waris_manfaat_hub">
-
-      <div class="checkbox">
-        <label><input type="checkbox" id="tertanggungLain"> Jika Tertanggung Berbeda dengan Pemegang Polis</label>
-      </div>
-
-      <div id="dataTambahan" style="display:none">
-        <h2>Data Tambahan (Tertanggung)</h2>
-        <label>Nama:</label><input type="text" name="ttd_nama">
-        <label>Tempat & Tgl Lahir:</label>
-        <div class="row">
-          <div class="col"><input type="text" name="ttd_tempat"></div>
-          <div class="col"><input type="date" name="ttd_tgl"></div>
-        </div>
-        <label>Agama:</label>
-        <select name="ttd_agama">
-          <option value="">Pilih</option>
-          <option>Islam</option><option>Kristen</option><option>Katolik</option>
-          <option>Hindu</option><option>Budha</option><option>Lainnya</option>
-        </select>
-        <label>Jenis Kelamin:</label>
-        <select name="ttd_jk"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select>
-        <label>No Identitas:</label><input type="text" name="ttd_ktp">
-        <label>Tinggi & Berat Badan:</label>
-        <div class="row">
-          <div class="col"><input type="number" name="ttd_tinggi" placeholder="cm"></div>
-          <div class="col"><input type="number" name="ttd_berat" placeholder="kg"></div>
-        </div>
-        <label>Hubungan dengan PP:</label>
-        <select name="ttd_hub">
-          <option value="">Pilih</option>
-          <option>Anak</option><option>Cucu</option><option>Orang Tua</option>
-          <option>Adik</option><option>Kakak</option><option>Pasangan</option>
-        </select>
-      </div>
 
       <button type="submit" class="submit-btn">KIRIM KE WA LEADER</button>
     </form>
@@ -195,66 +98,65 @@
   </div>
 
   <script>
-    // === AUTO LOAD LEADER DARI ADMIN ===
-    let leaders = [];
-    const saved = localStorage.getItem('leaders');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          leaders = parsed;
-        }
-      } catch(e) {}
-    }
-    if (leaders.length === 0) {
-      leaders = [
-        { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
-        { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
-        { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
-        { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
-        { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
-        { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
-        { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
-        { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
-        { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
-        { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
-        { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
-        { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
-      ];
-    }
+    // === DATA LEADER ===
+    const leaders = [
+      { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
+      { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
+      { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
+      { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
+      { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
+      { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
+      { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
+      { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
+      { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
+      { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
+      { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
+      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
+    ];
 
     let finalLeader = null;
-
-    document.getElementById('tertanggungLain').addEventListener('change', function() {
-      document.getElementById('dataTambahan').style.display = this.checked ? 'block' : 'none';
-    });
 
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(location.search);
       const urlSlug = params.get('leader');
       const selectWrapper = document.getElementById('leaderSelectWrapper');
       const leaderInfo = document.getElementById('leaderInfo');
+      const select = document.getElementById('leaderSelect');
 
+      // Jika ada leader di URL
       if (urlSlug) {
         const leader = leaders.find(l => l.slug === urlSlug);
         if (leader) {
           selectWrapper.style.display = 'none';
-          leaderInfo.innerHTML = `Leader: <strong>${leader.code} - ${leader.name}</strong><br>Kirim data ke WA: <strong>${leader.phone}</strong>`;
+          leaderInfo.innerHTML = `
+            Bisnis ini dipresentasikan oleh <strong>${leader.code} ${leader.name}</strong>
+          `;
           leaderInfo.style.display = 'block';
           finalLeader = leader;
+
+          // Auto-scroll ke form agar langsung terlihat
+          setTimeout(() => {
+            document.getElementById('regForm').scrollIntoView({ behavior: 'smooth' });
+          }, 700);
           return;
         }
       }
 
-      const select = document.getElementById('leaderSelect');
+      // Jika tanpa ?leader= tampilkan dropdown
       leaders.forEach(l => {
         const opt = document.createElement('option');
         opt.value = l.code;
         opt.textContent = `${l.code} - ${l.name}`;
         select.appendChild(opt);
       });
+
+      // Scroll ke form juga, biar user langsung lihat
+      setTimeout(() => {
+        document.getElementById('regForm').scrollIntoView({ behavior: 'smooth' });
+      }, 700);
     });
 
+    // Kirim ke WA Leader
     document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const data = new FormData(this);
@@ -268,11 +170,10 @@
           msg += `${label}: ${val}\n`;
         }
       }
-      if (document.getElementById('tertanggungLain').checked) msg += "\nDATA TERTANGGUNG BERBEDA\n";
       msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
 
       window.location.href = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
     });
   </script>
 </body>
-  </html>
+</html>
