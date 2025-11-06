@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sistem Duplikasi Digital NPA – 3iReborn</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0b3d91; --accent:#d4380d; --ink:#0f172a; --muted:#6b7280;
+    --bg:#f7f8fb; --card:#ffffff; --ok:#22c55e; --warn:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',sans-serif}
+  a{text-decoration:none}
+  .container{max-width:1080px;margin:0 auto;padding:18px}
+  /* HERO */
+  .hero{
+    position:relative;overflow:hidden;border-radius:24px;margin:16px;
+    background: radial-gradient(1200px 500px at -10% -20%, #1f3c88 0%, #0b3d91 35%, #061e4a 100%),
+                linear-gradient(120deg,#0b3d91,#d4380d);
+    color:#fff;
+  }
+  .hero .wrap{padding:64px 24px 56px;display:grid;grid-template-columns:1.3fr .7fr;gap:16px}
+  .hero h1{margin:0;font-size:32px;line-height:1.15;font-weight:800}
+  .hero p.sub{opacity:.95;margin:12px 0 18px;font-size:15px}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#0b3d91;
+       padding:12px 18px;border-radius:999px;font-weight:800;box-shadow:0 10px 25px rgba(0,0,0,.15)}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .badge{background:#ffffff22;border:1px solid #ffffff33;color:#fff;border-radius:999px;font-size:12px;padding:6px 10px}
+  /* Music toggle */
+  .audio-toggle{position:absolute;top:14px;right:14px;background:#ffffff22;border:1px solid #ffffff55;
+    color:#fff;padding:8px 12px;border-radius:999px;font-weight:700;backdrop-filter:blur(4px);cursor:pointer}
+  /* STEPS */
+  .steps{margin:24px 16px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 10px 28px rgba(10,30,60,.08);padding:18px;position:relative}
+  .num{position:absolute;top:-12px;left:-12px;background:#fff;border:3px solid #0b3d91;color:#0b3d91;
+       width:42px;height:42px;display:grid;place-items:center;border-radius:50%;font-weight:800}
+  .head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .head .emoji{font-size:24px}
+  .head h3{margin:0;font-size:18px;color:var(--primary)}
+  .desc{color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 14px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;padding:10px 14px;
+       font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-ghost{background:#eef2ff;color:var(--primary)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .inline{display:flex;gap:8px;flex-wrap:wrap}
+  input[type="text"]{width:100%;padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px}
+  small.hint{display:block;color:#64748b;margin-top:6px}
+  /* CTA bottom */
+  .cta-block{margin:28px 16px;background:#fff;border:2px dashed #e5e7eb;border-radius:18px;padding:16px;display:grid;gap:10px}
+  .cta-big{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,#0b3d91,#1f66e5);
+           color:#fff;padding:14px 18px;border-radius:14px;font-weight:800;box-shadow:0 10px 28px rgba(25,80,160,.25)}
+  .sig{margin:18px 16px 40px;color:#475569}
+  /* Responsive */
+  @media (max-width:980px){.hero .wrap{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero NPA">
+      <button class="audio-toggle" id="audioToggle">🔊 Musik ON</button>
+      <div class="wrap">
+        <div>
+          <h1>Sistem Duplikasi Digital <br/>NPA – 3iReborn</h1>
+          <p class="sub">Bersama <b>Nganggur Preneur Akademi</b>, duplikasi jadi <i>mudah, digital,</i> dan <i>tanpa ribet</i>. Semua siap pakai: link, form, replika, sampai AI konten.</p>
+          <a href="#steps" class="cta">Mulai Sekarang 🚀</a>
+          <div class="badges">
+            <span class="badge">🔁 Duplikasi Cepat</span>
+            <span class="badge">🧠 AI Tools</span>
+            <span class="badge">📱 100% Mobile</span>
+          </div>
+        </div>
+        <div>
+          <!-- Ilustrasi kecil -->
+          <div style="background:#ffffff12;border:1px solid #ffffff33;border-radius:16px;padding:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="background:#fff;border-radius:12px;padding:12px;color:#0b3d91;font-weight:800;display:grid;place-items:center">LP</div>
+              <div style="background:#fff;border-radius:12px;padding:12px;color:#d4380d;font-weight:800;display:grid;place-items:center">WA</div>
+              <div style="background:#fff;border-radius:12px;padding:12px;color:#0b3d91;font-weight:800;display:grid;place-items:center">Replika</div>
+              <div style="background:#fff;border-radius:12px;padding:12px;color:#16a34a;font-weight:800;display:grid;place-items:center">AI</div>
+            </div>
+            <p style="font-size:12px;opacity:.9;margin:10px 0 0">Semua alat duplikasi dalam satu alur yang sederhana.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section id="steps" class="steps">
+      <div class="grid">
+
+        <!-- Step 1 -->
+        <div class="card">
+          <div class="num">1</div>
+          <div class="head"><span class="emoji">🌊</span><h3>Sebar Master LP</h3></div>
+          <p class="desc">Bangun kolam prospek & database otomatis. Edukasi awal yang rapi untuk narik minat serius.</p>
+          <div class="inline">
+            <a class="btn btn-primary" href="https://3ireborn.github.io/pendaftaran-online/master-lp.html" target="_blank" rel="noopener">Buka Master-LP</a>
+            <a class="btn btn-ghost" href="https://3ireborn.github.io/pendaftaran-online/list.html" target="_blank" rel="noopener">Lihat Semua Link 🔗</a>
+          </div>
+          <small class="hint">Tips: taruh link ini di bio/komentar teratas agar aman untuk algoritma FB.</small>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card">
+          <div class="num">2</div>
+          <div class="head"><span class="emoji">📝</span><h3>Pendaftaran Online</h3></div>
+          <p class="desc">Prospek tertarik? Kirimkan link pendaftaran online sesuai leader. Data langsung masuk ke WA leader.</p>
+          <div class="row" style="margin-top:6px">
+            <input type="text" id="slug2" placeholder="slug leader (contoh: sugiarto)"/>
+            <button class="btn btn-primary" onclick="openPendaftaran()">Buka Link</button>
+          </div>
+          <small class="hint">Format: <code>index.html?leader=slug</code></small>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card">
+          <div class="num">3</div>
+          <div class="head"><span class="emoji">🔥</span><h3>Hot Market & LP Pribadi</h3></div>
+          <p class="desc">Prospek sudah hangat/closing? Berikan LP pribadi biar makin yakin & mudah duplikasi.</p>
+          <div class="row" style="margin-top:6px">
+            <input type="text" id="slug3" placeholder="slug leader (contoh: sugiarto)"/>
+            <button class="btn btn-accent" onclick="openLP()">Buka LP Pribadi</button>
+          </div>
+          <small class="hint">Format: <code>lp-<i>slug</i>.html</code> — dibuat otomatis via Admin Panel.</small>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="card">
+          <div class="num">4</div>
+          <div class="head"><span class="emoji">🪄</span><h3>Web Replika Otomatis</h3></div>
+          <p class="desc">Setelah terdaftar di PT AJ CAR, mitra dapat web replika yang sama seperti leader — bisa diatur sendiri tanpa ribet.</p>
+          <div class="row" style="margin-top:6px">
+            <input type="text" id="slug4" placeholder="slug leader (contoh: sugiarto)"/>
+            <button class="btn btn-primary" onclick="openReplika()">Buka Replika</button>
+          </div>
+          <small class="hint">Format: <code>replika-mini.html?leader=slug</code></small>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="card">
+          <div class="num">5</div>
+          <div class="head"><span class="emoji">🤖</span><h3>AI Generator Konten</h3></div>
+          <p class="desc">Tool eksklusif: AI Generator Facebook v2. Bikin konten soft selling yang ramah algoritma, tinggal klik ➜ copy ➜ posting.</p>
+          <div class="inline">
+            <a class="btn btn-primary" href="https://3ireborn.github.io/pendaftaran-online/fb-generator-v2.html" target="_blank" rel="noopener">Buka AI Generator v2</a>
+            <a class="btn btn-ghost" href="https://3ireborn.github.io/pendaftaran-online/fb-generator.html" target="_blank" rel="noopener">Versi v1 (opsional)</a>
+          </div>
+          <small class="hint">Preset 10 tema + CTA + custom. Gaya: Story / Edukasi / Motivasi.</small>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA block -->
+    <section class="cta-block">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <a class="cta-big" href="https://3ireborn.github.io/pendaftaran-online/fb-generator-v2.html" target="_blank" rel="noopener">🚀 Buka AI Generator Facebook v2 Sekarang</a>
+        <a class="btn btn-ghost" href="https://3ireborn.github.io/pendaftaran-online/admin.html" target="_blank" rel="noopener">⚙️ Admin Panel (Buat LP)</a>
+        <a class="btn btn-ghost" href="https://3ireborn.github.io/pendaftaran-online/list.html" target="_blank" rel="noopener">📜 Daftar Link Live</a>
+      </div>
+      <small class="hint">Satu sistem, semua alat duplikasi: LP, Form, Replika, dan AI. Dirancang untuk tim NPA.</small>
+    </section>
+
+    <!-- Signature -->
+    <section class="sig">
+      <p><b>Salam Nganggur Warbiasyahhh 💪🏻🔥🚀</b><br/>Sugiarto Kurniawan</p>
+    </section>
+
+  </div>
+
+  <!-- WebAudio: Ambient inspirational calm pad (tanpa file eksternal) -->
+  <script>
+    let audioCtx, gainNode, playing=false, oscList=[];
+    const toggleBtn = document.getElementById('audioToggle');
+
+    function startAmbient(){
+      if(playing) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gainNode = audioCtx.createGain();
+      gainNode.gain.value = 0.05; // volume sangat pelan
+      gainNode.connect(audioCtx.destination);
+
+      // bikin 3 oscillator membentuk pad lembut (chord sederhana)
+      const freqs = [196.00, 246.94, 329.63]; // G3, B3, E4 (Em feel calm)
+      freqs.forEach((f,i)=>{
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = i===0 ? 'sine' : (i===1 ? 'triangle' : 'sine');
+        osc.frequency.value = f;
+        osc.connect(g);
+        g.connect(gainNode);
+        g.gain.setValueAtTime(0, audioCtx.currentTime);
+        g.gain.linearRampToValueAtTime(0.7/(i+2), audioCtx.currentTime+1.5+i*0.3);
+        osc.start();
+        oscList.push({osc,g});
+      });
+
+      // perlahan modulasikan frekuensi halus (vibrato lembut)
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.frequency.value = 0.15; // sangat pelan
+      lfoGain.gain.value = 2.5; // depth kecil
+      lfo.connect(lfoGain);
+      oscList.forEach(({osc})=> lfoGain.connect(osc.frequency));
+      lfo.start();
+
+      // simpan agar bisa stop
+      oscList.push({osc:lfo,g:lfoGain});
+      playing = true;
+      toggleBtn.textContent = "🔊 Musik ON";
+    }
+    function stopAmbient(){
+      if(!playing) return;
+      const t = audioCtx.currentTime;
+      gainNode.gain.cancelScheduledValues(t);
+      gainNode.gain.linearRampToValueAtTime(0, t+0.8);
+      setTimeout(()=>{
+        oscList.forEach(({osc})=>{ try{osc.stop()}catch(e){} });
+        oscList=[];
+        try{audioCtx.close()}catch(e){}
+        playing=false;
+        toggleBtn.textContent = "🔇 Musik OFF";
+      }, 850);
+    }
+    toggleBtn.addEventListener('click', ()=> playing ? stopAmbient() : startAmbient());
+
+    // Autoplay pelan setelah user berinteraksi (kebijakan browser: butuh gesture)
+    window.addEventListener('pointerdown', function once(){
+      startAmbient();
+      window.removeEventListener('pointerdown', once);
+    });
+
+    // ====== Step openers with slug ======
+    function slugVal(id){
+      const v = (document.getElementById(id).value||"").trim().toLowerCase();
+      return v.replace(/[^a-z0-9\-]/g,'').replace(/\s+/g,'-');
+    }
+    function openPendaftaran(){
+      const s = slugVal('slug2'); if(!s) return alert('Isi slug leader dulu, contoh: sugiarto');
+      window.open(`https://3ireborn.github.io/pendaftaran-online/index.html?leader=${s}`,'_blank');
+    }
+    function openLP(){
+      const s = slugVal('slug3'); if(!s) return alert('Isi slug leader dulu, contoh: sugiarto');
+      window.open(`https://3ireborn.github.io/pendaftaran-online/lp-${s}.html`,'_blank');
+    }
+    function openReplika(){
+      const s = slugVal('slug4'); if(!s) return alert('Isi slug leader dulu, contoh: sugiarto');
+      window.open(`https://3ireborn.github.io/pendaftaran-online/replika-mini.html?leader=${s}`,'_blank');
+    }
+  </script>
+</body>
+</html>
