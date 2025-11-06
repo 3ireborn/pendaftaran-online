@@ -1,129 +1,121 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel 3iReborn</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:20px}
-    .container{max-width:500px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:center}
-    h1{color:#0b3d91;margin-bottom:20px;font-size:22px}
-    input, button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
-    button{background:#0b3d91;color:#fff;cursor:pointer;font-weight:bold;border:none}
-    button:hover{background:#09307a}
-    .result{margin-top:20px;padding:15px;background:#e8f5e8;border-radius:8px;display:none}
-    .qr img{width:200px;height:200px;margin:10px auto;display:block}
-    .link{font-weight:bold;color:#0b3d91;word-break:break-all}
-    .success{color:#28a745;font-weight:bold}
-    .info-text{font-size:14px;color:#666;margin:10px 0}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - NPA 3iReborn</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  body {font-family:'Poppins',sans-serif;background:#f8f9fc;color:#0b3d91;margin:0;padding:0}
+  .container {max-width:600px;margin:40px auto;background:#fff;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.1);padding:30px}
+  h1 {text-align:center;font-size:26px;color:#0b3d91;margin-bottom:20px}
+  input {width:100%;padding:14px;margin:8px 0;border-radius:10px;border:1px solid #ddd;font-size:15px}
+  button {width:100%;padding:14px;margin-top:10px;border:none;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;transition:.2s}
+  .add-btn {background:#d4380d;color:#fff;}
+  .add-btn:hover {background:#b32f0a;}
+  .download-btn {background:#0b3d91;color:#fff;margin-top:15px;}
+  .download-btn:hover {background:#072a6d;}
+  .leader-list {margin-top:25px}
+  .leader-item {display:flex;justify-content:space-between;align-items:center;background:#f1f5ff;padding:10px 15px;border-radius:10px;margin:6px 0;border-left:4px solid #0b3d91}
+  .leader-item span {font-weight:600}
+  .leader-item button {background:#25d366;color:#fff;font-size:13px;padding:6px 10px;width:auto;border-radius:8px}
+  footer{text-align:center;margin-top:25px;font-size:13px;color:#64748b}
+</style>
 </head>
 <body>
   <div class="container">
-    <h1>ADMIN PANEL</h1>
-    <p><strong>Tambah Leader Baru</strong></p>
-    <p class="info-text">Kode otomatis: <strong id="nextCode">RT013</strong></p>
-
-    <input type="text" id="name" placeholder="Nama Leader (contoh: Rita)" />
-    <input type="text" id="phone" placeholder="No WA (6281234567890)" />
-
-    <button onclick="addLeader()">TAMBAH LEADER</button>
-
-    <div id="result" class="result">
-      <p class="success">Leader berhasil ditambah!</p>
-      <p>Kode: <strong id="newCode"></strong></p>
-      <p>Link Form: <span id="formLink" class="link"></span></p>
-      <p>Link LP: <span id="lpLink" class="link"></span></p>
-      <div class="qr" id="qr"></div>
-      <button onclick="copyForm()">Copy Link Form</button>
-      <button onclick="copyLP()">Copy Link LP</button>
-      <button onclick="shareWA()" style="background:#25D366">Share ke WA</button>
-    </div>
+    <h1>⚙️ Admin: Tambah Leader</h1>
+    <input type="text" id="name" placeholder="Nama Leader">
+    <input type="tel" id="phone" placeholder="No WA (628...)">
+    <button class="add-btn" onclick="addLeader()">TAMBAH & BUAT LP</button>
+    <div class="leader-list" id="list"></div>
+    <button class="download-btn" onclick="downloadAll()">📦 Download Semua LP (ZIP)</button>
   </div>
+  <footer>Salam Nganggur Warbiasyah 💪🔥🚀</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
     let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
 
-    // 12 leader lama otomatis masuk
-    if (leaders.length === 0) {
-      leaders = [
-        { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
-        { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
-        { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
-        { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
-        { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
-        { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
-        { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
-        { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
-        { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
-        { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
-        { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
-        { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
-      ];
-      localStorage.setItem('leaders', JSON.stringify(leaders));
-    }
-
-    function updateNextCode() {
-      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
-      const nextNum = rtLeaders.length > 0 ? Math.max(...rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0)) + 1 : 13;
-      document.getElementById('nextCode').textContent = `RT${String(nextNum).padStart(3, '0')}`;
+    function render() {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      leaders.forEach((l, i) => {
+        const div = document.createElement('div');
+        div.className = 'leader-item';
+        div.innerHTML = `<span>${l.code} - ${l.name}</span> 
+          <button onclick="createLP(${i})">Buat LP 🔗</button>`;
+        list.appendChild(div);
+      });
     }
 
     function addLeader() {
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
-      if (!name || !phone) return alert('Isi Nama dan No WA!');
-      if (!phone.startsWith('62') || phone.length < 10) return alert('No WA harus diawali 62 dan valid!');
-
-      const slug = name.toLowerCase().replace(/ /g, '').replace(/[^a-z0-9]/g, '');
-
-      // Cek duplikat
-      if (leaders.some(l => l.slug === slug)) return alert('Nama sudah ada!');
-
-      // Kode otomatis RT
-      const rtLeaders = leaders.filter(l => l.code.startsWith('RT'));
-      const nextNum = rtLeaders.length > 0 ? Math.max(...rtLeaders.map(l => parseInt(l.code.replace('RT', '')) || 0)) + 1 : 13;
-      const code = `RT${String(nextNum).padStart(3, '0')}`;
-
-      const newLeader = { code, name, phone, slug };
-      leaders.push(newLeader);
+      if (!name || !phone) return alert('Isi nama & nomor WA!');
+      const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const code = 'SK' + String(leaders.length + 1).padStart(3, '0');
+      leaders.push({ name, phone, slug, code });
       localStorage.setItem('leaders', JSON.stringify(leaders));
-
-      // Hasil
-      const formLink = `https://3ireborn.github.io/pendaftaran-online/?leader=${slug}`;
-      const lpLink = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
-
-      document.getElementById('newCode').textContent = code;
-      document.getElementById('formLink').textContent = formLink;
-      document.getElementById('lpLink').textContent = lpLink;
-      document.getElementById('result').style.display = 'block';
-
-      const qrDiv = document.getElementById('qr');
-      qrDiv.innerHTML = '';
-      QRCode.toCanvas(qrDiv, lpLink, { width: 200 });
-
       document.getElementById('name').value = '';
       document.getElementById('phone').value = '';
-      updateNextCode();
+      render();
     }
 
-    function copyForm() { copyText('formLink'); }
-    function copyLP() { copyText('lpLink'); }
-    function copyText(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text).then(() => alert('Link disalin!'));
+    function createLP(i) {
+      const l = leaders[i];
+      const html = `<!DOCTYPE html>
+<html lang='id'><head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>3iReborn - ${l.name}</title>
+<style>
+body{font-family:Poppins,sans-serif;background:#f4f6f8;margin:0;padding:0;text-align:center;color:#0b3d91}
+.hero{background:linear-gradient(135deg,#0b3d91,#d4380d);color:#fff;padding:60px 20px;border-radius:0 0 30px 30px;}
+.hero h1{font-size:28px;margin-bottom:10px}
+button{background:#25d366;color:#fff;padding:14px 25px;border:none;border-radius:50px;font-weight:700;font-size:16px;margin-top:20px;cursor:pointer}
+button:hover{background:#1ebe57}
+form{max-width:400px;margin:30px auto;padding:20px;background:#fff;border-radius:15px;box-shadow:0 6px 16px rgba(0,0,0,.1)}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+</style></head><body>
+<div class='hero'>
+<h1>3iReborn Bersama ${l.name}</h1>
+<p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+</div>
+<form onsubmit='sendWA(event)'>
+<h2>Daftar Sekarang!</h2>
+<input name='nama' placeholder='Nama Lengkap *' required>
+<input name='hp' placeholder='No WA (628...) *' required>
+<select name='premi' required>
+<option value=''>Pilih Premi *</option>
+<option>350.000</option>
+<option>700.000</option>
+<option>2.000.000</option>
+</select>
+<button type='submit'>KIRIM KE WA ${l.name}</button>
+</form>
+<script>
+function sendWA(e){
+  e.preventDefault();
+  const f = new FormData(e.target);
+  let msg = 'LEAD BARU 3iReborn%0A%0A';
+  for(let [k,v] of f) msg += k.toUpperCase() + ': ' + v + '%0A';
+  msg += '%0ALeader: ${l.code} - ${l.name}';
+  location.href = 'https://wa.me/${l.phone}?text=' + msg;
+}
+</script></body></html>`;
+
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lp-${l.slug}.html`;
+      a.click();
     }
 
-    function shareWA() {
-      const form = document.getElementById('formLink').textContent;
-      const lp = document.getElementById('lpLink').textContent;
-      const code = document.getElementById('newCode').textContent;
-      const text = `LEADER BARU 3IREBORN\nKode: ${code}\nForm: ${form}\nLP: ${lp}`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    function downloadAll() {
+      alert('🚧 Fitur Download ZIP masih dikembangkan');
     }
 
-    document.addEventListener('DOMContentLoaded', updateNextCode);
+    render();
   </script>
 </body>
 </html>
