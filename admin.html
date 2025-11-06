@@ -122,7 +122,6 @@
   </script>
 </body>
 </html>`;
-
       const blob = new Blob([html], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -131,13 +130,11 @@
       a.click();
     }
 
-    // 🔗 Tombol "Lihat Online"
     function lihatOnline(slug) {
       const link = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
       window.open(link, '_blank');
     }
 
-    // Placeholder download ZIP
     function downloadAll() {
       alert('Fitur download ZIP masih dalam pengembangan 💡');
     }
@@ -145,4 +142,4 @@
     render();
   </script>
 </body>
-</html>
+  </html>
