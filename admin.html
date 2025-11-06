@@ -3,148 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dual Generator - NPA 3iReborn</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<title>Admin: Tambah Leader | NPA 3iReborn</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Poppins',sans-serif;background:#f8f9fc;color:#0b3d91;margin:0;padding:0}
-.container{max-width:600px;margin:40px auto;background:#fff;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.1);padding:30px}
-h1{text-align:center;font-size:26px;color:#0b3d91;margin-bottom:20px}
-input{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:1px solid #ddd;font-size:15px}
-button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;transition:.2s}
-.add-btn{background:#d4380d;color:#fff;}
-.add-btn:hover{background:#b32f0a;}
-.download-btn{background:#0b3d91;color:#fff;margin-top:15px;}
-.download-btn:hover{background:#072a6d;}
-.master-btn{background:#1e90ff;color:#fff;margin-top:10px;}
-.master-btn:hover{background:#0a6bc2;}
-.leader-list{margin-top:25px}
-.leader-item{display:flex;justify-content:space-between;align-items:center;background:#f1f5ff;padding:10px 15px;border-radius:10px;margin:6px 0;border-left:4px solid #0b3d91}
-.leader-item span{font-weight:600}
-.leader-item button{background:#25d366;color:#fff;font-size:13px;padding:6px 10px;width:auto;border-radius:8px}
-footer{text-align:center;margin-top:25px;font-size:13px;color:#64748b}
+body{font-family:'Poppins',sans-serif;background:#f8fafc;margin:0;padding:0;color:#1e293b}
+.container{max-width:500px;margin:30px auto;background:#fff;padding:25px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+h2{text-align:center;color:#0b3d91;margin-bottom:10px}
+input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;margin-bottom:10px;font-size:15px}
+button{width:100%;padding:14px;font-weight:600;font-size:16px;border:none;border-radius:8px;cursor:pointer;transition:.3s}
+button.add{background:#d4380d;color:#fff}
+button.add:hover{background:#b92f0b}
+button.zip{background:#0b3d91;color:#fff;margin-top:10px}
+button.zip:hover{background:#072d6c}
+.card{background:#f1f5f9;border-radius:12px;padding:12px 15px;margin-top:15px;display:flex;justify-content:space-between;align-items:center}
+.card strong{color:#0b3d91}
+a.btn{display:inline-block;background:#22c55e;color:#fff;text-decoration:none;padding:8px 14px;border-radius:6px;margin:4px;font-size:14px}
+a.btn:hover{opacity:.9}
+footer{text-align:center;margin-top:20px;color:#64748b;font-size:14px}
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>⚙️ Admin: Tambah Leader</h1>
-    <input type="text" id="name" placeholder="Nama Leader">
-    <input type="tel" id="phone" placeholder="No WA (628...)">
-    <button class="add-btn" onclick="addLeader()">TAMBAH LEADER</button>
-    <div class="leader-list" id="list"></div>
-    <button class="download-btn" onclick="downloadAll()">📦 Download Semua LP (ZIP)</button>
-  </div>
-  <footer>Salam Nganggur Warbiasyah 💪🔥🚀</footer>
-
-  <script>
-let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-
-function render() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  leaders.forEach((l, i) => {
-    const div = document.createElement('div');
-    div.className = 'leader-item';
-    div.innerHTML = `
-      <span>${l.code} - ${l.name}</span> 
-      <div>
-        <button onclick="createMaster(${i})">🌐 LP Master</button>
-        <button onclick="createHot(${i})">🔥 LP Hot</button>
-      </div>`;
-    list.appendChild(div);
-  });
-}
-
-function addLeader() {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  if (!name || !phone) return alert('Isi nama & nomor WA!');
-  const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-  const code = 'A' + String(leaders.length + 1).padStart(3, '0');
-  leaders.push({ name, phone, slug, code });
-  localStorage.setItem('leaders', JSON.stringify(leaders));
-  document.getElementById('name').value = '';
-  document.getElementById('phone').value = '';
-  render();
-}
-
-// 🔵 LP Master Generator
-function createMaster(i){
-  const l = leaders[i];
-  const link = `https://3ireborn.github.io/pendaftaran-online/index.html?leader=${l.slug}`;
-  const html = `<!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LP Master ${l.name}</title></head>
-<body style="font-family:Poppins,sans-serif;text-align:center;background:#eef3ff;padding:40px;">
-<h1>🌐 LP MASTER - 3iReborn</h1>
-<p>Leader: <strong>${l.name}</strong></p>
-<p>No WA: ${l.phone}</p>
-<p>Kode: ${l.code}</p>
-<a href="${link}" style="background:#0b3d91;color:#fff;padding:14px 25px;border-radius:10px;text-decoration:none;">Lihat LP Master</a>
-</body></html>`;
-  
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `master-${l.slug}.html`;
-  a.click();
-}
-
-// 🔴 LP Hot Market Generator
-function createHot(i) {
-  const l = leaders[i];
-  const html = `<!DOCTYPE html>
-<html lang="id"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>3iReborn - ${l.name}</title>
-<style>
-body{font-family:Poppins,sans-serif;background:#f4f6f8;margin:0;padding:0;text-align:center;color:#0b3d91}
-.hero{background:linear-gradient(135deg,#0b3d91,#d4380d);color:#fff;padding:60px 20px;border-radius:0 0 30px 30px;}
-.hero h1{font-size:28px;margin-bottom:10px}
-button{background:#25d366;color:#fff;padding:14px 25px;border:none;border-radius:50px;font-weight:700;font-size:16px;margin-top:20px;cursor:pointer}
-button:hover{background:#1ebe57}
-form{max-width:400px;margin:30px auto;padding:20px;background:#fff;border-radius:15px;box-shadow:0 6px 16px rgba(0,0,0,.1)}
-input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
-</style></head><body>
-<div class="hero">
-<h1>3iReborn Bersama ${l.name}</h1>
-<p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+<div class="container">
+  <h2>⚙️ Admin: Tambah Leader</h2>
+  <input id="name" placeholder="Nama Leader">
+  <input id="phone" placeholder="No WA (628...)">
+  <button class="add" onclick="addLeader()">TAMBAH LEADER</button>
+  <div id="leaderList"></div>
+  <button class="zip" onclick="downloadAll()">📦 Download Semua LP (ZIP)</button>
 </div>
-<form onsubmit="sendWA(event)">
-<h2>Daftar Sekarang!</h2>
-<input name="nama" placeholder="Nama Lengkap *" required>
-<input name="hp" placeholder="No WA (628...) *" required>
-<select name="premi" required>
-<option value="">Pilih Premi *</option>
-<option>350.000</option>
-<option>700.000</option>
-<option>2.000.000</option>
-</select>
-<button type="submit">KIRIM KE WA ${l.name}</button>
-</form>
+<footer>Salam Nganggur Warbiasyah 💪🔥🚀</footer>
+
 <script>
-function sendWA(e){
-  e.preventDefault();
-  const f=new FormData(e.target);
-  let msg='LEAD BARU 3iReborn%0A%0A';
-  for(let [k,v] of f) msg+=k.toUpperCase()+': '+v+'%0A';
-  msg+='%0ALeader: ${l.code} - ${l.name}';
-  location.href='https://wa.me/${l.phone}?text='+msg;
-}
-<\/script>
-</body></html>`;
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `lp-${l.slug}.html`;
-  a.click();
+let leaders = JSON.parse(localStorage.getItem("leaders") || "[]");
+
+function render(){
+  const div = document.getElementById("leaderList");
+  div.innerHTML = leaders.map((l,i)=>`
+    <div class='card'>
+      <div><strong>${l.code}</strong> – ${l.name}</div>
+      <div>
+        <a class='btn' href='master-lp.html?leader=${l.slug}' target='_blank'>🌐 LP Master</a>
+        <a class='btn' href='lp-hot.html?leader=${l.slug}' target='_blank'>🔥 LP Hot</a>
+      </div>
+    </div>
+  `).join("");
 }
 
-function downloadAll() {
-  alert('🚧 Fitur Download ZIP masih dikembangkan');
+function addLeader(){
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  if(!name || !phone) return alert("Isi semua data dulu ya beb 🙏");
+  
+  const code = "A" + String(leaders.length+1).padStart(3,"0");
+  const slug = name.toLowerCase().replace(/\s+/g,"-");
+  leaders.push({code,name,phone,slug});
+  localStorage.setItem("leaders",JSON.stringify(leaders));
+  render();
+  document.getElementById("name").value="";
+  document.getElementById("phone").value="";
+  alert(`Leader ${name} berhasil ditambah ✅`);
 }
+
+function downloadAll(){
+  alert("📦 Fitur download ZIP masih dalam pengembangan 😎");
+}
+
 render();
-  </script>
+</script>
 </body>
 </html>
