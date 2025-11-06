@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - 3iReborn</title>
+  <style>
+    body {font-family: Poppins, Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0;}
+    .container {max-width: 650px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);}
+    h1 {color: #0b3d91; text-align: center; margin-bottom: 20px;}
+    input, button {width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;}
+    button {cursor: pointer; font-weight: bold; transition: 0.2s ease;}
+    .btn-primary {background: #d4380d; color: #fff; border: none;}
+    .btn-primary:hover {background: #b32d0b;}
+    .btn-secondary {background: #0b3d91; color: #fff; border: none;}
+    .btn-secondary:hover {background: #082b6f;}
+    .leader-list {margin-top: 25px;}
+    .leader-item {background: #f7f7f7; padding: 12px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
+    .leader-item span {flex: 1; font-weight: 500;}
+    .leader-actions {display: flex; gap: 8px;}
+    .small-btn {font-size: 13px; padding: 6px 10px; border-radius: 5px;}
+    .lihat {background: #28a745; color: #fff;}
+    .lihat:hover {background: #1e7e34;}
+    .hapus {background: #dc3545; color: #fff;}
+    .hapus:hover {background: #b02a37;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin: Tambah Leader</h1>
+    <input type="text" id="name" placeholder="Nama Leader">
+    <input type="tel" id="phone" placeholder="No WA (628...)">
+    <button class="btn-primary" onclick="addLeader()">TAMBAH & BUAT LP</button>
+
+    <div class="leader-list" id="list"></div>
+
+    <button class="btn-secondary" onclick="downloadAll()">Download Semua LP (ZIP)</button>
+  </div>
+
+  <script>
+    let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+
+    function render() {
+      const list = document.getElementById('list');
+      if (leaders.length === 0) {
+        list.innerHTML = "<p style='text-align:center;color:#777'>Belum ada leader terdaftar.</p>";
+        return;
+      }
+      list.innerHTML = leaders.map((l, i) => `
+        <div class="leader-item">
+          <span>${l.name} <br><small style='color:#555'>${l.phone}</small></span>
+          <div class="leader-actions">
+            <button class="small-btn btn-secondary" onclick="createLP(${i})">📄 Buat LP</button>
+            <button class="small-btn lihat" onclick="lihatOnline('${l.slug}')">🚀 Lihat Online</button>
+            <button class="small-btn hapus" onclick="hapusLeader(${i})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addLeader() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if (!name || !phone) return alert('Isi semua data!');
+      const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const code = name.split(' ').map(w => w[0]).join('').toUpperCase() + ('00' + (leaders.length + 1)).slice(-3);
+      leaders.push({ name, phone, slug, code });
+      localStorage.setItem('leaders', JSON.stringify(leaders));
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+      render();
+      alert(`Leader ${name} berhasil ditambahkan!`);
+    }
+
+    function hapusLeader(i) {
+      if (!confirm(`Yakin mau hapus ${leaders[i].name}?`)) return;
+      leaders.splice(i, 1);
+      localStorage.setItem('leaders', JSON.stringify(leaders));
+      render();
+    }
+
+    function createLP(i) {
+      const l = leaders[i];
+      const html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>3iReborn - ${l.name}</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
+.hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}
+.cta{background:#d4380d;color:#fff;padding:12px 25px;border:none;border-radius:5px;cursor:pointer}
+.section{background:#fff;margin:20px auto;max-width:800px;padding:25px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+</style>
+</head>
+<body>
+<div class='hero'>
+  <h1>3iReborn Bersama ${l.name}</h1>
+  <p><strong>Proteksi + Investasi + Penghasilan Anti Rugi!</strong></p>
+  <button class='cta' onclick='document.querySelector("form").scrollIntoView({behavior:"smooth"})'>Daftar Sekarang</button>
+</div>
+<div class='section'>
+  <h2>Daftar ke WA ${l.name}</h2>
+  <form onsubmit='sendWA(event)'>
+    <input type='text' name='nama' placeholder='Nama Lengkap *' required style='width:100%;padding:10px;margin:8px 0'>
+    <input type='tel' name='hp' placeholder='No WA (628...) *' required style='width:100%;padding:10px;margin:8px 0'>
+    <select name='premi' required style='width:100%;padding:10px;margin:8px 0'>
+      <option value=''>Pilih Premi *</option>
+      <option>350.000</option>
+      <option>700.000</option>
+      <option>2.000.000</option>
+    </select>
+    <button type='submit' class='cta'>KIRIM KE WA ${l.name}</button>
+  </form>
+</div>
+<script>
+function sendWA(e){
+  e.preventDefault();
+  const f=new FormData(e.target);
+  let m='LEAD 3IREBORN%0A';
+  for(let [k,v] of f)m+=k.toUpperCase()+': '+v+'%0A';
+  m+='%0ALeader: ${l.name} (${l.code})';
+  location.href='https://wa.me/${l.phone}?text='+m;
+}
+<\/script>
+</body>
+</html>`;
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `lp-${l.slug}.html`;
+      a.click();
+    }
+
+    function lihatOnline(slug) {
+      const link = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
+      window.open(link, '_blank');
+    }
+
+    function downloadAll() {
+      alert('Fitur download ZIP masih dalam pengembangan 💡');
+    }
+
+    render();
+  </script>
+</body>
+</html>
