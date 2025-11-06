@@ -7,12 +7,19 @@
   <style>
     body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
     .container{max-width:600px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-    h1{color:#0b3d91;text-align:center}
-    input, button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
+    h1{color:#0b3d91;text-align:center;margin-bottom:15px}
+    input,button{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
     button{background:#d4380d;color:#fff;cursor:pointer;font-weight:bold;border:none}
     button:hover{background:#b32d0b}
     .leader-list{margin-top:20px}
-    .leader-item{background:#f0f0f0;padding:10px;margin:5px 0;border-radius:5px}
+    .leader-item{background:#f0f0f0;padding:10px;margin:5px 0;border-radius:5px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
+    .leader-item span{flex:1;font-size:15px}
+    .leader-btns{display:flex;gap:6px}
+    .leader-btns button{padding:6px 10px;font-size:13px;border-radius:5px;font-weight:600}
+    .btn-buat{background:#0b3d91}
+    .btn-buat:hover{background:#082b6f}
+    .btn-lihat{background:#28a745}
+    .btn-lihat:hover{background:#1e7e34}
   </style>
 </head>
 <body>
@@ -21,36 +28,101 @@
     <input type="text" id="name" placeholder="Nama Leader">
     <input type="tel" id="phone" placeholder="No WA (628...)">
     <button onclick="addLeader()">TAMBAH & BUAT LP</button>
+
     <div class="leader-list" id="list"></div>
+
     <button onclick="downloadAll()" style="margin-top:20px;background:#0b3d91">Download Semua LP (ZIP)</button>
   </div>
+
   <script>
     let leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+
     function render() {
       const list = document.getElementById('list');
       list.innerHTML = '';
       leaders.forEach((l, i) => {
         const div = document.createElement('div');
         div.className = 'leader-item';
-        div.innerHTML = `${l.name} - ${l.phone} <button onclick="createLP(${i})">Buat LP</button>`;
+        div.innerHTML = `
+          <span>${l.name} - ${l.phone}</span>
+          <div class="leader-btns">
+            <button class="btn-buat" onclick="createLP(${i})">📄 Buat LP</button>
+            <button class="btn-lihat" onclick="lihatOnline('${l.slug}')">🚀 Lihat Online</button>
+          </div>
+        `;
         list.appendChild(div);
       });
     }
+
     function addLeader() {
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
-      if (!name || !phone) return alert('Isi semua!');
-      const slug = name.toLowerCase().replace(/ /g, '-');
+      if (!name || !phone) return alert('Isi semua data!');
+      const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
       const code = name.split(' ').map(w => w[0]).join('').toUpperCase() + ('00' + (leaders.length + 1)).slice(-3);
       leaders.push({ name, phone, slug, code });
       localStorage.setItem('leaders', JSON.stringify(leaders));
       document.getElementById('name').value = '';
       document.getElementById('phone').value = '';
       render();
+      alert(`Leader ${name} berhasil ditambahkan!`);
     }
+
     function createLP(i) {
       const l = leaders[i];
-      const html = `<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>3iReborn - ${l.name}</title><style>body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}.hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}.hero h1{font-size:36px;margin:0 0 10px}.cta{background:#d4380d;color:#fff;padding:15px 30px;border:none;border-radius:5px;font-size:20px;cursor:pointer;margin:20px}.section{background:#fff;margin:20px auto;max-width:800px;padding:30px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}.section h2{text-align:center;color:#0b3d91}.form{text-align:center}.form input,.form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}</style></head><body><div class="hero"><h1>3iReborn: Bisnis Asuransi <span style="color:#d4380d">${l.name}</span></h1><p><strong>Proteksi + Investasi + Penghasilan Anti Gagal</strong></p><button class="cta" onclick="document.querySelector('form').scrollIntoView({behavior:'smooth'})">Daftar Sekarang!</button></div><div class="section"><h2>Daftar ke WA ${l.name}!</h2><form class="form" onsubmit="sendWA(event)"><input type="text" name="nama" placeholder="Nama Lengkap *" required><input type="tel" name="hp" placeholder="No WA (628xxxxxxxxx) *" required><select name="premi" required><option value="">Pilih Premi *</option><option value="350.000">Rp350.000</option><option value="700.000">Rp700.000</option><option value="2.000.000">Rp2.000.000</option></select><button type="submit" class="cta">KIRIM KE WA ${l.name}</button></form></div><script>function sendWA(e){e.preventDefault();const f=new FormData(e.target);let m="LEAD DARI LP 3IREBORN\\n\\n";for(let[k,v]of f)m+=k.toUpperCase()+": "+v+"\\n";m+="\\nLeader: ${l.name} (${l.code})";location.href="https://wa.me/${l.phone}?text="+encodeURIComponent(m);}</script></body></html>`;
+      const html = `
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3iReborn - ${l.name}</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
+    .hero{background:#0b3d91;color:#fff;text-align:center;padding:50px 20px}
+    .hero h1{font-size:30px;margin:0 0 10px}
+    .cta{background:#d4380d;color:#fff;padding:15px 30px;border:none;border-radius:5px;font-size:18px;cursor:pointer;margin:20px}
+    .section{background:#fff;margin:20px auto;max-width:800px;padding:30px;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    .section h2{text-align:center;color:#0b3d91}
+    .form{text-align:center}
+    .form input,.form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>3iReborn Bersama ${l.name}</h1>
+    <p><strong>Proteksi + Investasi + Penghasilan Anti Rugi!</strong></p>
+    <button class="cta" onclick="document.querySelector('form').scrollIntoView({behavior:'smooth'})">Daftar Sekarang</button>
+  </div>
+
+  <div class="section">
+    <h2>Daftar ke WA ${l.name}</h2>
+    <form class="form" onsubmit="sendWA(event)">
+      <input type="text" name="nama" placeholder="Nama Lengkap *" required>
+      <input type="tel" name="hp" placeholder="No WA (628xxxxxxxxx) *" required>
+      <select name="premi" required>
+        <option value="">Pilih Premi *</option>
+        <option value="350.000">Rp350.000</option>
+        <option value="700.000">Rp700.000</option>
+        <option value="2.000.000">Rp2.000.000</option>
+      </select>
+      <button type="submit" class="cta">KIRIM KE WA ${l.name}</button>
+    </form>
+  </div>
+
+  <script>
+    function sendWA(e){
+      e.preventDefault();
+      const f = new FormData(e.target);
+      let m = "LEAD DARI LP 3IREBORN\\n\\n";
+      for (let [k,v] of f) m += k.toUpperCase()+": "+v+"\\n";
+      m += "\\nLeader: ${l.name} (${l.code})";
+      location.href = "https://wa.me/${l.phone}?text=" + encodeURIComponent(m);
+    }
+  </script>
+</body>
+</html>`;
+
       const blob = new Blob([html], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -58,6 +130,18 @@
       a.download = `lp-${l.slug}.html`;
       a.click();
     }
+
+    // 🔗 Tombol "Lihat Online"
+    function lihatOnline(slug) {
+      const link = `https://3ireborn.github.io/pendaftaran-online/lp-${slug}.html`;
+      window.open(link, '_blank');
+    }
+
+    // Placeholder download ZIP
+    function downloadAll() {
+      alert('Fitur download ZIP masih dalam pengembangan 💡');
+    }
+
     render();
   </script>
 </body>
