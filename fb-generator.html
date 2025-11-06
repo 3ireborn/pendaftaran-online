@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Promo Builder – Soft Selling FB</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0b3d91;--accent:#d4380d;--muted:#6b7280;--bg:#f7f8fb;
+    --card:#ffffff;--ok:#25D366;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:'Poppins',sans-serif;color:#111827}
+  .wrap{max-width:900px;margin:24px auto;padding:16px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:22px}
+  h1{margin:0 0 6px;color:var(--primary);font-size:26px}
+  .sub{color:var(--muted);margin:0 0 18px}
+  label{font-weight:600;font-size:13px;margin:14px 0 6px;display:block}
+  input,select,textarea{width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-ghost{background:#eef2ff;color:var(--primary)}
+  .btn-copy{background:var(--ok);color:#fff}
+  .stack{display:flex;gap:10px;flex-wrap:wrap}
+  .out{white-space:pre-wrap;background:#0f172a10;border:1px dashed #cbd5e1;border-radius:14px;padding:14px}
+  .muted{color:var(--muted);font-size:12px}
+  .badge{display:inline-block;background:#fff3; color:#fff; padding:4px 10px;border-radius:999px;font-size:11px}
+  .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 6px}
+  .footer{margin-top:18px;color:var(--muted);font-size:12px}
+  @media (max-width:720px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>AI Promo Builder – Soft Selling Facebook</h1>
+      <p class="sub">Auto generate konten dengan struktur <b>Hook → Masalah → Solusi → Tagline → CTA</b> yang ramah algoritma FB.</p>
+
+      <div class="row">
+        <div>
+          <label>Tema/Topik Utama</label>
+          <input id="tema" placeholder="Mis: Proteksi + Investasi Syariah + Income Tambahan"/>
+
+          <label>Target Audiens</label>
+          <input id="target" placeholder="Mis: Usia 25–45, pekerja kantoran, pasangan muda"/>
+
+          <label>Nama Leader/Brand</label>
+          <input id="leader" placeholder="Mis: Sugiarto Kurniawan / 3iReborn"/>
+        </div>
+        <div>
+          <label>Penawaran/CTA</label>
+          <input id="cta" placeholder="Mis: Ikut Zoom Gratis jam 19:00 WIB, ketik 'Mau' di komentar"/>
+
+          <label>Gaya Tulisan</label>
+          <select id="tone">
+            <option value="story">Story (cerita personal)</option>
+            <option value="edukasi">Edukasi (tips & insight)</option>
+            <option value="motivasi">Motivasi (dorong aksi)</option>
+          </select>
+
+          <label>Panjang Konten</label>
+          <select id="length">
+            <option value="short">Pendek</option>
+            <option value="medium" selected>Sedang</option>
+            <option value="long">Panjang</option>
+          </select>
+
+          <label>Opsi</label>
+          <div class="stack">
+            <label class="muted"><input type="checkbox" id="emoji" checked/> Tambah emoji secukupnya</label>
+            <label class="muted"><input type="checkbox" id="hashtag" checked/> Hashtag ringan</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack" style="margin-top:14px">
+        <button class="btn btn-primary" onclick="generate()">🚀 Generate Konten</button>
+        <button class="btn btn-ghost" onclick="randomFill()">🎲 Isi Contoh</button>
+        <button class="btn btn-copy" onclick="copyOut()">📋 Copy</button>
+      </div>
+
+      <div class="bar">
+        <h3 style="margin:14px 0 0">Hasil Konten</h3>
+        <span class="muted">Optimized for FB: no hard-sell, ada pertanyaan & call to comment</span>
+      </div>
+      <div id="out" class="out"></div>
+
+      <div class="footer">
+        Tips FB-friendly: hindari kata spam (GRATIS!!!, CEPAT DAFTAR SEKARANG, PROMO TERBATAS BANGET), gunakan 1–3 emoji, ajak audiens menjawab pertanyaan, dan simpan link di komentar pertama bila perlu.
+      </div>
+    </div>
+  </div>
+
+<script>
+const EMO = {
+  hook:['🤔','😅','😮','💡','🔥','🧠'],
+  prob:['😔','💸','⛔','⌛','📉'],
+  sol:['✅','🛡️','📈','✨','🔒'],
+  tag:['🌱','🤝','🎯','⭐','👍'],
+  cta:['👉','📩','🕒','🎟️','🔗']
+};
+
+const VARIANTS = {
+  story: {
+    hook:[
+      "Pernah nggak sih kamu ngerasa {frust} udah kerja keras, tapi tabungan tetap segitu-gitu aja {emo}?",
+      "Jujur, dulu aku juga mikir: ‘Gajian naik, kok tetep was-was kalau ada hal tak terduga?’ {emo}",
+      "Kalau tiba-tiba biaya tak terduga datang, tabungan kamu aman nggak? {emo}"
+    ],
+    problem:[
+      "Banyak orang {usia} ke atas rajin nabung, tapi tanpa sistem perlindungan, sekali sakit/PHK bisa makan hasil kerja berbulan-bulan {emo}.",
+      "Masalahnya bukan cuma ‘kurang penghasilan’, tapi uangnya {bocor} karena nggak ada proteksi dan rencana yang rapih {emo}.",
+    ],
+    solution:[
+      "Makanya aku pilih konsep {brand}: proteksi syariah + investasi + peluang income—biar uang punya ‘helm & sabuk pengaman’ {emo}.",
+      "Dengan {brand}, kita nggak disuruh jualan keras; cukup paham konsepnya, manfaatkan sistemnya, dan biarkan hasilnya bekerja {emo}."
+    ],
+    tag:[
+      "Bahkan member baru pun bisa mulai kecil dulu, yang penting konsisten {emo}.",
+      "Intinya: rencana finansial sederhana > penyesalan mahal {emo}."
+    ]
+  },
+  edukasi: {
+    hook:[
+      "Fakta cepat: tujuan finansial kalah bukan karena pendapatan kecil, tapi karena {tanpa-sistem} {emo}.",
+      "Cek realita: punya asuransi + investasi = fondasi, bukan opsi {emo}."
+    ],
+    problem:[
+      "Usia {usia} biasanya sudah punya tanggungan. Tanpa proteksi, satu kejadian bisa menggerus dana darurat {emo}.",
+      "Nabung doang tanpa strategi = rentan kehabisan saat krisis {emo}."
+    ],
+    solution:[
+      "{brand} menawarkan kombinasi: proteksi syariah, akumulasi dana, dan potensi income. Satu pintu, tiga fungsi {emo}.",
+      "Skema kontribusi fleksibel—pilih sesuai kemampuan, yang penting mulai {emo}."
+    ],
+    tag:[
+      "Keamanan finansial itu bukan seberapa besar gaji, tapi seberapa tepat sistemnya {emo}.",
+      "Mulai dari kecil, upgrade bertahap, nikmati tenangnya {emo}."
+    ]
+  },
+  motivasi: {
+    hook:[
+      "Yang bikin tenang itu bukan gaji besar, tapi sistem yang jaga kamu saat hal tak terduga datang {emo}.",
+      "Kalau bukan sekarang, kapan lagi nyiapin ‘payung’ sebelum hujan {emo}?"
+    ],
+    problem:[
+      "Tanpa proteksi, target finansial gampang mental saat ujian datang {emo}.",
+      "Banyak yang niatnya kuat, tapi kalah sama sistem yang nggak siap {emo}."
+    ],
+    solution:[
+      "Mulai dari {brand}: proteksi syariah + investasi + peluang income—ringkas & relevan buat {usia} {emo}.",
+      "Nggak perlu ribet. Ada panduan, komunitas, dan jadwal edukasi rutin {emo}."
+    ],
+    tag:[
+      "Tenangin pikiran, kuatkan fondasi, baru ngegas ke mimpi {emo}.",
+      "Kecil tapi konsisten > besar tapi sebentar {emo}."
+    ]
+  }
+};
+
+// util kecil
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function maybeEmoji(type,enabled){ return enabled ? " "+pick(EMO[type]) : ""; }
+function sanitize(s){ return s.replace(/\s+/g,' ').trim(); }
+
+function genParagraphs({tema,target,leader,cta,tone,length,useEmoji,useHashtag}){
+  const brand = leader || "3iReborn";
+  const usia = (target.match(/\d{2}\s*[\-–]\s*\d{2}/) || ["25–45"])[0];
+
+  const bank = VARIANTS[tone];
+
+  const lenMap = {short:1, medium:2, long:3};
+  const mult = lenMap[length] || 2;
+
+  const hook = pick(bank.hook)
+    .replace("{frust}","bingung")
+    .replace("{tanpa-sistem}","uangnya jalan tanpa sistem")
+    .replace("{emo}", maybeEmoji("hook",useEmoji));
+
+  const problems = [];
+  for(let i=0;i<mult;i++){
+    problems.push(
+      pick(bank.problem)
+        .replace("{usia}", usia)
+        .replace("{bocor}","bocor kanan-kiri")
+        .replace("{emo}", maybeEmoji("prob",useEmoji))
+    );
+  }
+
+  const solutions = [];
+  for(let i=0;i<mult;i++){
+    solutions.push(
+      pick(bank.solution)
+        .replace("{brand}", brand)
+        .replace("{usia}", usia)
+        .replace("{emo}", maybeEmoji("sol",useEmoji))
+    );
+  }
+
+  const tags = [];
+  tags.push(
+    pick(bank.tag).replace("{emo}", maybeEmoji("tag",useEmoji)),
+    pick(bank.tag).replace("{emo}", maybeEmoji("tag",useEmoji))
+  );
+
+  // CTA ramah FB (hindari kata spammy)
+  const ctas = [
+    `Penasaran gimana caranya jalan bijak tanpa rasa ‘dipaksa jualan’? Tulis kata “Mau” di komentar ya${maybeEmoji("cta",useEmoji)}`,
+    `Ada sesi edukasi santai bareng ${brand}. Mau link jadwalnya? Komentar “Jadwal” ya${maybeEmoji("cta",useEmoji)}`
+  ];
+  const ctaLine = (cta && cta.trim().length>0)
+    ? sanitize(cta)+maybeEmoji("cta",useEmoji)
+    : pick(ctas);
+
+  // Hashtag ringan, 2–3 saja (tidak spam)
+  const hashtags = useHashtag
+    ? "\n\n#PerencanaanKeuangan #ProteksiSyariah #3iReborn"
+    : "";
+
+  const template = [
+    ` ${hook}`,
+    ``,
+    ` ${problems.join(" ")}`,
+    ``,
+    ` ${solutions.join(" ")}`,
+    ``,
+    ` ${tags.join(" ")}`,
+    ``,
+    ` ${ctaLine}${hashtags}`
+  ].join("\n");
+
+  // Sisipkan tema bila ada
+  return template.replaceAll("{tema}", tema || "proteksi + investasi + income");
+}
+
+function generate(){
+  const tema = document.getElementById('tema').value;
+  const target = document.getElementById('target').value || "usia 25–45";
+  const leader = document.getElementById('leader').value || "3iReborn";
+  const cta = document.getElementById('cta').value;
+  const tone = document.getElementById('tone').value;
+  const length = document.getElementById('length').value;
+  const useEmoji = document.getElementById('emoji').checked;
+  const useHashtag = document.getElementById('hashtag').checked;
+
+  const txt = genParagraphs({tema,target,leader,cta,tone,length,useEmoji,useHashtag});
+  document.getElementById('out').textContent = txt.trim();
+}
+
+function copyOut(){
+  const el = document.getElementById('out');
+  if(!el.textContent.trim()){ alert("Generate dulu kontennya ya 😊"); return; }
+  navigator.clipboard.writeText(el.textContent.trim());
+  alert("✅ Konten tersalin. Siap tempel di Facebook!");
+}
+
+function randomFill(){
+  const samples = [
+    {tema:"Proteksi + Investasi Syariah + Income Tambahan", target:"Usia 25–45, pasangan muda, karyawan", leader:"3iReborn", cta:"Ikut Zoom edukasi gratis jam 19:00 WIB, komentar 'Mau' untuk link"},
+    {tema:"Bisnis anti rugi anti bangkrut", target:"Orang tua muda & pejuang nafkah", leader:"3iReborn", cta:"Tertarik versi penjelasan singkatnya? Tulis 'Ringkas' di komentar"},
+    {tema:"ID Card Online + kontribusi fleksibel", target:"Fresh graduate & pekerja remote", leader:"3iReborn", cta:"Mau simulasi kontribusinya? Tulis 'Simulasi' di komentar"}
+  ];
+  const s = samples[Math.floor(Math.random()*samples.length)];
+  document.getElementById('tema').value = s.tema;
+  document.getElementById('target').value = s.target;
+  document.getElementById('leader').value = s.leader;
+  document.getElementById('cta').value = s.cta;
+
+  // random tone/length
+  const toneSel = document.getElementById('tone');
+  const lengthSel = document.getElementById('length');
+  toneSel.selectedIndex = Math.floor(Math.random()*toneSel.options.length);
+  lengthSel.selectedIndex = Math.floor(Math.random()*lengthSel.options.length);
+  generate();
+}
+
+// auto isi contoh pertama kali
+window.addEventListener('load', randomFill);
+</script>
+</body>
+            </html>
