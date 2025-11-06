@@ -1,0 +1,49 @@
+function createLP(i) {
+  const l = leaders[i];
+  const html = `
+<!DOCTYPE html>
+<html lang='id'><head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>3iReborn - ${l.name}</title>
+<style>
+body{font-family:Poppins,sans-serif;background:#f4f6f8;margin:0;padding:0;text-align:center;color:#0b3d91}
+.hero{background:linear-gradient(135deg,#0b3d91,#d4380d);color:#fff;padding:60px 20px;border-radius:0 0 30px 30px;}
+.hero h1{font-size:28px;margin-bottom:10px}
+button{background:#25d366;color:#fff;padding:14px 25px;border:none;border-radius:50px;font-weight:700;font-size:16px;margin-top:20px;cursor:pointer}
+button:hover{background:#1ebe57}
+form{max-width:400px;margin:30px auto;padding:20px;background:#fff;border-radius:15px;box-shadow:0 6px 16px rgba(0,0,0,.1)}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+</style></head><body>
+<div class='hero'>
+<h1>3iReborn Bersama ${l.name}</h1>
+<p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+</div>
+<form onsubmit='sendWA(event)'>
+<h2>Daftar Sekarang!</h2>
+<input name='nama' placeholder='Nama Lengkap *' required>
+<input name='hp' placeholder='No WA (628...) *' required>
+<select name='premi' required>
+<option value=''>Pilih Premi *</option>
+<option>350.000</option>
+<option>700.000</option>
+<option>2.000.000</option>
+</select>
+<button type='submit'>KIRIM KE WA ${l.name}</button>
+</form>
+<script>
+function sendWA(e){
+e.preventDefault();
+const f=new FormData(e.target);
+let msg='LEAD BARU 3iReborn%0A%0A';
+for(let[k,v]of f)msg+=k.toUpperCase()+': '+v+'%0A';
+msg+='%0ALeader: ${l.code} - ${l.name}';
+location.href='https://wa.me/${l.phone}?text='+msg;}
+</script></body></html>`;
+  
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lp-${l.slug}.html`;
+  a.click();
+}
