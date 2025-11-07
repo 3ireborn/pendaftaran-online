@@ -1,179 +1,362 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pendaftaran Online 3iReborn</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f0f4f8;margin:0;padding:15px;scroll-behavior:smooth}
-    .container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-    h1{text-align:center;color:#0b3d91;font-size:22px;margin-bottom:10px}
-    h2{font-size:18px;color:#d4380d;margin:20px 0 10px;border-bottom:2px solid #eee;padding-bottom:5px}
-    label{display:block;margin:8px 0 4px;font-weight:bold;color:#333}
-    input, select, textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:14px}
-    .row{display:flex;gap:10px}
-    .col{flex:1}
-    .checkbox{margin:15px 0}
-    .submit-btn{background:#0b3d91;color:#fff;padding:14px;border:none;border-radius:8px;font-size:16px;cursor:pointer;width:100%;margin-top:20px;font-weight:bold}
-    .submit-btn:hover{background:#09307a}
-    .info{background:#e6f7ff;padding:12px;border-radius:8px;margin:15px 0;font-size:14px}
-    .highlight{color:#d4380d;font-weight:bold}
-    .leader-info{background:#e8f5e8;padding:12px;border-radius:6px;margin:10px 0;font-weight:bold;color:#0b3d91;border-left:4px solid #28a745}
-    @media (max-width:600px){.row{flex-direction:column}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pendaftaran Online 3iReborn — NPA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--primary:#0b3d91;--accent:#d4380d;--ink:#0f172a;--muted:#64748b;--bg:#f5f7fb;--card:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',sans-serif}
+  .wrap{max-width:980px;margin:18px auto;padding:16px}
+  .hero{background:linear-gradient(120deg,var(--primary),#143fbd);color:#fff;border-radius:18px;padding:20px}
+  .hero h1{margin:0 0 4px;font-size:20px}
+  .hero p{margin:0;font-size:13px;opacity:.95}
+  .leader-lock{margin-top:10px;background:#0b3d9122;border:1px dashed #ffffff80;color:#fff;padding:10px;border-radius:10px;font-size:13px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 8px 24px rgba(8,25,60,.08);padding:16px;margin-top:14px}
+  h2{font-size:16px;margin:0 0 8px;color:var(--primary)}
+  label{display:block;font-weight:600;font-size:13px;margin:10px 0 6px}
+  input,select,textarea{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .hint{color:var(--muted);font-size:12px;margin-top:6px}
+  .alert{background:#fff4e6;border:1px solid #ffd8a8;color:#9a5b00;padding:10px;border-radius:10px;font-size:13px}
+  .ok{background:#e8f7ee;border:1px solid #b7f0cd;color:#0f7b3f}
+  .submit{background:var(--primary);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;width:100%;margin-top:14px}
+  .submit:hover{filter:brightness(.95)}
+  .req{color:#ef4444}
+  .divider{height:1px;background:#f0f2f6;margin:12px 0}
+  @media (max-width:720px){.row,.row-3{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>PENDAFTARAN ONLINE 3IREBORN</h1>
-    <p style="text-align:center"><strong>PROGRAM ISTIKMAL SYARIAH</strong></p>
+<div class="wrap">
 
-    <div class="info">
-      <p>Sebesar <span class="highlight">Disesuaikan dengan Kemampuan</span></p>
-      <p><strong>Rinciannya:</strong><br>
-      • Rp.50.000 untuk <strong>ID CARD ONLINE</strong><br>
-      <strong>KONTRIBUSI PREMI:</strong><br>
-      350.000 | 500.000 | 700.000 | 1.000.000 | 2.000.000<br>
-      <em>(Disesuaikan dengan Kemampuan)</em></p>
-    </div>
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Pendaftaran Online 3iReborn — Program Istikmal Syariah</h1>
+    <p>Proteksi • Investasi • Penghasilan — bersama Nganggur Preneur Akademi</p>
+    <div id="leaderBanner" class="leader-lock" style="display:none"></div>
+  </div>
 
-    <!-- Leader Info -->
-    <div id="leaderInfo" class="leader-info" style="display:none"></div>
-
-    <form id="regForm">
-      <h2>Data Pribadi</h2>
-      <label>Kode ID Sponsor: <input type="text" name="sponsor" placeholder="kosongkan dulu"></label>
-
-      <!-- Dropdown Leader -->
-      <div id="leaderSelectWrapper">
-        <label>Kode ID Leader: 
-          <select name="leader" id="leaderSelect">
-            <option value="">Pilih Leader</option>
-          </select>
-        </label>
-      </div>
-
-      <label>Kontribusi Premi (Rp): <span style="color:red">*</span></label>
-      <select name="premi" required>
-        <option value="">Pilih Premi</option>
-        <option value="350.000">350.000</option>
-        <option value="500.000">500.000</option>
-        <option value="700.000">700.000</option>
-        <option value="1.000.000">1.000.000</option>
-        <option value="2.000.000">2.000.000</option>
-      </select>
-
-      <label>Nama Lengkap: <span style="color:red">*</span></label>
-      <input type="text" name="nama" required>
-
-      <label>No HP (WA): <span style="color:red">*</span></label>
-      <input type="tel" name="hp" required placeholder="628123456789">
-
-      <label>Alamat:</label>
-      <input type="text" name="alamat" placeholder="Jalan / Gang">
-
-      <label>Tempat & Tgl Lahir:</label>
-      <div class="row">
-        <div class="col"><input type="text" name="tempat_lahir" placeholder="Tempat"></div>
-        <div class="col"><input type="date" name="tgl_lahir"></div>
-      </div>
-
-      <label>Jenis Kelamin:</label>
-      <select name="jk">
-        <option value="">Pilih</option>
-        <option>Laki-laki</option>
-        <option>Perempuan</option>
-      </select>
-
-      <button type="submit" class="submit-btn">KIRIM KE WA LEADER</button>
-    </form>
-
-    <div class="info" style="margin-top:20px">
-      <p><strong>Info Program 3iNetworks:</strong> <a href="https://bit.ly/NabungUntungTerus" target="_blank">Bit.ly/NabungUntungTerus</a></p>
-      <p><strong>Seminar GRATIS via ZOOM:</strong><br>
-      Senin, Rabu, Jumat → 19:00 WIB<br>
-      Rabu (minggu 2 & 4) → 14:00 WIB<br>
-      <a href="https://bit.ly/Zoom3ireborn" target="_blank">Klik di sini untuk ikut Zoom</a></p>
-      <p style="text-align:center"><em>Salam,<br><strong>NP ACADEMY</strong><br><em>KitaNgangguR Punya Penghasilan</em><br><strong>Sugiarto Kurniawan</strong></em></p>
+  <!-- INFO PREMI -->
+  <div class="card">
+    <div class="alert ok">
+      <b>Informasi Premis & Admin</b><br>
+      Kontribusi premi (pilih salah satu): 350.000 • 500.000 • 700.000 • 1.000.000 • 2.000.000 / bulan.<br>
+      Admin ID Online: Rp50.000 (sekali bayar).
     </div>
   </div>
 
-  <script>
-    // === DATA LEADER ===
-    const leaders = [
-      { code: "SK001", name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto" },
-      { code: "AM002", name: "Agnes Marsilah", phone: "6285932684440", slug: "agnes" },
-      { code: "SW003", name: "Suwarti", phone: "62881011823140", slug: "suwarti" },
-      { code: "IY004", name: "Iyang", phone: "6281388675615", slug: "iyang" },
-      { code: "QN005", name: "Queen", phone: "6282199558169", slug: "queen" },
-      { code: "RH006", name: "Rahmawan", phone: "6281327498929", slug: "rahmawan" },
-      { code: "RG007", name: "Regina", phone: "6281285949074", slug: "regina" },
-      { code: "TS008", name: "Tasya", phone: "966563414575", slug: "tasya" },
-      { code: "DW009", name: "Divawati", phone: "6586210326", slug: "divawati" },
-      { code: "TH010", name: "Tohir", phone: "6281236544821", slug: "tohir" },
-      { code: "AP011", name: "Alpiano", phone: "6282252161911", slug: "alpiano" },
-      { code: "DN012", name: "Dina", phone: "6281236781273", slug: "dina" }
-    ];
+  <!-- FORM -->
+  <form id="regForm" class="card">
+    <!-- SPONSOR / LEADER -->
+    <h2>Referensi & Leader</h2>
+    <label>Kode ID Sponsor (opsional)</label>
+    <input type="text" name="sponsor" placeholder="Contoh: SK001">
 
-    let finalLeader = null;
+    <div id="leaderSelectWrap" style="display:none">
+      <label>Pilih Leader <span class="req">*</span></label>
+      <select id="leaderSelect">
+        <option value="">-- Pilih Leader --</option>
+      </select>
+      <div class="hint">Jika Anda masuk dari link leader, bagian ini tersembunyi & terkunci otomatis.</div>
+    </div>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(location.search);
-      const urlSlug = params.get('leader');
-      const selectWrapper = document.getElementById('leaderSelectWrapper');
-      const leaderInfo = document.getElementById('leaderInfo');
-      const select = document.getElementById('leaderSelect');
+    <div id="lockInfo" class="alert ok" style="display:none"></div>
+    <div id="warnInfo" class="alert" style="display:none"></div>
 
-      // Jika ada leader di URL
-      if (urlSlug) {
-        const leader = leaders.find(l => l.slug === urlSlug);
-        if (leader) {
-          selectWrapper.style.display = 'none';
-          leaderInfo.innerHTML = `
-            Bisnis ini dipresentasikan oleh <strong>${leader.code} ${leader.name}</strong>
-          `;
-          leaderInfo.style.display = 'block';
-          finalLeader = leader;
+    <div class="divider"></div>
 
-          // Auto-scroll ke form agar langsung terlihat
-          setTimeout(() => {
-            document.getElementById('regForm').scrollIntoView({ behavior: 'smooth' });
-          }, 700);
-          return;
-        }
+    <!-- HANYA 3 WAJIB -->
+    <h2>Pilihan Premi & Kontak Utama</h2>
+    <label>Kontribusi Premi <span class="req">*</span></label>
+    <select name="premi" required>
+      <option value="">-- Pilih Premi --</option>
+      <option>350.000</option><option>500.000</option><option>700.000</option>
+      <option>1.000.000</option><option>2.000.000</option>
+    </select>
+
+    <label>Nama Lengkap <span class="req">*</span></label>
+    <input type="text" name="nama" required>
+
+    <label>No HP (WhatsApp) <span class="req">*</span></label>
+    <input type="tel" name="hp" placeholder="628xxxxxxxxxx" required>
+
+    <div class="divider"></div>
+
+    <!-- DATA DIRI -->
+    <h2>Data Diri</h2>
+    <label>Alamat Jalan / Gang</label>
+    <input type="text" name="alamat">
+    <div class="row-3">
+      <div><label>RT</label><input type="text" name="rt"></div>
+      <div><label>RW</label><input type="text" name="rw"></div>
+      <div><label>Kode Pos</label><input type="text" name="kodepos"></div>
+    </div>
+    <div class="row">
+      <div><label>Kelurahan</label><input type="text" name="kelurahan"></div>
+      <div><label>Kecamatan</label><input type="text" name="kecamatan"></div>
+    </div>
+    <label>Kota/Kabupaten</label>
+    <input type="text" name="kota">
+
+    <div class="row">
+      <div>
+        <label>Tempat Lahir</label>
+        <input type="text" name="tempat_lahir">
+      </div>
+      <div>
+        <label>Tanggal Lahir</label>
+        <input type="date" name="tgl_lahir">
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Agama</label>
+        <select name="agama">
+          <option value="">-- Pilih --</option>
+          <option>Islam</option><option>Kristen</option><option>Katolik</option>
+          <option>Hindu</option><option>Budha</option><option>Lainnya</option>
+        </select>
+      </div>
+      <div>
+        <label>Jenis Kelamin</label>
+        <select name="jk">
+          <option value="">-- Pilih --</option>
+          <option>Laki-laki</option><option>Perempuan</option>
+        </select>
+      </div>
+    </div>
+
+    <label>No Identitas (KTP)</label>
+    <input type="text" name="no_ktp">
+
+    <div class="row">
+      <div><label>Tinggi Badan (cm)</label><input type="number" name="tinggi" min="0"></div>
+      <div><label>Berat Badan (kg)</label><input type="number" name="berat" min="0"></div>
+    </div>
+
+    <label>Pekerjaan / Jabatan</label>
+    <input type="text" name="pekerjaan">
+
+    <label>Penghasilan per Tahun (estimasi)</label>
+    <input type="text" name="penghasilan" placeholder="Contoh: 50 juta">
+
+    <label>Nama Ibu Kandung</label>
+    <input type="text" name="ibu">
+
+    <div class="divider"></div>
+
+    <!-- BANK -->
+    <h2>Data Bank</h2>
+    <label>Nama Bank</label><input type="text" name="bank">
+    <label>No Rekening</label><input type="text" name="norek">
+    <label>Nama di Rekening</label><input type="text" name="nama_rek">
+
+    <div class="divider"></div>
+
+    <!-- PAJAK -->
+    <h2>Data Pajak</h2>
+    <label>No NPWP</label><input type="text" name="npwp">
+    <div class="row">
+      <div>
+        <label>Status Pajak</label>
+        <select name="status_pajak">
+          <option value="">-- Pilih --</option>
+          <option>Kawin</option><option>Tidak Kawin</option>
+        </select>
+      </div>
+      <div>
+        <label>Jumlah Tanggungan</label>
+        <input type="number" name="tanggungan" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- AHLI WARIS BISNIS -->
+    <h2>Ahli Waris (Bisnis)</h2>
+    <label>Nama</label><input type="text" name="waris_bisnis_nama">
+    <div class="row">
+      <div><label>Tgl Lahir</label><input type="date" name="waris_bisnis_tgl"></div>
+      <div>
+        <label>Jenis Kelamin</label>
+        <select name="waris_bisnis_jk">
+          <option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option>
+        </select>
+      </div>
+    </div>
+    <label>Hubungan</label><input type="text" name="waris_bisnis_hub">
+
+    <div class="divider"></div>
+
+    <!-- AHLI WARIS MANFAAT -->
+    <h2>Ahli Waris (Manfaat)</h2>
+    <label>Nama</label><input type="text" name="waris_manfaat_nama">
+    <div class="row">
+      <div><label>Tgl Lahir</label><input type="date" name="waris_manfaat_tgl"></div>
+      <div>
+        <label>Jenis Kelamin</label>
+        <select name="waris_manfaat_jk">
+          <option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option>
+        </select>
+      </div>
+    </div>
+    <label>Hubungan</label><input type="text" name="waris_manfaat_hub">
+
+    <div class="divider"></div>
+
+    <!-- TERTANGGUNG BERBEDA -->
+    <label><input type="checkbox" id="tertanggungLain"> Jika Tertanggung <b>berbeda</b> dengan Pemegang Polis</label>
+    <div id="dataTambahan" class="card" style="display:none;padding:12px">
+      <h2>Data Tertanggung</h2>
+      <label>Nama</label><input type="text" name="ttd_nama">
+      <div class="row">
+        <div><label>Tempat Lahir</label><input type="text" name="ttd_tempat"></div>
+        <div><label>Tanggal Lahir</label><input type="date" name="ttd_tgl"></div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Agama</label>
+          <select name="ttd_agama">
+            <option value="">-- Pilih --</option>
+            <option>Islam</option><option>Kristen</option><option>Katolik</option>
+            <option>Hindu</option><option>Budha</option><option>Lainnya</option>
+          </select>
+        </div>
+        <div>
+          <label>Jenis Kelamin</label>
+          <select name="ttd_jk">
+            <option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option>
+          </select>
+        </div>
+      </div>
+      <label>No Identitas (KTP)</label><input type="text" name="ttd_ktp">
+      <div class="row">
+        <div><label>Tinggi (cm)</label><input type="number" name="ttd_tinggi" min="0"></div>
+        <div><label>Berat (kg)</label><input type="number" name="ttd_berat" min="0"></div>
+      </div>
+      <label>Hubungan dengan Pemegang Polis</label><input type="text" name="ttd_hub">
+    </div>
+
+    <button class="submit" type="submit">KIRIM KE WA LEADER</button>
+    <div class="hint">Dengan menekan tombol ini, data Anda akan dibuka di WhatsApp untuk dikirim ke Leader.</div>
+  </form>
+
+  <div class="card" style="margin-top:12px">
+    <div class="hint">Info Zoom 3iLC: Senin, Rabu, Jumat pukul 19:00 WIB (Rabu minggu ke-2 & ke-4 pukul 14:00 WIB).</div>
+  </div>
+
+  <div style="text-align:center;color:#94a3b8;margin:20px 0 30px">Salam Nganggur Warbiasyahhh 💪🔥🚀 — Sugiarto Kurniawan</div>
+</div>
+
+<script>
+  // Ambil leaders dari localStorage (hasil admin.html)
+  let leaders = [];
+  try {
+    leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+    if (!Array.isArray(leaders)) leaders = [];
+  } catch(e){ leaders = []; }
+
+  // Ambil slug dari URL
+  const params = new URLSearchParams(location.search);
+  const urlSlug = (params.get('leader') || '').toLowerCase();
+
+  // Elemen
+  const leaderBanner = document.getElementById('leaderBanner');
+  const lockInfo = document.getElementById('lockInfo');
+  const warnInfo = document.getElementById('warnInfo');
+  const leaderSelectWrap = document.getElementById('leaderSelectWrap');
+  const leaderSelect = document.getElementById('leaderSelect');
+  const regForm = document.getElementById('regForm');
+  const tertanggungLain = document.getElementById('tertanggungLain');
+  const dataTambahan = document.getElementById('dataTambahan');
+
+  let finalLeader = null;
+
+  // Toggle data tertanggung
+  tertanggungLain.addEventListener('change', () => {
+    dataTambahan.style.display = tertanggungLain.checked ? 'block' : 'none';
+  });
+
+  // Setup leader
+  function setupLeader(){
+    // Jika datang dari link ?leader=...
+    if (urlSlug) {
+      finalLeader = leaders.find(l => (l.slug||"").toLowerCase() === urlSlug);
+      if (finalLeader) {
+        // Tampilkan banner & kunci
+        leaderBanner.style.display = 'block';
+        leaderBanner.innerHTML = `Bisnis ini dipresentasikan oleh <b>${finalLeader.code}</b> — <b>${finalLeader.name}</b>. Data dikirim ke WA: <b>${finalLeader.phone}</b>`;
+        lockInfo.style.display = 'block';
+        lockInfo.innerHTML = `Form terkunci untuk Leader: <b>${finalLeader.code} - ${finalLeader.name}</b>`;
+        leaderSelectWrap.style.display = 'none';
+        return;
+      } else {
+        warnInfo.style.display = 'block';
+        warnInfo.innerHTML = `Leader dengan slug "<b>${urlSlug}</b>" belum terdaftar di perangkat ini. Pilih leader secara manual di bawah atau hubungi admin.`;
+        leaderSelectWrap.style.display = 'block';
       }
+    } else {
+      // Tidak ada slug → harus pilih manual
+      leaderSelectWrap.style.display = 'block';
+    }
 
-      // Jika tanpa ?leader= tampilkan dropdown
-      leaders.forEach(l => {
-        const opt = document.createElement('option');
-        opt.value = l.code;
-        opt.textContent = `${l.code} - ${l.name}`;
-        select.appendChild(opt);
-      });
-
-      // Scroll ke form juga, biar user langsung lihat
-      setTimeout(() => {
-        document.getElementById('regForm').scrollIntoView({ behavior: 'smooth' });
-      }, 700);
+    // Populate dropdown jika dibutuhkan
+    leaderSelect.innerHTML = '<option value="">-- Pilih Leader --</option>';
+    leaders.forEach(l => {
+      const opt = document.createElement('option');
+      opt.value = l.code;
+      opt.textContent = `${l.code} — ${l.name}`;
+      leaderSelect.appendChild(opt);
     });
+  }
 
-    // Kirim ke WA Leader
-    document.getElementById('regForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const data = new FormData(this);
-      let leader = finalLeader || leaders.find(l => l.code === data.get('leader'));
-      if (!leader) return alert('Pilih Leader terlebih dahulu!');
+  setupLeader();
 
-      let msg = "PENDAFTARAN 3IREBORN\n\n";
-      for (let [key, val] of data.entries()) {
-        if (val) {
-          let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          msg += `${label}: ${val}\n`;
-        }
+  // Submit → kirim ke WA leader
+  regForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    // Tentukan leader final
+    if (!finalLeader) {
+      const code = leaderSelect.value;
+      if (!code) {
+        alert('Pilih leader terlebih dahulu atau akses melalui link leader.');
+        return;
       }
-      msg += "\n---\nKirim bukti transfer & KTP ke Sponsor Anda.";
+      finalLeader = leaders.find(l => l.code === code);
+      if (!finalLeader) {
+        alert('Leader tidak valid. Hubungi admin.');
+        return;
+      }
+    }
 
-      window.location.href = `https://wa.me/${leader.phone}?text=${encodeURIComponent(msg)}`;
-    });
-  </script>
+    // Validasi HP
+    const hp = (new FormData(regForm).get('hp') || '').trim();
+    if (!/^62\d{7,15}$/.test(hp)) {
+      if(!confirm('Nomor WA sebaiknya format 628xxxxxxxx. Lanjutkan tetap?')) return;
+    }
+
+    // Susun pesan
+    const data = new FormData(this);
+    let msg = "PENDAFTARAN 3iReborn (NPA)%0A%0A";
+    for (let [k,v] of data.entries()){
+      if (!v) continue;
+      const label = k.replace(/_/g,' ').replace(/\b\w/g, s=>s.toUpperCase());
+      msg += `${label}: ${encodeURIComponent(v)}%0A`;
+    }
+    if (tertanggungLain.checked) msg += "%0A*TERTANGGUNG BERBEDA DENGAN PP*%0A";
+    msg += `%0A---%0AReferensi Leader: ${encodeURIComponent(finalLeader.code + " - " + finalLeader.name)}`;
+
+    // Kirim ke WA leader
+    const wa = finalLeader.phone.replace(/\D/g,'');
+    const url = `https://wa.me/${wa}?text=${msg}`;
+    window.location.href = url;
+  });
+</script>
 </body>
-</html>
+  </html>
