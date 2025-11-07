@@ -1,164 +1,112 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Facebook Generator v2.2 — NPA x 3iReborn</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-body{font-family:'Poppins',sans-serif;background:#f9fafb;margin:0;padding:25px;color:#1e293b}
-.container{max-width:720px;margin:auto;background:#fff;border-radius:20px;padding:25px;box-shadow:0 8px 25px rgba(0,0,0,0.08);}
-h1{text-align:center;font-size:24px;color:#0b3d91;margin-bottom:8px}
-p{text-align:center;color:#64748b;font-size:14px;margin-bottom:30px}
-select,input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}
-button{width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-weight:600;font-size:16px;color:#fff;background:#0b3d91;cursor:pointer}
-button:hover{filter:brightness(.95)}
-.btn-share{display:flex;gap:10px;flex-wrap:wrap}
-.btn-fb{background:#1877F2}
-.btn-wa{background:#25D366}
-textarea{min-height:200px;resize:vertical}
-.output{margin-top:20px}
-footer{text-align:center;margin-top:30px;color:#94a3b8;font-size:13px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Facebook Generator - NPA 3iReborn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+    .card { border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .btn-primary { background:#1e3a8a; border:none; border-radius:12px; font-weight:600; }
+    textarea { resize:none; border-radius:12px; font-size:15px; }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1>🤖 AI Facebook Generator</h1>
-  <p>Auto bikin konten Soft Selling yang siap dibagikan ke Facebook & WhatsApp 📲</p>
 
-  <label>Pilih Leader</label>
-  <select id="leader"></select>
+<div class="container py-4">
+  <div class="card p-4">
+    <h3 class="mb-3 text-center">🤖 AI Facebook Generator</h3>
+    <p class="text-center text-secondary mb-4">
+      Auto bikin konten Soft Selling yang siap dibagikan ke Facebook & WhatsApp 📱
+    </p>
 
-  <label>Tema / Topik</label>
-  <select id="tema">
-    <option value="3iReborn">Soft Selling 3iReborn</option>
-    <option value="investasi">Investasi Cerdas</option>
-    <option value="pensiun">Persiapan Masa Pensiun</option>
-    <option value="asuransi">Pentingnya Proteksi</option>
-    <option value="income">Income Tambahan</option>
-    <option value="syariah">Bisnis Syariah</option>
-    <option value="antiRugi">Bisnis Anti Rugi</option>
-    <option value="custom">Custom Manual</option>
-  </select>
+    <label class="fw-semibold">Pilih Leader</label>
+    <select id="leaderSelect" class="form-select mb-3">
+      <option value="">Memuat data leader...</option>
+    </select>
 
-  <label>Gaya Bahasa</label>
-  <select id="gaya">
-    <option value="formal">Formal & Informatif</option>
-    <option value="gaul">Gaul & Santai</option>
-    <option value="religi">Religius & Inspiratif</option>
-    <option value="profesional">Profesional & Smart</option>
-  </select>
+    <label class="fw-semibold">Tema / Topik</label>
+    <select id="temaSelect" class="form-select mb-3">
+      <option value="soft">Soft Selling 3iReborn</option>
+      <option value="motivasi">Motivasi & Inspirasi Finansial</option>
+      <option value="edukasi">Edukasi Asuransi & Investasi</option>
+    </select>
 
-  <label>CTA (Ajak Tindakan)</label>
-  <select id="cta">
-    <option value="Hubungi saya untuk info lebih lanjut.">Hubungi saya untuk info lebih lanjut.</option>
-    <option value="Klik link ini dan pelajari caranya!">Klik link ini dan pelajari caranya!</option>
-    <option value="Saya bantu kamu mulai dari nol.">Saya bantu kamu mulai dari nol.</option>
-    <option value="Yuk belajar bagaimana saya bisa punya income pasif.">Yuk belajar bagaimana saya bisa punya income pasif.</option>
-    <option value="Jangan tunda, mulai sekarang.">Jangan tunda, mulai sekarang.</option>
-    <option value="custom">Custom Manual</option>
-  </select>
+    <label class="fw-semibold">Gaya Bahasa</label>
+    <select id="styleSelect" class="form-select mb-3">
+      <option value="formal">Formal & Informatif</option>
+      <option value="friendly">Santai & Persuasif</option>
+      <option value="emotional">Menyentuh & Menginspirasi</option>
+    </select>
 
-  <div id="customCta" style="display:none">
-    <input type="text" id="ctaCustom" placeholder="Tulis CTA custom di sini...">
-  </div>
+    <button id="generateBtn" class="btn btn-primary w-100 mb-3">✨ Generate Konten</button>
 
-  <button onclick="generate()">✨ Generate Konten</button>
+    <label class="fw-semibold">Hasil Konten Facebook:</label>
+    <textarea id="result" class="form-control mb-3" rows="8" readonly></textarea>
 
-  <div class="output">
-    <label>Hasil Konten Facebook:</label>
-    <textarea id="hasil" readonly></textarea>
-    <div class="btn-share">
-      <button class="btn-fb" onclick="shareFacebook()">📤 Bagikan ke Facebook</button>
-      <button class="btn-wa" onclick="shareWA()">💬 Bagikan ke WhatsApp</button>
-      <button onclick="copyText()">📋 Salin Konten</button>
-    </div>
+    <button id="copyBtn" class="btn btn-success w-100">📋 Salin ke Clipboard</button>
   </div>
 </div>
 
-<footer>© 2025 Nganggur Preneur Akademi — AI System by 3iReborn 💎</footer>
-
 <script>
-const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-const leaderSelect = document.getElementById('leader');
-if(leaders.length===0){
-  leaderSelect.innerHTML='<option value="">Belum ada leader. Tambahkan di admin.html</option>';
-}else{
-  leaders.forEach(l=>{
-    leaderSelect.innerHTML+=`<option value="${l.slug}">${l.code} - ${l.name}</option>`
-  });
+let leaders = [];
+
+async function loadLeaders() {
+  try {
+    const res = await fetch('data/leaders.json');
+    leaders = await res.json();
+    const select = document.getElementById("leaderSelect");
+    select.innerHTML = '<option value="">Pilih Leader</option>';
+    leaders.forEach(l => {
+      const opt = document.createElement("option");
+      opt.value = l.slug;
+      opt.textContent = `${l.id}${l.code} - ${l.name}`;
+      select.appendChild(opt);
+    });
+  } catch (err) {
+    console.error("Gagal memuat data leader", err);
+  }
 }
 
-document.getElementById('cta').addEventListener('change',()=>{
-  document.getElementById('customCta').style.display = document.getElementById('cta').value === 'custom' ? 'block' : 'none';
+function generateContent() {
+  const leaderSlug = document.getElementById("leaderSelect").value;
+  const tema = document.getElementById("temaSelect").value;
+  const style = document.getElementById("styleSelect").value;
+  const output = document.getElementById("result");
+
+  if (!leaderSlug) return alert("Pilih dulu leader-nya ya beb 💁‍♀️");
+
+  const l = leaders.find(x => x.slug === leaderSlug);
+  if (!l) return alert("Leader tidak ditemukan!");
+
+  let intro = "";
+  if (tema === "soft") intro = "💼 Pengen dapet penghasilan tambahan dari bisnis proteksi & investasi?";
+  if (tema === "motivasi") intro = "✨ Banyak orang kerja keras tiap hari, tapi belum menyiapkan masa depan finansialnya.";
+  if (tema === "edukasi") intro = "📘 3iReborn bukan cuma asuransi, tapi solusi cerdas untuk proteksi dan investasi jangka panjang.";
+
+  let gaya = "";
+  if (style === "formal") gaya = "Program ini sudah terbukti membantu ribuan keluarga Indonesia mencapai kebebasan finansial dengan langkah yang aman dan terukur.";
+  if (style === "friendly") gaya = "Kalo kamu pengen mulai, santai aja — bareng aku kamu bakal dibimbing sampai bisa 💪";
+  if (style === "emotional") gaya = "Kita nggak tahu apa yang akan terjadi besok, tapi kita bisa siapkan hari ini untuk masa depan yang lebih tenang 🙏";
+
+  const waLink = `https://wa.me/${l.phone}?text=Halo%20${encodeURIComponent(l.name)}%2C%20saya%20tertarik%20dengan%203iReborn!`;
+
+  const content = `${intro}\n\n${gaya}\n\n🌟 Dibimbing langsung oleh ${l.id}${l.code} ${l.name}\n📱 Hubungi beliau langsung di WhatsApp:\n${waLink}\n\n#3iReborn #NPA #ProteksiInvestasi #DigitalSystem`;
+
+  output.value = content;
+}
+
+document.getElementById("generateBtn").addEventListener("click", generateContent);
+document.getElementById("copyBtn").addEventListener("click", () => {
+  const result = document.getElementById("result");
+  result.select();
+  document.execCommand("copy");
+  alert("Konten berhasil disalin ✨ Siap posting ke Facebook!");
 });
 
-function generate(){
-  const tema = document.getElementById('tema').value;
-  const gaya = document.getElementById('gaya').value;
-  let cta = document.getElementById('cta').value;
-  if(cta==='custom') cta = document.getElementById('ctaCustom').value.trim() || 'Hubungi saya untuk tahu lebih lanjut.';
-
-  const selectedLeader = leaderSelect.value || '3ireborn';
-  const leaderObj = leaders.find(l => l.slug === selectedLeader) || {name:'Team 3iReborn'};
-  const leaderName = leaderObj.name;
-  const baseUrl = `https://3ireborn.github.io/pendaftaran-online/master-lp.html?leader=${selectedLeader}`;
-
-  let hook='', masalah='', solusi='';
-  switch(tema){
-    case '3iReborn':
-      hook="🚀 Banyak orang belum sadar bahwa masa depan finansial bisa dirancang dari sekarang.";
-      masalah="Kebanyakan hanya fokus cari uang, tapi lupa memproteksi dan mengelolanya. Saat usia produktif habis, penghasilan ikut berhenti.";
-      solusi="3iReborn hadir dengan konsep Proteksi, Investasi, dan Income. Dengan kontribusi ringan, kamu bisa bangun aset jangka panjang dan perlindungan finansial.";
-      break;
-    case 'pensiun':
-      hook="👴🏻 Siapa bilang masa pensiun harus penuh kekhawatiran?";
-      masalah="Banyak pekerja lupa menyiapkan tabungan pensiun, padahal biaya hidup terus naik.";
-      solusi="Dengan 3iReborn, kamu bisa menabung sambil dilindungi asuransi, dan punya income yang terus mengalir bahkan setelah pensiun.";
-      break;
-    default:
-      hook="✨ Sebuah peluang besar sedang menanti kamu.";
-      masalah="Dunia berubah cepat, dan hanya yang siap punya sistem keuangan kuat yang akan tetap aman.";
-      solusi="3iReborn bantu kamu bangun masa depan yang tenang, terencana, dan produktif.";
-  }
-
-  switch(gaya){
-    case 'gaul':
-      hook = hook.replace(/Banyak orang/, "Bro sis, banyak banget orang");
-      solusi += " Yuk join bareng biar cuan jalan terus 😎";
-      break;
-    case 'religi':
-      hook = "🌙 Setiap rezeki yang kita kelola dengan baik jadi ladang keberkahan.";
-      solusi += " InsyaAllah, langkah kecil hari ini bisa jadi perlindungan besar di masa depan.";
-      break;
-    case 'profesional':
-      hook = "📊 Dalam dunia keuangan, strategi lebih penting daripada sekadar kerja keras.";
-      solusi += " 3iReborn membantu Anda membuat sistem income yang berkelanjutan.";
-      break;
-  }
-
-  const teks = `${hook}\n\n${masalah}\n\n${solusi}\n\n${cta}\n\n👉 Pelajari lebih lanjut di sini:\n${baseUrl}\n\nSalam Nganggur Warbiasyah 💪🔥🚀\n— ${leaderName}`;
-  document.getElementById('hasil').value = teks;
-}
-
-function copyText(){
-  const hasil = document.getElementById('hasil');
-  hasil.select();hasil.setSelectionRange(0,99999);
-  document.execCommand('copy');
-  alert('✅ Konten berhasil disalin! Siap tempel di Facebook, beb 😘');
-}
-
-function shareFacebook(){
-  const teks = encodeURIComponent(document.getElementById('hasil').value);
-  const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=&quote=${teks}`;
-  window.open(fbUrl, '_blank');
-}
-
-function shareWA(){
-  const teks = encodeURIComponent(document.getElementById('hasil').value);
-  const waUrl = `https://wa.me/?text=${teks}`;
-  window.open(waUrl, '_blank');
-}
+document.addEventListener("DOMContentLoaded", loadLeaders);
 </script>
+
 </body>
 </html>
