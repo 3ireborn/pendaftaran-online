@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Facebook Generator — NPA Digital System</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Poppins',sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:20px}
+.container{max-width:700px;margin:auto;background:#fff;padding:25px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.08);}
+h1{text-align:center;color:#0b3d91;margin-bottom:10px}
+p{text-align:center;color:#64748b;margin-bottom:25px;font-size:14px}
+select,input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:10px;font-size:15px}
+button{width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:16px;font-weight:600;color:#fff;cursor:pointer;background:#0b3d91}
+button:hover{filter:brightness(.95)}
+textarea{min-height:180px;resize:vertical}
+.output{margin-top:20px}
+footer{text-align:center;margin-top:30px;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🤖 AI Facebook Generator</h1>
+  <p>Auto bikin konten Facebook Soft Selling untuk semua Leader NPA x 3iReborn 💬</p>
+
+  <label>Tema / Topik</label>
+  <select id="tema">
+    <option value="3iReborn">Soft Selling 3iReborn</option>
+    <option value="istikmal">Program Istikmal Syariah</option>
+    <option value="asuransi">Pentingnya Asuransi & Proteksi</option>
+    <option value="investasi">Investasi Cerdas & Aman</option>
+    <option value="antiRugi">Bisnis Anti Rugi, Anti Bangkrut</option>
+    <option value="pensiun">Persiapan Masa Pensiun</option>
+    <option value="income">Income Tambahan Tanpa Resiko</option>
+    <option value="syariah">Bisnis Halal & Syariah</option>
+    <option value="carInsurance">CAR Life Insurance</option>
+    <option value="custom">Custom Manual</option>
+  </select>
+
+  <label>Target Audience</label>
+  <select id="target">
+    <option value="25-45">Usia 25–45 tahun (Produktif & menjelang pensiun)</option>
+    <option value="20-30">Usia 20–30 tahun (Awal karir & baru kerja)</option>
+    <option value="35-55">Usia 35–55 tahun (Stabil tapi butuh passive income)</option>
+    <option value="custom">Custom Manual</option>
+  </select>
+
+  <label>CTA (Ajak Tindakan)</label>
+  <select id="cta">
+    <option value="Hubungi saya untuk info lebih lanjut.">Hubungi saya untuk info lebih lanjut.</option>
+    <option value="Klik link ini untuk tahu caranya.">Klik link ini untuk tahu caranya.</option>
+    <option value="Yuk belajar bagaimana caranya menghasilkan income pasif.">Yuk belajar bagaimana caranya menghasilkan income pasif.</option>
+    <option value="Jangan tunda, masa depan aman dimulai dari sekarang.">Jangan tunda, masa depan aman dimulai dari sekarang.</option>
+    <option value="Mau tahu caranya saya bisa nabung sambil dilindungi asuransi?">Mau tahu caranya saya bisa nabung sambil dilindungi asuransi?</option>
+    <option value="Langsung DM saya ya, biar saya bantu daftarkan.">Langsung DM saya ya, biar saya bantu daftarkan.</option>
+    <option value="Ketik ‘INFO 3I’ di kolom komentar biar saya kirimkan panduannya.">Ketik ‘INFO 3I’ di kolom komentar biar saya kirimkan panduannya.</option>
+    <option value="Saya siap bantu kamu mulai dari nol.">Saya siap bantu kamu mulai dari nol.</option>
+    <option value="Yuk ikut Zoom gratis malam ini!">Yuk ikut Zoom gratis malam ini!</option>
+    <option value="custom">Custom Manual</option>
+  </select>
+
+  <div id="customCta" style="display:none">
+    <input type="text" id="ctaCustom" placeholder="Tulis CTA custom di sini...">
+  </div>
+
+  <button onclick="generate()">🪄 Generate Konten</button>
+
+  <div class="output">
+    <label>Hasil Konten Facebook:</label>
+    <textarea id="hasil" readonly></textarea>
+    <button onclick="copyText()">📋 Salin Konten</button>
+  </div>
+</div>
+
+<footer>© 2025 Nganggur Preneur Akademi — Sistem Digital 3iReborn</footer>
+
+<script>
+const leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+const leader = leaders.length > 0 ? leaders[0] : {name:'Team 3iReborn',slug:'3ireborn'};
+const baseUrl = 'https://3ireborn.github.io/pendaftaran-online/master-lp.html?leader=' + leader.slug;
+
+const ctaSelect = document.getElementById('cta');
+ctaSelect.addEventListener('change',()=>{
+  document.getElementById('customCta').style.display = ctaSelect.value === 'custom' ? 'block' : 'none';
+});
+
+function generate(){
+  const tema = document.getElementById('tema').value;
+  const target = document.getElementById('target').value;
+  let cta = document.getElementById('cta').value;
+  if(cta==='custom') cta = document.getElementById('ctaCustom').value.trim() || 'Hubungi saya untuk tahu lebih lanjut.';
+
+  let teks = '';
+  let hook = '', masalah = '', solusi = '', closing = '';
+
+  switch(tema){
+    case '3iReborn':
+      hook = "🚀 Banyak orang belum sadar bahwa masa depan finansial bisa dirancang dari sekarang.";
+      masalah = "Kebanyakan hanya fokus cari uang, tapi lupa memproteksi dan mengelolanya. Saat usia produktif habis, penghasilan ikut berhenti.";
+      solusi = "Program 3iReborn hadir dengan konsep cerdas: Proteksi, Investasi, dan Income. Dengan kontribusi ringan, kamu bisa bangun aset jangka panjang dan perlindungan finansial.";
+      break;
+    case 'pensiun':
+      hook = "👴🏻 Siapa bilang masa pensiun harus penuh kekhawatiran?";
+      masalah = "Banyak pekerja lupa menyiapkan tabungan pensiun, padahal biaya hidup terus naik setiap tahun.";
+      solusi = "Dengan 3iReborn, kamu bisa menabung sambil dilindungi asuransi, dan punya peluang income yang terus mengalir bahkan setelah pensiun.";
+      break;
+    case 'antiRugi':
+      hook = "💡 Bisnis anti rugi itu nyata, asal kamu tahu sistemnya.";
+      masalah = "Banyak usaha gagal karena tidak punya pondasi finansial dan perlindungan risiko.";
+      solusi = "3iReborn menggabungkan konsep syariah, investasi, dan proteksi — menghasilkan sistem yang tahan krisis, anti rugi, dan berkelanjutan.";
+      break;
+    default:
+      hook = "✨ Sebuah peluang besar sedang menanti kamu.";
+      masalah = "Dunia berubah cepat, dan hanya yang siap punya sistem keuangan yang kuat yang akan tetap aman.";
+      solusi = "3iReborn membantu kamu membangun masa depan yang tenang, terencana, dan produktif.";
+  }
+
+  closing = `${cta}\n\n👉 Pelajari lebih lanjut di sini:\n${baseUrl}\n\nSalam Nganggur Warbiasyah 💪🔥🚀\n— ${leader.name}`;
+
+  teks = `${hook}\n\n${masalah}\n\n${solusi}\n\n${closing}`;
+  document.getElementById('hasil').value = teks;
+}
+
+function copyText(){
+  const hasil = document.getElementById('hasil');
+  hasil.select();hasil.setSelectionRange(0,99999);
+  document.execCommand('copy');
+  alert('✅ Konten berhasil disalin!\nSiap tempel di Facebook, beb 😘');
+}
+</script>
+</body>
+</html>
