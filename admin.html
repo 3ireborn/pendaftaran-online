@@ -144,6 +144,91 @@
       }
     });
   </script>
-
+<!-- ====== Tambah di admin.html (di bawah script existing) ====== -->
+<script>
+/* ====== MITRA LOG (local only) ====== */
+function getLocalMitra(){
+  try{ return JSON.parse(localStorage.getItem('mitra_log') || '[]'); }catch(e){ return []; }
+}
+function setLocalMitra(arr){
+  localStorage.setItem('mitra_log', JSON.stringify(arr||[]));
+}
+function renderMitraList(){
+  const wrapId = 'mitraWrap';
+  let wrap = document.getElementById(wrapId);
+  if(!wrap){
+    wrap = document.createElement('div');
+    wrap.id = wrapId;
+    document.body.appendChild(wrap);
+  }
+  const data = getLocalMitra();
+  let html = `
+    <div style="max-width:960px;margin:24px auto">
+      <h2 style="color:#0b3d91;margin:0 0 12px">📥 Mitra Baru (Local Private)</h2>
+      <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 10px 24px rgba(2,6,23,.08)">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <button onclick="openImportModal()" class="btn" style="background:#0ea5e9;color:#fff">Import dari WA</button>
+          <button onclick="downloadMitraJSON()" class="btn" style="background:#0b3d91;color:#fff">Download mitra.json</button>
+          <button onclick="if(confirm('Hapus semua log mitra di perangkat ini?')){setLocalMitra([]);renderMitraList();}" class="btn" style="background:#ef4444;color:#fff">Hapus Semua</button>
+        </div>
+        ${data.length===0 ? '<div class="muted">Belum ada data lokal.</div>' : `
+          <div style="overflow:auto">
+            <table style="width:100%;border-collapse:collapse">
+              <thead><tr>
+                <th style="text-align:left;border-bottom:1px solid #eee;padding:8px">Waktu</th>
+                <th style="text-align:left;border-bottom:1px solid #eee;padding:8px">Leader</th>
+                <th style="text-align:left;border-bottom:1px solid #eee;padding:8px">Nama</th>
+                <th style="text-align:left;border-bottom:1px solid #eee;padding:8px">HP</th>
+                <th style="text-align:left;border-bottom:1px solid #eee;padding:8px">Premi</th>
+              </tr></thead>
+              <tbody>
+                ${data.map(x=>`
+                  <tr>
+                    <td style="border-bottom:1px solid #f2f2f2;padding:8px">${new Date(x.data.timestamp||Date.now()).toLocaleString('id-ID')}</td>
+                    <td style="border-bottom:1px solid #f2f2f2;padding:8px">${x.leaderCode} - ${x.leaderName}</td>
+                    <td style="border-bottom:1px solid #f2f2f2;padding:8px">${x.data.nama||''}</td>
+                    <td style="border-bottom:1px solid #f2f2f2;padding:8px">${x.data.hp||''}</td>
+                    <td style="border-bottom:1px solid #f2f2f2;padding:8px">${x.data.premi||''}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+  wrap.innerHTML = html;
+}
+function downloadMitraJSON(){
+  const arr = getLocalMitra();
+  const blob = new Blob([JSON.stringify(arr,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'mitra.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+}
+function openImportModal(){
+  const code = prompt('Tempel payload dari WA (bagian setelah [IMPORT]):');
+  if(!code) return;
+  try{
+    const decoded = JSON.parse(decodeURIComponent(code));
+    const leaders = window._leaders || [];
+    const L = leaders.find(l=>l.slug===decoded.leader);
+    const rec = {
+      leader: decoded.leader,
+      leaderCode: L?L.fullCode:'',
+      leaderName: L?L.name:'',
+      data: decoded.data||{}
+    };
+    const arr = getLocalMitra(); arr.push(rec); setLocalMitra(arr); renderMitraList();
+    alert('Import berhasil ✅');
+  }catch(e){
+    alert('Payload tidak valid.');
+  }
+}
+// panggil ini SETELAH render leader (di fungsi render() kamu)
+document.addEventListener('DOMContentLoaded', ()=> setTimeout(renderMitraList, 300));
+</script>
 </body>
 </html>
