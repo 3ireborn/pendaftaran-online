@@ -14,10 +14,10 @@ const leaders = [
   { id: "JD", code: "013", name: "Jaudin", phone: "6288293744431", slug: "jaudin" }
 ];
 
-// otomatis buat ID lengkap seperti "SK001"
+// 🔢 otomatis bikin kode gabungan misal "SK001"
 leaders.forEach(l => l.fullCode = `${l.id}${l.code}`);
 
-// simpan lokal (backup)
+// 💾 simpan ke localStorage biar offline ready
 if (typeof localStorage !== "undefined") {
   localStorage.setItem("leaders", JSON.stringify(leaders));
   }
