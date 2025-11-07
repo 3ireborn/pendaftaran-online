@@ -1,75 +1,91 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>3iReborn - Proteksi • Investasi • Income</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-body{font-family:'Poppins',sans-serif;margin:0;background:#f8fafc;color:#1e293b;line-height:1.6}
-.hero{background:linear-gradient(135deg,#0b3d91,#d4380d);color:#fff;text-align:center;padding:80px 25px 100px;border-radius:0 0 40px 40px;}
-.hero h1{font-size:30px;margin-bottom:10px}
-.hero p{font-size:16px;opacity:.95}
-section{max-width:850px;margin:-70px auto 40px;background:#fff;border-radius:20px;padding:35px 25px;box-shadow:0 10px 25px rgba(0,0,0,.08);}
-h2{color:#0b3d91;font-size:22px;margin-bottom:10px;text-align:center}
-p{font-size:15px;margin-bottom:20px;text-align:justify}
-.tag{display:inline-block;background:#e0e7ff;color:#0b3d91;font-weight:600;font-size:14px;padding:6px 12px;border-radius:10px;margin-bottom:10px}
-.cta{display:block;width:90%;max-width:320px;margin:30px auto 0;background:#25d366;color:#fff;text-decoration:none;text-align:center;padding:15px 20px;border-radius:50px;font-weight:700;font-size:16px;}
-.cta:hover{background:#1ebe57}
-footer{text-align:center;padding:25px;font-size:14px;color:#64748b;margin-top:30px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LP Master - 3iReborn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; color:#111; }
+    header { background: linear-gradient(135deg, #1e3a8a, #2563eb); color:white; padding:40px 20px; text-align:center; border-radius:0 0 40px 40px; }
+    h1 { font-weight: 700; font-size: 1.8rem; }
+    .section { padding: 30px 20px; }
+    .btn-wa {
+      background: #25D366; color:white; font-weight:600; border:none; border-radius:12px;
+      padding:12px 20px; font-size:1.1rem; width:100%;
+    }
+    .leader-box {
+      background:#f1f5f9; border-radius:12px; padding:15px; margin-top:20px; text-align:center;
+    }
+  </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1 id="heroTitle">3iReborn • Masa Depan Lebih Pasti</h1>
-  <p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
-</div>
+  <header>
+    <h1 id="lp-title">3iReborn Bersama Team 3iReborn</h1>
+    <p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+  </header>
 
-<section>
-  <span class="tag">✨ Hook</span>
-  <h2>Sudah Kerja Keras Tapi Masih Khawatir Masa Depan?</h2>
-  <p>Banyak orang kerja siang malam tapi belum menyiapkan pondasi finansial jangka panjang.  
-  Hidup terasa aman sekarang, tapi bagaimana kalau penghasilan berhenti tiba-tiba?  
-  Masa depan perlu direncanakan — bukan dikhawatirkan.</p>
+  <div class="section container">
+    <div class="leader-box">
+      <h4>👤 Leader: <span id="leaderName">Loading...</span></h4>
+      <p>Kode: <span id="leaderCode">-</span></p>
+      <p>No. WA: <span id="leaderPhone">-</span></p>
+      <a id="waBtn" href="#" class="btn-wa mt-2" target="_blank">KIRIM KE WA Leader</a>
+    </div>
 
-  <span class="tag">💭 Masalah</span>
-  <h2>Bukan Soal Gaji, Tapi Soal Sistem</h2>
-  <p>Selama penghasilan bergantung pada tenaga, waktu, dan usia — artinya kamu masih bekerja untuk uang.  
-  Tanpa sistem yang membuat uang bekerja untukmu, kamu belum benar-benar merdeka secara finansial.</p>
+    <hr class="my-4">
 
-  <span class="tag">💡 Solusi</span>
-  <h2>Program 3iReborn: Proteksi, Investasi, Income</h2>
-  <p>Gabung bersama 3iReborn, sebuah program cerdas yang menggabungkan perlindungan asuransi, tabungan investasi, dan peluang penghasilan tanpa batas.  
-  Hanya dengan kontribusi ringan per bulan, kamu membangun masa depan yang aman, tenang, dan produktif.</p>
+    <h5>✨ Tentang 3iReborn</h5>
+    <p>Banyak orang kerja keras setiap hari tapi belum menyiapkan masa depan finansial yang matang. 
+    3iReborn hadir sebagai solusi finansial modern berbasis proteksi dan investasi. 
+    Bersama leader terpercaya, Anda akan dibimbing menuju kebebasan finansial dengan sistem yang telah terbukti.</p>
 
-  <span class="tag">🚀 Tagline</span>
-  <h2>Bersama <span id="leaderName">Team 3iReborn</span></h2>
-  <p>Dipandu langsung oleh mentor berpengalaman dari komunitas Nganggur Preneur Akademi,  
-  kamu akan dibimbing langkah demi langkah membangun aset finansial yang terus bertumbuh.</p>
+    <p>💼 Dapatkan manfaat proteksi jiwa, investasi jangka panjang, dan peluang penghasilan tanpa batas.</p>
 
-  <a id="ctaLink" href="#" target="_blank" class="cta">💬 Tanya Leader Sekarang</a>
-</section>
+    <a id="joinBtn" class="btn btn-primary w-100 mt-3" target="_blank">✨ Daftar Sekarang</a>
 
-<footer>
-  Salam Nganggur Warbiasyah 💪🔥🚀 <br>
-  <small>&copy; 2025 Nganggur Preneur Akademi</small>
-</footer>
+    <footer class="text-center mt-5 mb-3 text-secondary" style="font-size:13px;">
+      © 2025 NPA Digital System — LP Master 3iReborn
+    </footer>
+  </div>
 
-<script>
-// Ambil parameter ?leader=
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("leader");
+  <script>
+    async function loadLeader() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const slug = urlParams.get('leader');
 
-// Ambil data leader dari localStorage
-let leaders = JSON.parse(localStorage.getItem("leaders") || "[]");
-const l = leaders.find(x => x.slug === slug) || {name:"Team 3iReborn",phone:"6281234567890"};
+      try {
+        const res = await fetch('data/leaders.json');
+        const leaders = await res.json();
+        const l = leaders.find(x => x.slug === slug);
 
-// Ubah teks dinamis
-document.getElementById("leaderName").textContent = l.name;
-document.getElementById("heroTitle").textContent = `3iReborn Bersama ${l.name}`;
-document.getElementById("ctaLink").href = `https://wa.me/${l.phone}?text=Halo%20${l.name},%20saya%20tertarik%20belajar%20program%203iReborn.%20Boleh%20dibantu%20penjelasannya%20ya%20🙏`;
-</script>
+        if (!l) {
+          document.getElementById('lp-title').innerText = "3iReborn Bersama Team 3iReborn";
+          document.getElementById('leaderName').innerText = "Team 3iReborn";
+          document.getElementById('leaderCode').innerText = "N/A";
+          document.getElementById('leaderPhone').innerText = "-";
+          document.getElementById('waBtn').style.display = "none";
+          return;
+        }
+
+        document.title = `LP Master - ${l.name}`;
+        document.getElementById('lp-title').innerText = `3iReborn Bersama ${l.name}`;
+        document.getElementById('leaderName').innerText = l.name;
+        document.getElementById('leaderCode').innerText = l.id + l.code;
+        document.getElementById('leaderPhone').innerText = `+${l.phone}`;
+        
+        const waLink = `https://wa.me/${l.phone}?text=Halo%20${encodeURIComponent(l.name)}%2C%20saya%20tertarik%20dengan%203iReborn!`;
+        document.getElementById('waBtn').href = waLink;
+        document.getElementById('joinBtn').href = waLink;
+
+      } catch (err) {
+        console.error("Gagal memuat data leaders.json", err);
+      }
+    }
+
+    loadLeader();
+  </script>
 
 </body>
 </html>
