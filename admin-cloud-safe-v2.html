@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Cloud Sync Admin v2 (Safe)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <style>
+    body { background: linear-gradient(145deg, #002b5b, #2563eb); color: #fff; padding: 20px; font-family: 'Poppins', sans-serif; }
+    .container { max-width: 520px; margin: auto; background: #fff; color: #333; border-radius: 18px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .header { text-align: center; margin-bottom: 25px; }
+    .header h1 { font-size: 1.8rem; color: #0b3d91; font-weight: 700; }
+    .btn { border-radius: 10px; font-weight: 600; }
+    .card { border-radius: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+    .btn-danger { background: #d32f2f; border: none; }
+    .btn-danger:hover { background: #b71c1c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🌐 NPA Cloud Sync Admin</h1>
+      <p class="text-success fw-bold">Login Aman — Token Lokal ✅</p>
+    </div>
+
+    <div class="card p-3 mb-4">
+      <h5 class="mb-3">➕ Tambah Mitra Baru</h5>
+      <input type="text" id="name" class="form-control mb-2" placeholder="Nama Lengkap">
+      <input type="text" id="phone" class="form-control mb-2" placeholder="Nomor WA (628...)">
+      <button class="btn btn-primary w-100 mb-2" onclick="addMitra()">Tambah Sekarang</button>
+      <button class="btn btn-secondary w-100" onclick="loadLeaders()">🔄 Sinkron ke Cloud</button>
+      <button class="btn btn-danger w-100 mt-2" onclick="resetToken()">🧩 Ganti Token GitHub</button>
+    </div>
+
+    <div id="leaderList"></div>
+
+    <p class="text-center mt-4" style="font-size:13px;color:#999;">
+      © 2025 NPA Digital System — Cloud Sync v2<br>
+      <em>Powered by Nganggur Preneur Akademi</em>
+    </p>
+  </div>
+
+  <script>
+    // === TOKEN AMAN MODE ===
+    let GITHUB_TOKEN = localStorage.getItem("github_token") || "";
+    if (!GITHUB_TOKEN) {
+      GITHUB_TOKEN = prompt("Masukkan GitHub Token kamu (akan disimpan aman di perangkat ini):");
+      if (GITHUB_TOKEN) {
+        localStorage.setItem("github_token", GITHUB_TOKEN);
+        alert("✅ Token tersimpan aman di perangkat ini!");
+      } else {
+        alert("⚠️ Token wajib diisi untuk akses Admin Cloud.");
+      }
+    }
+
+    const REPO_OWNER = "3ireborn";
+    const REPO_NAME = "pendaftaran-online";
+    const FILE_PATH = "data/leaders.json";
+    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+
+    // === AMBIL DATA LEADER ===
+    async function loadLeaders() {
+      try {
+        const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`);
+        const data = await res.json();
+        window.currentLeaders = data;
+        renderLeaders(data);
+      } catch (err) {
+        alert("Gagal memuat data leader 😢\nCek koneksi atau token kamu.");
+      }
+    }
+
+    function renderLeaders(leaders) {
+      const container = document.getElementById("leaderList");
+      container.innerHTML = "";
+      leaders.forEach(l => {
+        const div = document.createElement("div");
+        div.className = "card p-3 mb-2";
+        div.innerHTML = `
+          <h5 class="mb-1">${l.id}${l.code} - ${l.name}</h5>
+          <small>📞 ${l.phone}</small><br>
+          <a href="https://3ireborn.github.io/pendaftaran-online/index.html?leader=${l.slug}" class="btn btn-info w-100 mt-2">🌐 Link Pendaftaran</a>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // === TAMBAH MITRA BARU ===
+    async function addMitra() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      if (!name || !phone) return alert("Lengkapi nama dan nomor WA mitra baru dulu ya 🩵");
+
+      const initials = name.split(" ").map(n => n[0].toUpperCase()).join("").substring(0, 2);
+      const newCode = (window.currentLeaders.length + 1).toString().padStart(3, "0");
+      const slug = name.toLowerCase().replace(/\s+/g, "-");
+
+      const newMitra = { id: initials, code: newCode, name, phone, slug };
+      const updatedLeaders = [...window.currentLeaders, newMitra];
+      const sha = await getFileSHA();
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(updatedLeaders, null, 2))));
+
+      const res = await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Authorization": `token ${GITHUB_TOKEN}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `Tambah mitra baru: ${name}`, content, sha })
+      });
+
+      if (res.ok) {
+        alert(`🎉 Mitra "${name}" berhasil ditambahkan!`);
+        loadLeaders();
+      } else {
+        alert("Gagal menambahkan mitra. Cek token atau koneksi kamu ⚠️");
+      }
+    }
+
+    async function getFileSHA() {
+      const res = await fetch(API_URL, { headers: { Authorization: `token ${GITHUB_TOKEN}` } });
+      const data = await res.json();
+      return data.sha;
+    }
+
+    // === RESET TOKEN MANUAL ===
+    function resetToken() {
+      localStorage.removeItem("github_token");
+      alert("🔄 Token GitHub dihapus dari perangkat ini.\nRefresh halaman untuk memasukkan token baru.");
+    }
+
+    // === Jalankan awal ===
+    loadLeaders();
+  </script>
+</body>
+</html>
