@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pendaftaran Online 3iReborn — v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --b:#0b3d91; --o:#d4380d; --g:#16a34a; --d:#0f172a; --m:#64748b; --bg:#f6f7fb;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#0b1220}
+    .wrap{max-width:900px;margin:auto;padding:24px}
+    .hero{background:linear-gradient(135deg,#1b3b8f,#b43a1f);border-radius:22px;color:#fff;padding:28px 24px;margin-bottom:18px}
+    .hero h1{margin:0 0 8px;font-size:28px;line-height:1.2}
+    .sub{opacity:.95}
+    .card{background:var(--card);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 6px 22px rgba(15,23,42,.06)}
+    h2{margin:0 0 14px;font-size:20px;color:var(--b)}
+    label{display:block;font-weight:600;margin:12px 0 6px}
+    input,select,textarea{
+      width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font:inherit;background:#fff
+    }
+    textarea{min-height:90px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:720px){.row2{grid-template-columns:1fr 1fr}.row3{grid-template-columns:1fr 1fr 1fr}}
+    .pill{display:inline-block;background:#eef2ff;color:#1f3ceb;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;margin-right:8px}
+    .muted{color:var(--m);font-size:13px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:14px 16px;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--b);color:#fff}
+    .btn-outline{background:#fff;border:1px solid #dbe1f1;color:var(--b)}
+    .btn-green{background:var(--g);color:#fff}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .note{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:12px;padding:10px 12px;color:#334155}
+    .locked{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;color:#0b3d91;font-weight:600}
+    .req:after{content:" *";color:#ef4444}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Pendaftaran Online 3iReborn</h1>
+      <div class="sub">Proteksi • Investasi • Penghasilan Tanpa Batas</div>
+    </div>
+
+    <form id="frm">
+      <div class="card">
+        <h2>Data Pribadi</h2>
+
+        <div class="locked" id="presentedBy">Memuat leader…</div>
+        <div class="muted" style="margin-top:6px">Tautan ini terkunci berdasarkan leader pada URL.</div>
+
+        <label class="req">Kontribusi Premi (Rp)</label>
+        <select name="premi" required>
+          <option value="">Pilih Premi</option>
+          <option>350.000</option>
+          <option>500.000</option>
+          <option>700.000</option>
+          <option>1.000.000</option>
+          <option>2.000.000</option>
+        </select>
+
+        <div class="row row2">
+          <div>
+            <label class="req">Nama Lengkap</label>
+            <input name="nama" placeholder="Nama sesuai KTP" required>
+          </div>
+          <div>
+            <label class="req">No KTP</label>
+            <input name="ktp" inputmode="numeric" placeholder="16 digit" pattern="\\d{16}" required>
+          </div>
+        </div>
+
+        <div class="row row2">
+          <div>
+            <label class="req">Email</label>
+            <input type="email" name="email" placeholder="nama@email.com" required>
+          </div>
+          <div>
+            <label class="req">Nama Ibu Kandung</label>
+            <input name="ibu_kandung" placeholder="Nama Ibu Kandung" required>
+          </div>
+        </div>
+
+        <div class="row row2">
+          <div>
+            <label class="req">No HP (WA)</label>
+            <input name="hp" placeholder="62…" inputmode="numeric" required>
+          </div>
+          <div>
+            <label>Tempat & Tgl Lahir</label>
+            <input name="ttl" placeholder="Kota, 17/08/1995">
+          </div>
+        </div>
+
+        <div class="row row3">
+          <div>
+            <label>Jenis Kelamin</label>
+            <select name="jk">
+              <option value="">Pilih</option>
+              <option>Laki-laki</option>
+              <option>Perempuan</option>
+            </select>
+          </div>
+          <div>
+            <label>Agama</label>
+            <select name="agama">
+              <option value="">Pilih</option>
+              <option>Islam</option><option>Kristen</option><option>Katolik</option>
+              <option>Hindu</option><option>Buddha</option><option>Konghucu</option>
+            </select>
+          </div>
+          <div>
+            <label>Status</label>
+            <select name="status">
+              <option value="">Pilih</option>
+              <option>Belum Kawin</option>
+              <option>Kawin</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Alamat Lengkap</label>
+        <textarea name="alamat" placeholder="Jalan, RT/RW, Kel, Kec, Kota, Kode Pos"></textarea>
+      </div>
+
+      <div class="card">
+        <h2>Rekening & Pajak</h2>
+        <div class="row row3">
+          <div>
+            <label>Nama Bank</label>
+            <input name="bank" placeholder="BCA/BRI/Mandiri/dll">
+          </div>
+          <div>
+            <label>No Rekening</label>
+            <input name="norek" placeholder="0xxxxxxxxx">
+          </div>
+          <div>
+            <label>Nama di Rekening</label>
+            <input name="atas_nama" placeholder="Sesuai buku tabungan">
+          </div>
+        </div>
+
+        <div class="row row3">
+          <div>
+            <label>No NPWP</label>
+            <input name="npwp" placeholder="Jika ada">
+          </div>
+          <div>
+            <label>Status Pajak</label>
+            <select name="status_pajak">
+              <option value="">Pilih</option>
+              <option>Tidak Kawin</option>
+              <option>Kawin</option>
+            </select>
+          </div>
+          <div>
+            <label>Tanggungan</label>
+            <select name="tanggungan">
+              <option value="">0</option><option>1</option><option>2</option><option>3</option><option>4+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Ahli Waris Bisnis</h2>
+        <div class="row row3">
+          <div>
+            <label>Nama</label>
+            <input name="waris_bisnis_nama" placeholder="Nama">
+          </div>
+          <div>
+            <label>Tgl Lahir</label>
+            <input name="waris_bisnis_tgl" placeholder="dd/mm/yyyy">
+          </div>
+          <div>
+            <label>Hubungan</label>
+            <input name="waris_bisnis_hub" placeholder="suami/istri/anak">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Ahli Waris Manfaat</h2>
+        <div class="row row3">
+          <div>
+            <label>Nama</label>
+            <input name="waris_manfaat_nama" placeholder="Nama">
+          </div>
+          <div>
+            <label>Tgl Lahir</label>
+            <input name="waris_manfaat_tgl" placeholder="dd/mm/yyyy">
+          </div>
+          <div>
+            <label>Hubungan</label>
+            <input name="waris_manfaat_hub" placeholder="orang tua/anak/suami/istri">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Data Tambahan (Tertanggung bila berbeda)</h2>
+        <div class="row row2">
+          <div>
+            <label>Nama</label>
+            <input name="tertanggung_nama" placeholder="Nama">
+          </div>
+          <div>
+            <label>Tempat & Tgl Lahir</label>
+            <input name="tertanggung_ttl" placeholder="Kota, dd/mm/yyyy">
+          </div>
+        </div>
+        <div class="row row3">
+          <div>
+            <label>Agama</label>
+            <input name="tertanggung_agama" placeholder="Agama">
+          </div>
+          <div>
+            <label>Jenis Kelamin</label>
+            <select name="tertanggung_jk">
+              <option value="">Pilih</option>
+              <option>Laki-laki</option><option>Perempuan</option>
+            </select>
+          </div>
+          <div>
+            <label>No Identitas</label>
+            <input name="tertanggung_id" placeholder="KTP/SIM/AKTA">
+          </div>
+        </div>
+        <div class="row row2">
+          <div>
+            <label>Tinggi & Berat Badan</label>
+            <input name="tb_bb" placeholder="170 cm / 65 kg">
+          </div>
+          <div>
+            <label>Hubungan dengan Pemegang Polis</label>
+            <input name="hub_pp" placeholder="anak/adik/kakak/cucu/orangtua">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="note">
+          Dengan klik “Kirim Pendaftaran”, ringkasan akan dikirim ke <b>WA Leader</b> dan <b>Admin Pusat</b> (6285218453131).  
+          Data juga disimpan sementara di perangkat (private).
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button type="submit" class="btn btn-primary">KIRIM PENDAFTARAN</button>
+          <button type="button" id="btnCopy" class="btn btn-outline">Salin Ringkasan</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // ====== KONFIGURASI WA ADMIN PUSH ======
+    const WA_ADMIN = "6285218453131";
+
+    // ====== UTIL ======
+    const $ = (s, p=document)=>p.querySelector(s);
+    const params = new URLSearchParams(location.search);
+    const slugFromUrl = (params.get('leader')||"").toLowerCase().trim();
+
+    // ====== LEADER LOCKING ======
+    let currentLeader = null;
+
+    async function loadLeaders(){
+      try{
+        // path relatif: /pendaftaran-online/data/leaders.json
+        const res = await fetch('data/leaders.json?cache=' + Date.now());
+        const leaders = await res.json();
+        if(!Array.isArray(leaders)) throw new Error('leaders.json invalid');
+
+        // cari by slug
+        currentLeader = leaders.find(l => (l.slug||'').toLowerCase() === slugFromUrl);
+
+        const pres = $('#presentedBy');
+        if(currentLeader){
+          pres.textContent = `Bisnis ini dipresentasikan oleh ${currentLeader.id}${currentLeader.code} — ${currentLeader.name}`;
+        }else{
+          pres.textContent = 'Leader pada URL tidak ditemukan. Silakan minta tautan yang benar dari leader Anda.';
+        }
+      }catch(e){
+        console.error(e);
+        $('#presentedBy').textContent = 'Gagal memuat data leader. Coba refresh.';
+      }
+    }
+
+    loadLeaders();
+
+    // ====== VALIDASI RINGAN ======
+    function validateForm(fd){
+      const hp = (fd.get('hp')||'').trim();
+      if(!/^62\d{6,}$/.test(hp)){
+        alert('No WA harus diawali 62 dan hanya angka.');
+        return false;
+      }
+      if(!currentLeader){
+        alert('Tautan leader tidak valid. Hubungi leader untuk mendapatkan link pendaftaran yang benar.');
+        return false;
+      }
+      return true;
+    }
+
+    // ====== FORMAT PESAN ======
+    function buildSummary(fd){
+      const L = currentLeader ? `${currentLeader.id}${currentLeader.code} - ${currentLeader.name}` : '-';
+      const lines = [];
+      lines.push('PENDAFTARAN MITRA BARU 3iReborn');
+      lines.push('');
+      lines.push(`Leader: ${L}`);
+      lines.push(`Premi: Rp ${fd.get('premi')||''}`);
+      lines.push('');
+      lines.push('DATA PRIBADI');
+      lines.push(`Nama: ${fd.get('nama')||''}`);
+      lines.push(`No KTP: ${fd.get('ktp')||''}`);
+      lines.push(`Email: ${fd.get('email')||''}`);
+      lines.push(`Nama Ibu Kandung: ${fd.get('ibu_kandung')||''}`);
+      lines.push(`No HP (WA): ${fd.get('hp')||''}`);
+      lines.push(`TTL: ${fd.get('ttl')||''}`);
+      lines.push(`JK/Agama/Status: ${fd.get('jk')||''} / ${fd.get('agama')||''} / ${fd.get('status')||''}`);
+      lines.push(`Alamat: ${fd.get('alamat')||''}`);
+      lines.push('');
+      lines.push('REKENING & PAJAK');
+      lines.push(`Bank/No Rek/AN: ${fd.get('bank')||''} / ${fd.get('norek')||''} / ${fd.get('atas_nama')||''}`);
+      lines.push(`NPWP/Status/Tanggungan: ${fd.get('npwp')||'-'} / ${fd.get('status_pajak')||'-'} / ${fd.get('tanggungan')||'0'}`);
+      lines.push('');
+      lines.push('AHLI WARIS BISNIS');
+      lines.push(`${fd.get('waris_bisnis_nama')||'-'} | ${fd.get('waris_bisnis_tgl')||'-'} | ${fd.get('waris_bisnis_hub')||'-'}`);
+      lines.push('');
+      lines.push('AHLI WARIS MANFAAT');
+      lines.push(`${fd.get('waris_manfaat_nama')||'-'} | ${fd.get('waris_manfaat_tgl')||'-'} | ${fd.get('waris_manfaat_hub')||'-'}`);
+      lines.push('');
+      lines.push('TERTANGGUNG (Bila Berbeda)');
+      lines.push(`${fd.get('tertanggung_nama')||'-'} | ${fd.get('tertanggung_ttl')||'-'} | ${fd.get('tertanggung_agama')||'-'} | ${fd.get('tertanggung_jk')||'-'} | ID: ${fd.get('tertanggung_id')||'-'}`);
+      lines.push(`TB/BB: ${fd.get('tb_bb')||'-'} | Hub. PP: ${fd.get('hub_pp')||'-'}`);
+      lines.push('');
+      lines.push('— dikirim otomatis dari Form Pendaftaran Online 3iReborn (index-v2)');
+      return lines.join('\n');
+    }
+
+    // ====== LOCAL SAVE ======
+    function saveLocal(payload){
+      try{
+        localStorage.setItem('npa_last_application', JSON.stringify({at:Date.now(), ...payload}));
+      }catch(_){}
+    }
+
+    // ====== KIRIM WA ======
+    function openWA(number, text){
+      const url = `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
+    // ====== SUBMIT ======
+    $('#frm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      if(!validateForm(fd)) return;
+
+      const summary = buildSummary(fd);
+
+      // simpan ke local
+      saveLocal({
+        leader: currentLeader,
+        data: Object.fromEntries(fd.entries()),
+        summary
+      });
+
+      // kirim ke WA leader dulu, lalu admin (delay kecil agar popup tidak diblok)
+      openWA(currentLeader.phone, summary);
+      setTimeout(()=>openWA(WA_ADMIN, '[SALINAN ADMIN]\n\n' + summary), 900);
+    });
+
+    // ====== SALIN RINGKASAN ======
+    $('#btnCopy').addEventListener('click', ()=>{
+      const fd = new FormData($('#frm'));
+      const summary = buildSummary(fd);
+      navigator.clipboard.writeText(summary).then(()=>{
+        alert('Ringkasan pendaftaran disalin ke clipboard ✅');
+      }, ()=>alert('Gagal menyalin.'))
+    });
+  </script>
+</body>
+                                      </html>
