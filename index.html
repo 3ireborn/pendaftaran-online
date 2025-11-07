@@ -1,256 +1,165 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Pendaftaran Online 3iReborn v2</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{--blue:#0b3d91;--red:#d4380d;--green:#16a34a;--bg:#f5f7fb}
-  *{box-sizing:border-box} body{font-family:Inter,system-ui,Arial;background:var(--bg);margin:0}
-  .wrap{max-width:880px;margin:20px auto;padding:16px}
-  .card{background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(2,6,23,.08);padding:20px}
-  .hero{background:linear-gradient(120deg,#0b3d91,#d4380d);color:#fff;border-radius:20px;padding:40px 24px;margin-bottom:18px}
-  .hero h1{margin:0 0 6px;font-size:32px} .hero p{margin:8px 0 0;opacity:.9}
-  .badge{display:inline-block;background:#e8f5e8;color:#0b3d91;border-left:4px solid #22c55e;padding:10px 12px;border-radius:8px;margin:14px 0 0}
-  h2{color:var(--blue);margin:22px 0 10px} label{font-weight:600;margin:10px 0 6px;display:block}
-  input,select,textarea{width:100%;padding:12px;border:1px solid #dcdfe6;border-radius:10px;font-size:15px}
-  .grid{display:grid;gap:12px} .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
-  @media(max-width:720px){.g2,.g3{grid-template-columns:1fr}}
-  .btn{display:inline-block;border:none;cursor:pointer;font-weight:700;border-radius:12px;padding:14px 18px}
-  .btn-primary{background:var(--blue);color:#fff} .btn-primary:hover{filter:brightness(.96)}
-  .muted{font-size:13px;color:#555}
-  .info{background:#eef6ff;border:1px solid #dbeafe;border-radius:12px;padding:12px;margin:12px 0}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .pill{background:#0ea5e9;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px}
-  .hidden{display:none}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pendaftaran Online 3iReborn</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #002F6C, #C70039);
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 40px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #002F6C;
+    }
+    h5 {
+      color: #444;
+      margin-top: 25px;
+    }
+    .btn-primary {
+      background-color: #002F6C;
+      border: none;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background-color: #004aad;
+    }
+    .leader-info {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <h1>Pendaftaran Online 3iReborn</h1>
-      <p><strong>Proteksi • Investasi • Penghasilan Tanpa Batas</strong></p>
-      <div id="presenter" class="badge hidden"></div>
-    </div>
 
-    <div class="card">
-      <div id="leaderChooser" class="info hidden">
-        <div class="row">
-          <span class="pill">Pilih Leader</span>
-          <select id="leaderSelect"></select>
-        </div>
-        <div class="muted">Jika Anda datang dari link leader, pilihan ini otomatis terkunci.</div>
+  <div class="container">
+    <h2>Pendaftaran Online 3iReborn</h2>
+    <p class="text-center">Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+
+    <form id="formPendaftaran">
+      <h5>Data Pribadi</h5>
+
+      <div class="mb-3">
+        <label class="form-label">Kode ID Sponsor</label>
+        <input type="text" name="sponsor" class="form-control" placeholder="kosongkan dulu">
       </div>
 
-      <form id="form">
-        <h2>Data Pribadi</h2>
-        <div class="grid g2">
-          <div>
-            <label>Kode ID Sponsor</label>
-            <input name="sponsor" placeholder="kosongkan dulu"/>
-          </div>
-          <div>
-            <label>Kontribusi Premi (Rp) <span style="color:#ef4444">*</span></label>
-            <select name="premi" required>
-              <option value="">Pilih Premi</option>
-              <option>350.000</option><option>500.000</option><option>700.000</option>
-              <option>1.000.000</option><option>2.000.000</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid g2">
-          <div><label>Nama Lengkap <span style="color:#ef4444">*</span></label><input name="nama" required></div>
-          <div><label>No HP (WA) <span style="color:#ef4444">*</span></label><input name="hp" placeholder="628..." required></div>
-        </div>
+      <div class="mb-3">
+        <label class="form-label">Kontribusi Premi (Rp)</label>
+        <select class="form-select" name="premi" required>
+          <option value="">Pilih Premi</option>
+          <option>350.000</option>
+          <option>500.000</option>
+          <option>1.000.000</option>
+          <option>2.000.000</option>
+        </select>
+      </div>
 
-        <label>Alamat</label>
-        <input name="alamat" placeholder="Jalan / Gang">
-        <div class="grid g3">
-          <input name="rt" placeholder="RT">
-          <input name="rw" placeholder="RW">
-          <input name="kodepos" placeholder="Kode Pos">
-        </div>
-        <div class="grid g2">
-          <input name="kelurahan" placeholder="Kelurahan">
-          <input name="kecamatan" placeholder="Kecamatan">
-        </div>
-        <input name="kota" placeholder="Kota/Kabupaten">
+      <div class="mb-3">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" name="nama" class="form-control" required>
+      </div>
 
-        <div class="grid g2">
-          <div><label>Tempat Lahir</label><input name="tempat_lahir"></div>
-          <div><label>Tanggal Lahir</label><input type="date" name="tgl_lahir"></div>
-        </div>
+      <div class="mb-3">
+        <label class="form-label">No HP (WA)</label>
+        <input type="text" name="wa" class="form-control" placeholder="628..." required>
+      </div>
 
-        <div class="grid g3">
-          <div>
-            <label>Agama</label>
-            <select name="agama">
-              <option value="">Pilih Agama</option>
-              <option>Islam</option><option>Kristen</option><option>Katolik</option>
-              <option>Hindu</option><option>Budha</option><option>Lainnya</option>
-            </select>
-          </div>
-          <div>
-            <label>Jenis Kelamin</label>
-            <select name="jk">
-              <option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option>
-            </select>
-          </div>
-          <div><label>No KTP</label><input name="no_ktp"></div>
-        </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="kirimAdmin" checked>
+        <label class="form-check-label" for="kirimAdmin">
+          Kirim salinan ke Admin Pusat
+        </label>
+      </div>
 
-        <h2>Bank</h2>
-        <div class="grid g3">
-          <input name="bank" placeholder="Nama Bank">
-          <input name="norek" placeholder="No Rekening">
-          <input name="nama_rek" placeholder="Nama di Rekening">
-        </div>
-
-        <h2>Pajak</h2>
-        <div class="grid g3">
-          <input name="npwp" placeholder="No NPWP">
-          <select name="status_pajak"><option value="">Status Pajak</option><option>Kawin</option><option>Tidak Kawin</option></select>
-          <input name="tanggungan" type="number" min="0" placeholder="Jumlah Tanggungan">
-        </div>
-
-        <h2>Kondisi</h2>
-        <div class="grid g3">
-          <input name="tinggi" type="number" placeholder="Tinggi (cm)">
-          <input name="berat" type="number" placeholder="Berat (kg)">
-          <input name="ibu" placeholder="Nama Ibu Kandung">
-        </div>
-        <div class="grid g2">
-          <input name="pekerjaan" placeholder="Pekerjaan/Jabatan">
-          <input name="penghasilan" placeholder="Penghasilan/Tahun (contoh: 60 juta)">
-        </div>
-
-        <h2>Ahli Waris Bisnis</h2>
-        <div class="grid g3">
-          <input name="waris_bisnis_nama" placeholder="Nama">
-          <input name="waris_bisnis_tgl" type="date" placeholder="Tgl Lahir">
-          <select name="waris_bisnis_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select>
-        </div>
-        <input name="waris_bisnis_hub" placeholder="Hubungan">
-
-        <h2>Ahli Waris Manfaat</h2>
-        <div class="grid g3">
-          <input name="waris_manfaat_nama" placeholder="Nama">
-          <input name="waris_manfaat_tgl" type="date" placeholder="Tgl Lahir">
-          <select name="waris_manfaat_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select>
-        </div>
-        <input name="waris_manfaat_hub" placeholder="Hubungan">
-
-        <div class="info">
-          <label class="row" style="gap:8px">
-            <input type="checkbox" id="sendAdmin" checked>
-            <span>Kirim salinan ke Admin Pusat</span>
-          </label>
-          <div class="muted">Data juga akan dicatat sementara (private) di perangkat Admin agar bisa dimonitor dari Admin Panel.</div>
-        </div>
-
-        <button class="btn btn-primary" type="submit">KIRIM PENDAFTARAN</button>
-      </form>
-    </div>
+      <button type="submit" class="btn btn-primary w-100">KIRIM PENDAFTARAN</button>
+    </form>
   </div>
 
-<script>
-const ADMIN_PHONE = "6285218453131"; // Admin Pusat = SK001 (bisa diganti)
-const leadersUrl = "../data/leaders.json";
-let leaders = [];
-let chosen = null;
+  <script>
+  async function setLeaderFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const leaderSlug = params.get("leader");
 
-function slugify(s){return s.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'');}
+    if (!leaderSlug) {
+      console.warn("Tidak ada parameter leader di URL");
+      return;
+    }
 
-async function init(){
-  const res = await fetch(leadersUrl); leaders = await res.json();
-  const qs = new URLSearchParams(location.search);
-  const urlSlug = qs.get('leader');
+    try {
+      const res = await fetch("data/leader.json");
+      const leaders = await res.json();
+      const leader = leaders.find(l => l.slug === leaderSlug);
 
-  const presenter = document.getElementById('presenter');
-  const chooser = document.getElementById('leaderChooser');
-  const select = document.getElementById('leaderSelect');
+      if (leader) {
+        const inputSponsor = document.querySelector('input[name="sponsor"]');
+        inputSponsor.value = `${leader.id}${leader.code} - ${leader.name}`;
+        inputSponsor.readOnly = true;
 
-  if(urlSlug){
-    chosen = leaders.find(l => l.slug === urlSlug) || null;
-  }
-  if(!chosen){
-    // tampilkan dropdown
-    chooser.classList.remove('hidden');
-    select.innerHTML = `<option value="">Pilih Leader</option>` + 
-      leaders.map(l => `<option value="${l.slug}">${l.fullCode} - ${l.name}</option>`).join('');
-    select.addEventListener('change',()=>{
-      const s = select.value;
-      chosen = leaders.find(l=>l.slug===s) || null;
-      if(chosen){
-        presenter.innerHTML = `Bisnis ini dipresentasikan oleh <strong>${chosen.fullCode} ${chosen.name}</strong>`;
-        presenter.classList.remove('hidden');
-      }else{
-        presenter.classList.add('hidden');
+        const infoBox = document.createElement("div");
+        infoBox.className = "leader-info";
+        infoBox.innerHTML = `
+          <strong>Bisnis dipresentasikan oleh:</strong><br>
+          ${leader.id}${leader.code} - ${leader.name}
+        `;
+        inputSponsor.insertAdjacentElement("afterend", infoBox);
+
+        sessionStorage.setItem("selectedLeader", JSON.stringify(leader));
+        console.log("Leader terdeteksi:", leader.name);
+      } else {
+        alert("⚠️ Leader tidak ditemukan di database.");
       }
-    });
-  }else{
-    presenter.innerHTML = `Bisnis ini dipresentasikan oleh <strong>${chosen.fullCode} ${chosen.name}</strong>`;
-    presenter.classList.remove('hidden');
-  }
-}
-init();
-
-function collect(form){
-  const data = Object.fromEntries(new FormData(form).entries());
-  data.timestamp = new Date().toISOString();
-  return data;
-}
-
-function toWhatsAppText(data, leader){
-  let lines = [];
-  lines.push(`PENDAFTARAN 3iReborn`);
-  lines.push(`Leader: ${leader.fullCode} - ${leader.name}`);
-  lines.push(`Tanggal: ${new Date().toLocaleString('id-ID')}`);
-  lines.push(`— — —`);
-  for(const [k,v] of Object.entries(data)){
-    if(!v) continue;
-    const label = k.replace(/_/g,' ').replace(/\b\w/g, m=>m.toUpperCase());
-    lines.push(`${label}: ${v}`);
-  }
-  return lines.join('\n');
-}
-
-// simpan ke localStorage (hanya tampil di Admin Panel perangkat admin)
-function logLocalMitra(record){
-  try{
-    const key = "mitra_log";
-    const arr = JSON.parse(localStorage.getItem(key) || "[]");
-    arr.push(record);
-    localStorage.setItem(key, JSON.stringify(arr));
-  }catch(e){}
-}
-
-document.getElementById('form').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  if(!chosen){ alert("Pilih leader terlebih dahulu."); return; }
-  const data = collect(e.target);
-
-  // WA Leader
-  const msg = toWhatsAppText(data, chosen);
-  const waLeader = `https://wa.me/${chosen.phone}?text=${encodeURIComponent(msg)}`;
-
-  // WA Admin (opsional)
-  const sendAdmin = document.getElementById('sendAdmin').checked;
-  if(sendAdmin && ADMIN_PHONE){
-    const adminMsg = `[SALINAN ADMIN]\n` + msg + `\n\n[IMPORT]\n` + encodeURIComponent(JSON.stringify({leader:chosen.slug, data}));
-    const waAdmin = `https://wa.me/${ADMIN_PHONE}?text=${adminMsg}`;
-    // buka admin WA di tab baru, lalu redirect user ke WA leader
-    window.open(waAdmin, '_blank');
-    setTimeout(()=>{ location.href = waLeader; }, 600);
-  }else{
-    location.href = waLeader;
+    } catch (err) {
+      console.error("Gagal memuat leader.json:", err);
+    }
   }
 
-  // log lokal supaya admin bisa lihat di admin panel
-  logLocalMitra({ leader: chosen.slug, leaderCode: chosen.fullCode, leaderName: chosen.name, data });
-});
-</script>
+  document.addEventListener("DOMContentLoaded", setLeaderFromURL);
+
+  document.getElementById("formPendaftaran").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const leader = JSON.parse(sessionStorage.getItem("selectedLeader") || "{}");
+    if (!leader.phone) {
+      alert("Pilih leader terlebih dahulu melalui link yang benar.");
+      return;
+    }
+
+    const nama = this.nama.value;
+    const premi = this.premi.value;
+    const wa = this.wa.value;
+
+    const pesan = `Halo ${leader.name}, saya ingin mendaftar 3i Reborn.%0A
+Nama: ${nama}%0A
+No WA: ${wa}%0A
+Premi: Rp ${premi}%0A
+Disponsori oleh: ${leader.id}${leader.code} - ${leader.name}`;
+
+    const urlWA = `https://wa.me/${leader.phone}?text=${pesan}`;
+    window.open(urlWA, "_blank");
+
+    if (document.getElementById("kirimAdmin").checked) {
+      console.log("Salinan dikirim ke Admin Pusat (simulasi).");
+    }
+  });
+  </script>
+
 </body>
 </html>
