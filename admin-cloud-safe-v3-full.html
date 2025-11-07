@@ -3,283 +3,164 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NPA Cloud Sync Admin — Full (Safe)</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='62' fill='%231b7fff'/%3E%3Ctext x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' font-size='68' fill='white' font-family='Arial'%3EN%3C/text%3E%3C/svg%3E">
+<title>NPA Cloud Sync Admin v3</title>
 <style>
-:root{
-  --bg:#0b1324;
-  --card:#0e1a36;
-  --muted:#8aa0c7;
-  --text:#eaf1ff;
-  --brand:#1b7fff;
-  --brand2:#7a3bff;
-  --ok:#16c172;
-  --warn:#ffb020;
-  --danger:#ff4d4f;
-  --chip:#0f254d;
-  --shadow: 0 10px 28px rgba(0,0,0,.35);
-  --radius:20px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0; background:
-  radial-gradient(1200px 600px at -10% -10%, rgba(122,59,255,.35), transparent 60%),
-  radial-gradient(900px 600px at 110% 10%, rgba(27,127,255,.30), transparent 60%),
-  linear-gradient(180deg,#081020,#0b1324);
-  color:var(--text); font: 500 16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-}
-.container{max-width:980px;margin:28px auto;padding:0 16px}
-.header{background:linear-gradient(135deg,rgba(27,127,255,.25),rgba(122,59,255,.25));border:1px solid rgba(255,255,255,.06);backdrop-filter: blur(8px);padding:24px;border-radius:26px;box-shadow:var(--shadow)}
-.hrow{display:flex;gap:14px;align-items:center}
-.logo{width:46px;height:46px;border-radius:12px;background:conic-gradient(from 210deg,#1b7fff,#7a3bff,#ff4d7e);box-shadow:0 0 0 3px rgba(255,255,255,.08) inset}
-h1{margin:0;font-size:26px;letter-spacing:.2px}
-.badge{display:inline-flex;gap:8px;align-items:center;font-size:14px;background:#0f254d;border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;margin-top:10px}
-.badge .dot{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok)}
-.section{margin-top:18px}
-.card{background:rgba(7,15,34,.65);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-.row{display:flex;gap:12px;flex-wrap:wrap}
-.input{flex:1 1 220px;background:#0d1a33;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 14px;color:var(--text);outline:none}
-.input:focus{border-color:#2a6bff;box-shadow:0 0 0 3px rgba(42,107,255,.25)}
-.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:700;cursor:pointer;transition:.2s}
-.btn:disabled{opacity:.6;cursor:not-allowed}
-.btn-primary{background:linear-gradient(135deg,#1b7fff,#7a3bff);color:white}
-.btn-ghost{background:#0f254d;color:#e9f2ff;border:1px solid rgba(255,255,255,.08)}
-.btn-danger{background:linear-gradient(135deg,#ff6a6a,#ff3b3b);color:white}
+:root{--bg1:#0b1324;--bg2:#101a36;--grad1:#1b7fff;--grad2:#7a3bff;--grad3:#ff4d7e;
+--txt:#eaf1ff;--muted:#9fb4d3;--ok:#16c172;--danger:#ff4d4f}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;
+background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--txt)}
+.container{max-width:960px;margin:auto;padding:24px}
+.header{background:linear-gradient(135deg,rgba(27,127,255,.25),rgba(122,59,255,.25));
+border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:22px;box-shadow:0 10px 25px rgba(0,0,0,.3)}
+h1{margin:0;font-size:26px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#0f254d;
+padding:6px 14px;border-radius:999px;margin-top:8px;font-size:14px}
+.badge .dot{width:10px;height:10px;border-radius:50%;background:var(--ok)}
+.section{background:rgba(8,15,35,.6);border:1px solid rgba(255,255,255,.08);
+border-radius:20px;padding:18px;margin-top:22px}
+.input{width:100%;padding:12px;margin-top:6px;background:#0d1a33;border:1px solid rgba(255,255,255,.08);
+border-radius:10px;color:var(--txt);font-size:15px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:12px 18px;border:0;border-radius:10px;font-weight:700;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--grad1),var(--grad2));color:#fff}
+.btn-ghost{background:#0f254d;color:#e9f2ff}
+.btn-danger{background:linear-gradient(135deg,#ff6a6a,#ff3b3b);color:#fff}
 .helper{color:var(--muted);font-size:14px;margin-top:6px}
-.leader{display:flex;gap:14px;align-items:flex-start;background:rgba(11,21,44,.55);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:16px 14px;margin-top:14px}
-.leader .icon{width:44px;height:44px;border-radius:12px;background:#0f254d;display:grid;place-items:center;font-size:20px}
-.leader h3{margin:0 0 4px 0;font-size:18px}
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-.chip{display:inline-flex;gap:8px;align-items:center;background:#0f254d;color:#eaf1ff;border:1px solid rgba(255,255,255,.08);padding:10px 12px;border-radius:12px;font-weight:700;text-decoration:none}
-.chip.green{background:rgba(22,193,114,.15);border-color:rgba(22,193,114,.35)}
-.chip.red{background:rgba(255,77,79,.15);border-color:rgba(255,77,79,.35)}
-.chip.gold{background:rgba(255,176,32,.15);border-color:rgba(255,176,32,.35)}
-.small{font-size:13px;color:var(--muted)}
-.copy{display:flex;align-items:center;gap:8px;margin-top:10px}
-.copy button{border:1px dashed rgba(255,255,255,.18);background:transparent;color:#cfe2ff;padding:10px 12px;border-radius:10px;cursor:pointer}
-hr.sep{border:0;border-top:1px solid rgba(255,255,255,.08);margin:18px 0}
-.empty{padding:16px;border:1px dashed rgba(255,255,255,.12);border-radius:14px;color:var(--muted);text-align:center}
-footer{opacity:.7;text-align:center;margin:26px 0}
-code.kbd{background:#0d1a33;border:1px solid rgba(255,255,255,.12);padding:3px 6px;border-radius:6px}
+.leader{background:rgba(12,20,46,.6);border:1px solid rgba(255,255,255,.08);
+border-radius:16px;padding:14px;margin-top:12px}
+.leader h3{margin:0;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{background:#0f254d;color:#fff;border:1px solid rgba(255,255,255,.1);
+padding:8px 12px;border-radius:8px;font-weight:600;text-decoration:none}
+.chip.green{background:rgba(22,193,114,.2);border-color:rgba(22,193,114,.3)}
+.chip.gold{background:rgba(255,176,32,.2);border-color:rgba(255,176,32,.3)}
+.small{color:var(--muted);font-size:13px}
+.copy button{border:1px dashed rgba(255,255,255,.2);background:transparent;
+color:#cfe2ff;padding:8px 10px;border-radius:8px;margin-top:6px;cursor:pointer}
+.empty{padding:14px;border:1px dashed rgba(255,255,255,.15);text-align:center;color:var(--muted);border-radius:10px}
+footer{text-align:center;margin:24px 0;opacity:.7}
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="hrow">
-        <div class="logo"></div>
-        <div>
-          <h1>NPA Cloud Sync <span style="font-weight:800">Admin</span></h1>
-          <div id="loginBadge" class="badge"><span class="dot"></span> Login Aman — Token Lokal</div>
-        </div>
-      </div>
-    </div>
+<div class="container">
+ <div class="header">
+  <h1>NPA Cloud Sync Admin v3</h1>
+  <div id="loginBadge" class="badge"><span class="dot"></span> Mode Lokal</div>
+ </div>
 
-    <!-- Tambah Mitra -->
-    <div class="section card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <div class="icon">➕</div>
-        <div>
-          <div style="font-weight:800;font-size:18px">Tambah Mitra Baru</div>
-          <div class="helper">Nama & nomor WA akan dibuatkan slug otomatis dan tampil di daftar leader.</div>
-        </div>
-      </div>
-      <div class="row">
-        <input id="nameInput" class="input" placeholder="Nama Lengkap"/>
-        <input id="phoneInput" class="input" placeholder="Nomor WA (contoh: 6285...)"/>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button id="addBtn" class="btn btn-primary">Tambah Sekarang</button>
-        <button id="syncBtn" class="btn btn-ghost">🔄 Sinkron ke Cloud</button>
-        <button id="tokenBtn" class="btn btn-danger">🧩 Ganti Token GitHub</button>
-      </div>
-      <div class="helper">Repo: <code class="kbd">3ireborn/pendaftaran-online</code> • File: <code class="kbd">data/leaders.json</code></div>
-    </div>
-
-    <!-- Daftar Leader -->
-    <div class="section card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-        <div class="icon">🌍</div><div style="font-weight:800;font-size:18px">Data Leader Aktif</div>
-      </div>
-      <div id="leadersWrap"></div>
-      <div id="emptyState" class="empty" style="display:none">Belum ada data leader.</div>
-    </div>
-
-    <footer>© 2025 NPA Digital System — Cloud Sync Safe</footer>
+ <div class="section">
+  <h3>Tambah Mitra Baru</h3>
+  <div class="row">
+   <input id="nameInput" class="input" placeholder="Nama Lengkap"/>
+   <input id="phoneInput" class="input" placeholder="No WA (628...)"/>
   </div>
+  <div class="row" style="margin-top:8px">
+   <button id="addBtn" class="btn btn-primary">Tambah Sekarang</button>
+   <button id="syncBtn" class="btn btn-ghost">Sinkron ke Cloud</button>
+   <button id="tokenBtn" class="btn btn-danger">🧩 Ganti Token GitHub</button>
+  </div>
+  <div class="helper">Repo: 3ireborn/pendaftaran-online • File: data/leaders.json</div>
+ </div>
+
+ <div class="section">
+  <h3>Data Leader Aktif</h3>
+  <div id="leadersWrap"></div>
+  <div id="emptyState" class="empty" style="display:none">Belum ada data leader.</div>
+ </div>
+ <footer>©2025 NPA Digital System — Cloud Safe v3</footer>
+</div>
 
 <script>
-/* ====== KONFIGURASI REPO ====== */
-const GH_OWNER = "3ireborn";
-const GH_REPO  = "pendaftaran-online";
-const GH_PATH  = "data/leaders.json";
-const RAW_URL  = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}`;
-const API_URL  = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
-
-/* ====== STATE ====== */
-let leaders = [];
-let pendingAdds = []; // mitra baru lokal, belum terpadu ke cloud
-
-/* ====== UTIL ====== */
-const el = sel => document.querySelector(sel);
-const slugify = (s) => s.toString().toLowerCase()
-  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').replace(/--+/g,'-');
-
-const onlyDigits = s => (s||'').replace(/[^\d]/g,'');
-const nextCode = (arr, id2) => {
-  const same = arr.filter(x=>x.id===id2).map(x=>parseInt(x.code,10)).filter(n=>!isNaN(n));
-  const max = same.length? Math.max(...same):0;
-  return String(max+1).padStart(3,"0");
-};
-
-function showToast(msg){
-  alert(msg);
-}
-
-/* ====== TOKEN MANAGEMENT (SAFE) ====== */
-function getToken(){
-  return localStorage.getItem('npa_github_token')||'';
-}
+const GH_OWNER="3ireborn",GH_REPO="pendaftaran-online",GH_PATH="data/leaders.json";
+const RAW_URL=`https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}`;
+const API_URL=`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+let leaders=[],pendingAdds=[];
+const el=s=>document.querySelector(s);
+const slugify=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+  .replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+const onlyDigits=s=>(s||"").replace(/[^\d]/g,"");
+const nextCode=(arr,id)=>{const same=arr.filter(x=>x.id===id).map(x=>parseInt(x.code,10));
+ const max=same.length?Math.max(...same):0;return String(max+1).padStart(3,"0");}
+const getToken=()=>localStorage.getItem("npa_github_token")||"";
 function setTokenSecure(){
-  const current = getToken();
-  const t = prompt("Tempel Personal Access Token (repo scope). \nTidak akan disimpan di server — hanya lokal HP kamu.", current);
-  if (t===null) return;
-  localStorage.setItem('npa_github_token', t.trim());
-  showToast("Token tersimpan lokal ✅");
-  renderLoginBadge();
+ const t=prompt("Tempel Personal Access Token GitHub (scope: repo)",getToken());
+ if(t===null)return;localStorage.setItem("npa_github_token",t.trim());renderLoginBadge();
+ alert("Token tersimpan lokal ✅");
 }
 function renderLoginBadge(){
-  const b = el('#loginBadge');
-  const has = !!getToken();
-  b.innerHTML = `<span class="dot" style="background:${has?'#16c172':'#ff4d4f'};box-shadow:0 0 12px ${has?'#16c172':'#ff4d4f'}"></span> ${has?'Login Aman — Token Lokal ✅':'Belum set Token — Hanya Mode Lokal'}`;
+ const has=!!getToken(),b=el("#loginBadge");
+ b.innerHTML=`<span class="dot" style="background:${has?'#16c172':'#ff4d4f'}"></span> ${
+   has?'Login Aman — Token Lokal ✅':'Belum set Token — Mode Lokal'}`
 }
-
-/* ====== LOAD LEADERS DARI CLOUD ====== */
 async function loadLeaders(){
-  try{
-    const res = await fetch(RAW_URL, {cache:'no-store'});
-    if(!res.ok) throw new Error('Gagal memuat leaders.json');
-    leaders = await res.json();
-  }catch(e){
-    console.warn(e);
-    leaders = [];
-  }
-  renderLeaders();
+ try{const res=await fetch(RAW_URL,{cache:'no-store'});
+  if(!res.ok)throw new Error("gagal fetch");leaders=await res.json();}
+ catch{leaders=[];}
+ renderLeaders();
 }
-
-/* ====== RENDER LIST ====== */
 function renderLeaders(){
-  const wrap = el('#leadersWrap');
-  wrap.innerHTML = '';
-  const list = [...leaders, ...pendingAdds];
-  if(!list.length){ el('#emptyState').style.display='block'; return; }
-  el('#emptyState').style.display='none';
-
-  list.forEach(l=>{
-    const fullCode = `${l.id}${l.code}`; // ex: SK001
-    const base = location.origin + location.pathname.replace(/\/[^\/]*$/,''); // /pendaftaran-online
-    const linkPendaftaran = `${base}/index-v2.html?leader=${encodeURIComponent(l.slug)}`;
-    const lpMaster = `${base}/master-lp.html?leader=${encodeURIComponent(l.slug)}`;
-    const lpHot    = `${base}/hot-lp.html?leader=${encodeURIComponent(l.slug)}`;
-    const aiTools  = `${base}/ai-facebook.html?leader=${encodeURIComponent(l.slug)}`;
-    const wa       = `https://wa.me/${l.phone}`;
-
-    const box = document.createElement('div');
-    box.className = 'leader';
-    box.innerHTML = `
-      <div class="icon">🪪</div>
-      <div style="flex:1">
-        <h3>${fullCode} — ${l.name}</h3>
-        <div class="small">📞 ${l.phone} • slug: <code class="kbd">${l.slug}</code></div>
-        <div class="chips">
-          <a class="chip green" href="${lpMaster}" target="_blank">🌐 LP Master</a>
-          <a class="chip red" href="${lpHot}" target="_blank">🔥 LP Hot</a>
-          <a class="chip" style="background:rgba(122,59,255,.18);border-color:rgba(122,59,255,.35)" href="${aiTools}" target="_blank">🤖 AI Tools</a>
-          <a class="chip gold" href="${wa}" target="_blank">📞 WhatsApp</a>
-          <a class="chip" href="${linkPendaftaran}" target="_blank">🔗 Link Pendaftaran</a>
-        </div>
-        <div class="copy">
-          <button data-url="${linkPendaftaran}" onclick="copyLink(this)">📎 Copy Link Pendaftaran</button>
-        </div>
-      </div>
-    `;
-    wrap.appendChild(box);
-  });
+ const wrap=el("#leadersWrap");wrap.innerHTML="";
+ const list=[...leaders,...pendingAdds];
+ if(!list.length){el("#emptyState").style.display="block";return;}
+ el("#emptyState").style.display="none";
+ list.forEach(l=>{
+  const code=l.id+l.code;
+  const base=location.origin+location.pathname.replace(/\/[^/]*$/,"");
+  const link=`${base}/index-v2.html?leader=${l.slug}`;
+  const lpMaster=`${base}/master-lp.html?leader=${l.slug}`;
+  const lpHot=`${base}/hot-lp.html?leader=${l.slug}`;
+  const ai=`${base}/ai-facebook.html?leader=${l.slug}`;
+  const wa=`https://wa.me/${l.phone}`;
+  const div=document.createElement("div");
+  div.className="leader";
+  div.innerHTML=`<h3>${code} — ${l.name}</h3>
+  <div class="small">📞 ${l.phone} • slug: ${l.slug}</div>
+  <div class="chips">
+   <a class="chip green" href="${lpMaster}" target="_blank">🌐 LP Master</a>
+   <a class="chip" href="${lpHot}" target="_blank">🔥 LP Hot</a>
+   <a class="chip" href="${ai}" target="_blank">🤖 AI Tools</a>
+   <a class="chip gold" href="${wa}" target="_blank">📞 WhatsApp</a>
+   <a class="chip" href="${link}" target="_blank">🔗 Link Pendaftaran</a>
+  </div>
+  <div class="copy"><button onclick="navigator.clipboard.writeText('${link}')">📎 Copy Link</button></div>`;
+  wrap.appendChild(div);
+ });
 }
-window.copyLink = (btn)=>{
-  const url = btn.getAttribute('data-url');
-  navigator.clipboard.writeText(url).then(()=>{
-    btn.textContent = "✅ Tersalin";
-    setTimeout(()=>btn.textContent="📎 Copy Link Pendaftaran",1300);
-  });
-};
-
-/* ====== TAMBAH LOKAL ====== */
 function addLocal(){
-  const name = el('#nameInput').value.trim();
-  const phone = onlyDigits(el('#phoneInput').value.trim());
-  if(!name) return showToast("Nama wajib diisi.");
-  if(!phone || !/^(\d{8,16})$/.test(phone)) return showToast("No WA tidak valid (gunakan angka, contoh 62812...).");
-
-  const id2 = (name.split(' ').map(w=>w[0]).join('').slice(0,2) || 'ID').toUpperCase(); // inisial 2 huruf
-  const code = nextCode([...leaders, ...pendingAdds], id2);
-  const slug = slugify(name);
-  pendingAdds.push({id:id2, code, name, phone, slug});
-  el('#nameInput').value=''; el('#phoneInput').value='';
-  renderLeaders();
-  showToast("Ditambah lokal ✅ — klik Sinkron ke Cloud untuk upload.");
+ const name=el("#nameInput").value.trim();
+ const phone=onlyDigits(el("#phoneInput").value.trim());
+ if(!name)return alert("Nama wajib diisi");
+ if(!phone||!/^\d{8,16}$/.test(phone))return alert("Nomor WA tidak valid");
+ const id=name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase()||"ID";
+ const code=nextCode([...leaders,...pendingAdds],id);
+ const slug=slugify(name);
+ pendingAdds.push({id,code,name,phone,slug});
+ el("#nameInput").value=el("#phoneInput").value="";
+ renderLeaders();
+ alert("Ditambah lokal ✅");
 }
-
-/* ====== SINKRON KE CLOUD (PUT FILE) ====== */
 async function syncToCloud(){
-  const token = getToken();
-  if(!token){ showToast("Set token dulu ya."); return; }
-  try{
-    // 1) ambil file + sha
-    const getRes = await fetch(API_URL, {headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json'}});
-    if(!getRes.ok) throw new Error('Gagal mengambil leaders.json dari API');
-    const file = await getRes.json();
-    const sha = file.sha;
-    let cloudArr = JSON.parse(atob(file.content));
-
-    // 2) gabungkan unique by slug
-    const bySlug = new Map(cloudArr.map(x=>[x.slug, x]));
-    pendingAdds.forEach(p=>bySlug.set(p.slug, p));
-    const merged = Array.from(bySlug.values());
-
-    // 3) PUT kembali
-    const putRes = await fetch(API_URL,{
-      method:'PUT',
-      headers:{
-        Authorization:`Bearer ${token}`,
-        Accept:'application/vnd.github+json',
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        message:`sync: update leaders.json via admin-cloud-safe-v3-full`,
-        content: btoa(unescape(encodeURIComponent(JSON.stringify(merged,null,2)))),
-        sha
-      })
-    });
-    if(!putRes.ok) throw new Error('Gagal mengunggah perubahan ke GitHub');
-    pendingAdds = [];
-    showToast("Sinkron ke Cloud sukses ✅");
-    await loadLeaders();
-  }catch(e){
-    console.error(e);
-    showToast("Sinkron gagal ❌. Cek token & izin (scope repo).");
-  }
+ const token=getToken();if(!token)return alert("Set token dulu ya.");
+ try{
+  const getRes=await fetch(API_URL,{headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json'}});
+  if(!getRes.ok)throw new Error("ambil gagal");
+  const file=await getRes.json();const sha=file.sha;
+  let arr=JSON.parse(atob(file.content));
+  const map=new Map(arr.map(x=>[x.slug,x]));
+  pendingAdds.forEach(p=>map.set(p.slug,p));
+  const merged=Array.from(map.values());
+  const putRes=await fetch(API_URL,{method:"PUT",
+   headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},
+   body:JSON.stringify({message:"sync update leaders.json via admin v3",
+     content:btoa(unescape(encodeURIComponent(JSON.stringify(merged,null,2)))),sha})});
+  if(!putRes.ok)throw new Error("upload gagal");
+  pendingAdds=[];alert("Sinkron Cloud sukses ✅");await loadLeaders();
+ }catch{alert("Sinkron gagal ❌, periksa token & izin repo");}
 }
-
-/* ====== EVENTS ====== */
-el('#addBtn').addEventListener('click', addLocal);
-el('#syncBtn').addEventListener('click', syncToCloud);
-el('#tokenBtn').addEventListener('click', setTokenSecure);
-
-/* ====== INIT ====== */
-renderLoginBadge();
-loadLeaders();
+el("#addBtn").onclick=addLocal;
+el("#syncBtn").onclick=syncToCloud;
+el("#tokenBtn").onclick=setTokenSecure;
+renderLoginBadge();loadLeaders();
 </script>
 </body>
 </html>
