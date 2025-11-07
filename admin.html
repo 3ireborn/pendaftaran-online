@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NPA Cloud Sync Admin</title>
+  <title>NPA Cloud Sync Admin v4</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: #f8fafc;
+      background: #f9fafb;
       font-family: 'Inter', sans-serif;
       padding: 20px;
     }
@@ -32,68 +32,117 @@
       margin-top: 10px;
       text-align: left;
     }
-    .leader-item strong {
-      color: #1e3a8a;
-    }
-    .btn-sm {
-      padding: 4px 10px;
-      font-size: 14px;
-      margin-top: 4px;
-      margin-right: 6px;
-    }
-    footer {
-      font-size: 13px;
-      margin-top: 25px;
-      color: #555;
-    }
+    .leader-item strong { color: #1e3a8a; }
+    .btn-sm { padding: 4px 10px; font-size: 14px; margin: 4px 3px; }
+    #logoutBtn { margin-top: 10px; display:none; }
   </style>
 </head>
 <body>
 
   <div class="container">
     <h2>🌐 NPA Cloud Sync Admin</h2>
-    <p class="text-danger fw-semibold" id="status">Memuat data leader...</p>
+    <p id="status" class="text-danger fw-semibold">Silakan login terlebih dahulu</p>
 
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <input id="loginCode" type="text" class="form-control mb-2" placeholder="Kode (misal SK001)">
+      <input id="loginPass" type="password" class="form-control mb-3" placeholder="Password (admin: npa2025)">
+      <button class="btn btn-primary w-100" onclick="login()">Login</button>
+    </div>
+
+    <!-- LEADER LIST -->
     <div id="leader-list" class="mt-3"></div>
 
-    <hr>
-    <button class="btn btn-primary w-100" onclick="downloadAll()">📦 Download Semua LP (ZIP)</button>
+    <button id="logoutBtn" class="btn btn-outline-danger w-100" onclick="logout()">Logout</button>
 
-    <footer>
-      © 2025 NPA Digital System — Semi Cloud Sync v3
+    <footer style="font-size:13px;margin-top:25px;color:#555;">
+      © 2025 NPA Digital System — Cloud Sync v4
     </footer>
   </div>
 
   <script>
+    let leaders = [];
+
     async function loadLeaders() {
       try {
         const res = await fetch('data/leaders.json');
-        const leaders = await res.json();
-        document.getElementById("status").innerText = "Data Leader Aktif (" + leaders.length + ")";
-        renderLeaders(leaders);
+        leaders = await res.json();
       } catch (err) {
-        document.getElementById("status").innerText = "❌ Gagal memuat data leaders.json";
-        console.error(err);
+        console.error("Gagal load leaders.json", err);
       }
     }
 
-    function renderLeaders(leaders) {
-      const list = document.getElementById("leader-list");
-      list.innerHTML = leaders.map(l => `
+    async function login() {
+      const code = document.getElementById('loginCode').value.trim().toUpperCase();
+      const pass = document.getElementById('loginPass').value.trim();
+      await loadLeaders();
+
+      if (code === 'ADMIN' && pass === 'npa2025') {
+        // login sebagai admin utama
+        localStorage.setItem('npa_user', 'ADMIN');
+        renderAllLeaders();
+        document.getElementById('status').innerText = "Login sebagai ADMIN ✅";
+        toggleUI(true);
+        return;
+      }
+
+      const leader = leaders.find(l => (l.id + l.code).toUpperCase() === code);
+      if (leader && pass === 'npa2025') {
+        localStorage.setItem('npa_user', code);
+        renderLeader(leader);
+        document.getElementById('status').innerText = `Login sebagai ${leader.name}`;
+        toggleUI(true);
+      } else {
+        alert('Kode atau password salah!');
+      }
+    }
+
+    function toggleUI(isLoggedIn) {
+      document.getElementById('loginForm').style.display = isLoggedIn ? 'none' : 'block';
+      document.getElementById('logoutBtn').style.display = isLoggedIn ? 'block' : 'none';
+    }
+
+    function logout() {
+      localStorage.removeItem('npa_user');
+      location.reload();
+    }
+
+    function renderAllLeaders() {
+      const list = document.getElementById('leader-list');
+      list.innerHTML = leaders.map(l => cardHTML(l)).join('');
+    }
+
+    function renderLeader(l) {
+      document.getElementById('leader-list').innerHTML = cardHTML(l);
+    }
+
+    function cardHTML(l) {
+      const lpMaster = `https://wa.me/${l.phone}?text=Halo%20${encodeURIComponent(l.name)}%2C%20saya%20tertarik%20dengan%203iReborn!`;
+      return `
         <div class="leader-item">
           <strong>${l.id}${l.code} - ${l.name}</strong><br>
           <a href="master-lp.html?leader=${l.slug}" class="btn btn-success btn-sm">🌐 LP Master</a>
           <a href="replika-mini.html?leader=${l.slug}" class="btn btn-danger btn-sm">🔥 LP Hot</a>
-          <a href="ai-generator.html?leader=${l.slug}" class="btn btn-warning btn-sm text-dark">🤖 AI Tools</a>
+          <a href="${lpMaster}" target="_blank" class="btn btn-warning btn-sm text-dark">📞 WhatsApp</a>
+          <a href="ai-generator.html?leader=${l.slug}" class="btn btn-info btn-sm text-dark">🤖 AI Tools</a>
         </div>
-      `).join('');
+      `;
     }
 
-    function downloadAll() {
-      alert("🚀 Fitur ZIP Auto Download sedang dikembangkan untuk versi Cloud.");
-    }
-
-    document.addEventListener('DOMContentLoaded', loadLeaders);
+    // Auto-login jika sudah tersimpan
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadLeaders();
+      const user = localStorage.getItem('npa_user');
+      if (user) {
+        if (user === 'ADMIN') renderAllLeaders();
+        else {
+          const leader = leaders.find(l => (l.id + l.code).toUpperCase() === user);
+          if (leader) renderLeader(leader);
+        }
+        document.getElementById('status').innerText = `Login otomatis: ${user}`;
+        toggleUI(true);
+      }
+    });
   </script>
 
 </body>
