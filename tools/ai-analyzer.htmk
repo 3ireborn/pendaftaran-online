@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konten Analyzer | NPA Digital Assistant</title>
+<link rel="stylesheet" href="_tools-style.css">
+</head>
+<body>
+  <h1>📊 Konten AI Analyzer</h1>
+  <p>Analisa kekuatan konten kamu — apakah sudah menarik dan efektif?</p>
+
+  <textarea id="text" placeholder="Tempel konten yang mau kamu analisa di sini"></textarea>
+  <button onclick="analyze()">🔍 Analisa Sekarang</button>
+
+  <div id="output" style="margin-top:2rem;white-space:pre-wrap;"></div>
+
+  <script>
+  function analyze() {
+    const text = document.getElementById('text').value.trim();
+    if(!text) return alert('Masukkan konten dulu beb 💬');
+    let score = text.length > 200 ? 'Bagus banget, panjang konten ideal!' : 'Masih pendek, tambahkan sedikit lagi 😉';
+    let hook = text.match(/(ayo|pernahkah|tahukah|yuk)/i) ? 'Kamu sudah punya HOOK yang menarik 🎯' : 'Belum ada HOOK kuat di awal 😅';
+    document.getElementById('output').innerText = `${score}\n${hook}\n✨ Saran: Gunakan CTA yang jelas di akhir posting.`;
+  }
+  </script>
+
+  <footer>🔋 Powered by: <b>NPA</b> || <b>3iReborn Smart System</b> 💙</footer>
+</body>
+</html>
