@@ -4,6 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NPA Motivation v3.5 — PWA AutoScheduler</title>
+  <link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#1a73e8">
+<link rel="icon" href="../asset/npa-icon-512.png" type="image/png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b3d91" />
 <style>
@@ -114,5 +117,12 @@ $("#btnLoad").onclick=loadMsg;
 $("#btnSendAll").onclick=sendAll;
 $("#weekday").onchange=loadMsg;
 </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../service-worker.js')
+    .then(() => console.log('✅ Service Worker aktif'))
+    .catch(err => console.log('❌ Gagal daftar SW:', err));
+}
+  </script>
 </body>
 </html>
