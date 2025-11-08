@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NPA Smart System – 3iReborn Digital Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0b3d91; --accent:#1a73e8; --ink:#1b1f23; --muted:#5f6b7a; --bg:#f7f9fc; --paper:#ffffff; --line:#e6ecf5; --gold:#d4af37;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Poppins,Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink); background:var(--bg);
+}
+.container{max-width:900px;margin:0 auto;padding:28px 16px}
+.header{
+  background:radial-gradient(1200px 400px at 20% -20%, #e9f2ff 10%, transparent 60%) , var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 8px 20px rgba(26,115,232,.25);
+}
+.h1{font-size:28px;font-weight:800;margin:0}
+.sub{color:var(--muted);margin:4px 0 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{
+  appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;
+  background:linear-gradient(90deg,var(--primary),var(--accent));color:#fff;box-shadow:0 6px 18px rgba(26,115,232,.25);
+}
+.btn.ghost{background:#fff;color:var(--primary);border:1px solid var(--line)}
+.badge{display:inline-block;background:#f2f6ff;border:1px solid #dbe7ff;color:var(--primary);
+  padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.nav{
+  display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 0
+}
+.nav a{
+  text-decoration:none;color:var(--muted);font-weight:600;background:#fff;border:1px solid var(--line);
+  padding:8px 12px;border-radius:10px
+}
+.section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0}
+.section h2{margin:0 0 10px;font-size:22px;color:var(--primary)}
+.section h3{margin:16px 0 8px;font-size:18px;color:#0f2d57}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kv div{background:#f8fbff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.lead{font-size:16px;color:#2b3440}
+.list{margin:8px 0 0;padding-left:18px}
+.list li{margin:6px 0}
+.hr{height:1px;background:var(--line);margin:18px 0;border:0}
+.note{font-size:13px;color:var(--muted)}
+.footer{
+  padding:22px 16px;border-top:1px solid var(--line);text-align:center;background:var(--paper)
+}
+.small{font-size:13px;color:var(--muted)}
+.gold{color:var(--gold);font-weight:800}
+.callout{
+  background:linear-gradient(180deg,#0b3d91 0%, #1a73e8 100%);
+  color:#fff;border-radius:18px;padding:18px;border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 16px 40px rgba(26,115,232,.3)
+}
+.grid2{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:820px){ .grid2{grid-template-columns:1.1fr .9fr} }
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#0b1220;color:#e4ecff;
+  border-radius:12px;padding:12px;border:1px solid #162033;overflow:auto}
+blockquote{
+  margin:0;padding:14px 16px;background:#fff8e7;border:1px solid #f1e3b3;border-radius:12px;color:#7a5a00
+}
+.kit{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kit a{display:block;text-decoration:none;color:var(--primary);background:#f7fbff;border:1px solid var(--line);padding:12px;border-radius:12px;font-weight:700}
+.stamp{display:inline-block;padding:6px 10px;border:1px dashed #d8e1f0;border-radius:10px;background:#f7fbff;color:#3c5aa8;font-weight:700}
+.footer-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 0}
+.print{background:#111827;color:#fff}
+@media print{
+  .actions,.nav,.footer-cta,.header .badge{display:none !important}
+  body{background:#fff}
+  .section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<section class="header">
+  <div class="container">
+    <div class="brand">
+      <div class="logo">N</div>
+      <div>
+        <h1 class="h1">NPA Smart System – 3iReborn Digital Ecosystem</h1>
+        <p class="sub">Dokumen Resmi • <span class="gold">Modern Elegant</span> • Diperbarui: 8 Nov 2025 (WIB)</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="window.print()">⬇️ Download PDF</button>
+      <a class="btn ghost" href="../admin-smart-v4.2.html">🏠 Buka Admin Panel</a>
+      <a class="btn ghost" href="../tools/npa-digital-assistant.html">🤖 NPA Digital Assistant</a>
+    </div>
+
+    <div class="nav">
+      <a href="#sambutan">Kata Sambutan</a>
+      <a href="#filosofi">Filosofi</a>
+      <a href="#gambaran">Gambaran Sistem</a>
+      <a href="#modul">Modul & Fungsi</a>
+      <a href="#panduan">Panduan Pakai</a>
+      <a href="#nilai">Nilai & Budaya</a>
+      <a href="#powered">Powered by NPA</a>
+    </div>
+  </div>
+</section>
+
+<!-- SAMBUTAN -->
+<section id="sambutan" class="section container">
+  <h2>📘 Kata Sambutan Founder</h2>
+  <p class="lead">
+    Assalamu’alaikum warahmatullahi wabarakatuh.  
+    Alhamdulillah, dengan ijin Allah, kita merilis <b>NPA Smart System – 3iReborn Digital Ecosystem</b>. Sistem ini bukan sekadar alat,
+    tapi sahabat digital untuk mempercepat langkah, merapikan proses, dan menjaga semangat dalam perjuangan yang berkah.
+  </p>
+  <blockquote>
+    “Teknologi hanyalah alat; niat, disiplin, dan kekeluargaan kitalah yang menghidupkannya.”
+  </blockquote>
+  <div class="hr"></div>
+  <p><b>Sugiarto Kurniawan</b><br/>Founder <i>Nganggur Preneur Akademi</i></p>
+</section>
+
+<!-- FILOSOFI -->
+<section id="filosofi" class="section container">
+  <h2>🧭 Filosofi Sistem</h2>
+  <div class="kv">
+    <div><b>Digital</b><br/><span class="note">Menjadi jembatan antara leader–mitra–admin dengan alur yang jelas dan terukur.</span></div>
+    <div><b>Disiplin</b><br/><span class="note">Follow-up 1–7–9 & reminder 18–29–10–15 agar aktivitas konsisten dan tepat waktu.</span></div>
+    <div><b>Kekeluargaan</b><br/><span class="note">Sentuhan manusiawi: booster Senin, bahasa follow-up yang sopan, dan saling mendoakan.</span></div>
+    <div><b>Syariah</b><br/><span class="note">Nilai-nilai keberkahan: proteksi, investasi, dan penghasilan yang amanah.</span></div>
+  </div>
+</section>
+
+<!-- GAMBARAN SISTEM -->
+<section id="gambaran" class="section container">
+  <h2>🌐 Gambaran Umum</h2>
+  <p class="lead">NPA Smart System menyatukan proses rekrut, edukasi, follow-up, dan pemeliharaan komunitas dalam satu ekosistem sederhana:</p>
+  <ul class="list">
+    <li>LP Master & LP Hot → rekrut & presentasi dengan identitas leader terkunci (via <code>?leader=slug</code>).</li>
+    <li>Follow-Up 179 → menjaga obrolan tetap hangat dan sopan dalam 1–7–9 hari.</li>
+    <li>Reminder 18–29–10–15 → kalender siklus bisnis 3i untuk konsistensi dan hasil.</li>
+    <li>Monday Booster → semangat dan kebersamaan setiap Senin.</li>
+    <li>NPA Digital Assistant → konten, desain, analisa, dan SEO yang mudah.</li>
+    <li>Admin Smart Panel → pusat kontrol: token, link, tambah mitra, dan modul-modul.</li>
+  </ul>
+</section>
+
+<!-- MODUL -->
+<section id="modul" class="section container">
+  <h2>🧩 Modul & Fungsi</h2>
+  <div class="grid2">
+    <div class="section" style="padding:16px">
+      <h3>LP Master & LP Hot</h3>
+      <p>Kartu presentasi utama & pre-closing. Identitas leader otomatis terkunci dari URL.</p>
+      <div class="kit">
+        <a href="../master-lp.html">🌍 LP Master</a>
+        <a href="../lp-hot.html">🔥 LP Hot</a>
+      </div>
+    </div>
+    <div class="section" style="padding:16px">
+      <h3>Follow-Up 179</h3>
+      <p>Template follow-up manusiawi: hari ke-1, ke-7, dan ke-9—tanpa terasa mengejar.</p>
+      <a class="stamp" href="../followup179.html">📞 Buka Follow-Up</a>
+    </div>
+    <div class="section" style="padding:16px">
+      <h3>Reminder 18–29–10–15</h3>
+      <p>Siklus rekrut–closing–statement–bonus agar ritme bulanan terjaga.</p>
+      <div class="kit">
+        <a href="../reminder-booster.html#reminder">🗓️ Reminder</a>
+        <a href="../reminder-booster.html#booster">🌞 Monday Booster</a>
+      </div>
+    </div>
+    <div class="section" style="padding:16px">
+      <h3>NPA Digital Assistant</h3>
+      <p>AI konten, desain, analisa, dan SEO—ringan dan seragam.</p>
+      <a class="stamp" href="./npa-digital-assistant.html">🤖 Buka Assistant</a>
+    </div>
+    <div class="section" style="padding:16px">
+      <h3>Admin Smart Panel</h3>
+      <p>Pusat kendali untuk Admin & Leader. Tambah mitra (public), cek token, dan hub leader.</p>
+      <a class="stamp" href="../admin-smart-v4.2.html">🛠️ Buka Admin</a>
+    </div>
+  </div>
+</section>
+
+<!-- PANDUAN -->
+<section id="panduan" class="section container">
+  <h2>⚙️ Panduan Singkat Penggunaan</h2>
+  <ol class="list">
+    <li><b>Admin:</b> buka Admin Panel → set token (lokal) → cek status token → kelola Leader & Link.</li>
+    <li><b>Leader:</b> gunakan link LP dengan <code>?leader=slug</code> → share ke calon mitra.</li>
+    <li><b>Follow-up:</b> pakai template 1–7–9 di halaman Follow-Up untuk menjaga komunikasi.</li>
+    <li><b>Reminder:</b> aktifkan pengingat 18–29–10–15 dan Monday Booster.</li>
+    <li><b>Konten:</b> buka NPA Digital Assistant → buat konten FB, desain cepat, analisa, SEO.</li>
+  </ol>
+  <div class="hr"></div>
+  <p class="note">Tips: gunakan bahasa manusiawi, sebut nama, dan tutup dengan ajakan yang sopan.</p>
+</section>
+
+<!-- NILAI -->
+<section id="nilai" class="section container">
+  <h2>💎 Spirit & Budaya Kerja 3iReborn</h2>
+  <ul class="list">
+    <li><b>Amanah & Syariah:</b> rezeki yang berkah lahir dari proses yang benar.</li>
+    <li><b>Disiplin & Konsisten:</b> kecil tapi rutin menang melawan besar tapi jarang.</li>
+    <li><b>Kekeluargaan:</b> kita bertumbuh bersama, bukan saling mendahului.</li>
+    <li><b>Belajar Sepanjang Hayat:</b> teknologi untuk memudahkan, bukan menyulitkan.</li>
+  </ul>
+</section>
+
+<!-- POWERED -->
+<section id="powered" class="section container">
+  <h2>🔋 Powered by NPA</h2>
+  <p class="lead">
+    Sistem ini dikelola dengan prinsip ringan, aman, dan mudah diperluas. Penyimpanan token bersifat lokal, halaman modular, dan bisa dioperasikan hanya dengan GitHub Pages.
+  </p>
+  <div class="code">
+    Struktur ringkas:<br/>
+    /pendaftaran-online/<br/>
+    ├── master-lp.html, lp-hot.html, followup179.html, reminder-booster.html<br/>
+    ├── admin-smart-v4.2.html<br/>
+    └── tools/ _tools-style.css, npa-digital-assistant.html, ai-*.html
+  </div>
+</section>
+
+<!-- CALLOUT -->
+<section class="container" style="margin:22px 0">
+  <div class="callout">
+    <h3 style="margin:0 0 6px">Doa & Penutup</h3>
+    <p style="margin:0">
+      Semoga Allah mudahkan ikhtiar kita, kuatkan persaudaraan, dan berkahi setiap langkah.  
+      Sistem hanyalah alat—niat & tindakan kitalah yang menghidupkannya. Aamiin.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div class="small">Created with love by <b>Sugiarto Kurniawan – Founder Nganggur Preneur Akademi</b></div>
+  <div class="footer-cta">
+    <button class="btn print" onclick="window.print()">⬇️ Simpan sebagai PDF</button>
+    <a class="btn ghost" href="../tools/npa-digital-assistant.html">Kembali ke NPA Assistant</a>
+  </div>
+  <div class="small" style="margin-top:8px">Powered by: <b>NPA</b> || <b>3iReborn Smart System</b></div>
+</section>
+
+</body>
+                                         </html>
