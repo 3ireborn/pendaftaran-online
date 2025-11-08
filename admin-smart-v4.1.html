@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NPA Smart Admin v4 🚀</title>
+  <title>NPA Smart Admin v4.1 🚀</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -27,7 +27,7 @@
       text-align: center;
       backdrop-filter: blur(10px);
     }
-    input, select {
+    input {
       width: 100%;
       padding: 0.8rem;
       margin: 0.5rem 0;
@@ -45,30 +45,19 @@
       border-radius: 10px;
       width: 100%;
       cursor: pointer;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
       transition: 0.3s;
     }
     button:hover {
-      opacity: 0.8;
+      opacity: 0.85;
       transform: scale(1.02);
     }
-    .success {
-      color: #3ef58f;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-    .tabs {
-      display: none;
-      flex-direction: column;
-      align-items: stretch;
-    }
     .tab-btn {
-      display: block;
-      margin: 0.4rem 0;
       background: #122b5c;
       border: 1px solid #00c3ff;
       border-radius: 10px;
       padding: 0.8rem;
+      margin: 0.4rem 0;
       color: white;
       cursor: pointer;
     }
@@ -76,53 +65,91 @@
       background: #00c3ff;
       color: #0a1a3a;
     }
+    .success {
+      color: #3ef58f;
+      font-weight: 600;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>🌐 NPA Smart Admin v4</h2>
+    <h2>🌐 NPA Smart Admin v4.1</h2>
     <p id="status">🔒 Belum Login</p>
 
+    <!-- LOGIN FORM -->
     <div id="loginForm">
       <input type="password" id="tokenInput" placeholder="Masukkan Token GitHub..." />
       <button onclick="login()">Login Sekarang</button>
+      <button onclick="checkToken()">🔎 Lihat Status Token</button>
     </div>
 
-    <div id="dashboard" class="tabs">
-      <h3>Selamat Datang, Admin!</h3>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/master-lp.html', '_blank')">🌍 LP Master</button>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/lp-hot.html', '_blank')">🔥 LP Hot</button>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/ai-tools.html', '_blank')">🤖 AI Tools</button>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/followup179.html', '_blank')">📞 Follow-Up 179</button>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/reminder.html', '_blank')">📆 Reminder 18-29-10-15</button>
-      <button class="tab-btn" onclick="window.open('https://3ireborn.github.io/pendaftaran-online/mondaybooster.html', '_blank')">🌞 Monday Booster</button>
-      <button class="tab-btn" onclick="logout()">🚪 Logout</button>
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="display:none; flex-direction:column; align-items:stretch;">
+      <h3>Selamat Datang, Admin 💙</h3>
+
+      <button class="tab-btn" onclick="openLink('master-lp.html')">🌍 LP Master</button>
+      <button class="tab-btn" onclick="openLink('lp-hot.html')">🔥 LP Hot</button>
+      <button class="tab-btn" onclick="openLink('ai-tools.html')">🤖 AI Tools</button>
+      <button class="tab-btn" onclick="openLink('followup179.html')">📞 Follow-Up 179</button>
+      <button class="tab-btn" onclick="openLink('reminder.html')">📆 Reminder 18-29-10-15</button>
+      <button class="tab-btn" onclick="openLink('mondaybooster.html')">🌞 Monday Booster</button>
+      <button class="tab-btn" onclick="openLink('leader-panel-live.html')">👥 Leader Panel (Tambah Mitra)</button>
+
+      <hr style="margin:1.2rem 0;opacity:0.3;">
+      <button onclick="resetToken()">🧹 Ganti Token GitHub</button>
+      <button onclick="logout()">🚪 Logout</button>
     </div>
   </div>
 
   <script>
+    function openLink(page) {
+      window.open(`https://3ireborn.github.io/pendaftaran-online/${page}`, '_blank');
+    }
+
+    // Login Token
     function login() {
       const token = document.getElementById('tokenInput').value.trim();
       if (!token) return alert('Masukkan token dulu beb!');
+      localStorage.setItem('npa_admin_token', token);
       localStorage.setItem('npa_token', token);
-      document.getElementById('status').innerHTML = '✅ Login Aman — Token Lokal Aktif';
+      document.getElementById('status').innerHTML = '✅ Login Aman — Token Aktif';
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('dashboard').style.display = 'flex';
     }
 
+    // Logout Token
     function logout() {
       localStorage.removeItem('npa_token');
+      localStorage.removeItem('npa_admin_token');
       document.getElementById('status').innerHTML = '🔒 Belum Login';
       document.getElementById('dashboard').style.display = 'none';
       document.getElementById('loginForm').style.display = 'block';
       document.getElementById('tokenInput').value = '';
     }
 
-    // auto login check
-    window.onload = () => {
-      const token = localStorage.getItem('npa_token');
+    // Reset Token Manual
+    function resetToken() {
+      localStorage.removeItem('npa_admin_token');
+      alert('🧹 Token lama sudah dihapus.\nSilakan login ulang dengan token baru.');
+      location.reload();
+    }
+
+    // Cek Status Token
+    function checkToken() {
+      const token = localStorage.getItem('npa_admin_token');
       if (token) {
-        document.getElementById('status').innerHTML = '✅ Login Aman — Token Lokal Aktif';
+        alert('✅ Token GitHub kamu tersimpan & aktif!');
+      } else {
+        alert('⚠️ Belum ada token tersimpan. Silakan login dulu beb!');
+      }
+    }
+
+    // Auto login check
+    window.onload = () => {
+      const token = localStorage.getItem('npa_admin_token');
+      if (token) {
+        document.getElementById('status').innerHTML = '✅ Login Aman — Token Aktif';
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('dashboard').style.display = 'flex';
       }
