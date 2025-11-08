@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Keyword Tool | NPA Digital Assistant</title>
+<link rel="stylesheet" href="_tools-style.css">
+</head>
+<body>
+  <h1>🚀 SEO Keyword Tool</h1>
+  <p>Bantu kamu mencari kata kunci yang relevan untuk posting konten</p>
+
+  <input type="text" id="keyword" placeholder="Masukkan topik (contoh: asuransi syariah)">
+  <button onclick="generateKeywords()">🔍 Buat Keyword</button>
+
+  <div id="output" style="margin-top:2rem;white-space:pre-wrap;"></div>
+
+  <script>
+  function generateKeywords() {
+    const key = document.getElementById('keyword').value.trim();
+    if(!key) return alert('Masukkan topik dulu beb 💬');
+    const suggestions = [
+      `${key} terbaik`,
+      `${key} terpercaya`,
+      `${key} untuk keluarga`,
+      `cara bergabung ${key}`,
+      `manfaat ${key}`
+    ];
+    document.getElementById('output').innerText = `Kata kunci yang cocok:\n- ${suggestions.join("\n- ")}`;
+  }
+  </script>
+
+  <footer>🔋 Powered by: <b>NPA</b> || <b>3iReborn Smart System</b> 💙</footer>
+</body>
+</html>
