@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Design | NPA Digital Assistant</title>
-<link rel="stylesheet" href="_tools-style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA AI Design Tools</title>
+  <link rel="stylesheet" href="_tools-style.css">
 </head>
 <body>
-  <h1>🎨 Desain Otomatis</h1>
-  <p>Buat desain cepat dan profesional langsung dari Canva</p>
+  <div class="container">
+    <h1>🎨 Desain Otomatis (Canva)</h1>
+    <p>Buat desain promosi dengan cepat lewat Canva template rekomendasi <strong>3iReborn</strong> 💙</p>
 
-  <button onclick="window.open('https://www.canva.com/','_blank')">🎨 Buka Canva Sekarang</button>
+    <label for="kategori">Pilih Kategori Desain:</label>
+    <select id="kategori">
+      <option value="poster">Poster Promosi</option>
+      <option value="feed">Instagram Feed</option>
+      <option value="story">Instagram Story</option>
+      <option value="banner">Banner 3iReborn</option>
+      <option value="motivasi">Quote / Motivasi</option>
+      <option value="sertifikat">Sertifikat / Training</option>
+      <option value="event">Flyer Event</option>
+    </select>
 
-  <footer>🔋 Powered by: <b>NPA</b> || <b>3iReborn Smart System</b> 💙</footer>
+    <button id="openCanva">🚀 Buka Template di Canva</button>
+  </div>
+
+  <footer>Powered by: <strong>NPA || 3iReborn Smart System</strong></footer>
+
+  <script>
+    const btn = document.getElementById("openCanva");
+    btn.addEventListener("click", () => {
+      const kategori = document.getElementById("kategori").value;
+      let url = "https://www.canva.com/";
+
+      switch (kategori) {
+        case "poster": url = "https://www.canva.com/templates/search/poster/"; break;
+        case "feed": url = "https://www.canva.com/templates/search/instagram-post/"; break;
+        case "story": url = "https://www.canva.com/templates/search/instagram-story/"; break;
+        case "banner": url = "https://www.canva.com/templates/search/banner/"; break;
+        case "motivasi": url = "https://www.canva.com/templates/search/quote/"; break;
+        case "sertifikat": url = "https://www.canva.com/templates/search/certificate/"; break;
+        case "event": url = "https://www.canva.com/templates/search/flyer/"; break;
+      }
+
+      window.open(url, "_blank");
+    });
+  </script>
 </body>
 </html>
