@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Smart System | Admin v4.7 (Final Auto Sync)</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0e2a, #1c2e70);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 40px;
+      font-size: 1.7em;
+      color: #6ec1ff;
+    }
+    h2 {
+      color: #fff;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .card {
+      background: #ffffff10;
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+    input {
+      background: #f8f9fa;
+      color: #000;
+    }
+    button {
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .blue { background: #007bff; color: #fff; }
+    .blue:hover { background: #0056b3; }
+    .red { background: #e63946; color: #fff; }
+    .green { background: #38b000; color: #fff; }
+    .ghost {
+      background: transparent;
+      color: #ccc;
+      border: 1px solid #555;
+    }
+    #menu { display: none; }
+    .btn-grid { display: grid; gap: 10px; margin-top: 20px; }
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🌐 NPA Smart System</h1>
+  <h2>Admin Panel v4.7 — Final Auto Sync</h2>
+
+  <div class="card" id="loginArea">
+    <input type="password" id="token" placeholder="Masukkan Token GitHub..." autocomplete="off">
+    <button class="blue" id="btnLogin">🔐 Login Sekarang</button>
+    <button class="ghost" id="btnCheck">🔍 Lihat Status Token</button>
+    <p id="loginState">Belum Login</p>
+  </div>
+
+  <div class="card" id="menu">
+    <h3>✅ Login Aman — Token Aktif</h3>
+    <div class="btn-grid">
+      <button class="green" onclick="window.location='add-mitra.html'">➕ Tambah Mitra Baru (Tanpa Login)</button>
+      <button class="blue" onclick="window.location='master-lp.html'">🌍 LP Master</button>
+      <button class="blue" onclick="window.location='lp-hot.html'">🔥 LP Hot Market</button>
+      <button class="blue" onclick="window.location='followup179.html'">📞 Follow-Up 179</button>
+      <button class="blue" onclick="window.location='reminder-booster.html'">🗓 Reminder & Booster</button>
+      <button class="blue" onclick="window.location='tools/npa-digital-assistant.html'">🤖 NPA Digital Assistant</button>
+    </div>
+
+    <hr style="margin:25px 0;border:none;border-top:1px solid #444;">
+    <h3>📥 Sinkronisasi Data Leader</h3>
+    <button id="btnSync" class="blue">Ambil Data dari Leader</button>
+    <p id="syncStatus" style="font-size:14px;color:#9efcba;font-weight:600;"></p>
+
+    <hr style="margin:25px 0;border:none;border-top:1px solid #444;">
+    <button class="red" id="btnChange">🧩 Ganti Token</button>
+    <button class="ghost" id="btnLogout">🚪 Logout</button>
+  </div>
+
+  <footer>
+    Powered by <b>NPA</b> || 3iReborn Smart System 💙  
+    <br>Created with ❤️ by <b>Sugiarto Kurniawan</b> — Founder Nganggur Preneur Akademi
+  </footer>
+
+  <script>
+    const KEY = "gh_token";
+    const loginArea = document.getElementById("loginArea");
+    const menu = document.getElementById("menu");
+    const tokenInput = document.getElementById("token");
+    const state = document.getElementById("loginState");
+
+    const token = localStorage.getItem(KEY);
+    if (token) {
+      menu.style.display = "block";
+      loginArea.style.display = "none";
+      state.innerText = "Login Aman — Token Aktif";
+    }
+
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const val = tokenInput.value.trim();
+      if (val.length > 20) {
+        localStorage.setItem(KEY, val);
+        location.reload();
+      } else alert("Token tidak valid!");
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", () => {
+      localStorage.removeItem(KEY);
+      location.reload();
+    });
+
+    document.getElementById("btnChange").addEventListener("click", () => {
+      localStorage.removeItem(KEY);
+      alert("Token dihapus. Silakan masukkan ulang token baru.");
+      location.reload();
+    });
+
+    document.getElementById("btnCheck").addEventListener("click", async () => {
+      const token = localStorage.getItem(KEY) || tokenInput.value.trim();
+      if (!token) return alert("Masukkan token terlebih dahulu!");
+      try {
+        const res = await fetch("https://api.github.com/rate_limit", {
+          headers: { Authorization: "token " + token }
+        });
+        const d = await res.json();
+        alert(`✅ Token valid. Sisa kuota API: ${d.rate.remaining}`);
+      } catch {
+        alert("❌ Token tidak valid atau koneksi gagal.");
+      }
+    });
+
+    // ====== SINKRONISASI DATA LEADER ======
+    document.getElementById("btnSync").addEventListener("click", async () => {
+      const token = localStorage.getItem(KEY);
+      if (!token) return alert("Login sebagai admin dulu ya beb ❤️");
+      const repo = "3ireborn/pendaftaran-online";
+      const folder = "leaders-data";
+      const status = document.getElementById("syncStatus");
+
+      status.innerText = "⏳ Mengambil data dari leader...";
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${folder}`, {
+          headers: { Authorization: `token ${token}` }
+        });
+        const files = await res.json();
+
+        let all = [];
+        for (const f of files) {
+          if (f.name.endsWith(".json")) {
+            const d = await (await fetch(f.download_url)).json();
+            all = all.concat(d);
+          }
+        }
+
+        const unique = Array.from(new Map(all.map(i => [i.whatsapp, i])).values());
+        const blob = new Blob([JSON.stringify(unique, null, 2)], { type: "application/json" });
+        const base64 = await blob.text().then(t => btoa(unescape(encodeURIComponent(t))));
+
+        await fetch(`https://api.github.com/repos/${repo}/contents/data/mitra.json`, {
+          method: "PUT",
+          headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ message: "Sync Leader Data", content: base64 })
+        });
+
+        status.innerHTML = `✅ Sinkronisasi selesai — ${unique.length} mitra tersimpan<br>🕒 ${new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })}`;
+      } catch (e) {
+        console.error(e);
+        status.innerText = "❌ Gagal sinkronisasi. Pastikan token aktif & folder tersedia.";
+      }
+    });
+  </script>
+</body>
+</html>
