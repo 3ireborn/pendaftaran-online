@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Generator Facebook | 3iReborn</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#001f3f,#003366);color:white;text-align:center;padding:2rem}
+.card{background:rgba(255,255,255,0.1);padding:2rem;border-radius:16px;max-width:600px;margin:auto;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+select,textarea,button{width:100%;padding:1rem;border:none;border-radius:12px;margin-top:1rem;font-family:'Poppins';font-size:1rem}
+select,textarea{background:rgba(255,255,255,0.15);color:white}
+textarea::placeholder{color:#cce}
+button{background:linear-gradient(90deg,#00b4d8,#0077b6);font-weight:600;cursor:pointer;color:white;transition:0.2s}
+button:hover{opacity:0.9;transform:scale(1.02)}
+#output{white-space:pre-wrap;background:rgba(255,255,255,0.08);padding:1rem;border-radius:10px;margin-top:1.5rem;text-align:left}
+h1{margin-bottom:0.5rem}
+p{opacity:0.85}
+.tools{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.tools button{width:auto;padding:0.7rem 1rem;font-size:0.9rem;border-radius:10px;background:#00b4d8}
+</style>
+</head>
+<body>
+
+<h1>🧠 AI Generator Facebook v2.1</h1>
+<p>Buat konten otomatis pola HOOK – MASALAH – SOLUSI – CTA – TAG 💬</p>
+
+<div class="card">
+  <select id="tema">
+    <option value="">-- Pilih Tema --</option>
+    <option>Motivasi Finansial</option>
+    <option>Perencanaan Keuangan</option>
+    <option>Bisnis Sampingan</option>
+    <option>Asuransi Jiwa</option>
+    <option>Pensiun Mandiri</option>
+    <option>Investasi Cerdas</option>
+    <option>Manfaat 3i Reborn</option>
+    <option>Kisah Sukses Agen</option>
+    <option>Tips Produktivitas</option>
+    <option>Semangat Harian</option>
+    <option value="custom">✍️ Custom Manual</option>
+  </select>
+
+  <textarea id="custom" rows="4" placeholder="(Opsional) Isi topik kamu sendiri..."></textarea>
+
+  <button onclick="generate()">🚀 Buat Konten Sekarang</button>
+
+  <div id="output"></div>
+
+  <div class="tools" id="tools" style="display:none">
+    <button onclick="copyText()">📋 Salin Konten</button>
+    <button onclick="downloadText()">⬇️ Simpan .TXT</button>
+    <button onclick="randomHook()">🎲 Acak Hook</button>
+  </div>
+</div>
+
+<script>
+let currentTopic = '';
+let currentContent = '';
+
+const hooks = [
+  "Bayangkan jika hidup kamu berubah hanya karena satu keputusan kecil hari ini...",
+  "Pernahkah kamu merasa sudah berjuang tapi hasilnya belum terlihat?",
+  "Kadang bukan kerja keras yang kurang, tapi arah yang belum tepat.",
+  "Kalau bukan sekarang, kapan lagi mulai membangun masa depan finansialmu?",
+  "Sukses bukan soal keberuntungan, tapi keputusan yang konsisten.",
+  "Kamu kerja keras tiap hari, tapi uang masih belum cukup? Yuk pikirkan ulang strateginya!"
+];
+
+function generate(){
+  const tema = document.getElementById('tema').value;
+  const custom = document.getElementById('custom').value.trim();
+  currentTopic = (tema === '✍️ Custom Manual' || tema === 'custom') && custom ? custom : (tema || custom);
+  if(!currentTopic){alert('Pilih atau isi topik dulu ya!');return;}
+
+  const hook = hooks[Math.floor(Math.random()*hooks.length)];
+  currentContent = `🎯 *HOOK*:
+${hook}
+
+💡 *MASALAH*:
+Banyak orang ingin ${currentTopic.toLowerCase()}, tapi sering bingung harus mulai dari mana dan bagaimana caranya.
+
+🔥 *SOLUSI*:
+Program *3i Reborn* hadir untuk bantu kamu memahami langkah-langkah menuju finansial yang lebih sehat dan terarah.
+
+📣 *CTA*:
+Klik link pendaftaran di bio atau hubungi admin sekarang — mulai dari langkah kecil, hasilkan perubahan besar 💪
+
+🏷️ *TAG*:
+#3iReborn #FinansialCerdas #NPA #MotivasiHariIni #BisnisMasaDepan`;
+
+  document.getElementById('output').innerHTML = currentContent;
+  document.getElementById('tools').style.display = 'flex';
+}
+
+function copyText(){
+  if(!currentContent)return;
+  navigator.clipboard.writeText(currentContent);
+  alert('✅ Konten berhasil disalin ke clipboard!');
+}
+
+function downloadText(){
+  if(!currentContent)return;
+  const blob = new Blob([currentContent], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `AI-FB-${currentTopic.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+
+function randomHook(){
+  if(!currentContent)return;
+  generate();
+}
+</script>
+
+</body>
+</html>
