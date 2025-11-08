@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reminder & Booster | 3iReborn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a1a3a, #143c74);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .card {
+      background: #ffffff15;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 400px;
+      margin: 2rem auto;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    h2 {
+      color: #00c3ff;
+    }
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(90deg, #007bff, #00c3ff);
+      border: none;
+      color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { opacity: 0.9; }
+    .msg {
+      background: #002d6b;
+      border-left: 4px solid #00c3ff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📅 Reminder & Monday Booster</h2>
+  <p>Otomatis kirim motivasi & pengingat jadwal penting 3iReborn 💙</p>
+
+  <div class="card">
+    <h3>🔔 Reminder Bulanan</h3>
+    <button onclick="cekTanggal()">Cek Reminder Hari Ini</button>
+    <div id="reminder" class="msg" style="display:none;"></div>
+  </div>
+
+  <div class="card">
+    <h3>☀️ Monday Booster</h3>
+    <button onclick="booster()">Kirim Booster Semangat</button>
+    <div id="booster" class="msg" style="display:none;"></div>
+  </div>
+
+  <script>
+    function cekTanggal() {
+      const tgl = new Date().getDate();
+      const reminder = document.getElementById('reminder');
+      let pesan = "Hari ini belum ada jadwal khusus 💙";
+
+      if (tgl === 18) pesan = "📈 Hari Rekrut Mitra Baru dimulai! Saatnya bantu orang lain punya perlindungan & penghasilan 🌟";
+      else if (tgl === 29) pesan = "🧾 Tutup buku bulanan! Pastikan semua mitra sudah update status premi.";
+      else if (tgl === 10) pesan = "💰 Hari perhitungan Statement Bonus! Yuk cek potensi reward kamu.";
+      else if (tgl === 15) pesan = "🎉 Hari Bonus! Cek rekening dan rayakan hasil kerja keras kamu 🔥";
+
+      reminder.innerHTML = pesan;
+      reminder.style.display = 'block';
+    }
+
+    function booster() {
+      const hari = new Date().getDay();
+      const booster = document.getElementById('booster');
+      let msg = "Tetap semangat hari ini 💪";
+
+      if (hari === 1) msg = "🌞 Monday Booster: Awali minggu dengan doa, semangat, dan aksi nyata. Ingat, sukses dimulai dari langkah pertama hari Senin ini 💙";
+      else if (hari === 5) msg = "🌸 Friday Spirit: Sudah hampir weekend! Tapi tetap fokus bantu tim & klien ya 💼";
+      else msg = "✨ Every day is a chance to grow. Keep your faith, focus, and fire alive 🔥";
+
+      booster.innerHTML = msg;
+      booster.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
