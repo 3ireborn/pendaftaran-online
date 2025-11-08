@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Smart System v4.6 | Cloud Sync Admin Panel</title>
+  <style>
+    body{font-family:'Poppins',sans-serif;background:#f4f7fb;margin:0;padding:0;color:#333;}
+    header{background:#0b3d91;color:white;text-align:center;padding:20px;font-size:1.4em;font-weight:bold;box-shadow:0 3px 10px rgba(0,0,0,.2);}
+    .container{max-width:1000px;margin:40px auto;background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);padding:30px;}
+    h2{color:#d4380d;text-align:center;margin-top:0;}
+    input{padding:10px;width:100%;border:1px solid #ccc;border-radius:8px;margin:8px 0;}
+    .btn{display:inline-block;background:#0b3d91;color:white;text-decoration:none;padding:10px 18px;margin:8px;border-radius:8px;font-weight:600;transition:.3s;}
+    .btn:hover{background:#072f6e;}
+    .logout{background:#d4380d;}
+    .logout:hover{background:#b32d0b;}
+    table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px;}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+    th{background:#0b3d91;color:white;text-align:center;}
+    tr:nth-child(even){background:#f9f9f9;}
+    .copy-btn{background:#25D366;color:white;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-size:12px;}
+    .copy-all{display:block;background:#d4380d;color:white;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:15px;margin:20px auto;}
+    .footer{text-align:center;font-size:13px;color:#777;margin-top:30px;}
+    .status{background:#eef4ff;padding:10px;border-radius:6px;margin:10px auto;text-align:center;font-weight:600;}
+    .add-box{background:#e8f5e8;padding:20px;border-radius:12px;margin-top:20px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.05);}
+  </style>
+</head>
+<body>
+  <header>NPA Smart System | Cloud Admin v4.6 ☁️</header>
+  <div class="container">
+    <div id="status" class="status">🔄 Memeriksa koneksi...</div>
+
+    <h2>📋 MENU UTAMA ADMIN</h2>
+    <button class="btn" onclick="setToken()">🔑 Set Token GitHub</button>
+    <a href="tools/npa-digital-assistant.html" class="btn">🤖 AI Tools</a>
+    <a href="followup179.html" class="btn">🔔 Follow-Up 179</a>
+    <a href="#" id="logout" class="btn logout">🚪 Logout</a>
+
+    <div class="add-box">
+      <h3 style="color:#0b3d91;text-align:center;">➕ Tambah Mitra / Leader Baru</h3>
+      <input type="text" id="leaderName" placeholder="Nama Lengkap Leader">
+      <input type="tel" id="leaderPhone" placeholder="Nomor WhatsApp (628...)">
+      <button class="btn" id="addLeaderBtn">Tambah & Sync</button>
+    </div>
+
+    <h2>📤 Daftar Leader (Real-Time)</h2>
+    <table id="leaderTable">
+      <thead><tr><th>No</th><th>Leader</th><th>WhatsApp</th><th>LP Master</th><th>LP Hot</th><th>Form</th></tr></thead>
+      <tbody id="leaderBody"><tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr></tbody>
+    </table>
+
+    <button class="copy-all" id="copyAll">📋 Salin Semua Link</button>
+    <div class="footer">Powered by NPA || 3iReborn Smart System</div>
+  </div>
+
+  <script>
+    const repo = "3ireborn/pendaftaran-online";
+    const filePath = "data/leaders.json";
+    const base = "https://3ireborn.github.io/pendaftaran-online/";
+    const statusBox = document.getElementById("status");
+    const tableBody = document.getElementById("leaderBody");
+    let token = localStorage.getItem("npa_admin_token");
+
+    function setToken(){
+      const input = prompt("Masukkan Token GitHub (Personal Access Token):");
+      if(input){
+        localStorage.setItem("npa_admin_token", input.trim());
+        token = input.trim();
+        alert("Token berhasil disimpan!");
+        location.reload();
+      }
+    }
+
+    if(!token){
+      statusBox.innerHTML = "❌ Token belum diset. Klik <b>Set Token GitHub</b> untuk login.";
+    } else {
+      statusBox.innerHTML = "✅ Token aktif dan siap digunakan.";
+    }
+
+    document.getElementById("logout").addEventListener("click",()=>{
+      if(confirm("Hapus token & logout?")){
+        localStorage.removeItem("npa_admin_token");
+        alert("Logout berhasil");
+        location.reload();
+      }
+    });
+
+    async function loadLeaders(){
+      const res = await fetch(`${base}data/leaders.json`);
+      const leaders = await res.json();
+      renderTable(leaders);
+      return leaders;
+    }
+
+    function renderTable(leaders){
+      tableBody.innerHTML = "";
+      leaders.forEach((l,i)=>{
+        const lpMaster = `${base}master-lp.html?leader=${l.slug}`;
+        const lpHot = `${base}lp-hot.html?leader=${l.slug}`;
+        const form = `${base}index-v2.html?leader=${l.slug}`;
+        tableBody.innerHTML += `
+          <tr>
+            <td>${i+1}</td>
+            <td><b>${l.code}</b><br>${l.name}</td>
+            <td>${l.phone}</td>
+            <td><a href="${lpMaster}" target="_blank">Buka</a><br><button class="copy-btn" onclick="copyLink('${lpMaster}')">Copy</button></td>
+            <td><a href="${lpHot}" target="_blank">Buka</a><br><button class="copy-btn" onclick="copyLink('${lpHot}')">Copy</button></td>
+            <td><a href="${form}" target="_blank">Buka</a><br><button class="copy-btn" onclick="copyLink('${form}')">Copy</button></td>
+          </tr>`;
+      });
+    }
+
+    function copyLink(text){navigator.clipboard.writeText(text);alert("Link disalin!");}
+
+    document.getElementById("copyAll").addEventListener("click",()=>{
+      const all = Array.from(document.querySelectorAll("a[target='_blank']")).map(a=>a.href).join("\n");
+      navigator.clipboard.writeText(all);
+      alert("Semua link berhasil disalin!");
+    });
+
+    document.getElementById("addLeaderBtn").addEventListener("click", async ()=>{
+      const name = document.getElementById("leaderName").value.trim();
+      const phone = document.getElementById("leaderPhone").value.trim();
+      if(!name || !phone) return alert("Isi nama dan nomor WA!");
+      const leaders = await loadLeaders();
+      const id = name.split(" ")[0].substring(0,2).toUpperCase();
+      const code = id + ("00" + (leaders.length + 1)).slice(-3);
+      const slug = name.toLowerCase().replace(/\s+/g,"-");
+      const newLeader = {id,code,name,phone,slug};
+      leaders.push(newLeader);
+      await updateGitHub(leaders);
+    });
+
+    async function updateGitHub(leaders){
+      if(!token){return alert("Token belum diset!");}
+      statusBox.innerHTML = "⏳ Sinkronisasi data ke GitHub...";
+      const res = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`);
+      const data = await res.json();
+      const sha = data.sha;
+      const update = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`,{
+        method:"PUT",
+        headers:{
+          "Authorization":`token ${token}`,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          message:"Auto-update leaders.json via Admin Panel v4.6",
+          content:btoa(unescape(encodeURIComponent(JSON.stringify(leaders,null,2)))),
+          sha
+        })
+      });
+      if(update.ok){
+        statusBox.innerHTML = "✅ Sinkronisasi Berhasil!";
+        renderTable(leaders);
+        alert("Data berhasil disimpan ke GitHub!");
+      }else{
+        statusBox.innerHTML = "❌ Gagal sinkronisasi ke GitHub.";
+      }
+    }
+
+    loadLeaders();
+  </script>
+</body>
+</html>
