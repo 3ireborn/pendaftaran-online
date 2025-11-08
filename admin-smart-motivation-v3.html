@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NPA Motivation v3.0 — Auto Scheduler + Weekly Theme</title>
+<style>
+  :root{--pri:#0b3d91;--bg:#f4f6fb}
+  body{font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);margin:0;padding:20px;color:#222}
+  .wrap{max-width:900px;margin:auto;background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.08);padding:28px}
+  h1{margin:0 0 6px;color:var(--pri)}
+  .sub{margin:0 0 20px;color:#677}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .select, input[type=time]{padding:10px 12px;border:1px solid #dde;border-radius:10px}
+  .btn{background:var(--pri);color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer}
+  .btn.alt{background:#e9f1ff;color:var(--pri)}
+  .msg{background:#eef5ff;border-left:5px solid var(--pri);padding:14px;border-radius:10px;margin:16px 0}
+  .tabs{display:flex;gap:8px;margin:10px 0}
+  .tab{padding:8px 14px;border-radius:10px;background:#dbe8ff;color:var(--pri);cursor:pointer;font-weight:600}
+  .tab.act{background:var(--pri);color:#fff}
+  .card{background:#f6f9ff;border:1px solid #e8eefc;border-radius:12px;padding:12px;margin:10px 0}
+  .log{background:#0f172a;color:#cbd5e1;border-radius:12px;padding:12px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;max-height:220px;overflow:auto}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .muted{color:#7a8599;font-size:13px}
+  .footer{margin-top:22px;text-align:center;color:#7a8599}
+  a.btnlink{display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>💬 NPA Motivation v3.0</h1>
+  <p class="sub">Auto Scheduler (07:00) • Weekly Theme • Multi-target WhatsApp</p>
+
+  <!-- Controls -->
+  <div class="bar">
+    <select id="target" class="select">
+      <option value="leader">🎯 Target: Leader</option>
+      <option value="mitra">🎯 Target: Mitra</option>
+    </select>
+    <select id="weekday" class="select" title="Tema Mingguan">
+      <option value="Senin">Tema Senin</option>
+      <option value="Selasa">Tema Selasa</option>
+      <option value="Rabu">Tema Rabu</option>
+      <option value="Kamis">Tema Kamis</option>
+      <option value="Jumat">Tema Jumat</option>
+      <option value="Sabtu">Tema Sabtu</option>
+      <option value="Minggu">Tema Minggu</option>
+    </select>
+    <input id="sendTime" type="time" value="07:00" />
+    <button class="btn alt" id="btnLoad">🔄 Muat Pesan</button>
+  </div>
+
+  <!-- Message -->
+  <div class="msg" id="motivation">Memuat pesan motivasi...</div>
+
+  <!-- Actions -->
+  <div class="bar">
+    <button class="btn" id="btnSendAll">🚀 Kirim Otomatis (Loop)</button>
+    <button class="btn alt" id="btnList">📋 Tampilkan Daftar</button>
+    <span class="muted" id="statusInfo">Siap.</span>
+  </div>
+
+  <!-- List -->
+  <div id="list"></div>
+
+  <!-- Log -->
+  <h3>🧾 Log Pengiriman</h3>
+  <div class="row">
+    <button class="btn alt" id="btnClearLog">Hapus Log</button>
+    <input id="ghToken" class="select" style="flex:1" placeholder="(Opsional) GitHub Token untuk simpan log ke repo" />
+    <button class="btn" id="btnSaveGit">Simpan Log ke GitHub</button>
+  </div>
+  <pre class="log" id="logBox">[log siap]</pre>
+
+  <p class="footer">Powered by <b>NPA</b> ║ 3iReborn Smart System 💙</p>
+</div>
+
+<script>
+  // ========= Data =========
+  let DATA_LEADERS=[], DATA_MITRA=[];
+  let weekly = {};   // dari motivation-weekly.json
+  let currentList = []; // list yang sedang ditargetkan (leader/mitra)
+  let loopTimer = null;
+
+  // ========= Helpers =========
+  const $ = s => document.querySelector(s);
+  const log = (t)=>{const b=$("#logBox"); b.textContent += "\\n"+t; b.scrollTop=b.scrollHeight; saveLocal();};
+  const todayName = ()=>['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][new Date().getDay()];
+  const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+
+  function buildMsg(name, base){
+    return `Assalamu'alaikum ${name} 🙏🏻%0A%0A${base}%0A%0ASemangat hari ini dari *NPA Smart System* 💙%0A3iReborn Digital Ecosystem 🚀`;
+  }
+  function buildLink(phone, text){
+    return `https://wa.me/${phone}?text=${encodeURIComponent(text).replace(/%250A/g,'%0A')}`;
+  }
+
+  function renderList(){
+    const box = $("#list"); box.innerHTML='';
+    currentList.forEach((p,i)=>{
+      const div=document.createElement('div'); div.className='card';
+      const msgRaw = buildMsg(p.name, $("#motivation").dataset.raw || $("#motivation").textContent);
+      const link = buildLink(p.phone, decodeURIComponent(msgRaw));
+      div.innerHTML = `<b>${i+1}. ${p.name}</b> <span class="muted">(${p.code||'-'})</span><br>
+        <a class="btnlink" href="${link}" target="_blank"><button class="btn">📲 Kirim ke WhatsApp</button></a>`;
+      box.appendChild(div);
+    });
+  }
+
+  // ========= Load data =========
+  Promise.all([
+    fetch('data/leaders.json').then(r=>r.json()),
+    fetch('data/mitra.json').then(r=>r.json()),
+    fetch('data/motivation-weekly.json').then(r=>r.json())
+  ]).then(([leaders, mitra, wk])=>{
+    DATA_LEADERS=leaders; DATA_MITRA=mitra; weekly=wk;
+    $("#weekday").value = todayName();
+    loadMessage();
+    updateTarget();
+    autoSchedulerStart();
+    log('[init] data termuat, scheduler aktif');
+  });
+
+  function loadMessage(){
+    const day = $("#weekday").value;
+    const list = weekly[day] || ["Jalani harimu dengan niat dan aksi terbaik 💙"];
+    const msg = pick(list);
+    $("#motivation").textContent = msg;
+    $("#motivation").dataset.raw = msg;
+    log(`[msg] ${day} → "${msg.substring(0,80)}..."`);
+  }
+
+  function updateTarget(){
+    const t=$("#target").value;
+    currentList = (t==='leader')? DATA_LEADERS : DATA_MITRA;
+    $("#statusInfo").textContent = `Target: ${t} • ${currentList.length} nomor`;
+  }
+
+  // ========= Auto loop =========
+  function sendLoop(){
+    if(!currentList.length){alert('Daftar kosong.');return;}
+    const day=$("#weekday").value;
+    const base=$("#motivation").dataset.raw || $("#motivation").textContent;
+    let idx=0;
+    loopTimer = setInterval(()=>{
+      if(idx>=currentList.length){ clearInterval(loopTimer); loopTimer=null; log('[loop] selesai'); return; }
+      const p=currentList[idx++];
+      const url = buildLink(p.phone, decodeURIComponent(buildMsg(p.name, base)));
+      window.open(url,'_blank');
+      log(`[send] ${day} → ${p.name} (${p.phone})`);
+    }, 3800); // jeda 3.8s antar kirim
+  }
+
+  // ========= Scheduler (07:00 lokal) =========
+  function autoSchedulerStart(){
+    // jalankan setiap 30 detik, kirim sekali per hari per target
+    const key = 'npa_motiv_lastSent';
+    setInterval(()=>{
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const targetTime = $("#sendTime").value || '07:00';
+      const last = JSON.parse(localStorage.getItem(key)||'{}');
+      const stamp = now.toISOString().slice(0,10)+'_'+$("#target").value;
+
+      if(hh+':'+mm === targetTime && last.stamp !== stamp){
+        // kirim otomatis
+        log(`[auto] trigger ${targetTime} • target=${$("#target").value}`);
+        sendLoop();
+        localStorage.setItem(key, JSON.stringify({stamp}));
+      }
+    }, 30000);
+  }
+
+  // ========= Log local + simpan ke GitHub (opsional) =========
+  function saveLocal(){ localStorage.setItem('npa_motiv_log',$("#logBox").textContent); }
+  (function restore(){ const x=localStorage.getItem('npa_motiv_log'); if(x) $("#logBox").textContent=x; })();
+
+  async function saveToGitHub(){
+    const token=$("#ghToken").value.trim();
+    if(!token){alert('Isi GitHub token dulu.');return;}
+    const repo='3ireborn/pendaftaran-online';
+    const path='data/motivation-log.txt';
+    const content=btoa(unescape(encodeURIComponent($("#logBox").textContent)));
+    // get current sha (if file exists)
+    let sha=null;
+    try{
+      const r=await fetch(`https://api.github.com/repos/${repo}/contents/${path}`);
+      if(r.ok){ const j=await r.json(); sha=j.sha; }
+    }catch(e){}
+    const res=await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{
+      method:'PUT',
+      headers:{'Authorization':`token ${token}`,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'Update motivation log',content,sha})
+    });
+    if(res.ok){ alert('✅ Log tersimpan ke GitHub.'); log('[github] log tersimpan'); }
+    else{ alert('❌ Gagal simpan ke GitHub (cek token/izin).'); }
+  }
+
+  // ========= Events =========
+  $("#btnLoad").onclick = loadMessage;
+  $("#btnList").onclick = renderList;
+  $("#btnSendAll").onclick = sendLoop;
+  $("#target").onchange = ()=>{updateTarget(); renderList();};
+  $("#weekday").onchange = ()=>{loadMessage();};
+  $("#btnClearLog").onclick = ()=>{ $("#logBox").textContent='[log bersih]'; saveLocal(); };
+  $("#btnSaveGit").onclick = saveToGitHub;
+</script>
+</body>
+</html>
