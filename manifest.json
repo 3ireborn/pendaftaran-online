@@ -1,14 +1,15 @@
 {
-  "name": "NPA Motivation",
-  "short_name": "NPA",
-  "start_url": "./tools/admin-smart-motivation.html",
+  "name": "NPA Motivation v3.5",
+  "short_name": "NPA Motivation",
+  "description": "Asisten motivasi harian otomatis untuk Leader & Mitra 3iReborn.",
+  "start_url": "./admin-smart-motivation-v3.5.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#f9fbff",
   "theme_color": "#1a73e8",
-  "description": "Motivasi harian otomatis untuk Leader & Mitra 3iReborn.",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "asset/npa-icon-512.png",
+      "src": "./asset/npa-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
