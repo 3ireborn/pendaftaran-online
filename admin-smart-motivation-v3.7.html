@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Motivation v3.7 — Auto Daily + Random Mode</title>
+
+  <!-- ✅ PWA Setup -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a73e8">
+  <link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+  <style>
+    body {font-family: Poppins, system-ui, sans-serif; background: #f7faff; margin: 0;}
+    .wrap {max-width: 800px; margin: auto; background: #fff; border-radius: 12px; padding: 20px; margin-top: 70px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);}
+    h1 {color: #0b3d91; margin-bottom: 8px;}
+    .sub {color: #667; margin-bottom: 18px;}
+    select {padding: 8px 10px; border: 1px solid #ccd; border-radius: 6px;}
+    .msg {background: #eef5ff; border-left: 5px solid #0b3d91; padding: 14px; border-radius: 8px; margin-top: 10px; opacity: 0; transition: opacity 0.8s ease;}
+    .msg.show {opacity: 1;}
+    .btn {background: #0b3d91; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; margin-top: 12px; cursor: pointer;}
+    .btn.alt {background: #eaf2ff; color: #0b3d91;}
+    .footer {text-align: center; margin-top: 20px; color: #778; font-size: 14px;}
+    small {color: #999;}
+
+    /* 🌈 Splash Screen */
+    #splash {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg,#0b3d91,#1a73e8);
+      color: white;
+      display: flex; justify-content: center; align-items: center;
+      flex-direction: column; font-family: Poppins, sans-serif;
+      font-size: 20px; font-weight: 600; z-index: 9999;
+      animation: fadeOut 1.8s ease forwards; animation-delay: 2.2s;
+    }
+    @keyframes fadeOut { to {opacity: 0; visibility: hidden;} }
+    #splash img {width: 90px; height: 90px; margin-bottom: 12px; animation: float 2s infinite ease-in-out;}
+    @keyframes float {0%,100% {transform: translateY(0);} 50% {transform: translateY(-8px);}}
+  </style>
+</head>
+
+<body>
+  <!-- 🌟 Splash Screen -->
+  <div id="splash">
+    <img src="./asset/npa-icon-512.png" alt="NPA Logo">
+    NPA Motivation v3.7
+    <small>3iReborn Smart System</small>
+  </div>
+
+  <div class="wrap">
+    <h1>💬 NPA Motivation v3.7</h1>
+    <p class="sub">Auto Daily + Random Motivation Mode</p>
+
+    <select id="target">
+      <option value="leader">Target: Leader</option>
+      <option value="mitra">Target: Mitra</option>
+    </select>
+
+    <button class="btn" onclick="muatPesan()">📅 Muat Pesan Hari Ini</button>
+    <button class="btn alt" onclick="acakPesan()">🎲 Random Motivation</button>
+
+    <div class="msg" id="pesanMotivasi">Menunggu pesan motivasi...</div>
+
+    <button class="btn" onclick="kirimWA()">🚀 Kirim ke WhatsApp</button>
+
+    <p class="footer">
+      Powered by <b>NPA</b> || 3iReborn Smart System 💙<br>
+      <small>Auto Daily Scheduler aktif...</small>
+    </p>
+  </div>
+
+  <!-- ✨ SCRIPT -->
+  <script>
+    const pesan = {
+      "Senin": "Senin adalah tombol START. Mulai kecil, mulai sekarang. Allah melihat ikhtiarmu 💙",
+      "Selasa": "Selasa adalah waktu menanam usaha. Jangan menunggu hasil, fokuslah pada proses 💪",
+      "Rabu": "Rabu, semangat stabil. Konsisten adalah jalan menuju keberkahan 🌿",
+      "Kamis": "Kamis, hari memperbanyak amal & tindakan nyata 🌟",
+      "Jumat": "Jumat berkah. Perbanyak doa, syukur & kontribusi 🤲",
+      "Sabtu": "Sabtu adalah latihan tangguh. Lanjutkan ritme suksesmu 🔥",
+      "Minggu": "Minggu, isi ulang hati & energi. Bersyukurlah atas setiap langkah ❤️"
+    };
+
+    const randomQuotes = [
+      "🌞 Setiap pagi adalah kesempatan baru untuk memperbaiki diri.",
+      "🚀 Jangan tunggu waktu yang tepat, ciptakan waktumu sendiri.",
+      "💡 Sukses dimulai dari langkah kecil yang dilakukan terus-menerus.",
+      "❤️ Ketika lelah, ingat kembali niat baikmu.",
+      "🌿 Fokus pada niat, bukan sekadar hasil. Allah lihat prosesmu.",
+      "🔥 Tidak ada kegagalan, hanya pelajaran menuju keberhasilan.",
+      "🌙 Istirahatlah sebentar, tapi jangan berhenti selamanya."
+    ];
+
+    function muatPesan() {
+      const today = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+      const isi = pesan[today.charAt(0).toUpperCase() + today.slice(1)] || "Selamat berjuang hari ini 💪";
+      tampilkanPesan(isi);
+    }
+
+    function acakPesan() {
+      const random = randomQuotes[Math.floor(Math.random() * randomQuotes.length)];
+      tampilkanPesan(random);
+    }
+
+    function tampilkanPesan(teks) {
+      const el = document.getElementById("pesanMotivasi");
+      el.classList.remove("show");
+      setTimeout(() => {
+        el.innerText = teks;
+        el.classList.add("show");
+      }, 200);
+    }
+
+    function kirimWA() {
+      const isi = document.getElementById("pesanMotivasi").innerText;
+      const url = `https://wa.me/?text=${encodeURIComponent("🔥 NPA Motivation\n\n" + isi + "\n\n#3iReborn #NPA")}`;
+      window.open(url, "_blank");
+    }
+
+    // ⏰ Auto tampilkan pesan sesuai hari saat dibuka
+    window.addEventListener("load", muatPesan);
+  </script>
+
+  <!-- 📲 Smart Install Prompt -->
+  <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const btn = document.createElement('button');
+      btn.innerText = '📲 Pasang Aplikasi';
+      btn.style.position = 'fixed';
+      btn.style.bottom = '20px';
+      btn.style.left = '50%';
+      btn.style.transform = 'translateX(-50%)';
+      btn.style.background = '#0b3d91';
+      btn.style.color = '#fff';
+      btn.style.border = 'none';
+      btn.style.padding = '10px 18px';
+      btn.style.borderRadius = '8px';
+      btn.style.boxShadow = '0 3px 8px rgba(0,0,0,0.2)';
+      btn.style.zIndex = '9999';
+      btn.onclick = async () => {
+        btn.remove();
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') console.log('✅ App installed!');
+        deferredPrompt = null;
+      };
+      document.body.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
