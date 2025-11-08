@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Follow-Up 179 Hybrid Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e6f0ff, #ffffff);
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; margin: 0;
+  }
+  .card {
+    background: #fff;
+    padding: 30px; border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center; width: 90%; max-width: 420px;
+  }
+  h1 { color: #003399; font-size: 22px; margin-bottom: 8px; }
+  p { color: #444; font-size: 14px; }
+  input, select {
+    width: 100%; padding: 12px;
+    border: 1px solid #ccc; border-radius: 10px;
+    margin: 8px 0; font-size: 15px;
+  }
+  button {
+    width: 100%; padding: 14px; border: none;
+    border-radius: 30px; background: #d4380d; color: #fff;
+    font-size: 16px; font-weight: 600; cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover { background: #b22f09; }
+  .success { color: #003399; font-weight: 600; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Follow-Up 179 Hybrid 💬</h1>
+  <p>Sistem follow-up otomatis 1-7-9 hari dengan mode pintar</p>
+
+  <input type="text" id="fuName" placeholder="Nama Lengkap" required>
+  <input type="tel" id="fuPhone" placeholder="Nomor WhatsApp (628...)" required>
+
+  <label for="targetMode">Mode Pesan:</label>
+  <select id="targetMode">
+    <option value="leader">Kirim ke Leader</option>
+    <option value="mitra">Kirim ke Calon Mitra</option>
+  </select>
+
+  <button onclick="saveAndFollowup()">Kirim Data</button>
+  <div class="success" id="fuMsg"></div>
+</div>
+
+<script>
+const leaderPhone = "6285218453131"; // nomor WA leader kamu
+
+function saveAndFollowup() {
+  const name = document.getElementById('fuName').value.trim();
+  const phone = document.getElementById('fuPhone').value.trim();
+  const mode = document.getElementById('targetMode').value;
+  const msgEl = document.getElementById('fuMsg');
+
+  if (!name || !phone) {
+    alert("Isi nama dan nomor WA dulu ya 🙏🏻");
+    return;
+  }
+
+  // Simpan data lokal
+  const arr = JSON.parse(localStorage.getItem("followUpList") || "[]");
+  const entry = { name, phone, mode, time: Date.now() };
+  arr.push(entry);
+  localStorage.setItem("followUpList", JSON.stringify(arr));
+
+  msgEl.innerHTML = "✅ Data tersimpan! Menyiapkan pesan follow-up...";
+
+  setTimeout(() => {
+    let message = "";
+    let waNumber = "";
+
+    if (mode === "leader") {
+      waNumber = leaderPhone;
+      message = `📩 Follow-Up Otomatis (1–7–9)\n\nHalo Leader! 👋\nAda prospek baru dari sistem:\nNama: ${name}\nNomor: ${phone}\n\nSegera tindak lanjuti ya. 💪`;
+    } else {
+      waNumber = phone;
+      message = `Halo ${name}! 👋\nTerima kasih sudah tertarik dengan program *3iReborn*.\nKami tim follow-up otomatis ingin memastikan kamu sudah mendapat info lengkap.\nApakah masih berminat melanjutkan, Kak? 😊`;
+    }
+
+    const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waLink, "_blank");
+
+    msgEl.innerHTML = "📤 Pesan follow-up berhasil dikirim via WhatsApp!";
+  }, 1800);
+
+  document.getElementById('fuName').value = "";
+  document.getElementById('fuPhone').value = "";
+}
+</script>
+</body>
+</html>
