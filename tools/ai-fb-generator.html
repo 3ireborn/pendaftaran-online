@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Facebook Generator | NPA Digital Assistant</title>
+<link rel="stylesheet" href="_tools-style.css">
+</head>
+<body>
+  <h1>🧠 AI Facebook Content Generator</h1>
+  <p>Buat konten Facebook otomatis dengan pola HOOK • MASALAH • SOLUSI • CTA 💬</p>
+
+  <textarea id="topic" placeholder="Masukkan topik (contoh: manfaat asuransi 3iReborn)"></textarea>
+  <button onclick="generatePost()">🚀 Buat Konten Sekarang</button>
+
+  <div id="result" style="margin-top:2rem;white-space:pre-wrap;"></div>
+
+  <script>
+  function generatePost() {
+    const topic = document.getElementById('topic').value.trim();
+    if(!topic) return alert('Masukkan topik dulu beb 💬');
+    const posts = [
+      `🔥 *HOOK:* Pernahkah kamu berpikir ${topic}? 
+😟 *MASALAH:* Banyak orang belum menyadari pentingnya langkah kecil untuk masa depan.
+💡 *SOLUSI:* Dengan 3iReborn, kamu bisa mulai dari hal sederhana tapi berdampak besar!
+👉 *CTA:* Yuk kenali caranya di program 3iReborn 💙 
+#3iReborn #NPA #SmartSystem`,
+      `💥 *HOOK:* ${topic.toUpperCase()} — kedengarannya simpel, tapi efeknya luar biasa! 
+🤔 *MASALAH:* Banyak yang menunda sampai akhirnya menyesal.
+🌈 *SOLUSI:* Saatnya mulai lebih cepat dengan 3iReborn.
+📩 *CTA:* Klik link pendaftaranmu sekarang 🔗 
+#MotivasiFinansial #3iReborn`
+    ];
+    document.getElementById('result').innerText = posts[Math.floor(Math.random() * posts.length)];
+  }
+  </script>
+
+  <footer>🔋 Powered by: <b>NPA</b> || <b>3iReborn Smart System</b> 💙</footer>
+</body>
+</html>
