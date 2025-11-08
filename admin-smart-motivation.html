@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NPA Motivation - WhatsApp Edition</title>
+  <style>
+    body {font-family: Poppins, sans-serif; background:#f4f6fb; margin:0; padding:20px; color:#333;}
+    .container {max-width:800px;margin:auto;background:#fff;padding:30px;border-radius:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    h1 {text-align:center;color:#0b3d91;margin-bottom:20px}
+    button {background:#0b3d91;color:#fff;border:none;padding:12px 25px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px}
+    button:hover {background:#082c78}
+    .leader-card {background:#eef5ff;padding:12px;border-radius:8px;margin:10px 0}
+    .msg {background:#f0f8ff;padding:15px;border-left:5px solid #0b3d91;margin:15px 0;border-radius:10px}
+    footer{text-align:center;margin-top:20px;color:#888;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💬 NPA Motivation - WhatsApp Edition</h1>
+    <p style="text-align:center">Kirim motivasi harian untuk seluruh Leader & Mitra 3iReborn 💙</p>
+
+    <div class="msg" id="dailyMsg">Memuat pesan motivasi...</div>
+    <button onclick="loadLeaders()">Tampilkan Daftar Leader</button>
+    <div id="leaders"></div>
+
+    <footer>Powered by <b>NPA Smart System</b> | 3iReborn Digital Ecosystem</footer>
+  </div>
+
+  <script>
+    let dailyMessage = "";
+
+    // ambil pesan acak
+    fetch('data/motivation.json')
+      .then(r => r.json())
+      .then(messages => {
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        dailyMessage = msg.message;
+        document.getElementById('dailyMsg').innerHTML = "💬 " + dailyMessage;
+      });
+
+    // ambil daftar leader
+    function loadLeaders() {
+      fetch('data/leaders.json')
+        .then(r => r.json())
+        .then(leaders => {
+          const list = document.getElementById('leaders');
+          list.innerHTML = '';
+          leaders.forEach(l => {
+            const div = document.createElement('div');
+            div.className = 'leader-card';
+            const waLink = `https://wa.me/${l.phone}?text=` + encodeURIComponent(
+              `Assalamu'alaikum ${l.name} 🙏🏻\n\n${dailyMessage}\n\nSemangat hari ini dari *NPA Smart System 💙*\n3iReborn Digital Ecosystem 🚀`
+            );
+            div.innerHTML = `<b>${l.name}</b> (${l.code})<br>
+              <a href="${waLink}" target="_blank">
+              <button>📲 Kirim ke WhatsApp</button></a>`;
+            list.appendChild(div);
+          });
+        });
+    }
+  </script>
+</body>
+</html>
