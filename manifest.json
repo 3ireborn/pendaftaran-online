@@ -1,0 +1,15 @@
+{
+  "name": "NPA Motivation v3.5",
+  "short_name": "NPA Motivation",
+  "start_url": "admin-smart-motivation-v3.5.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b3d91",
+  "icons": [
+    {
+      "src": "https://3ireborn.github.io/pendaftaran-online/assets/npa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
