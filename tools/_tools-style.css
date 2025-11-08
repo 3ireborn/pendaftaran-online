@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* ✨ Global Style */
+* {
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #001f3f, #000814);
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.9s ease-in-out;
+}
+
+/* 🪶 Animasi Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🩵 Card & Container */
+.container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 0 25px rgba(0, 140, 255, 0.1);
+  width: 95%;
+  max-width: 550px;
+  margin: auto;
+}
+
+/* 🔠 Headings & Text */
+h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(90deg, #00b4d8, #90e0ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ✏️ Input & Textarea */
+textarea, input {
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  padding: 1rem;
+  font-family: 'Poppins';
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+textarea::placeholder, input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* 🌈 Buttons */
+button, .btn {
+  background: linear-gradient(90deg, #00b4d8, #0077b6);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 90%;
+  max-width: 380px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  margin: 0.6rem auto;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover, .btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6;
+}
+
+button::after, .btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+button:hover::after, .btn:hover::after {
+  transform: scale(1);
+}
+
+/* ⚡ Footer */
+footer {
+  margin-top: auto;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+/* 📱 Responsif */
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  button, .btn { font-size: 0.9rem; padding: 0.8rem 1.5rem; }
+  .container { padding: 1.5rem; }
+}
