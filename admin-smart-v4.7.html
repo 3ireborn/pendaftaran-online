@@ -1,200 +1,100 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NPA Smart System | Admin v4.7 (Final Auto Sync)</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0e2a, #1c2e70);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    h1 {
-      margin-top: 40px;
-      font-size: 1.7em;
-      color: #6ec1ff;
-    }
-    h2 {
-      color: #fff;
-      margin-top: 10px;
-      font-weight: 500;
-    }
-    .card {
-      background: #ffffff10;
-      margin: 20px auto;
-      padding: 25px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 420px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    }
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: none;
-      font-family: inherit;
-      font-size: 15px;
-    }
-    input {
-      background: #f8f9fa;
-      color: #000;
-    }
-    button {
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .blue { background: #007bff; color: #fff; }
-    .blue:hover { background: #0056b3; }
-    .red { background: #e63946; color: #fff; }
-    .green { background: #38b000; color: #fff; }
-    .ghost {
-      background: transparent;
-      color: #ccc;
-      border: 1px solid #555;
-    }
-    #menu { display: none; }
-    .btn-grid { display: grid; gap: 10px; margin-top: 20px; }
-    footer {
-      margin-top: 30px;
-      font-size: 13px;
-      color: #aaa;
-    }
-  </style>
-</head>
-<body>
-  <link rel="stylesheet" href="./tools/npa-bot-monitor.css">
-<script defer src="./tools/npa-bot-monitor.js"></script>
-  <h1>🌐 NPA Smart System</h1>
-  <h2>Admin Panel v4.7 — Final Auto Sync</h2>
+<!-- 🌐 NPA BOT Monitor Integration -->
+<style>
+#npa-bot-monitor{position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+#npa-bot-monitor .npa-bar{background:#0b3d91;color:#fff;border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+#npa-bot-monitor .left{display:flex;gap:8px;align-items:center}
+#npa-bot-monitor .right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#npa-bot-monitor .btn{background:#fff;color:#0b3d91;border:0;padding:6px 10px;border-radius:8px;font-weight:600;cursor:pointer}
+#npa-bot-monitor .btn.alt{background:#eaf2ff}
+#npa-bot-monitor .switch{display:flex;gap:6px;align-items:center;color:#fff}
+#npa-bot-monitor .switch input{accent-color:#18a957;width:18px;height:18px}
+#npa-bot-monitor .dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#bbb}
+#npa-bot-monitor .dot.ok{background:#1ec28b;box-shadow:0 0 0 3px rgba(30,194,139,.25)}
+#npa-bot-monitor .dot.warn{background:#ffb020;box-shadow:0 0 0 3px rgba(255,176,32,.25)}
+#npa-bot-monitor .npa-log{margin-top:8px;background:#f7faff;border:1px solid #e2eeff;color:#123;border-radius:10px;max-height:35vh;overflow:auto;padding:8px 10px;font-size:.92em}
+</style>
 
-  <div class="card" id="loginArea">
-    <input type="password" id="token" placeholder="Masukkan Token GitHub..." autocomplete="off">
-    <button class="blue" id="btnLogin">🔐 Login Sekarang</button>
-    <button class="ghost" id="btnCheck">🔍 Lihat Status Token</button>
-    <p id="loginState">Belum Login</p>
-  </div>
+<script defer>
+// =======================
+// 🤖 NPA Smart BOT Monitor — Inline Version
+// =======================
+const NPA = {
+  ownerName: "Sugiarto Kurniawan",
+  ownerPhone: "6285218453131",
+  baseUrl: "https://api.fonnte.com/send",
+  tz: "Asia/Jakarta",
+  leaders: [
+    "6285218453131","6285932684440","62881011823140","6281388675615",
+    "6282199558169","6281327498929","6281285949074","966563414575",
+    "6586210326","6281236544821","6282252161911","6281236781273","6288293744431"
+  ],
+  autoHour: 6,
+  autoMinute: 0,
+};
+const MOTIVATION_MESSAGES = [
+  "💫 Setiap hari adalah peluang baru untuk menjemput rezeki. Tetap semangat 💪 #Terkirim dengan 💞 dari NPA Smart System 🚀",
+  "🌅 Jangan takut gagal, takutlah kalau kamu berhenti mencoba. #NPA #3iReborn 🚀",
+  "🔥 Rezeki tidak akan salah alamat, yang penting terus bergerak dengan niat baik 💼 #SmartSystem #3iNetworks",
+  "💪 Jadikan hari ini luar biasa dengan semangat yang tak biasa! #Terkirim dari NPA Smart System 🚀",
+  "🚀 Kesuksesan adalah hasil dari kebiasaan kecil yang dilakukan setiap hari. Yuk lanjutkan perjuanganmu! #3iReborn"
+];
 
-  <div class="card" id="menu">
-    <h3>✅ Login Aman — Token Aktif</h3>
-    <div class="btn-grid">
-      <button class="green" onclick="window.location='add-mitra.html'">➕ Tambah Mitra Baru (Tanpa Login)</button>
-      <button class="blue" onclick="window.location='master-lp.html'">🌍 LP Master</button>
-      <button class="blue" onclick="window.location='lp-hot.html'">🔥 LP Hot Market</button>
-      <button class="blue" onclick="window.location='followup179.html'">📞 Follow-Up 179</button>
-      <button class="blue" onclick="window.location='reminder-booster.html'">🗓 Reminder & Booster</button>
-      <button class="blue" onclick="window.location='tools/npa-digital-assistant.html'">🤖 NPA Digital Assistant</button>
+function getToken(){return localStorage.getItem("fonnte_token")||""}
+function setToken(tok){localStorage.setItem("fonnte_token",tok);paintStatus()}
+function paintStatus(){const d=document.getElementById("npa-status-dot");if(d)d.className="dot "+(getToken()?"ok":"warn")}
+function addLog(line){const b=document.getElementById("npa-log");if(!b)return;const t=new Date().toLocaleTimeString("id-ID",{timeZone:NPA.tz,hour12:false});const p=document.createElement("div");p.textContent=`[${t}] ${line}`;b.prepend(p)}
+
+async function sendMessage(target,text){
+  const token=getToken();if(!token)throw new Error("Token kosong. Set token dulu.")
+  const res=await fetch(NPA.baseUrl,{method:"POST",headers:{"Authorization":token,"Content-Type":"application/json"},body:JSON.stringify({target,message:text})})
+  if(!res.ok){throw new Error("HTTP "+res.status)}
+  return true
+}
+async function broadcast(msg){
+  for(const p of NPA.leaders){
+    try{await sendMessage(p,msg+"\n\nSmart Auto Broadcast by 3iReborn || NPA Team 🚀");addLog("✅ "+p+" terkirim")}
+    catch(e){addLog("❌ "+p+" gagal: "+e.message)}
+  }
+}
+
+let autoOn=true
+function tickAuto(){
+  if(!autoOn)return
+  const wib=new Date(new Date().toLocaleString("en-US",{timeZone:NPA.tz}))
+  if(wib.getHours()===NPA.autoHour&&wib.getMinutes()===NPA.autoMinute){
+    const msg=MOTIVATION_MESSAGES[Math.floor(Math.random()*MOTIVATION_MESSAGES.length)]
+    addLog("🚀 Auto 06:00: broadcast dimulai")
+    broadcast(msg)
+    setTimeout(()=>{},61000)
+  }
+}
+setInterval(tickAuto,15000)
+
+function createMonitorUI(){
+  const w=document.createElement("div")
+  w.id="npa-bot-monitor"
+  w.innerHTML=`
+  <div class="npa-bar">
+    <div class="left"><span class="dot" id="npa-status-dot"></span><b>NPA BOT</b><span class="muted">• WIB</span></div>
+    <div class="right">
+      <button id="npa-btn-token" class="btn alt">Set Token</button>
+      <button id="npa-btn-test" class="btn">Tes</button>
+      <button id="npa-btn-broadcast" class="btn">Broadcast</button>
+      <label class="switch"><input type="checkbox" id="npa-auto" checked><span>Auto 06:00</span></label>
     </div>
-
-    <hr style="margin:25px 0;border:none;border-top:1px solid #444;">
-    <h3>📥 Sinkronisasi Data Leader</h3>
-    <button id="btnSync" class="blue">Ambil Data dari Leader</button>
-    <p id="syncStatus" style="font-size:14px;color:#9efcba;font-weight:600;"></p>
-
-    <hr style="margin:25px 0;border:none;border-top:1px solid #444;">
-    <button class="red" id="btnChange">🧩 Ganti Token</button>
-    <button class="ghost" id="btnLogout">🚪 Logout</button>
   </div>
-
-  <footer>
-    Powered by <b>NPA</b> || 3iReborn Smart System 💙  
-    <br>Created with ❤️ by <b>Sugiarto Kurniawan</b> — Founder Nganggur Preneur Akademi
-  </footer>
-
-  <script>
-    const KEY = "gh_token";
-    const loginArea = document.getElementById("loginArea");
-    const menu = document.getElementById("menu");
-    const tokenInput = document.getElementById("token");
-    const state = document.getElementById("loginState");
-
-    const token = localStorage.getItem(KEY);
-    if (token) {
-      menu.style.display = "block";
-      loginArea.style.display = "none";
-      state.innerText = "Login Aman — Token Aktif";
-    }
-
-    document.getElementById("btnLogin").addEventListener("click", () => {
-      const val = tokenInput.value.trim();
-      if (val.length > 20) {
-        localStorage.setItem(KEY, val);
-        location.reload();
-      } else alert("Token tidak valid!");
-    });
-
-    document.getElementById("btnLogout").addEventListener("click", () => {
-      localStorage.removeItem(KEY);
-      location.reload();
-    });
-
-    document.getElementById("btnChange").addEventListener("click", () => {
-      localStorage.removeItem(KEY);
-      alert("Token dihapus. Silakan masukkan ulang token baru.");
-      location.reload();
-    });
-
-    document.getElementById("btnCheck").addEventListener("click", async () => {
-      const token = localStorage.getItem(KEY) || tokenInput.value.trim();
-      if (!token) return alert("Masukkan token terlebih dahulu!");
-      try {
-        const res = await fetch("https://api.github.com/rate_limit", {
-          headers: { Authorization: "token " + token }
-        });
-        const d = await res.json();
-        alert(`✅ Token valid. Sisa kuota API: ${d.rate.remaining}`);
-      } catch {
-        alert("❌ Token tidak valid atau koneksi gagal.");
-      }
-    });
-
-    // ====== SINKRONISASI DATA LEADER ======
-    document.getElementById("btnSync").addEventListener("click", async () => {
-      const token = localStorage.getItem(KEY);
-      if (!token) return alert("Login sebagai admin dulu ya beb ❤️");
-      const repo = "3ireborn/pendaftaran-online";
-      const folder = "leaders-data";
-      const status = document.getElementById("syncStatus");
-
-      status.innerText = "⏳ Mengambil data dari leader...";
-      try {
-        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${folder}`, {
-          headers: { Authorization: `token ${token}` }
-        });
-        const files = await res.json();
-
-        let all = [];
-        for (const f of files) {
-          if (f.name.endsWith(".json")) {
-            const d = await (await fetch(f.download_url)).json();
-            all = all.concat(d);
-          }
-        }
-
-        const unique = Array.from(new Map(all.map(i => [i.whatsapp, i])).values());
-        const blob = new Blob([JSON.stringify(unique, null, 2)], { type: "application/json" });
-        const base64 = await blob.text().then(t => btoa(unescape(encodeURIComponent(t))));
-
-        await fetch(`https://api.github.com/repos/${repo}/contents/data/mitra.json`, {
-          method: "PUT",
-          headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ message: "Sync Leader Data", content: base64 })
-        });
-
-        status.innerHTML = `✅ Sinkronisasi selesai — ${unique.length} mitra tersimpan<br>🕒 ${new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })}`;
-      } catch (e) {
-        console.error(e);
-        status.innerText = "❌ Gagal sinkronisasi. Pastikan token aktif & folder tersedia.";
-      }
-    });
-  </script>
-  <link rel="stylesheet" href="./tools/npa-bot-monitor.css">
-<script src="./tools/npa-bot-monitor.js"></script>
-</body>
-</html>
+  <div class="npa-log" id="npa-log"></div>`
+  document.body.appendChild(w)
+  document.getElementById("npa-btn-token").onclick=()=>{
+    const cur=getToken();const t=prompt("Masukkan token Fonnte:",cur||"");if(t!==null){setToken(t.trim());addLog("🔐 Token diperbarui.")}
+  }
+  document.getElementById("npa-btn-test").onclick=async()=>{
+    try{await sendMessage(NPA.ownerPhone,"Tes kirim dari NPA BOT Monitor ✅");addLog("✅ Tes terkirim")}
+    catch(e){addLog("❌ Tes gagal: "+e.message)}
+  }
+  document.getElementById("npa-btn-broadcast").onclick=()=>{const msg=MOTIVATION_MESSAGES[Math.floor(Math.random()*MOTIVATION_MESSAGES.length)];addLog("🚀 Broadcast manual dimulai");broadcast(msg)}
+  document.getElementById("npa-auto").onchange=e=>{autoOn=e.target.checked;addLog("⚙️ Auto "+(autoOn?"ON":"OFF"))}
+  paintStatus()
+}
+document.addEventListener("DOMContentLoaded",createMonitorUI)
+</script>
