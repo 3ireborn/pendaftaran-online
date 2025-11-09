@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NPA Motivation v6.1 — Smart Auto Broadcast</title>
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0b3d91">
+<link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+<style>
+:root{
+  --bg:#f5f9ff;--card:#fff;--ink:#0b3d91;--muted:#6b7a90;
+  --accent:#1a73e8;--success:#29c36a;--soft:#eaf2ff;
+}
+body{margin:0;background:var(--bg);font-family:Poppins,system-ui,sans-serif;color:#10223a}
+.wrap{max-width:960px;margin:24px auto;padding:20px}
+h1{margin:0;font-size:28px;line-height:1.2;color:var(--ink)}
+.badge{display:inline-block;font-size:12px;background:#eef4ff;color:var(--ink);
+border:1px solid #d9e6ff;padding:4px 10px;border-radius:999px;margin-top:6px}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+select,input,textarea{width:100%;padding:10px 12px;border:1px solid #d6dfef;border-radius:10px;background:#fff}
+.btn{border:0;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600}
+.btn.secondary{background:#eaf2ff;color:var(--ink)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid #d6dfef}
+.msg{background:#eef7ff;border-left:6px solid var(--ink);padding:12px;border-radius:12px}
+.card{background:var(--card);border:1px solid #e7eefc;border-radius:16px;padding:14px;margin-top:14px}
+.list .item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:#f7fbff;margin-bottom:8px;border:1px solid #e7eefc}
+.dot{width:12px;height:12px;border-radius:50%;background:#b7c6dd;margin-left:10px}
+.dot.ok{background:var(--success)}
+.small{color:var(--muted);font-size:13px}
+.footer{text-align:center;color:var(--muted);margin:20px 0}
+.time{padding:10px 12px;border-radius:10px;border:1px dashed #cfe0ff;background:#f3f8ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NPA Motivation <span class="small">v6.1</span></h1>
+  <div class="badge">Smart Auto Broadcast • White–Blue • WIB</div>
+
+  <div class="row">
+    <div class="time" id="nowBox">Zona: <b>WIB (Asia/Jakarta)</b> • Sekarang: <span id="now"></span></div>
+    <div class="badge">Jadwal Otomatis: <b>06:00 WIB</b></div>
+  </div>
+
+  <div class="row">
+    <button class="btn" id="btnLoad">📅 Muat Pesan Hari Ini</button>
+    <select id="manualTime" style="max-width:160px">
+      <option>06:00</option><option>12:00</option><option>15:00</option><option>20:00</option>
+    </select>
+    <button class="btn secondary" id="btnRandom">🎲 Random Motivation</button>
+    <button class="btn ghost" id="btnAI">🤖 AI Refresh Minggu Ini</button>
+  </div>
+
+  <div class="card">
+    <div class="msg" id="message">Menunggu pesan motivasi…</div>
+    <div class="row">
+      <button class="btn" id="btnBroadcast">🚀 Kirim ke Semua Leader</button>
+      <button class="btn ghost" id="btnToggle">📋 Tampilkan Daftar Leader</button>
+    </div>
+    <div class="small" style="margin-top:10px">
+      #Terkirim dengan 💞 dari NPA Smart System, Semangat Menembus Batas 🚀
+    </div>
+  </div>
+
+  <div id="panel" class="card" style="display:none">
+    <b>Daftar Leader</b>
+    <div class="list" id="leaderList"></div>
+  </div>
+
+  <div class="footer small">
+    Smart Auto Broadcast by 3iReborn || NPA Team<br>
+    “Sudah cukup sistem yang kerja, aku tinggal semangat menembus batas.” 💪🏻
+  </div>
+</div>
+
+<script>
+// WIB Time
+const toWIB = d => new Date(d.toLocaleString('en-US',{timeZone:'Asia/Jakarta'}));
+function tickNow(){
+  const n = toWIB(new Date());
+  const pad = x=>x.toString().padStart(2,'0');
+  document.getElementById('now').textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())} WIB`;
+}
+setInterval(tickNow,1000);tickNow();
+
+// Leader Data
+const DATA_URL="./data/leaders.json";
+let LEADERS=[];
+let CURRENT_MSG="";
+const WEEK_MSG={
+  0:"Minggu, isi ulang hati & energi. Bersyukurlah atas setiap langkah ❤️",
+  1:"Senin adalah tombol START. Mulai kecil, mulai sekarang. Allah melihat ikhtiarmu. 💙",
+  2:"Selasa: konsisten > cepat. Sedikit demi sedikit jadi bukit. 📈",
+  3:"Rabu: fokus ke 3 hal berdampak. Potong distraksi. ✂️",
+  4:"Kamis: bertumbuh itu sengaja. Upgrade 1% hari ini. 🔧",
+  5:"Jumat: rapikan hasil & syukuri proses. Barakallahu fiikum. 🌿",
+  6:"Sabtu: latihan & evaluasi. Besok kita isi ulang lagi. 🔁"
+};
+
+function waLink(phone,text){
+  const t=encodeURIComponent(text+"\n\n#Terkirim dengan 💞 dari NPA Smart System, Semangat Menembus Batas 🚀");
+  const n=phone.replace(/[^\d]/g,'');
+  return `https://wa.me/${n}?text=${t}`;
+}
+
+async function loadLeaders(){
+  try{
+    const res=await fetch(DATA_URL,{cache:'no-store'});
+    LEADERS=await res.json();
+  }catch(e){alert('⚠️ Gagal load data leaders.json');}
+  renderLeaders();
+}
+
+function renderLeaders(){
+  const box=document.getElementById('leaderList');box.innerHTML="";
+  LEADERS.forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.className='item';
+    el.innerHTML=`<div>#${i+1} ${p.name}</div>
+      <div><a class="small" href="${waLink(p.phone,CURRENT_MSG)}" target="_blank">✉️ Kirim WA</a><span class="dot" id="dot-${i}"></span></div>`;
+    box.appendChild(el);
+  });
+}
+loadLeaders();
+
+// Compose Message
+function composeToday(){
+  const today=toWIB(new Date()).getDay();
+  CURRENT_MSG=WEEK_MSG[today];
+  document.getElementById('message').textContent=CURRENT_MSG;
+}
+composeToday();
+function randomMsg(){
+  const arr=Object.values(WEEK_MSG);
+  CURRENT_MSG=arr[Math.floor(Math.random()*arr.length)];
+  document.getElementById('message').textContent=CURRENT_MSG;
+}
+function aiRefresh(){
+  const weekNum=new Intl.DateTimeFormat('id-ID',{week:'numeric'}).format(new Date());
+  const themes=[
+    "Fokus pada kualitas langkah, bukan cepatnya hasil.",
+    "Setiap niat baik yang dieksekusi hari ini, adalah investasi besar esok.",
+    "Tantangan hadir bukan untuk menahanmu, tapi menguatkan langkahmu.",
+    "Jangan tunggu siap, mulai saja. Siap akan datang di tengah perjalanan."
+  ];
+  CURRENT_MSG=`AI Refresh Minggu ${weekNum}: ${themes[Math.floor(Math.random()*themes.length)]} 💙`;
+  document.getElementById('message').textContent=CURRENT_MSG;
+}
+
+// Broadcast
+async function broadcastAll(){
+  if(!CURRENT_MSG)composeToday();
+  LEADERS.forEach((_,i)=>{
+    const d=document.getElementById(`dot-${i}`);if(d)d.classList.remove('ok');
+  });
+  for(let i=0;i<LEADERS.length;i++){
+    const p=LEADERS[i];
+    window.open(waLink(p.phone,CURRENT_MSG),'_blank');
+    const d=document.getElementById(`dot-${i}`);if(d)d.classList.add('ok');
+    await new Promise(r=>setTimeout(r,600));
+  }
+}
+
+// Auto 06:00 WIB
+let lastRun="";
+async function autoScheduler(){
+  const n=toWIB(new Date());
+  const hh=n.getHours(),mm=n.getMinutes();
+  const key=`${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}-0600`;
+  if(hh===6&&mm===0&&lastRun!==key){
+    composeToday();await broadcastAll();lastRun=key;
+  }
+}
+setInterval(autoScheduler,15000);
+
+// Reminder 05:55 WIB
+if('Notification'in window){
+  Notification.requestPermission();
+}
+function showReminder(){
+  const text="🚀 Pesan motivasi NPA siap dikirim ke para leader!";
+  if(Notification.permission==="granted"){
+    new Notification("NPA Smart System 💙",{body:text,icon:"./asset/npa-icon-512.png"});
+  }else alert(text);
+}
+setInterval(()=>{
+  const n=toWIB(new Date());
+  if(n.getHours()===5&&n.getMinutes()===55)showReminder();
+},15000);
+
+// Events
+document.getElementById('btnLoad').onclick=composeToday;
+document.getElementById('btnRandom').onclick=randomMsg;
+document.getElementById('btnAI').onclick=aiRefresh;
+document.getElementById('btnBroadcast').onclick=broadcastAll;
+document.getElementById('btnToggle').onclick=()=>{
+  const p=document.getElementById('panel');
+  p.style.display=(p.style.display==='none'?'block':'none');
+};
+</script>
+</body>
+</html>
