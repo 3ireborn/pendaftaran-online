@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Motivation v4.0 — Auto Broadcast Edition</title>
+
+  <!-- ✅ PWA Setup -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a73e8">
+  <link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+  <style>
+    body {font-family: Poppins, system-ui, sans-serif; background: #f7faff; margin: 0;}
+    .wrap {max-width: 820px; margin: auto; background: #fff; border-radius: 12px; padding: 20px; margin-top: 60px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);}
+    h1 {color: #0b3d91; margin-bottom: 8px;}
+    .sub {color: #667; margin-bottom: 18px;}
+    select {padding: 8px 10px; border: 1px solid #ccd; border-radius: 6px;}
+    .msg {background: #eef5ff; border-left: 5px solid #0b3d91; padding: 14px; border-radius: 8px; margin-top: 10px;}
+    .btn {background: #0b3d91; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; margin-top: 12px; cursor: pointer;}
+    .btn.alt {background: #eaf2ff; color: #0b3d91;}
+    .footer {text-align: center; margin-top: 20px; color: #778; font-size: 14px;}
+    small {color: #999;}
+    .leader-list {margin-top: 16px; padding: 10px; border-top: 1px solid #eee;}
+    .leader-item {background: #f5f9ff; margin: 6px 0; padding: 8px 12px; border-radius: 6px;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>💬 NPA Motivation v4.0</h1>
+    <p class="sub">Auto Daily + Random + Broadcast ke Semua Leader</p>
+
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <select id="jam">
+        <option>07.00</option>
+        <option>09.00</option>
+        <option>12.00</option>
+        <option>15.00</option>
+      </select>
+      <button class="btn" onclick="muatPesan()">📅 Muat Pesan Hari Ini</button>
+      <button class="btn alt" onclick="acakPesan()">🎲 Random Motivation</button>
+    </div>
+
+    <div class="msg" id="pesanMotivasi">Menunggu pesan motivasi...</div>
+
+    <button class="btn" onclick="tampilkanLeader()">📋 Tampilkan Daftar Leader</button>
+    <button class="btn alt" onclick="kirimSemua()">🚀 Kirim ke Semua Leader</button>
+
+    <div class="leader-list" id="daftarLeader"></div>
+
+    <p class="footer">
+      Powered by <b>NPA</b> || 3iReborn Smart System 💙<br>
+      <small>Broadcast Scheduler aktif...</small>
+    </p>
+  </div>
+
+  <script>
+    const pesan = {
+      "Senin": "Senin adalah tombol START. Mulai kecil, mulai sekarang. Allah melihat ikhtiarmu 💙",
+      "Selasa": "Selasa adalah waktu menanam usaha. Jangan menunggu hasil, fokuslah pada proses 💪",
+      "Rabu": "Rabu, semangat stabil. Konsisten adalah jalan menuju keberkahan 🌿",
+      "Kamis": "Kamis, hari memperbanyak amal & tindakan nyata 🌟",
+      "Jumat": "Jumat berkah. Perbanyak doa, syukur & kontribusi 🤲",
+      "Sabtu": "Sabtu adalah latihan tangguh. Lanjutkan ritme suksesmu 🔥",
+      "Minggu": "Minggu, isi ulang hati & energi. Bersyukurlah atas setiap langkah ❤️"
+    };
+
+    const randomQuotes = [
+      "🌞 Setiap pagi adalah kesempatan baru untuk memperbaiki diri.",
+      "🚀 Jangan tunggu waktu yang tepat, ciptakan waktumu sendiri.",
+      "💡 Sukses dimulai dari langkah kecil yang dilakukan terus-menerus.",
+      "❤️ Ketika lelah, ingat kembali niat baikmu.",
+      "🌿 Fokus pada niat, bukan sekadar hasil. Allah lihat prosesmu.",
+      "🔥 Tidak ada kegagalan, hanya pelajaran menuju keberhasilan.",
+      "🌙 Istirahatlah sebentar, tapi jangan berhenti selamanya."
+    ];
+
+    let leaders = [];
+
+    function muatPesan() {
+      const today = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+      const isi = pesan[today.charAt(0).toUpperCase() + today.slice(1)] || "Selamat berjuang hari ini 💪";
+      document.getElementById("pesanMotivasi").innerText = isi;
+    }
+
+    function acakPesan() {
+      const random = randomQuotes[Math.floor(Math.random() * randomQuotes.length)];
+      document.getElementById("pesanMotivasi").innerText = random;
+    }
+
+    async function tampilkanLeader() {
+      const res = await fetch('./data/leaders.json');
+      leaders = await res.json();
+      const div = document.getElementById("daftarLeader");
+      div.innerHTML = "";
+      leaders.forEach((l, i) => {
+        const item = document.createElement("div");
+        item.className = "leader-item";
+        item.innerHTML = `#${i+1} ${l.nama} — <a href="https://wa.me/${l.no_wa}?text=${encodeURIComponent(document.getElementById('pesanMotivasi').innerText)}" target="_blank">📩 Kirim WhatsApp</a>`;
+        div.appendChild(item);
+      });
+    }
+
+    function kirimSemua() {
+      if (!leaders.length) {
+        alert("📋 Tampilkan daftar leader dulu, beb!");
+        return;
+      }
+      const isi = document.getElementById("pesanMotivasi").innerText;
+      leaders.forEach((l, i) => {
+        setTimeout(() => {
+          window.open(`https://wa.me/${l.no_wa}?text=${encodeURIComponent("🔥 NPA Motivation\n\n" + isi + "\n\n#3iReborn #NPA")}`);
+        }, i * 1000); // jeda 1 detik tiap kiriman
+      });
+    }
+
+    // Auto tampilkan pesan sesuai hari
+    window.addEventListener("load", muatPesan);
+  </script>
+</body>
+</html>
