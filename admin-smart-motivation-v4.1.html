@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NPA Motivation v4.1 — Auto WIB</title>
+
+  <!-- PWA (opsional, aman dibiarkan) -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0b3d91">
+  <link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+  <style>
+    :root{--pri:#0b3d91;--bg:#f6f9ff;--card:#fff;--muted:#7b8aa0}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:Poppins,system-ui,sans-serif}
+    .wrap{max-width:900px;margin:24px auto;padding:18px}
+    .card{background:var(--card);border-radius:14px;box-shadow:0 8px 24px rgba(11,61,145,.08);padding:18px}
+    h1{margin:0 0 6px;font-size:28px;color:var(--pri);display:flex;gap:10px;align-items:center}
+    .sub{color:var(--muted);margin-bottom:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    select,button{padding:10px 14px;border-radius:10px;border:1px solid #cfe0ff;background:#fff}
+    button{background:var(--pri);color:#fff;border:0}
+    .ghost{background:#eaf2ff;color:var(--pri)}
+    .msg{background:#eef5ff;border-left:6px solid var(--pri);padding:14px;border-radius:10px;margin:12px 0;min-height:64px}
+    .list .item{background:#fff;border-radius:12px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;border:1px solid #e8eefc}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .footer{margin-top:18px;color:var(--muted);text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>💬 NPA Motivation <span class="muted tiny">v4.1</span></h1>
+      <div class="sub">Auto Daily (WIB) • Random • Broadcast WhatsApp ke semua Leader</div>
+
+      <div class="row">
+        <select id="jam">
+          <!-- default 07:00 -->
+          <option>07.00</option><option>07.30</option><option selected>08.00</option>
+          <option>08.30</option><option>09.00</option><option>09.30</option>
+        </select>
+        <button id="btnMuat"><span>📅</span> Muat Pesan Hari Ini</button>
+        <button class="ghost" id="btnRandom">🎲 Random Motivation</button>
+      </div>
+
+      <div id="msg" class="msg">Menunggu pesan motivasi…</div>
+
+      <div class="row">
+        <button class="ghost" id="btnShow">📋 Tampilkan Daftar Leader</button>
+        <button id="btnBroadcast">🚀 Kirim ke Semua Leader</button>
+      </div>
+
+      <div id="status" class="muted tiny">Zona waktu: <b>WIB (Asia/Jakarta)</b> • Auto-scheduler aktif 07:00 WIB.</div>
+
+      <div id="list" class="list" style="display:none;margin-top:10px"></div>
+
+      <div class="footer">Powered by <b>NPA</b> || 3iReborn Smart System 💙</div>
+    </div>
+  </div>
+
+<script>
+/* ===== Util Zona WIB ===== */
+const nowWIB = () => new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'}));
+const hariID  = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+/* ===== Sumber data leader ===== */
+const DATA_URL = './data/leaders.json'; // pastikan file ini ada
+
+/* ===== Template pesan per hari ===== */
+const pesanHarian = {
+  "Minggu": "Minggu, isi ulang hati & energi. Bersyukurlah atas setiap langkah ❤️",
+  "Senin": "Senin adalah tombol START. Mulai kecil, mulai sekarang. Allah melihat ikhtiarmu 💙",
+  "Selasa": "Selasa, lanjutkan langkahmu. Setiap usaha kecil berarti besar 💪",
+  "Rabu":   "Rabu, pertahankan ritme semangat. Kamu lebih dekat dari yang kau kira ⛰️",
+  "Kamis":  "Kamis penuh peluang. Fokus, doa, dan eksekusi. 🌟",
+  "Jumat":  "Jumat berkah. Tutup pekan dengan syukur & aksi terbaikmu 🙏",
+  "Sabtu":  "Sabtu, recharge yang elegan: quality time & rencana matang untuk pekan depan 🌿"
+};
+
+/* ===== Random bank ===== */
+const bankRandom = [
+  "Konsisten mengalahkan pelan tapi berhenti. Sedikit hari ini, ulangi besok. 🔁",
+  "Standar naik pelan-pelan, hasil ikut naik. Trust the process. 📈",
+  "Rezeki itu dekat dengan usaha + doa + adab. Jaga tiga-tiganya. 🤲",
+  "Kalau capek, istirahat. Jangan menyerah. Kamu jauh lebih kuat dari yang kamu kira. ⚡",
+  "Hari ini kirim satu pesan baik, ajak satu orang baik. Ulangi tiap hari. 📲"
+];
+
+/* ===== Elemen ===== */
+const elMsg = document.querySelector('#msg');
+const elList = document.querySelector('#list');
+const elShow = document.querySelector('#btnShow');
+const elBroadcast = document.querySelector('#btnBroadcast');
+const elMuat = document.querySelector('#btnMuat');
+const elRandom = document.querySelector('#btnRandom');
+const elJam = document.querySelector('#jam');
+const elStatus = document.querySelector('#status');
+
+/* ===== State ===== */
+let leaders = [];
+let broadcastTimer = null;
+
+/* ===== Fungsi ===== */
+function setMsg(text){ elMsg.textContent = text; }
+
+function muatPesanHariIni(){
+  const h = hariID[nowWIB().getDay()];
+  setMsg(pesanHarian[h] || "Tetap semangat setiap hari 💪");
+}
+
+function randomMotivation(){
+  const t = bankRandom[Math.floor(Math.random()*bankRandom.length)];
+  setMsg(t);
+}
+
+async function loadLeaders(){
+  if(leaders.length) return leaders;
+  try{
+    const res = await fetch(DATA_URL+'?v='+Date.now()); // bust cache
+    leaders = await res.json();
+  }catch(e){
+    alert('Gagal memuat leaders.json'); console.error(e);
+  }
+  return leaders;
+}
+
+function renderList(){
+  if(!leaders.length){ elList.style.display='none'; return; }
+  elList.innerHTML = '';
+  leaders.forEach((L, i)=>{
+    const item = document.createElement('div');
+    item.className = 'item';
+    const label = document.createElement('div');
+    label.textContent = `#${i+1} ${L.name}`;
+    const btn = document.createElement('a');
+    btn.textContent = '✉️ Kirim WhatsApp';
+    btn.href = buildWaLink(L.phone, elMsg.textContent);
+    btn.target = '_blank';
+    item.appendChild(label); item.appendChild(btn);
+    elList.appendChild(item);
+  });
+  elList.style.display='block';
+}
+
+function buildWaLink(phone, text){
+  const p = (phone+'').replace(/[^\d]/g,''); // sanitize
+  const q = encodeURIComponent(text);
+  return `https://wa.me/${p}?text=${q}`;
+}
+
+function startBroadcast(){
+  if(!leaders.length){ alert('Daftar leader kosong.'); return; }
+  const msg = elMsg.textContent.trim();
+  if(!msg){ alert('Pesan masih kosong. Klik "Muat Pesan Hari Ini" dahulu.'); return; }
+  let i=0;
+  const openNext=()=>{
+    if(i>=leaders.length){ clearInterval(broadcastTimer); broadcastTimer=null; return; }
+    const L = leaders[i++];
+    window.open(buildWaLink(L.phone, msg), '_blank');
+  };
+  // sebagian browser butuh 1 interaksi; tombol ini dianggap interaksi pengguna
+  openNext();
+  broadcastTimer = setInterval(openNext, 900); // jeda 0.9s antar tab
+}
+
+/* ===== Auto Scheduler (WIB) ===== */
+function scheduleLoop(){
+  // Update status jam WIB
+  const now = nowWIB();
+  elStatus.innerHTML = `Zona waktu: <b>WIB (Asia/Jakarta)</b> • Sekarang: ${now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} WIB • Auto-scheduler aktif.`;
+  // Cek apakah tepat di menit target => muat pesan otomatis
+  const targetStr = elJam.value; // "07.00"
+  const [HH,MM] = targetStr.split('.').map(x=>parseInt(x,10));
+  if(now.getHours()===HH && now.getMinutes()===MM && now.getSeconds()<3){
+    muatPesanHariIni();
+    // (opsional) auto-broadcast bisa diaktifkan dengan baris di bawah:
+    // startBroadcast();
+  }
+}
+
+/* ===== Init ===== */
+muatPesanHariIni();
+loadLeaders().then(renderList);
+setInterval(scheduleLoop, 1000);
+
+/* ===== Events ===== */
+elMuat.addEventListener('click', muatPesanHariIni);
+elRandom.addEventListener('click', randomMotivation);
+elShow.addEventListener('click', async ()=>{
+  if(!leaders.length) await loadLeaders();
+  renderList();
+  elShow.textContent = elList.style.display==='none' ? '📋 Tampilkan Daftar Leader' : '📋 Sembunyikan Daftar Leader';
+});
+elBroadcast.addEventListener('click', startBroadcast);
+</script>
+</body>
+</html>
