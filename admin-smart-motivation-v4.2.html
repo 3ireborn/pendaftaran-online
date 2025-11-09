@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA Motivation v4.2 — Smart Auto Broadcast</title>
+
+  <!-- ✅ PWA Support -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0b3d91">
+  <link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+  <!-- 🎨 STYLE -->
+  <style>
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0b3d91;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+    }
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #cdd9ff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    select, input, button {
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      font-size: 15px;
+    }
+    button {
+      background: #0b3d91;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #092e78;
+    }
+    .leader-list {
+      margin-top: 20px;
+    }
+    .leader-item {
+      background: #eef3ff;
+      border-left: 5px solid #0b3d91;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .leader-item.sent { border-left-color: #3ecf8e; background: #f3fff8; }
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 13px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>NPA Motivation v4.2</h1>
+    <p>Smart Auto Broadcast by 3iReborn || NPA Team</p>
+  </header>
+
+  <div class="container">
+    <h2>📆 Jadwal Otomatis: 06:00 WIB</h2>
+    <p>Pilih tema motivasi manual (jika ingin test):</p>
+
+    <select id="theme">
+      <option value="Senin">Senin — Semangat Awal Pekan</option>
+      <option value="Selasa">Selasa — Konsistensi Itu Kunci</option>
+      <option value="Rabu">Rabu — Fokus pada Progres</option>
+      <option value="Kamis">Kamis — Bersyukur atas Proses</option>
+      <option value="Jumat">Jumat — Rezeki dan Doa</option>
+      <option value="Sabtu">Sabtu — Evaluasi dan Upgrade Diri</option>
+      <option value="Minggu">Minggu — Waktu Bersyukur & Istirahat</option>
+    </select>
+
+    <button onclick="sendMotivation()">Kirim ke Semua Leader 🚀</button>
+
+    <div id="status" class="leader-list"></div>
+
+    <div class="footer">
+      #Terkirim dengan 💞 dari NPA Smart System, Semangat Menembus Batas 🚀
+    </div>
+  </div>
+
+  <script>
+    const leadersURL = "./data/leaders.json";
+    const footerMsg = "\n\n#Terkirim dengan 💞 dari NPA Smart System, Semangat Menembus Batas 🚀";
+    const timeZone = "Asia/Jakarta";
+    const sendHour = 6; // jam 06:00 WIB
+
+    async function loadLeaders() {
+      try {
+        const res = await fetch(leadersURL);
+        return await res.json();
+      } catch (e) {
+        alert("Gagal memuat data leader.");
+        return [];
+      }
+    }
+
+    function getMotivation(day) {
+      const messages = {
+        "Senin": "Senin adalah tombol START. Mulailah dengan niat terbaik 💪🏻",
+        "Selasa": "Hari Selasa, jangan lelah berproses. Hasil tidak pernah mengkhianati usaha 💙",
+        "Rabu": "Rabu penuh fokus dan aksi nyata. Kuatkan komitmenmu 🔥",
+        "Kamis": "Kamis, saatnya bersyukur pada proses dan upgrade diri 🌿",
+        "Jumat": "Jumat penuh berkah, sempurnakan dengan amal dan doa 🤲🏻",
+        "Sabtu": "Sabtu waktunya refleksi. Evaluasi bukan berarti berhenti 🌱",
+        "Minggu": "Minggu adalah waktu menenangkan hati dan menyusun strategi 💫"
+      };
+      return messages[day] || "Tetap semangat, karena setiap hari adalah peluang baru 🌞";
+    }
+
+    async function sendMotivation() {
+      const day = document.getElementById('theme').value;
+      const msg = getMotivation(day) + footerMsg;
+      const list = document.getElementById('status');
+      list.innerHTML = "<p><em>Mengirim motivasi...</em></p>";
+
+      const leaders = await loadLeaders();
+      list.innerHTML = "";
+
+      for (const [i, l] of leaders.entries()) {
+        const div = document.createElement('div');
+        div.className = "leader-item";
+        div.textContent = `${l.code} ${l.name} — ${l.phone}`;
+        list.appendChild(div);
+
+        setTimeout(() => {
+          div.classList.add("sent");
+          div.textContent += " ✅";
+          window.open(`https://wa.me/${l.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }, i * 1200);
+      }
+    }
+
+    // AUTO RUN setiap hari 06:00 WIB
+    function scheduleAutoRun() {
+      const now = new Date();
+      const jakartaTime = new Date(now.toLocaleString("en-US", {timeZone}));
+      const target = new Date(jakartaTime);
+      target.setHours(sendHour, 0, 0, 0);
+      if (jakartaTime > target) target.setDate(target.getDate() + 1);
+      const diff = target - jakartaTime;
+      console.log("⏰ Auto broadcast akan dijalankan dalam", Math.round(diff / 1000 / 60), "menit");
+
+      setTimeout(() => {
+        sendMotivation();
+        setInterval(sendMotivation, 24 * 60 * 60 * 1000);
+      }, diff);
+    }
+    scheduleAutoRun();
+  </script>
+</body>
+</html>
