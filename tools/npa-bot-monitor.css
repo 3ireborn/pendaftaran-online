@@ -1,0 +1,44 @@
+/* ==============================
+   NPA SMART BOT MONITOR — CSS
+   ============================== */
+
+#bot-monitor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #0b3d91, #1a73e8);
+  color: #fff;
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+#bot-monitor .status {
+  display: flex;
+  flex-direction: column;
+}
+
+#bot-monitor .status small {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+#bot-monitor button {
+  background: #fff;
+  color: #0b3d91;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#bot-monitor button:hover {
+  background: #f0f0f0;
+}
