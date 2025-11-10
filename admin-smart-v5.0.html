@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NPA Smart System — Admin Pusat v5.0 (FINAL)</title>
+<meta name="theme-color" content="#0b3d91">
+<link rel="icon" href="./asset/npa-icon-512.png" type="image/png">
+
+<style>
+:root{
+  --brand:#0b3d91;
+  --brand-2:#183a73;
+  --bg:#f5f8ff;
+  --card:#ffffff;
+  --text:#123;
+  --muted:#6c7a90;
+  --ok:#1ec28b;
+  --warn:#ffb020;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+.wrap{max-width:960px;margin:20px auto;padding:16px}
+h1{display:flex;gap:10px;align-items:center;font-weight:800;color:var(--brand);margin:0 0 6px}
+h2{margin:18px 0 10px;color:var(--brand-2)}
+.card{background:var(--card);border-radius:16px;box-shadow:0 6px 20px rgba(0,30,80,.08);padding:16px;margin-bottom:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.row{grid-template-columns:1fr}}
+label{display:block;font-size:.9rem;color:var(--muted);margin:4px 0 6px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d7e2ff;border-radius:10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#b9ccff;box-shadow:0 0 0 3px rgba(11,61,145,.08)}
+.btn{appearance:none;border:0;border-radius:10px;background:var(--brand);color:#fff;font-weight:700;padding:12px 16px;cursor:pointer}
+.btn.secondary{background:#eaf2ff;color:var(--brand)}
+.btn.ghost{background:#fff;color:var(--brand);border:1px solid #d7e2ff}
+.badge{display:inline-block;font-size:.78rem;background:#eef5ff;color:#335;padding:6px 8px;border-radius:999px}
+.links a{margin-right:8px}
+.small{font-size:.9rem;color:var(--muted)}
+hr{border:0;border-top:1px dashed #e6edff;margin:14px 0}
+.ul{margin:8px 0 0 18px}
+.footer{margin:20px 0 40px;text-align:center;color:#6f7d96}
+.kv{display:flex;gap:8px;align-items:center}
+.kv .dot{width:10px;height:10px;border-radius:50%;background:#bbb}
+.kv .dot.ok{background:var(--ok);box-shadow:0 0 0 3px rgba(30,194,139,.22)}
+.kv .dot.warn{background:var(--warn);box-shadow:0 0 0 3px rgba(255,176,32,.22)}
+.list .item{border:1px solid #e8efff;border-radius:14px;padding:12px 12px;margin:8px 0;background:#fff}
+.item .name{font-weight:800}
+.item .meta{color:#6c7a90;font-size:.9rem}
+.item .links a{display:inline-block;margin:8px 8px 0 0}
+blockquote{background:#f7faff;border-left:4px solid var(--brand);padding:10px;border-radius:10px}
+.flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.right{margin-left:auto}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧭 NPA Smart System — Admin Pusat v5.0</h1>
+  <div class="small">Smart Auto • Leader Links • GitHub Sync • Fonnte BOT Monitor</div>
+
+  <!-- ================== Tambah Leader ================== -->
+  <div class="card">
+    <h2>➕ Tambah Mitra/Leader</h2>
+    <div class="row">
+      <div>
+        <label>Nama Leader</label>
+        <input id="in-name" placeholder="cth: Sugiarto Kurniawan">
+      </div>
+      <div>
+        <label>No. WhatsApp (format 628...)</label>
+        <input id="in-wa" placeholder="cth: 6285xxxxxxxxx">
+      </div>
+    </div>
+    <div class="row">
+      <div><button class="btn" id="btn-add">Tambah ke Daftar</button></div>
+      <div class="small">ID unik (inisial) & kode otomatis. Slug = nama kebawah (tanda hubung).</div>
+    </div>
+  </div>
+
+  <!-- ================== Sinkron GitHub ================== -->
+  <div class="card">
+    <h2>🌥️ Sinkronisasi ke GitHub</h2>
+    <div class="row">
+      <div>
+        <label>GitHub Owner/Org</label>
+        <input id="gh-owner" value="3ireborn">
+      </div>
+      <div>
+        <label>Repository</label>
+        <input id="gh-repo" value="pendaftaran-online">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Path file leaders.json</label>
+        <input id="gh-path" value="data/leaders.json">
+      </div>
+      <div>
+        <label>Token GitHub (disimpan lokal)</label>
+        <input id="gh-token" placeholder="github_pat_xxx (optional)">
+      </div>
+    </div>
+    <div class="flex">
+      <button class="btn secondary" id="btn-save-gh">Simpan Token</button>
+      <button class="btn" id="btn-sync">Sinkron ke GitHub</button>
+      <div class="small">Token hanya disimpan di perangkat ini (localStorage).</div>
+    </div>
+  </div>
+
+  <!-- ================== Daftar Leader ================== -->
+  <div class="card">
+    <h2>📒 Daftar Leader</h2>
+    <div id="leaders-list" class="list small">Memuat data…</div>
+    <div class="small">Jika ingin edit cepat: hapus dari daftar lalu tambahkan ulang.</div>
+  </div>
+
+  <!-- ================== Tools Cepat ================== -->
+  <div class="card">
+    <h2>🧠 AI Tools (Shortcut)</h2>
+    <div class="flex links">
+      <a class="badge" href="./tools/npa-digital-assistant.html">NPA Digital Assistant</a>
+      <a class="badge" href="./tools/ai-fb-generator.html">FB Generator</a>
+      <a class="badge" href="./tools/ai-analyzer.html">Konten Analyzer</a>
+      <a class="badge" href="./tools/ai-seo.html">SEO Helper</a>
+      <a class="badge" href="./followup-demo.html">FollowUp 1-7-9</a>
+    </div>
+    <hr>
+    <blockquote>
+      Beberapa tools butuh file pendukung — pastikan sudah tersedia agar tidak 404.
+    </blockquote>
+  </div>
+
+  <!-- ================== Bantuan ================== -->
+  <div class="card">
+    <h2>ℹ️ Bantuan Cepat</h2>
+    <ul class="ul">
+      <li>Tambah Leader → otomatis muncul link <b>LP Master</b>, <b>LP Hot</b>, <b>Pendaftaran</b>.</li>
+      <li>Klik <b>Sinkron</b> untuk menyimpan ke <code class="mono">data/leaders.json</code> (butuh token GitHub).</li>
+      <li>Panel BOT di bawah: klik <b>Set Token</b> (Fonnte) lalu <b>Tes</b>/<b>Broadcast</b>. Auto 06:00 WIB.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Powered by <b>NPA Smart System</b> × <b>3iReborn</b> — “KitaNganggur Punya Penghasilan” 🚀
+  </div>
+</div>
+
+<!-- ================== NPA BOT MONITOR (inline) ================== -->
+<style>
+#npa-bot{position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+#npa-bot .bar{background:var(--brand);color:#fff;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 22px rgba(0,30,80,.18)}
+#npa-bot .right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+#npa-bot .btn{background:#fff;color:var(--brand);border:0;border-radius:9px;font-weight:800;padding:8px 12px;cursor:pointer}
+#npa-bot .btn.alt{background:#eaf2ff}
+#npa-bot .dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#bbb}
+#npa-bot .dot.ok{background:var(--ok);box-shadow:0 0 0 3px rgba(30,194,139,.25)}
+#npa-bot .dot.warn{background:var(--warn);box-shadow:0 0 0 3px rgba(255,176,32,.25)}
+#npa-log{margin-top:8px;background:#f7faff;border:1px solid #e2eeff;border-radius:10px;max-height:34vh;overflow:auto;padding:8px 10px;color:#123}
+#npa-bot label{display:flex;align-items:center;gap:6px}
+#npa-bot input[type=checkbox]{width:18px;height:18px;accent-color:#18a957}
+</style>
+
+<div id="npa-bot">
+  <div class="bar">
+    <span class="dot warn" id="bot-dot"></span><b>NPA BOT</b><span class="small">• WIB</span>
+    <div class="right">
+      <button class="btn alt" id="bot-set">Set Token</button>
+      <button class="btn" id="bot-test">Tes</button>
+      <button class="btn" id="bot-bc">Broadcast</button>
+      <label class="small"><input type="checkbox" id="bot-auto" checked> Auto 06:00</label>
+    </div>
+  </div>
+  <div id="npa-log" class="small mono"></div>
+  <div class="small" style="text-align:center;margin-top:6px">#Terkirim dengan 💞 dari NPA Smart System, Semangat Menembus Batas 🚀</div>
+</div>
+
+<script>
+// ========= CONFIG =========
+const LP = {
+  MASTER : "./master-lp.html?leader=",
+  HOT    : "./lp-eka-mini.html?leader=",
+  FORM   : "./index-v2.html?leader="
+};
+const TZ = "Asia/Jakarta";
+const DATA_URL = "./data/leaders.json"; // sumber resmi
+// ========= UTIL =========
+const $ = sel => document.querySelector(sel);
+const nowWIB = () => new Date(new Date().toLocaleString("en-US",{timeZone:TZ}));
+
+function slugify(str){
+  return String(str||"").trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g,"")
+    .replace(/\s+/g,"-")
+    .replace(/-+/g,"-");
+}
+function prettyLog(s){ const box=$("#npa-log"); const t=nowWIB().toLocaleTimeString("id-ID",{hour12:false}); const el=document.createElement("div"); el.textContent=`[${t}] ${s}`; box.prepend(el); }
+
+function setLocal(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getLocal(k,def){ try{const v=JSON.parse(localStorage.getItem(k)); return v??def;}catch{ return def; }}
+
+// ========= DATA STATE =========
+let leaders = []; // {id, code, name, phone, slug}
+
+// Try load official JSON; fallback local
+async function loadLeaders(){
+  try{
+    const res = await fetch(DATA_URL, {cache:"no-store"});
+    if(res.ok){
+      leaders = await res.json();
+      setLocal("leaders_cache",leaders);
+    }else{
+      leaders = getLocal("leaders_cache",[]);
+    }
+  }catch{
+    leaders = getLocal("leaders_cache",[]);
+  }
+  renderLeaders();
+}
+
+function renderLeaders(){
+  const box = $("#leaders-list");
+  if(!leaders?.length){ box.innerHTML = `<div class="small">Belum ada data leader.</div>`; return; }
+  box.innerHTML = leaders.map((L,i)=>{
+    const master = `${LP.MASTER}${L.slug}`;
+    const hot    = `${LP.HOT}${L.slug}`;
+    const form   = `${LP.FORM}${L.slug}`;
+    return `
+      <div class="item">
+        <div class="flex">
+          <div class="name">#${i+1} ${L.name}</div>
+          <div class="right meta">WA: <a href="https://wa.me/${L.phone}" target="_blank">${L.phone}</a> &nbsp;•&nbsp; slug: <span class="mono">${L.slug}</span></div>
+        </div>
+        <div class="links">
+          <a class="badge" href="${master}" target="_blank">🌐 LP Master</a>
+          <a class="badge" href="${hot}" target="_blank">🔥 LP Hot</a>
+          <a class="badge" href="${form}" target="_blank">📝 Pendaftaran</a>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+// ========= ADD LEADER =========
+$("#btn-add").onclick = ()=>{
+  const name = $("#in-name").value.trim();
+  const phone= $("#in-wa").value.trim();
+  if(!name || !/^628\d{6,}$/.test(phone)){ alert("Nama & no WA (628...) wajib diisi."); return; }
+  const initials = name.split(" ").map(w=>w[0]||"").join("").toUpperCase().slice(0,2);
+  const id = initials + String(Math.floor(100+Math.random()*900)); // simple uniq
+  const code = String((leaders?.length||0)+1).padStart(3,"0");
+  const slug = slugify(name);
+  leaders = [...leaders, {id, code, name, phone, slug}];
+  setLocal("leaders_cache",leaders);
+  renderLeaders();
+  $("#in-name").value=""; $("#in-wa").value="";
+  alert("Leader ditambahkan (lokal). Klik Sinkron untuk simpan ke GitHub.");
+};
+
+// ========= GITHUB SYNC =========
+const GH = {
+  ownerInp: $("#gh-owner"),
+  repoInp:  $("#gh-repo"),
+  pathInp:  $("#gh-path"),
+  tokenInp: $("#gh-token"),
+};
+GH.tokenInp.value = getLocal("gh_token","")||"";
+
+$("#btn-save-gh").onclick = ()=>{
+  setLocal("gh_token", GH.tokenInp.value.trim());
+  alert("Token GitHub disimpan lokal.");
+};
+
+$("#btn-sync").onclick = async ()=>{
+  const owner = GH.ownerInp.value.trim();
+  const repo  = GH.repoInp.value.trim();
+  const path  = GH.pathInp.value.trim().replace(/^\/+/,"");
+  const token = GH.tokenInp.value.trim();
+  if(!owner||!repo||!path||!token){ alert("Owner, Repo, Path & Token wajib diisi."); return; }
+
+  try{
+    // get current sha
+    const meta = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?t=${Date.now()}`,{
+      headers:{Authorization:`Bearer ${token}`}
+    });
+    let sha = undefined;
+    if(meta.ok){ const js = await meta.json(); sha = js.sha; }
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(leaders,null,2))));
+    const body = {
+      message:`Update leaders.json (Admin v5.0)`,
+      content,
+      sha
+    };
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`,{
+      method:"PUT",
+      headers:{Authorization:`Bearer ${token}`,"Content-Type":"application/json"},
+      body: JSON.stringify(body)
+    });
+    if(!res.ok){ throw new Error("HTTP "+res.status); }
+    alert("Sinkron GitHub BERHASIL ✅");
+  }catch(e){
+    console.error(e);
+    alert("Gagal sinkron ke GitHub. Cek token/izin & path.");
+  }
+};
+
+// ========= BOT FONNTE =========
+const BOT = {
+  baseUrl:"https://api.fonnte.com/send",
+  tokenKey:"fonnte_token",
+  ownerPhone:"6285218453131",
+  leadersPhones: [
+    "6285218453131","6285932684440","62881011823140","6281388675615",
+    "6282199558169","6281327498929","6281285949074","966563414575",
+    "6586210326","6281236544821","6282252161911","6281236781273","6288293744431"
+  ],
+  msgs: [
+    "💫 Setiap hari adalah peluang baru untuk menjemput rezeki. Tetap semangat 💪 #Terkirim dengan 💞 dari NPA Smart System 🚀",
+    "🌅 Jangan takut gagal, takutlah kalau kamu berhenti mencoba. #NPA #3iReborn 🚀",
+    "🔥 Rezeki tidak akan salah alamat, yang penting terus bergerak dengan niat baik 💼 #SmartSystem #3iNetworks",
+    "💪 Jadikan hari ini luar biasa dengan semangat yang tak biasa! #Terkirim dari NPA Smart System 🚀",
+    "🚀 Kesuksesan adalah hasil dari kebiasaan kecil yang dilakukan setiap hari. Yuk lanjutkan perjuanganmu! #3iReborn"
+  ],
+  autoHour:6, autoMinute:0,
+};
+const dot = $("#bot-dot");
+function botToken(){ return localStorage.getItem(BOT.tokenKey)||"" }
+function paintDot(){ dot.className = "dot " + (botToken()?"ok":"warn"); }
+
+async function sendFonnte(target,message){
+  const token = botToken(); if(!token) throw new Error("Token kosong");
+  const res = await fetch(BOT.baseUrl,{
+    method:"POST",
+    headers:{Authorization:token,"Content-Type":"application/json"},
+    body:JSON.stringify({target,message})
+  });
+  if(!res.ok) throw new Error("HTTP "+res.status);
+}
+
+$("#bot-set").onclick = ()=>{
+  const cur = botToken();
+  const t = prompt("Masukkan token Fonnte:", cur || "a2vtTGhWMnWxFZtxw1U1");
+  if(t!==null){ localStorage.setItem(BOT.tokenKey, t.trim()); paintDot(); prettyLog("🔐 Token diperbarui."); }
+};
+
+$("#bot-test").onclick = async ()=>{
+  try{
+    await sendFonnte(BOT.ownerPhone,"Tes kirim dari NPA BOT ✅");
+    prettyLog("✅ Tes terkirim");
+  }catch(e){
+    prettyLog("❌ Tes gagal: "+e.message);
+  }
+};
+
+$("#bot-bc").onclick = ()=> manualBroadcast();
+function rndMsg(){ return BOT.msgs[Math.floor(Math.random()*BOT.msgs.length)] }
+
+async function manualBroadcast(){
+  const msg = rndMsg();
+  prettyLog("🚀 Broadcast manual dimulai…");
+  for(const p of BOT.leadersPhones){
+    try{
+      await sendFonnte(p, msg+"\n\nSmart Auto Broadcast by 3iReborn || NPA Team 🚀");
+      prettyLog("✅ "+p+" terkirim");
+    }catch(e){
+      prettyLog("❌ "+p+" gagal: "+e.message);
+    }
+  }
+}
+
+let autoOn = true;
+$("#bot-auto").onchange = e=>{ autoOn = e.target.checked; prettyLog("⚙️ Auto "+(autoOn?"ON":"OFF")); };
+
+function autoTick(){
+  if(!autoOn) return;
+  const t = nowWIB();
+  if(t.getHours()===BOT.autoHour && t.getMinutes()===BOT.autoMinute && t.getSeconds()<3){
+    prettyLog("⏰ 06:00: broadcast otomatis…");
+    manualBroadcast();
+  }
+}
+setInterval(autoTick, 1000);
+paintDot();
+
+// ========= INIT =========
+loadLeaders();
+</script>
+</body>
+  </html>
