@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LP HOT — 3iReborn</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--b:#ef4444;--bg:#fff7f7} *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:#111827}
+  .wrap{max-width:840px;margin:24px auto;padding:16px}
+  .card{background:#fff;border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(120,20,20,.08)}
+  .h1{font-size:26px;font-weight:900;margin:0 0 10px}
+  .mut{color:#6b7280}
+  .btn{display:inline-block;background:var(--b);color:#fff;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:800}
+  .ghost{background:#ffe6e6;color:#b91c1c}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="h1">Siap mulai sekarang?</div>
+    <div class="mut" id="lead"></div>
+    <p>Kesempatan terbaik datang pada yang bergerak cepat. Klik daftar atau konsultasi dulu dengan leader Anda.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a id="btnForm" class="btn">Daftar Sekarang</a>
+      <a id="btnWa" class="btn ghost">Tanya Leader</a>
+    </div>
+  </div>
+</div>
+<script>
+  const p=new URLSearchParams(location.search);
+  const name=p.get('name')||'Leader 3iReborn';
+  const wa=p.get('wa')||'6280000000000';
+  const slug=p.get('slug')||'leader';
+  document.getElementById('lead').textContent=`Leader: ${name} • WA: ${wa} • slug: ${slug}`;
+  const base=location.origin+location.pathname.replace(/[^/]+$/,'');
+  const q='?'+new URLSearchParams({name,wa,slug}).toString();
+  document.getElementById('btnForm').href=base+'form-pendaftaran.html'+q;
+  document.getElementById('btnWa').href=`https://wa.me/${wa}?text=Halo%20${encodeURIComponent(name)},%20saya%20siap%20daftar%203iReborn.`;
+</script>
+</body>
+</html>
