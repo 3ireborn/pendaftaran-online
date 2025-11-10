@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Admin Hybrid — v5.8 FINAL</title>
+<style>
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#fff;margin:0;padding:0}
+.container{max-width:700px;margin:40px auto;padding:24px;background:#161b22;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+h1{color:#ffcc00;text-align:center}
+label{display:block;margin-top:12px;font-weight:600}
+input{width:100%;padding:10px;margin-top:6px;border:none;border-radius:8px;background:#21262d;color:#fff}
+input:focus{outline:2px solid #ffcc00}
+button{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer}
+.btn{background:#1a73e8;color:white}
+.links{margin-top:20px;background:#1b1f27;padding:14px;border-radius:12px}
+.links a{display:block;margin:6px 0;padding:8px 10px;background:#2d333b;border-radius:8px;color:#58a6ff;text-decoration:none}
+.links a:hover{background:#30363d}
+.footer{text-align:center;color:#777;margin-top:20px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🧩 Admin Hybrid — v5.8</h1>
+  <p style="text-align:center;color:#ccc">Buat tautan mitra otomatis (LP Master, LP Hot, Form Pendaftaran)</p>
+
+  <label>Nama Leader</label>
+  <input id="nama" placeholder="cth: Budi Santoso">
+
+  <label>No. WhatsApp (format 62...)</label>
+  <input id="wa" placeholder="62812xxxxxxx" inputmode="numeric">
+
+  <button class="btn" id="buat">🚀 Buat Link Mitra</button>
+
+  <div class="links" id="hasil" style="display:none">
+    <a id="lpMaster" target="_blank">🌐 LP Master</a>
+    <a id="lpHot" target="_blank">🔥 LP Hot</a>
+    <a id="formDaftar" target="_blank">📝 Form Pendaftaran</a>
+  </div>
+
+  <div class="footer">✨ Dibuat otomatis oleh NPA Smart System × 3iReborn</div>
+</div>
+
+<script>
+document.getElementById("buat").onclick = function(){
+  const nama = document.getElementById("nama").value.trim();
+  const wa = document.getElementById("wa").value.trim();
+  if(!nama || !wa){
+    alert("Isi dulu nama dan nomor WhatsApp dalam format 62...");
+    return;
+  }
+  const slug = nama.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+  const base = "https://3ireborn.github.io/pendaftaran-online";
+
+  const lpMaster = `${base}/lp-master.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+  const lpHot = `${base}/lp-hot.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+  const form = `${base}/form-pendaftaran-v3.1.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+
+  document.getElementById("lpMaster").href = lpMaster;
+  document.getElementById("lpHot").href = lpHot;
+  document.getElementById("formDaftar").href = form;
+
+  document.getElementById("lpMaster").textContent = "🌐 LP Master → " + lpMaster;
+  document.getElementById("lpHot").textContent = "🔥 LP Hot → " + lpHot;
+  document.getElementById("formDaftar").textContent = "📝 Form Pendaftaran → " + form;
+
+  document.getElementById("hasil").style.display = "block";
+};
+</script>
+</body>
+</html>
