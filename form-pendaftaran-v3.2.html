@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form Pendaftaran — 3iReborn × NPA Smart System</title>
+<meta name="description" content="Formulir pendaftaran mitra 3iReborn terintegrasi otomatis dengan NPA Smart System.">
+<style>
+:root {
+  --bg:#0b0f1c; --card:#131c2d; --accent:#ffd166; --text:#f1f6ff; --sub:#a8b3c9;
+  --cta:#06d6a0; --cta2:#118ab2; --danger:#ef476f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,#0b0f1c 0%,#0d1628 100%);
+  color:var(--text);
+  font-family:"Poppins",system-ui;
+  padding:20px;
+}
+.container{max-width:600px;margin:auto}
+h1{color:var(--accent);text-align:center;margin-bottom:6px}
+.subtitle{text-align:center;color:var(--sub);margin-bottom:20px}
+.card{
+  background:var(--card);
+  border:1px solid #22345a;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
+label{display:block;margin-top:14px;font-weight:600;color:var(--text)}
+input,select{
+  width:100%;margin-top:6px;
+  padding:12px;border:1px solid #203355;
+  border-radius:10px;background:#0f192c;color:var(--text);
+  font-size:1rem;
+}
+input::placeholder{color:#7887a1}
+select{cursor:pointer}
+.btn{
+  display:inline-block;
+  border:0;border-radius:12px;
+  padding:12px 20px;font-weight:600;
+  text-align:center;text-decoration:none;
+  font-size:1rem;margin-top:18px;cursor:pointer;
+}
+.btn-primary{background:var(--cta);color:#0b0f1c;}
+.btn-secondary{background:#0e223c;color:var(--text);border:1px solid #1f365c;}
+.btn-primary:hover{filter:brightness(1.1)}
+.btn-secondary:hover{filter:brightness(1.15)}
+.status{
+  margin-top:20px;font-size:.9rem;color:var(--sub);
+  background:#101a2c;padding:10px 14px;border-radius:10px;
+}
+.footer{text-align:center;margin-top:24px;color:var(--sub);font-size:.85rem;}
+.footer a{color:var(--accent);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.highlight{
+  background:#ffd16622;
+  border:1px solid #ffd16655;
+  border-radius:10px;
+  padding:10px 14px;
+  margin-top:16px;
+  color:#dfe6f8;
+  font-size:.95rem;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Form Pendaftaran</h1>
+  <p class="subtitle">Isi data singkat berikut untuk mulai bergabung bersama 3iReborn.</p>
+
+  <div class="card">
+    <div class="highlight">
+      <b>Leader:</b> <span id="lead-name">-</span> • 
+      <b>WA:</b> <a id="lead-wa" target="_blank">-</a> • 
+      <b>slug:</b> <span id="lead-slug">-</span>
+    </div>
+
+    <label>Nama Lengkap</label>
+    <input id="nama" placeholder="cth: Budi Santoso">
+
+    <label>No. WhatsApp (format 62...)</label>
+    <input id="whatsapp" placeholder="62812xxxxxxx" inputmode="numeric">
+
+    <label>Pilihan Premi</label>
+    <select id="premi">
+      <option value="350000">Rp 350.000</option>
+      <option value="500000">Rp 500.000</option>
+      <option value="700000">Rp 700.000</option>
+      <option value="1000000">Rp 1.000.000</option>
+      <option value="2000000">Rp 2.000.000</option>
+    </select>
+
+    <label>Kota / Provinsi (opsional)</label>
+    <input id="kota" placeholder="cth: Tangerang, Banten">
+
+    <button class="btn btn-primary" id="btnKirim">🚀 Kirim & Simpan</button>
+    <button class="btn btn-secondary" id="btnChat">💬 Chat Leader</button>
+
+    <div class="status" id="status">Status Simpan: <b>Menunggu input...</b></div>
+
+    <div class="highlight" style="margin-top:24px;">
+      <p>Sudah kirim data singkat?<br>
+      Lengkapi data resmi CPP & CT sesuai SOP dengan klik tombol di bawah:</p>
+      <p><a href="index-v2.html" class="btn btn-secondary" style="display:inline-block;margin-top:10px;">📄 Lengkapi Formulir Resmi (CPP & CT)</a></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Powered by <b>NPA Smart System × 3iReborn</b></p>
+    <p>“KitaNganggur Punya Penghasilan” 🚀 | <a href="marketing-plan.html">Marketing Plan</a></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const leaderName = qs.get("name") || "-";
+  const wa = (qs.get("wa") || "").replace(/\D/g,"");
+  const slug = qs.get("slug") || "-";
+
+  document.getElementById("lead-name").textContent = leaderName;
+  const elWa = document.getElementById("lead-wa");
+  elWa.textContent = wa || "-";
+  elWa.href = wa ? `https://wa.me/${wa}` : "#";
+  document.getElementById("lead-slug").textContent = slug;
+
+  // Tombol Kirim
+  document.getElementById("btnKirim").addEventListener("click",()=>{
+    const nama = document.getElementById("nama").value.trim();
+    const calonWa = document.getElementById("whatsapp").value.trim();
+    const premi = document.getElementById("premi").value;
+    const kota = document.getElementById("kota").value.trim();
+
+    if(!nama || !calonWa){
+      alert("Lengkapi nama dan nomor WhatsApp calon mitra.");
+      return;
+    }
+
+    const pesan = 
+`Halo ${leaderName}, saya ${nama}.
+Saya tertarik bergabung di program 3iReborn.
+
+Data singkat saya:
+📞 WA: ${calonWa}
+💰 Premi: Rp ${Number(premi).toLocaleString('id-ID')}
+📍 Kota: ${kota || '-'}
+Slug Leader: ${slug}
+
+Mohon bimbingannya 🙏`;
+
+    document.getElementById("status").innerHTML = "Status Simpan: <b>Mengirim ke WhatsApp...</b>";
+
+    if(wa){
+      const url = `https://wa.me/${wa}?text=${encodeURIComponent(pesan)}`;
+      window.open(url, "_blank");
+      document.getElementById("status").innerHTML = "✅ <b>Data berhasil dikirim ke Leader.</b>";
+    } else {
+      document.getElementById("status").innerHTML = "❌ Gagal: Nomor WA Leader tidak valid.";
+    }
+  });
+
+  // Tombol Chat Leader
+  document.getElementById("btnChat").addEventListener("click",()=>{
+    if(!wa) return alert("Nomor WA leader tidak tersedia.");
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent("Halo kak, saya ingin konsultasi tentang program 3iReborn 🙏")}`, "_blank");
+  });
+})();
+</script>
+</body>
+</html>
