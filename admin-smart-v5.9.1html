@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NPA Smart — Admin Pusat v5.9.1 (AI Manual Control)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1220;--panel:#0f172a;--muted:#94a3b8;--text:#e6eefc;
+    --brand:#3b82f6;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444;
+    --btn:#2563eb;--btn2:#1e293b;--chip:#0b3d91;
+  }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 "Inter",system-ui}
+  .wrap{max-width:880px;margin:auto;padding:28px 18px 60px}
+  h1{font-size:28px;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--panel);border:1px solid #1f2a44;border-radius:14px;padding:16px;margin:14px 0}
+  .row{display:grid;gap:10px} .two{grid-template-columns:1fr 1fr}
+  label{font-weight:600;margin:10px 0 6px;display:block}
+  input,select,textarea{width:100%;background:#0b1327;border:1px solid #213057;color:var(--text);
+    padding:12px 12px;border-radius:10px;outline:none}
+  button{background:var(--btn);color:#fff;border:0;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}
+  .btn-ghost{background:var(--btn2)} .btn-ok{background:var(--ok)} .btn-warn{background:var(--warn)} .btn-bad{background:var(--bad)}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#0b1a36;border:1px solid #1e335c;color:#dbe8ff;font-weight:600}
+  .muted{color:var(--muted)} .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+  .links pre{overflow:auto;background:#071024;border:1px dashed #274278;padding:10px;border-radius:10px;white-space:pre-wrap}
+  .grid-5{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:680px){.grid-5{grid-template-columns:repeat(5,1fr)}}
+  .mini{font-size:12px}
+  #log{max-height:42vh;overflow:auto;background:#071024;border:1px solid #223055;border-radius:12px;padding:10px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .ok{background:var(--ok);box-shadow:0 0 0 3px rgba(16,185,129,.25)}
+  .warn{background:var(--warn);box-shadow:0 0 0 3px rgba(245,158,11,.25)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📡 NPA Smart — Admin Pusat v5.9.1</h1>
+  <p class="sub">Auto Follow-Up + Manual AI • Builder 3 Tautan • Fonnte BOT • Log Aktivitas</p>
+
+  <!-- TOKEN -->
+  <div class="card">
+    <div class="row two">
+      <div>
+        <div class="pill">Status Token Fonnte <span id="tok-dot" class="dot warn"></span></div>
+        <div class="mini muted" id="tok-info">Token belum di-set.</div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center">
+        <button id="btn-set">Set Token</button>
+        <button id="btn-test" class="btn-ghost">Tes Kirim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUILDER -->
+  <div class="card">
+    <h3 style="margin:0 0 10px">➕ Tambah Mitra/Leader (AutoLink)</h3>
+    <div class="row two">
+      <div>
+        <label>Nama Leader</label>
+        <input id="lead-name" placeholder="cth: Sugiarto Kurniawan">
+      </div>
+      <div>
+        <label>No. WhatsApp (format 62…)</label>
+        <input id="lead-wa" placeholder="62852xxxxxxxx">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+      <button id="btn-make">🚀 Buat 3 Link</button>
+      <div class="pill">slug: <span id="slug">-</span></div>
+    </div>
+    <div class="links" id="links" style="display:none;margin-top:12px">
+      <pre id="link-master"></pre>
+      <pre id="link-hot"></pre>
+      <pre id="link-form"></pre>
+      <div class="mini muted">Tautan siap dishare ke calon. Data lengkap calon akan diisi di Form Pendaftaran.</div>
+    </div>
+  </div>
+
+  <!-- AUTO (opsional) -->
+  <div class="card">
+    <h3 style="margin:0 0 10px">🛰️ Follow-Up Otomatis (opsional)</h3>
+    <div class="row two">
+      <div>
+        <label class="muted">Auto Motivasi 06:00 WIB</label>
+        <select id="auto-06">
+          <option value="on">Aktif</option>
+          <option value="off">Nonaktif</option>
+        </select>
+      </div>
+      <div>
+        <label class="muted">Zona waktu</label>
+        <input value="Asia/Jakarta" disabled>
+      </div>
+    </div>
+    <div class="mini muted" style="margin-top:8px">
+      Jika aktif, sistem mengecek tiap 30 detik & mengirim motivasi ke semua nomor di daftar pemilik (leadersPhones).
+    </div>
+  </div>
+
+  <!-- MANUAL AI -->
+  <div class="card">
+    <h3 style="margin:0 8px 10px">🧠 Manual Follow-Up AI</h3>
+    <div class="grid-5">
+      <button class="btn-ok"   id="btn-motiv">🌅 Motivasi Pagi</button>
+      <button class="btn-ghost" id="btn-info">📊 Info Bonus</button>
+      <button class="btn-warn" id="btn-landing">☕ Bonus Landing</button>
+      <button class="btn-ghost" id="btn-rekrut">🚀 Rekrutmen</button>
+      <button class="btn-bad"  id="btn-premi">💰 Pengingat Premi</button>
+    </div>
+    <div class="mini muted" style="margin-top:8px">Semua tombol mengirim ke daftar nomor leader (bisa disesuaikan di script).</div>
+  </div>
+
+  <!-- LOG -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <strong>🧾 Log Aktivitas</strong>
+      <button class="btn-ghost" id="btn-clear" style="margin-left:auto">Bersihkan Log</button>
+    </div>
+    <div id="log" class="mono mini"></div>
+  </div>
+
+  <p class="mini muted">Powered by NPA Smart System × 3iReborn • “KitaNganggur Punya Penghasilan” 🚀</p>
+</div>
+
+<script>
+/* ========= KONFIGURASI ========= */
+const BOT = {
+  baseUrl: "https://api.fonnte.com/send",
+  tokenKey: "fonnte_token",
+  tz: "Asia/Jakarta",
+  // Daftar nomor tujuan broadcast (bisa kamu ganti/extend):
+  leadersPhones: [
+    "6285218453131","6285932684440","62881011823140","6281388675615",
+    "6282199558169","6281327498929","6281285949074","966563414575",
+    "6586210326","6281236544821","6282252161911","6281236781273","6288293744431"
+  ],
+  // Template pesan (AI-style singkat, sopan, memotivasi)
+  msgs: {
+    motiv: [
+      "🌅 Selamat pagi! Setiap hari adalah kesempatan baru. Ayo gerak 1% lebih baik dari kemarin 🚀",
+      "💫 Rezeki nggak salah alamat. Yang penting kita tetap bergerak & berkabar. Semangat ya!"
+    ],
+    info: [
+      "📊 Cek progres hari ini: follow-up 3 prospek, jaga ritme 1-7-9. Bonus itu efek samping dari kebiasaan baik 💪",
+      "📈 Target kecil siang ini: kirim 1 materi, ajak 1 prospek tanya jawab. Jalan pelan yang penting konsisten."
+    ],
+    landing: [
+      "☕ Sore ini waktunya syukuri yang mendarat. Besok kita gas lagi pelan-pelan tapi pasti. Proud of you!",
+      "🌇 Santai sebentar, isi ulang semangat. Ingat, kecil tapi rutin jauh mengalahkan besar tapi jarang."
+    ],
+    rekrut: [
+      "🚀 Jam rekrut terbaik adalah sekarang. Kirim pesan singkat + ajak zoom. 1 ajakan hari ini = 1 langkah karier.",
+      "🎯 Tantangan malam ini: kirim 2 undangan presentasi. Copy: “Kak, ada peluang sampingan rapi—boleh aku kirim ringkasnya?”"
+    ],
+    premi: [
+      "💰 Pengingat baik: premi bulan ini jangan lupa ya, agar bonus bulan depan tetap lancar & poin aman. Siap dibantu!",
+      "🔔 Premi menjaga hak bonusmu. Jika perlu panduan transfer, balas ‘Bantu Premi’ ya—aku kirim step-nya."
+    ]
+  }
+};
+/* ========= UTIL ========= */
+const $ = sel => document.querySelector(sel);
+const nowWIB = () => new Date(new Date().toLocaleString("en-US",{timeZone:BOT.tz}));
+function log(line){
+  const t = nowWIB().toLocaleTimeString("id-ID",{hour12:false,timeZone:BOT.tz});
+  const div = document.createElement("div");
+  div.textContent = `[${t}] ${line}`;
+  $("#log").prepend(div);
+}
+function getToken(){ return localStorage.getItem(BOT.tokenKey) || ""; }
+function setToken(t){ localStorage.setItem(BOT.tokenKey, t||""); paintToken(); }
+function paintToken(){
+  const ok = !!getToken();
+  $("#tok-dot").className = "dot " + (ok? "ok":"warn");
+  $("#tok-info").textContent = ok ? "Token aktif." : "Token belum di-set.";
+}
+/* ========= FONNTE ========= */
+async function sendFonnte(target, message){
+  const token = getToken();
+  if(!token) throw new Error("Token kosong");
+  const res = await fetch(BOT.baseUrl,{
+    method:"POST",
+    headers:{ "Authorization":token, "Content-Type":"application/json" },
+    body: JSON.stringify({ target, message })
+  });
+  if(!res.ok) throw new Error("HTTP "+res.status);
+  return true;
+}
+async function broadcast(message){
+  for(const phone of BOT.leadersPhones){
+    try{
+      await sendFonnte(phone, message);
+      log(`✅ ${phone} terkirim`);
+    }catch(e){
+      log(`❌ ${phone} gagal: ${e.message}`);
+    }
+  }
+}
+/* ========= BUILDER 3 LINK ========= */
+function slugify(txt){
+  return (txt||"").toString().trim().toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu,"-").replace(/(^-|-$)/g,"").slice(0,60);
+}
+function makeLinks(){
+  const name = $("#lead-name").value.trim();
+  const wa   = $("#lead-wa").value.trim();
+  if(!name || !wa){ alert("Isi nama & nomor WhatsApp (format 62…)"); return; }
+  const slug = slugify(name);
+  $("#slug").textContent = slug;
+
+  const base = "https://3ireborn.github.io/pendaftaran-online/";
+  const q = `?name=${encodeURIComponent(name)}&wa=${encodeURIComponent(wa)}&slug=${encodeURIComponent(slug)}`;
+
+  $("#link-master").textContent = `🌐 LP Master → ${base}lp-master.html${q}`;
+  $("#link-hot").textContent    = `🔥 LP Hot → ${base}lp-hot.html${q}`;
+  $("#link-form").textContent   = `📝 Form Pendaftaran → ${base}form-pendaftaran-v3.1.html${q}`;
+  $("#links").style.display = "block";
+  log(`🔗 3 tautan dibuat untuk ${name} (${wa})`);
+}
+/* ========= MANUAL BUTTONS ========= */
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function header(){ return "— terkirim otomatis via NPA Smart System × 3iReborn 🚀"; }
+
+async function sendManual(kind){
+  let msg;
+  if(kind==="motiv")   msg = pick(BOT.msgs.motiv);
+  if(kind==="info")    msg = pick(BOT.msgs.info);
+  if(kind==="landing") msg = pick(BOT.msgs.landing);
+  if(kind==="rekrut")  msg = pick(BOT.msgs.rekrut);
+  if(kind==="premi")   msg = pick(BOT.msgs.premi);
+  const text = msg + "\n\n" + header();
+  log(`🚀 Manual: ${kind} dimulai…`);
+  await broadcast(text);
+  log(`✨ Manual ${kind} selesai`);
+}
+/* ========= AUTO 06:00 ========= */
+let lastMinuteRun = ""; // mencegah dobel saat tab aktif
+setInterval(()=>{
+  if($("#auto-06")?.value !== "on") return;
+  const w = nowWIB();
+  const stamp = w.toISOString().slice(0,16);
+  if(w.getHours()===6 && w.getMinutes()===0 && lastMinuteRun!==stamp){
+    lastMinuteRun = stamp;
+    const text = pick(BOT.msgs.motiv) + "\n\n" + header();
+    log("⏰ Auto 06:00: broadcast dimulai…");
+    broadcast(text).then(()=>log("✅ Auto 06:00 selesai"));
+  }
+}, 30000);
+
+/* ========= UI EVENTS ========= */
+document.addEventListener("DOMContentLoaded", ()=>{
+  paintToken();
+  $("#btn-set").onclick = ()=>{
+    const cur = getToken();
+    const t = prompt("Tempel token Fonnte:", cur||"");
+    if(t!==null){ setToken(t.trim()); log("🔐 Token diperbarui."); }
+  };
+  $("#btn-test").onclick = async()=>{
+    try{
+      await sendFonnte(BOT.leadersPhones[0], "Tes kirim dari Admin Pusat v5.9.1 ✅");
+      log("✅ Tes terkirim ke "+BOT.leadersPhones[0]);
+    }catch(e){ log("❌ Tes gagal: "+e.message); }
+  };
+  $("#btn-make").onclick = makeLinks;
+
+  $("#btn-motiv").onclick   = ()=>sendManual("motiv");
+  $("#btn-info").onclick    = ()=>sendManual("info");
+  $("#btn-landing").onclick = ()=>sendManual("landing");
+  $("#btn-rekrut").onclick  = ()=>sendManual("rekrut");
+  $("#btn-premi").onclick   = ()=>sendManual("premi");
+
+  $("#btn-clear").onclick = ()=>{ $("#log").innerHTML=""; };
+});
+</script>
+</body>
+</html>
