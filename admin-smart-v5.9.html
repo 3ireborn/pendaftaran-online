@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NPA Smart — Admin Pusat v5.9 (Auto Follow-Up AI)</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{
+    --bg:#0b1220;--card:#0f1a2b;--muted:#8ea2c8;--gold:#f6c453;--green:#27c07d;--danger:#ff6b6b;
+    --txt:#e8f0ff;--blue:#1f6feb
+  }
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  body{margin:0;background:var(--bg);color:var(--txt)}
+  .wrap{max-width:940px;margin:auto;padding:22px}
+  h1{font-size:28px;margin:6px 0 18px}
+  .subtitle{color:var(--muted);margin-bottom:18px}
+  .card{background:var(--card);border:1px solid #1e2a41;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  label{display:block;margin:10px 0 6px}
+  input,select{width:100%;background:#0a1627;border:1px solid #20324f;border-radius:12px;padding:12px 14px;color:var(--txt);outline:none}
+  .btn{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font-weight:700}
+  .btn.gold{background:var(--gold);color:#202020}
+  .btn.blue{background:var(--blue);color:#fff}
+  .btn.green{background:var(--green);color:#03160d}
+  .btn.ghost{background:#0a1627;color:var(--txt);border:1px dashed #2a4166}
+  .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  @media(max-width:720px){.row{grid-template-columns:1fr}}
+  .badge{display:inline-flex;gap:8px;align-items:center;border-radius:999px;padding:6px 10px;background:#0a1627;border:1px solid #223457;color:var(--muted);font-size:13px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#ccc}
+  .dot.ok{background:#29d39a;box-shadow:0 0 0 3px rgba(41,211,154,.18)}
+  .dot.warn{background:#ffb020;box-shadow:0 0 0 3px rgba(255,176,32,.18)}
+  .log{background:#071222;border:1px solid #152644;border-radius:12px;padding:12px;max-height:44vh;overflow:auto;font-family:ui-monospace,Consolas,monaco,monospace;font-size:13px}
+  .title{display:flex;align-items:center;gap:10px}
+  .title .emoji{font-size:22px}
+  .help{font-size:13px;color:var(--muted)}
+  .links a{display:block;color:#bcd6ff;text-decoration:none;padding:8px 10px;background:#0a1627;border:1px solid #223457;border-radius:10px;margin-top:8px;word-break:break-all}
+  .switch{display:flex;align-items:center;gap:10px}
+  .switch input{accent-color:#27c07d;width:20px;height:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="title"><span class="emoji">🧭</span><h1>NPA Smart — Admin Pusat v5.9</h1></div>
+  <div class="subtitle">Auto Follow-Up AI • Leader Links • Fonnte BOT</div>
+
+  <!-- ====== TOKEN & STATUS ====== -->
+  <div class="card">
+    <div class="row">
+      <div>
+        <div class="badge"><span id="token-dot" class="dot warn"></span> Status Token Fonnte</div>
+        <div class="help" id="token-help" style="margin-top:8px">Token belum diatur.</div>
+      </div>
+      <div style="text-align:right">
+        <button id="btn-set-token" class="btn gold">Set Token</button>
+        <button id="btn-test" class="btn ghost">Tes Kirim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== GENERATE 3 LINK CEPAT ====== -->
+  <div class="card">
+    <div class="title"><span class="emoji">➕</span><b>Tambah Mitra/Leader (AutoLink)</b></div>
+    <div class="row">
+      <div>
+        <label>Nama Leader</label>
+        <input id="in-name" placeholder="cth: Sugiarto Kurniawan">
+      </div>
+      <div>
+        <label>No. WhatsApp (format 62...)</label>
+        <input id="in-wa" placeholder="cth: 62852xxxxxxx" inputmode="numeric">
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+      <button id="btn-build" class="btn blue">🚀 Buat 3 Link</button>
+      <div class="badge">slug: <span id="slug">-</span></div>
+    </div>
+    <div class="links" id="links"></div>
+    <div class="help" style="margin-top:10px">Tautan dibuat lokal & siap share. Data lengkap calon akan diisi di Form Pendaftaran.</div>
+  </div>
+
+  <!-- ====== AUTO FOLLOW-UP ====== -->
+  <div class="card">
+    <div class="title"><span class="emoji">📡</span><b>Follow-Up Otomatis (AI)</b></div>
+    <div class="row" style="margin-top:8px">
+      <div class="switch">
+        <input type="checkbox" id="auto-on" checked>
+        <label for="auto-on"><b>Aktifkan Follow-Up Otomatis</b></label>
+      </div>
+      <div style="text-align:right">
+        <button id="btn-manual-06" class="btn green">Kirim Motivasi 06:00 (Manual)</button>
+      </div>
+    </div>
+    <div class="help" style="margin-top:8px">
+      Jadwal otomatis (WIB): <b>06:00</b> Motivasi • <b>10:00</b> Info Bonus • <b>15:00</b> Bonus Landing • <b>18:00</b> Rekrutmen •
+      <b>tgl 29</b> Pengingat Premi.
+    </div>
+    <div class="help" style="margin-top:4px">Sumber leader: <code id="src-leaders">data/leaders.json</code></div>
+    <div class="log" id="log" style="margin-top:12px"></div>
+  </div>
+
+  <div class="help">Powered by <b>NPA Smart System × 3iReborn</b></div>
+
+</div>
+
+<script>
+/* =========================
+   KONFIGURASI & UTIL
+========================= */
+const CFG = {
+  leadersUrl: 'data/leaders.json',     // ubah bila perlu
+  fonnteUrl : 'https://api.fonnte.com/send',
+  tz: 'Asia/Jakarta',
+  // waktu WIB
+  times: { m06: {h:6, m:0}, m10:{h:10,m:0}, m15:{h:15,m:0}, m18:{h:18,m:0} }
+};
+
+// ====== Template Pesan (AI Smart) ======
+const MSG = {
+  motivasi06: (name)=>`Selamat pagi, ${name} 🌟
+Mulai hari ini dengan niat baik dan tindakan fokus. Ingat, hasil besar lahir dari kebiasaan kecil yang disiplin. Tetap produktif & profesional.
+— NPA Smart System`,
+
+  info10: (name)=>`Update siang, ${name} 📊
+Cek progres dan potensi bonus Anda hari ini. Evaluasi aktivitas, rencanakan tindak lanjut, dan pastikan target harian tercapai.
+— NPA Smart System`,
+
+  landing15: (name)=>`Sore produktif, ${name} ☕
+Syukuri setiap pemasukan yang mendarat hari ini. Pertahankan ritme, pastikan follow-up berjalan dan pipeline tetap penuh.
+— NPA Smart System`,
+
+  rekrut18: (name)=>`Prime time rekrutmen, ${name} 🚀
+Jam terbaik memperluas tim. Kirim 3 ajakan bernilai, fokus pada manfaat & dampak. Bantu lebih banyak keluarga terlindungi.
+— NPA Smart System`,
+
+  premi29: (name)=>`Pengingat penting, ${name} 📅
+Segera selesaikan pembayaran premi sebelum tanggal 1 agar kelancaran bonus bulan depan tetap terjaga. Bila perlu, koordinasi dengan leader Anda.
+— NPA Smart System`
+};
+
+// ====== DOM helper ======
+const $ = (s)=>document.querySelector(s);
+const logBox = $('#log');
+function nowWIB(){
+  return new Date( new Date().toLocaleString('en-US',{timeZone:CFG.tz}) );
+}
+function stamp(){
+  const d=nowWIB();
+  return `[${String(d.getHours()).padStart(2,'0')}.${String(d.getMinutes()).padStart(2,'0')}.${String(d.getSeconds()).padStart(2,'0')}]`;
+}
+function addLog(t){ const p=document.createElement('div'); p.textContent = `${stamp()} ${t}`; logBox.prepend(p); }
+
+// ====== Token Fonnte ======
+const TOKEN_KEY='fonnte_token';
+function getToken(){ return localStorage.getItem(TOKEN_KEY)||''; }
+function setToken(tok){ localStorage.setItem(TOKEN_KEY, tok); paintToken(); }
+function paintToken(){
+  const ok = !!getToken();
+  $('#token-dot').className = 'dot ' + (ok?'ok':'warn');
+  $('#token-help').textContent = ok ? 'Token aktif.' : 'Token belum diatur.';
+}
+
+/* =========================
+   LINK BUILDER (LP Master / LP Hot / Form)
+========================= */
+function slugify(str){
+  return String(str||'').trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+function buildLinks(){
+  const name = $('#in-name').value.trim();
+  const wa   = $('#in-wa').value.trim();
+  if(!name || !wa){ alert('Isi nama & nomor WA (format 62...)'); return; }
+  const slug = slugify(name);
+  $('#slug').textContent = slug;
+
+  const q = (u)=>`${u}?name=${encodeURIComponent(name)}&wa=${encodeURIComponent(wa)}&slug=${encodeURIComponent(slug)}`;
+
+  const lpMaster = q('lp-master.html');
+  const lpHot    = q('lp-hot.html');
+  const form     = q('form-pendaftaran-v3.1.html');
+
+  const wrap = $('#links'); wrap.innerHTML='';
+  [
+    ['🌐 LP Master', lpMaster],
+    ['🔥 LP Hot', lpHot],
+    ['📝 Form Pendaftaran', form],
+  ].forEach(([label, url])=>{
+    const a = document.createElement('a');
+    a.href = url; a.target = '_blank';
+    a.textContent = `${label} → ${location.origin}${location.pathname.replace(/[^\/]+$/,'')}${url}`;
+    wrap.appendChild(a);
+  });
+  addLog(`🔗 3 tautan dibuat untuk ${name}`);
+}
+
+/* =========================
+   KIRIM WA via FONNTE
+========================= */
+async function sendWA(target, message){
+  const token = getToken();
+  if(!token) throw new Error('Token Fonnte kosong.');
+  const res = await fetch(CFG.fonnteUrl,{
+    method:'POST',
+    headers:{ 'Authorization':token, 'Content-Type':'application/json' },
+    body: JSON.stringify({ target, message })
+  });
+  if(!res.ok) throw new Error(`HTTP ${res.status}`);
+  return true;
+}
+
+/* =========================
+   BACA LEADERS
+========================= */
+async function loadLeaders(){
+  try{
+    const res = await fetch(CFG.leadersUrl, {cache:'no-store'});
+    if(!res.ok) throw new Error('Gagal memuat leaders.json');
+    const data = await res.json();
+    // dukung dua bentuk: array sederhana atau objek {leaders:[...]}
+    const list = Array.isArray(data) ? data : (data.leaders||[]);
+    // normalisasi {name, wa}
+    return list
+      .map(it=>{
+        if(typeof it==='string') return { name:'Leader', wa:it };
+        const name = it.name || it.nama || 'Leader';
+        const wa   = it.wa || it.phone || it.whatsapp || it.no || '';
+        return {name, wa};
+      })
+      .filter(x=>String(x.wa||'').startsWith('62'));
+  }catch(e){
+    addLog('⚠️ '+e.message);
+    return [];
+  }
+}
+
+/* =========================
+   TEMPLATE PENGIRIMAN
+========================= */
+async function blast(kind){ // kind: '06'|'10'|'15'|'18'|'29'
+  const leaders = await loadLeaders();
+  if(leaders.length===0){ addLog('⚠️ Daftar leader kosong.'); return; }
+
+  addLog(`🚀 Kirim ${kind} ke ${leaders.length} leader…`);
+  let ok=0, fail=0;
+  for(const L of leaders){
+    let text = '';
+    switch(kind){
+      case '06': text = MSG.motivasi06(L.name); break;
+      case '10': text = MSG.info10(L.name); break;
+      case '15': text = MSG.landing15(L.name); break;
+      case '18': text = MSG.rekrut18(L.name); break;
+      case '29': text = MSG.premi29(L.name); break;
+    }
+    try{ await sendWA(L.wa, text); ok++; }
+    catch(e){ fail++; addLog(`❌ ${L.wa} gagal: ${e.message}`); }
+  }
+  addLog(`✅ Selesai: ${ok} terkirim, ${fail} gagal.`);
+}
+
+/* =========================
+   SCHEDULER WIB
+========================= */
+let autoOn = true;
+function atTime(h,m){ const d=nowWIB(); return d.getHours()===h && d.getMinutes()===m && d.getSeconds()<3; }
+function isDay(day){ return nowWIB().getDate()===day; }
+
+function tick(){
+  if(!autoOn) return;
+  const d = nowWIB();
+
+  if(atTime(CFG.times.m06.h, CFG.times.m06.m)) blast('06');
+  if(atTime(CFG.times.m10.h, CFG.times.m10.m)) blast('10');
+  if(atTime(CFG.times.m15.h, CFG.times.m15.m)) blast('15');
+  if(atTime(CFG.times.m18.h, CFG.times.m18.m)) blast('18');
+
+  if(isDay(29) && atTime(8,0)) blast('29'); // pengingat premi tgl 29, jam 08:00
+}
+setInterval(tick, 1000*2);
+
+/* =========================
+   EVENTS
+========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  paintToken();
+  $('#btn-set-token').onclick = ()=>{
+    const cur = getToken();
+    const t = prompt('Masukkan Token Fonnte:', cur||'');
+    if(t!==null){ setToken(t.trim()); addLog('🔐 Token diperbarui.'); }
+  };
+  $('#btn-test').onclick = async ()=>{
+    try{
+      await sendWA('6285218453131', 'Tes kirim dari Admin Pusat v5.9 ✅');
+      addLog('✅ Pesan tes terkirim ke 6285218453131');
+    }catch(e){
+      addLog('❌ Tes gagal: '+e.message);
+    }
+  };
+  $('#btn-build').onclick = buildLinks;
+
+  $('#auto-on').onchange = e=>{
+    autoOn = e.target.checked;
+    addLog('⚙️ Auto Follow-Up: ' + (autoOn?'ON':'OFF'));
+  };
+
+  $('#btn-manual-06').onclick = ()=>blast('06');
+
+  // tampilkan sumber leaders
+  $('#src-leaders').textContent = CFG.leadersUrl;
+});
+</script>
+</body>
+</html>
