@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NPA Content Creator Pro — AI Storytelling (v1.0)</title>
+<style>
+  :root{
+    --brand:#0b3d91; --gold:#d4af37; --gold2:#f1c232; --muted:#64748b; --bg:#f7fbff; --ink:#0f172a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#fff;color:var(--ink)}
+  header{padding:18px 16px;border-bottom:3px solid var(--gold);background:#fff}
+  .wrap{max-width:960px;margin:0 auto;padding:16px}
+  h1{margin:0;font-size:22px;color:#b8860b;font-weight:800}
+  .sub{color:var(--muted);font-size:14px;margin-top:4px}
+  .card{background:#fff;border:1px solid #e6efff;border-radius:14px;box-shadow:0 8px 28px rgba(11,61,145,.06);padding:16px;margin:12px 0}
+  label{display:block;font-size:13px;color:#334155;margin:8px 0 6px;font-weight:600}
+  select,input,textarea{width:100%;padding:12px;border:1px solid #dbe7ff;border-radius:10px;font-size:15px}
+  .row{display:grid;gap:12px}
+  @media(min-width:768px){.row{grid-template-columns:1fr 1fr 1fr}}
+  .btn{background:var(--brand);color:#fff;border:0;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+  .btn.alt{background:#eef5ff;color:var(--brand);border:1px solid #cfe0ff}
+  .btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#fff}
+  .btn.ghost{background:#f5f9ff;color:var(--brand);border:1px dashed #cfe0ff}
+  .bar{display:flex;gap:8px;flex-wrap:wrap}
+  .out{background:var(--bg);border:1px solid #e6f0ff;border-radius:12px;padding:14px;white-space:pre-wrap;min-height:160px;font-size:16px;line-height:1.55}
+  .muted{color:var(--muted);font-size:13px}
+  .pill{display:inline-block;background:#eef5ff;border:1px solid #dbe7ff;border-radius:999px;padding:6px 10px;margin:6px 6px 0 0;font-size:13px;color:#0b3d91}
+  .lib-item{padding:10px;border:1px solid #e6efff;border-radius:12px;background:#fff;margin:8px 0}
+  .lib-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  footer{text-align:center;padding:18px;color:#667;background:#fff8e1;font-size:13px;border-top:2px solid var(--gold2)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>NPA Content Creator Pro — AI Storytelling</h1>
+    <div class="sub">Buat konten Facebook Pro: Hook • Story • CTA (komentar) • Hashtag — ramah algoritma, siap closing.</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Generator -->
+  <section class="card">
+    <div class="row">
+      <div>
+        <label>Tema Konten</label>
+        <select id="tema">
+          <option value="motivasi">Motivasi Harian</option>
+          <option value="spiritual">Spiritual & Umroh</option>
+          <option value="bisnis">Bisnis & Peluang</option>
+          <option value="bonus">Bonus & Penghargaan</option>
+          <option value="leadership">Leadership & Tim</option>
+        </select>
+      </div>
+      <div>
+        <label>Gaya Penyampaian</label>
+        <select id="gaya">
+          <option value="story">Personal Story</option>
+          <option value="inspiratif">Inspiratif</option>
+          <option value="edukatif">Edukatif</option>
+          <option value="emotional">Emotion & CTA</option>
+        </select>
+      </div>
+      <div>
+        <label>Kata Trigger Komentar (CTA)</label>
+        <input id="trigger" placeholder='cth: "Aku Mau Belajar"' value="Aku Mau Belajar"/>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:8px">
+      <div>
+        <label>Tambahkan Sentuhan Pribadi (opsional)</label>
+        <input id="personal" placeholder="cth: pagi ini saya ingat nasihat mentor saya…"/>
+      </div>
+      <div>
+        <label>Hashtag Tambahan (opsional)</label>
+        <input id="tags" placeholder="#mindset #produktif"/>
+      </div>
+      <div>
+        <label>Target Audiens (opsional)</label>
+        <input id="aud" placeholder="cth: karyawan sibuk, ibu rumah tangga, mahasiswa"/>
+      </div>
+    </div>
+
+    <div class="bar" style="margin-top:12px">
+      <button class="btn gold" id="gen">🪄 Generate Konten</button>
+      <button class="btn alt" id="copy">📋 Copy</button>
+      <button class="btn alt" id="wa">📱 Kirim ke WhatsApp</button>
+      <button class="btn ghost" id="save">💾 Simpan ke Library</button>
+      <span class="muted">Tip: jangan taruh link di caption — balas di komentar untuk reach maksimal.</span>
+    </div>
+
+    <div style="margin-top:12px" class="out" id="output" placeholder="Hasil akan muncul di sini…"></div>
+
+    <div style="margin-top:10px" class="muted">
+      Contoh balasan komentar (siapkan copy-paste): 
+      <span class="pill">“🔗 Ini link-nya ya 😊 (taruh link replika di sini)”</span>
+      <span class="pill">“Kirim via DM ya, cek inbox 🙏”</span>
+    </div>
+  </section>
+
+  <!-- Library -->
+  <section class="card">
+    <h3 style="margin:0 0 8px">📚 Library Konten Tersimpan (device ini)</h3>
+    <div id="lib"></div>
+    <div class="muted">Konten disimpan di perangkat (localStorage). Aman, tanpa server.</div>
+  </section>
+
+</main>
+
+<footer>
+  Powered by <b>NPA Smart System × 3iReborn</b> — “Sederhana, Ringan, Bermanfaat” ✨🚀
+</footer>
+
+<script>
+/* ========= DATA TEMPLATES ========= */
+const baseTags = "#3iReborn #NPASmartSystem #KerjaCerdas #GrowTogether";
+const THEMES = {
+  motivasi: {
+    hook: [
+      "🌅 *Pagi ini saya belajar satu hal:* rezeki datang pada yang tetap bergerak.",
+      "✨ *Saya bukan paling hebat,* saya cuma paling konsisten melangkah kecil setiap hari.",
+      "💡 *Ternyata kuncinya sederhana:* kerja cerdas dengan sistem, bukan sekadar kerja keras."
+    ],
+    story: [
+      "Dulu saya sering kehabisan energi karena merasa harus selalu kencang dari nol. Sekarang sistem yang bantu saya jaga ritme.",
+      "Saya belajar: yang penting bukan seberapa cepat, tapi seberapa lama kita sanggup tetap bertahan di jalurnya.",
+      "Dengan pola yang tepat, progres kecil hari ini jadi lompatan besar besok."
+    ],
+    cta: t => `Kalau kamu lagi cari arah baru juga, tulis di komentar 👉 **“${t}”**. Nanti saya bagikan caranya 🙏`,
+    tags: baseTags+" #Motivasi #Produktif"
+  },
+  spiritual: {
+    hook: [
+      "🤍 *Tidak semua orang bisa berangkat Umroh sekarang,* tapi semua bisa memulai langkah hari ini.",
+      "🕊️ *Rezeki bukan hanya angka,* tapi juga tentang ketenangan hati dan keberkahan langkah.",
+      "🌙 *Doa itu bahan bakar,* tindakan baik adalah kemudi."
+    ],
+    story: [
+      "Saya nyimpan mimpi sederhana: suatu hari berangkat Umroh bareng orang tua. Pelan-pelan, sistem bantu saya wujudkan.",
+      "Saya belajar menabung dengan cara yang benar, dibantu komunitas yang saling dukung, tanpa drama.",
+      "Kuncinya: niat baik + langkah kecil + sistem yang benar."
+    ],
+    cta: t => `Kalau kamu juga punya impian yang sama, tulis: **“${t}”**. Nanti saya kirim panduan pelan-pelannya 🙏`,
+    tags: baseTags+" #Umroh #Spiritual #DoaDanUsaha"
+  },
+  bisnis: {
+    hook: [
+      "💼 *Zaman sudah berubah,* cara mencari penghasilan juga ikut berubah.",
+      "📱 *Dari HP bisa jadi mesin produktif,* kalau kita pakai sistem yang tepat.",
+      "🚀 *Saya gak jualan keras,* saya pakai sistem yang bikin orang paham dan mau bergabung."
+    ],
+    story: [
+      "Saya pakai pola edukasi → paham → percaya → gabung. Semua dibantu tools otomatis yang ringan.",
+      "Tidak perlu jadi ahli, cukup mau belajar dan konsisten. Sisanya sistem bantu jelaskan.",
+      "Yang penting: niat baik, proses yang benar, dan tim yang solid."
+    ],
+    cta: t => `Kalau mau saya kirim penjelasan sistemnya, tulis: **“${t}”**. Saya bantu step-by-step 📩`,
+    tags: baseTags+" #DigitalIncome #BisnisModern"
+  },
+  bonus: {
+    hook: [
+      "💰 *Bonus itu bukan sekadar angka,* tapi bukti kerja tim dan konsistensi.",
+      "📈 *Yang bikin tenang itu pemasukan berkala,* bukan sekali besar lalu habis.",
+      "🏅 *Hadiah terbaik dari proses panjang adalah stabilitas.*"
+    ],
+    story: [
+      "Saya tidak mengejar cepat kaya, saya membangun alur pendapatan yang sehat dengan sistem yang transparan.",
+      "Yang menyenangkan: tiap bulan bisa evaluasi bareng tim, lalu naikkan kualitas langkah.",
+      "Bukan soal siapa paling hebat, tapi siapa paling konsisten dan mau dibimbing."
+    ],
+    cta: t => `Kalau kamu pengen bonus yang stabil tanpa ribet, tulis: **“${t}”**. Saya kirim materi ringkasnya 💫`,
+    tags: baseTags+" #Bonus #FinancialFreedom"
+  },
+  leadership: {
+    hook: [
+      "🧠 *Tim yang tumbuh bareng lebih kuat daripada tim yang besar tapi rapuh.*",
+      "🤝 *Leadership itu bukan menyuruh,* tapi menuntun dan memberi alat.",
+      "🌱 *Tugas leader bukan jadi superman,* tapi bikin semua orang punya sayap."
+    ],
+    story: [
+      "Saya pakai sistem yang otomatis kirim motivasi ke tim tiap pagi. Bukan biar menggantikan, tapi menguatkan.",
+      "Ritme tim jadi rapi: edukasi, latihan kecil, evaluasi, naikkan level.",
+      "Dengan alat yang tepat, leader bisa fokus ke hubungan dan hasil."
+    ],
+    cta: t => `Kalau mau tim kamu juga pakai sistem ini, tulis: **“${t}”**. Saya tunjukkan blueprint-nya 🔥`,
+    tags: baseTags+" #Leadership #Duplikasi #TeamGrowth"
+  }
+};
+
+const GAYA = {
+  story: (h,s,p,a) => `${h}\n\n${p? p+"\n\n":""}${s}\n\n🚀 Mau tahu polanya?\nTulis di komentar 👉 **“${a}”**\n\n`,
+  inspiratif: (h,s,p,a) => `${h}\n\n${s}\n\n💫 Kalau kamu butuh dorongan kecil hari ini,\nketik 👉 **“${a}”**\n\n`,
+  edukatif: (h,s,p,a) => `${h}\n\nRingkasnya:\n• Sistem bantu jelaskan\n• Kita jaga ritme\n• Tim saling dukung\n\n${s}\n\nTulis 👉 **“${a}”** kalau mau ringkasan 1 halaman.\n\n`,
+  emotional: (h,s,p,a) => `${h}\n\n${s}\n\n🌟 Kamu gak sendirian. Saya bantu pelan-pelan.\nTulis 👉 **“${a}”** ya 🙏\n\n`
+};
+
+/* ========= HELPERS ========= */
+const el = id => document.getElementById(id);
+const out = el("output");
+const libBox = el("lib");
+const LS_KEY = "npa_content_library";
+
+function assemble(){
+  const tema = el("tema").value;
+  const gaya = el("gaya").value;
+  const trigger = (el("trigger").value || "Aku Mau Belajar").trim();
+  const personal = el("personal").value.trim();
+  const tags = el("tags").value.trim();
+  const aud = el("aud").value.trim();
+
+  const t = THEMES[tema];
+  const h = t.hook[Math.floor(Math.random()*t.hook.length)];
+  const s = t.story[Math.floor(Math.random()*t.story.length)];
+  const body = (GAYA[gaya]||GAYA.story)(h,s,personal,trigger);
+  const ht = [t.tags, aud? "#"+aud.replace(/\s+/g,''):"", tags].filter(Boolean).join(" ");
+  return `${body}${ht}`;
+}
+
+function copyText(txt){
+  navigator.clipboard.writeText(txt).then(()=>alert("Konten disalin ✅"));
+}
+
+function sendWA(txt){
+  const hp = prompt("Kirim ke nomor WhatsApp (format 62…)", "628");
+  if(!hp || !/^62\d{6,}$/.test(hp)) return alert("Nomor WA tidak valid.");
+  const url = "https://wa.me/"+hp+"?text="+encodeURIComponent(txt);
+  location.href = url;
+}
+
+function loadLib(){
+  try{
+    const arr = JSON.parse(localStorage.getItem(LS_KEY)||"[]");
+    libBox.innerHTML = arr.length? "": "<div class='muted'>Belum ada konten tersimpan.</div>";
+    arr.forEach((t,i)=>{
+      const d = document.createElement("div");
+      d.className="lib-item";
+      d.innerHTML = `
+        <div style="white-space:pre-wrap">${t}</div>
+        <div class="lib-btns">
+          <button class="btn alt" data-i="${i}" data-act="copy">📋 Copy</button>
+          <button class="btn alt" data-i="${i}" data-act="wa">📱 Kirim WA</button>
+          <button class="btn ghost" data-i="${i}" data-act="del">🗑️ Hapus</button>
+        </div>`;
+      libBox.appendChild(d);
+    });
+  }catch{ libBox.innerHTML = "<div class='muted'>Belum ada konten tersimpan.</div>"; }
+}
+
+function saveLib(txt){
+  const arr = JSON.parse(localStorage.getItem(LS_KEY)||"[]");
+  arr.unshift(txt);
+  localStorage.setItem(LS_KEY, JSON.stringify(arr.slice(0,50)));
+  loadLib();
+}
+
+/* ========= EVENTS ========= */
+el("gen").onclick = ()=>{ out.textContent = assemble(); };
+el("copy").onclick = ()=>{ if(!out.textContent) out.textContent=assemble(); copyText(out.textContent); };
+el("wa").onclick = ()=>{ if(!out.textContent) out.textContent=assemble(); sendWA(out.textContent); };
+el("save").onclick = ()=>{ if(!out.textContent) out.textContent=assemble(); saveLib(out.textContent); alert("Tersimpan ke Library ✅"); };
+libBox.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  const i = +b.dataset.i; const act=b.dataset.act;
+  const arr = JSON.parse(localStorage.getItem(LS_KEY)||"[]");
+  const txt = arr[i];
+  if(act==="copy") copyText(txt);
+  if(act==="wa") sendWA(txt);
+  if(act==="del"){ arr.splice(i,1); localStorage.setItem(LS_KEY, JSON.stringify(arr)); loadLib(); }
+});
+
+loadLib();
+</script>
+</body>
+</html>
