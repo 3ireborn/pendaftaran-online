@@ -1,42 +1,184 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LP HOT — 3iReborn</title>
-<link rel="icon" href="data:,">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LP HOT — Story Mode × 3iReborn</title>
+<meta name="description" content="Cerita nyata tentang perjalanan finansial dan perubahan hidup bersama 3iReborn.">
 <style>
-  :root{--b:#ef4444;--bg:#fff7f7} *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:#111827}
-  .wrap{max-width:840px;margin:24px auto;padding:16px}
-  .card{background:#fff;border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(120,20,20,.08)}
-  .h1{font-size:26px;font-weight:900;margin:0 0 10px}
-  .mut{color:#6b7280}
-  .btn{display:inline-block;background:var(--b);color:#fff;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:800}
-  .ghost{background:#ffe6e6;color:#b91c1c}
+:root {
+  --bg:#0b0f1c; --card:#131c2d; --accent:#ffd166; --text:#f1f6ff; --sub:#a8b3c9;
+  --cta:#06d6a0; --cta2:#118ab2; --danger:#ef476f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,#0b0f1c 0%,#0d1628 100%);
+  color:var(--text);
+  font:16px/1.6 "Poppins",system-ui;
+  padding:20px;
+}
+.container{max-width:900px;margin:auto}
+header{padding:16px 0;text-align:center}
+header h1{font-size:clamp(26px,3.5vw,38px);color:var(--accent);margin-bottom:6px}
+header p{color:var(--sub);font-size:1rem}
+
+.story{
+  background:var(--card);
+  border:1px solid #22345a;
+  border-radius:18px;
+  padding:24px;
+  margin-top:24px;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+}
+.story h2{color:var(--accent);margin-bottom:8px}
+.story p{margin-bottom:12px}
+.story b{color:#fff}
+.testi{
+  display:grid;
+  gap:14px;
+  margin-top:24px;
+}
+.testi .card{
+  background:#101a2c;
+  border:1px solid #203255;
+  border-radius:14px;
+  padding:16px;
+}
+.testi .name{color:var(--accent);font-weight:600}
+.cta{
+  margin-top:28px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:14px 18px;
+  font-weight:700;
+  cursor:pointer;
+  font-size:1rem;
+  text-decoration:none;
+  display:inline-block;
+  text-align:center;
+}
+.btn-primary{background:var(--cta);color:#0b0f1c;}
+.btn-primary:hover{filter:brightness(1.1);}
+.btn-ghost{background:#0e223c;color:var(--text);border:1px solid #1f365c;}
+.btn-ghost:hover{filter:brightness(1.15);}
+.hero-quote{
+  font-style:italic;
+  color:#d5e2ff;
+  border-left:4px solid var(--accent);
+  padding-left:14px;
+  margin:20px 0;
+}
+.footer{
+  text-align:center;
+  margin-top:40px;
+  padding:20px 0;
+  color:var(--sub);
+  font-size:.9rem;
+}
+.footer a{color:var(--accent);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.highlight{
+  background:#ffd16622;
+  border:1px solid #ffd16655;
+  border-radius:10px;
+  padding:10px 14px;
+  margin-top:16px;
+}
+.leader-box{
+  font-size:.95rem;
+  color:#d7e9ff;
+  margin-top:14px;
+}
+.leader-box a{color:#8fe1ff}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <div class="h1">Siap mulai sekarang?</div>
-    <div class="mut" id="lead"></div>
-    <p>Kesempatan terbaik datang pada yang bergerak cepat. Klik daftar atau konsultasi dulu dengan leader Anda.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <a id="btnForm" class="btn">Daftar Sekarang</a>
-      <a id="btnWa" class="btn ghost">Tanya Leader</a>
-    </div>
+<div class="container">
+  <header>
+    <h1>Kenapa Banyak Orang Akhirnya Memilih 3iReborn?</h1>
+    <p>Sebuah kisah sederhana yang bisa jadi titik balik hidupmu.</p>
+  </header>
+
+  <section class="story">
+    <h2>Awalnya Saya Ragu...</h2>
+    <p>Waktu pertama kali diajak kenal <b>program 3iReborn</b>, saya pikir ini cuma bisnis biasa. Tapi setelah dijelaskan, ternyata ini adalah <b>cara cerdas menyiapkan masa depan</b> tanpa harus meninggalkan aktivitas sekarang.</p>
+
+    <p>Di sini saya diajarkan bagaimana caranya punya <b>perlindungan diri & keluarga</b>, sambil sekaligus membangun <b>investasi jangka panjang</b>. Dan yang paling saya suka — ada sistem yang bantu kita berkembang tanpa perlu jago ngomong atau jualan.</p>
+
+    <div class="hero-quote">“Saya cuma butuh niat belajar dan keberanian mulai. Hasilnya? Bukan cuma tambahan penghasilan, tapi juga ketenangan.”</div>
+
+    <p>Leader saya sabar banget. Langkah demi langkah dibimbing sampai paham. Sekarang saya juga bisa bantu orang lain punya perlindungan dan penghasilan seperti saya dulu.</p>
+  </section>
+
+  <div class="highlight">
+    <b>Leader Anda:</b> <span id="lead-name">-</span>  
+    • <b>WA:</b> <a id="lead-wa" target="_blank">-</a>  
+    • <b>slug:</b> <span id="lead-slug">-</span>
   </div>
+
+  <div class="cta">
+    <a id="btn-daftar" class="btn btn-primary">💎 Saya Mau Seperti Mereka</a>
+    <a id="btn-chat" class="btn btn-ghost">💬 Tanya Langsung ke Leader</a>
+  </div>
+
+  <section class="testi">
+    <div class="card">
+      <div class="name">🌱 Rina • Ibu Rumah Tangga</div>
+      <p>“Saya pikir nggak bisa jualan, tapi sistemnya bantu banget. Tinggal share link, leader bantu follow-up. Sekarang sudah punya tabungan & perlindungan untuk keluarga.”</p>
+    </div>
+    <div class="card">
+      <div class="name">🚀 Budi • Karyawan Swasta</div>
+      <p>“Setiap bulan ada reminder dari sistem, jadi disiplin bayar premi. Bonus kecil-kecilan mulai masuk. Beneran kerasa manfaatnya.”</p>
+    </div>
+    <div class="card">
+      <div class="name">💡 Aulia • Mahasiswa</div>
+      <p>“Awalnya cuma penasaran. Sekarang saya bantu teman-teman lain belajar literasi keuangan. Dapat ilmu, jaringan, dan uang jajan tambahan.”</p>
+    </div>
+  </section>
+
+  <div class="cta" style="margin-top:24px;">
+    <a id="btn-daftar2" class="btn btn-primary">🚀 Gabung Sekarang</a>
+    <a id="btn-chat2" class="btn btn-ghost">📞 Hubungi Leader</a>
+  </div>
+
+  <footer class="footer">
+    <p>Powered by <b>NPA Smart System × 3iReborn</b> • “KitaNganggur Punya Penghasilan” 🚀</p>
+    <p><a href="marketing-plan.html">Lihat Marketing Plan 3iReborn</a></p>
+  </footer>
 </div>
+
 <script>
-  const p=new URLSearchParams(location.search);
-  const name=p.get('name')||'Leader 3iReborn';
-  const wa=p.get('wa')||'6280000000000';
-  const slug=p.get('slug')||'leader';
-  document.getElementById('lead').textContent=`Leader: ${name} • WA: ${wa} • slug: ${slug}`;
-  const base=location.origin+location.pathname.replace(/[^/]+$/,'');
-  const q='?'+new URLSearchParams({name,wa,slug}).toString();
-  document.getElementById('btnForm').href=base+'form-pendaftaran.html'+q;
-  document.getElementById('btnWa').href=`https://wa.me/${wa}?text=Halo%20${encodeURIComponent(name)},%20saya%20siap%20daftar%203iReborn.`;
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const leaderName = qs.get("name") || "-";
+  const wa = (qs.get("wa") || "").replace(/\D/g,"");
+  const slug = qs.get("slug") || "-";
+
+  document.getElementById("lead-name").textContent = leaderName;
+  const elWa = document.getElementById("lead-wa");
+  elWa.textContent = wa || "-";
+  elWa.href = wa ? `https://wa.me/${wa}` : "#";
+  document.getElementById("lead-slug").textContent = slug;
+
+  const daftarUrl = `form-pendaftaran-v3.1.html?name=${encodeURIComponent(leaderName)}&wa=${wa}&slug=${encodeURIComponent(slug)}`;
+  const waText = encodeURIComponent(`Halo ${leaderName}, saya baru baca kisah di LP HOT dan tertarik mengenal 3iReborn. Mohon arahannya 🙏`);
+  const waLink = wa ? `https://wa.me/${wa}?text=${waText}` : "#";
+
+  // Set all buttons
+  ["btn-daftar","btn-daftar2"].forEach(id=>{
+    const el=document.getElementById(id);
+    el.href=daftarUrl; el.target="_self";
+  });
+  ["btn-chat","btn-chat2"].forEach(id=>{
+    const el=document.getElementById(id);
+    el.href=waLink; el.target="_blank";
+  });
+})();
 </script>
 </body>
 </html>
