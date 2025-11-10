@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Admin Pusat — v5.8 (AutoLink)</title>
+<style>
+body{font-family:'Segoe UI',sans-serif;background:#f5f7fa;margin:0;color:#222}
+.container{max-width:750px;margin:40px auto;padding:26px;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+h1{text-align:center;color:#d4af37;margin-bottom:8px}
+.subtitle{text-align:center;color:#666;margin-bottom:24px}
+label{display:block;margin-top:14px;font-weight:600}
+input{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin-top:6px}
+button{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer}
+.btn-primary{background:#1a73e8;color:#fff}
+.btn-copy{background:#34a853;color:#fff;margin-top:10px}
+.log{margin-top:20px;padding:14px;border-radius:12px;background:#f1f3f6;font-size:14px}
+.link-box{background:#fafafa;padding:12px;border-radius:10px;margin-top:10px;word-break:break-all}
+.link-box a{text-decoration:none;color:#1a73e8}
+.footer{text-align:center;margin-top:20px;font-size:13px;color:#777}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>💼 Admin Pusat — v5.8</h1>
+  <p class="subtitle">Tambah mitra & buat 3 link pribadi otomatis</p>
+
+  <label>Nama Leader</label>
+  <input id="nama" placeholder="cth: Budi Santoso">
+
+  <label>No. WhatsApp (format 62...)</label>
+  <input id="wa" placeholder="62812xxxxxxx" inputmode="numeric">
+
+  <button class="btn-primary" id="buat">🚀 Buat 3 Link</button>
+
+  <div id="output" style="display:none">
+    <div class="link-box">
+      🌐 <b>LP Master:</b><br><a id="lpMaster" target="_blank"></a>
+    </div>
+    <div class="link-box">
+      🔥 <b>LP Hot:</b><br><a id="lpHot" target="_blank"></a>
+    </div>
+    <div class="link-box">
+      📝 <b>Form Pendaftaran:</b><br><a id="formDaftar" target="_blank"></a>
+    </div>
+    <button class="btn-copy" id="copyAll">📋 Salin Semua Link</button>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <div class="footer">💎 Powered by <b>NPA Smart System × 3iReborn</b></div>
+</div>
+
+<script>
+document.getElementById("buat").onclick = function(){
+  const nama = document.getElementById("nama").value.trim();
+  const wa = document.getElementById("wa").value.trim();
+  if(!nama || !wa){ alert("Isi nama dan nomor WhatsApp (format 62...)"); return; }
+
+  const slug = nama.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+  const base = "https://3ireborn.github.io/pendaftaran-online";
+  const lpMaster = `${base}/lp-master.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+  const lpHot = `${base}/lp-hot.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+  const form = `${base}/form-pendaftaran-v3.1.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+
+  document.getElementById("lpMaster").href = lpMaster;
+  document.getElementById("lpHot").href = lpHot;
+  document.getElementById("formDaftar").href = form;
+  document.getElementById("lpMaster").textContent = lpMaster;
+  document.getElementById("lpHot").textContent = lpHot;
+  document.getElementById("formDaftar").textContent = form;
+
+  document.getElementById("output").style.display = "block";
+  const waktu = new Date().toLocaleTimeString();
+  document.getElementById("log").innerHTML += `✅ [${waktu}] Link dibuat untuk ${nama}<br>`;
+};
+
+document.getElementById("copyAll").onclick = function(){
+  const text = [
+    "🌐 LP Master: " + document.getElementById("lpMaster").href,
+    "🔥 LP Hot: " + document.getElementById("lpHot").href,
+    "📝 Form Pendaftaran: " + document.getElementById("formDaftar").href
+  ].join("\n");
+  navigator.clipboard.writeText(text);
+  alert("Semua link berhasil disalin 📋");
+};
+</script>
+</body>
+</html>
