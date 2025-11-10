@@ -1,48 +1,220 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LP Master — 3iReborn</title>
-<link rel="icon" href="data:,">
-<meta name="theme-color" content="#0b5ef0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LP Master — NPA Smart System × 3iReborn</title>
+<meta name="description" content="Kenali program 3iReborn: perlindungan, investasi, dan penghasilan. Presentasi lembut, testimoni, dan ajakan bertindak yang manusiawi." />
 <style>
-  :root{--b:#0b5ef0;--bg:#f7f9ff} *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:#0f172a}
-  .wrap{max-width:840px;margin:24px auto;padding:16px}
-  .hero{background:#fff;border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(10,34,80,.08)}
-  .h1{font-size:28px;font-weight:900;margin:0 0 6px}
-  .mut{color:#64748b}
-  .btn{display:inline-block;background:var(--b);color:#fff;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:800}
-  .row{display:flex;gap:10px;flex-wrap:wrap}
-  .ghost{background:#eef4ff;color:#0b5ef0}
-  footer{margin-top:18px;color:#64748b}
+:root{
+  --bg:#0b1220; --card:#0f1a2b; --ink:#eaf2ff; --sub:#b7c4e0;
+  --brand:#ffd166; --brand-2:#06d6a0; --cta:#118ab2; --cta-2:#073b4c; --accent:#ffd166;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#0b1220 0%,#0b1426 100%);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+.wrap{max-width:960px;margin:auto;padding:24px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:#13223a;border:1px solid #1f3356;color:var(--sub);font-weight:600}
+.hero{display:grid;gap:18px;padding:28px;border:1px solid #1e2c4a;background:radial-gradient(1200px 400px at 20% -10%,#183055 0%,rgba(24,48,85,0)60%),var(--card);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+h1{font-weight:800;margin:6px 0 2px;font-size:clamp(26px,3.5vw,40px);letter-spacing:.2px}
+.lead{color:var(--sub);font-size:1.05rem}
+.leader{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:#d7e6ff}
+.leader b{color:#fff}
+.btn{appearance:none;border:0;cursor:pointer;padding:14px 18px;border-radius:14px;font-weight:800}
+.btn-primary{background:var(--cta);color:#fff}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:#0d223a;color:#d6e6ff;border:1px solid #23456f}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.grid{display:grid;gap:16px}
+@media(min-width:760px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--card);border:1px solid #1c2b49;border-radius:16px;padding:18px}
+.card h3{margin:0 0 6px}
+.small{font-size:.92rem;color:var(--sub)}
+.kpi{display:flex;gap:18px;flex-wrap:wrap}
+.kpi .pill{background:#0e2747;border:1px solid #23456f;border-radius:12px;padding:10px 12px}
+.timer{display:flex;gap:10px;align-items:center;background:#142545;border:1px dashed #2f4d7b;border-radius:12px;padding:10px 12px;color:#cfe4ff}
+.timer b{color:#fff}
+.sep{height:1px;background:#1e2b46;margin:22px 0}
+.footer{margin:26px 0 12px;color:var(--sub);font-size:.95rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+a{color:#7fd0ff;text-decoration:none} a:hover{text-decoration:underline}
+.brand{color:var(--brand)}
+.testi-quote{font-style:italic;color:#dce9ff}
+.badge-min{display:inline-block;padding:4px 10px;border:1px solid #2f4d7b;border-radius:999px;background:#0d223a;color:#cbe0ff;font-size:.86rem}
+.tag{display:inline-flex;gap:6px;align-items:center}
+hr{border:0;height:1px;background:#1e2b46;margin:22px 0}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <div class="h1">Selamat datang di 3iReborn</div>
-    <div class="mut" id="lead">Memuat data leader…</div>
-    <p style="margin-top:12px">Pelajari ringkasnya, konsultasi langsung, lalu lanjutkan ke halaman HOT/Daftar.</p>
-    <div class="row" style="margin-top:12px">
-      <a id="btnWa" class="btn">Chat WhatsApp Leader</a>
-      <a id="btnHot" class="btn ghost">Lanjut ke LP HOT</a>
-      <a id="btnForm" class="btn ghost">Form Pendaftaran</a>
+  <div class="wrap">
+
+    <!-- Top badge -->
+    <div class="badge tag">✨ <span>NPA Smart System • 3iReborn</span></div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1><span class="brand">Bangun Masa Depan</span> Tanpa Kehilangan Hari Ini</h1>
+      <p class="lead">Program 3iReborn memadukan <b>perlindungan</b>, <b>investasi</b>, dan <b>penghasilan</b>. Sederhana, manusiawi, dan bisa dijalankan siapa saja dengan bimbingan leader.</p>
+
+      <div class="leader small">
+        <span>Leader Anda:</span>&nbsp;<b id="lead-name">-</b>
+        <span>• WA:</span>&nbsp;<a id="lead-wa" target="_blank">-</a>
+        <span>• slug:</span>&nbsp;<span id="lead-slug">-</span>
+      </div>
+
+      <div class="timer" id="zoomTimer">⏳ <span>Menentukan jadwal Zoom terdekat…</span></div>
+
+      <div class="cta">
+        <a id="cta-daftar" class="btn btn-primary">Saya Tertarik — Lanjut Daftar</a>
+        <a id="cta-chat" class="btn btn-ghost">Chat Leader Sekarang</a>
+      </div>
+
+      <div class="kpi">
+        <div class="pill">✅ Bimbingan langsung + sistem online</div>
+        <div class="pill">✅ Jalur belajar bertahap</div>
+        <div class="pill">✅ Potensi bonus berjenjang</div>
+      </div>
+    </section>
+
+    <div class="sep"></div>
+
+    <!-- BENEFITS -->
+    <section class="grid grid-3">
+      <div class="card">
+        <h3>Kenapa 3iReborn?</h3>
+        <p class="small">Fokus pada <b>tiga pilar</b>: perlindungan keluarga, pembentukan aset, dan peluang income. Anda tidak berjalan sendiri — ada komunitas dan sistem.</p>
+      </div>
+      <div class="card">
+        <h3>Simple & Manusiawi</h3>
+        <p class="small">Tanpa bahasa ribet. Anda dibekali materi, template, dan auto-follow-up yang sopan. Kami bantu Anda bertumbuh sesuai ritme Anda.</p>
+      </div>
+      <div class="card">
+        <h3>Dukungan Teknologi</h3>
+        <p class="small">NPA Smart System mempermudah pembuatan link, form, hingga pengingat. Teknologi hanyalah alat — sentuhan manusia tetap utama.</p>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="grid grid-3" style="margin-top:16px">
+      <div class="card">
+        <div class="badge-min">Testimoni</div>
+        <p class="testi-quote">“Awalnya ragu, tapi alurnya gampang diikuti. Yang penting jalanin, ada yang dampingi.”</p>
+        <p class="small">— Andi, karyawan</p>
+      </div>
+      <div class="card">
+        <div class="badge-min">Testimoni</div>
+        <p class="testi-quote">“Sukanya follow-up-nya halus, bukan maksa. Orang nyaman, keputusan datang sendiri.”</p>
+        <p class="small">— Dina, ibu rumah tangga</p>
+      </div>
+      <div class="card">
+        <div class="badge-min">Testimoni</div>
+        <p class="testi-quote">“Komunitasnya positif. Belajar finansial, etika, dan cara komunikasi yang baik.”</p>
+        <p class="small">— Raka, wirausaha</p>
+      </div>
+    </section>
+
+    <!-- CTA bottom -->
+    <div class="card" style="margin-top:18px">
+      <h3>Mau dikenalkan pelan-pelan?</h3>
+      <p class="small">Klik “Lanjut Daftar” untuk isi form singkat. Leader Anda akan bantu langkah berikutnya.</p>
+      <div class="cta">
+        <a id="cta-daftar-2" class="btn btn-primary">Lanjut Daftar Sekarang</a>
+        <a id="cta-chat-2" class="btn btn-ghost">Tanya Leader via WhatsApp</a>
+      </div>
     </div>
+
+    <hr/>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>© NPA Smart System × 3iReborn • “KitaNganggur Punya Penghasilan” 🚀</div>
+      <div>
+        <a id="link-mp" class="badge-min" href="marketing-plan.html">Marketing Plan 3iReborn</a>
+      </div>
+    </div>
+
   </div>
-  <footer>Powered by NPA Smart System × 3iReborn</footer>
-</div>
+
 <script>
-  const p=new URLSearchParams(location.search);
-  const name=p.get('name')||'Leader 3iReborn';
-  const wa=p.get('wa')||'6280000000000';
-  const slug=p.get('slug')||'leader';
-  document.getElementById('lead').innerHTML=`Leader: <b>${name}</b> • WA: <b>${wa}</b> • slug: <b>${slug}</b>`;
-  const base=location.origin+location.pathname.replace(/[^/]+$/,'');
-  const q='?'+new URLSearchParams({name,wa,slug}).toString();
-  document.getElementById('btnWa').href=`https://wa.me/${wa}?text=Halo%20${encodeURIComponent(name)},%20saya%20mau%20konsultasi%203iReborn.`;
-  document.getElementById('btnHot').href=base+'lp-hot.html'+q;
-  document.getElementById('btnForm').href=base+'form-pendaftaran.html'+q;
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const leaderName = (qs.get("name")||"").trim() || "-";
+  const waRaw = (qs.get("wa")||"").trim();
+  const slug = (qs.get("slug")||"").trim() || "-";
+
+  // Normalize WA (remove non-digits, ensure starts with 62/60/.. as given)
+  const waDigits = (waRaw.match(/\d+/g)||[]).join("");
+  const waLink   = waDigits ? `https://wa.me/${waDigits}` : "#";
+
+  // Bind leader info
+  document.getElementById("lead-name").textContent = leaderName;
+  const elWa = document.getElementById("lead-wa");
+  elWa.textContent = waDigits || "-";
+  elWa.href = waLink;
+  document.getElementById("lead-slug").textContent = slug;
+
+  // Build link to Form Pendaftaran v3.1 (kompatibel)
+  const base = "form-pendaftaran-v3.1.html";
+  const q = new URLSearchParams({name: leaderName, wa: waDigits, slug});
+  const formUrl = base + "?" + q.toString();
+
+  const daftarBtns = [document.getElementById("cta-daftar"), document.getElementById("cta-daftar-2")];
+  daftarBtns.forEach(b=>{ b.href = formUrl; b.setAttribute("target","_self"); });
+
+  const chatBtns = [document.getElementById("cta-chat"), document.getElementById("cta-chat-2")];
+  const intro = encodeURIComponent(`Halo ${leaderName || "Leader"}, saya tertarik mengenal 3iReborn. Mohon bimbingannya 🙏`);
+  const chatUrl = waDigits ? `${waLink}?text=${intro}` : "#";
+  chatBtns.forEach(b=>{ b.href = chatUrl; b.target = "_blank"; });
+
+  // Footer MP link safe (tetap lokal)
+  // (dibiarkan default ke marketing-plan.html)
+
+  // ===== Countdown Zoom (WIB) =====
+  // Jadwal: Senin/Rabu/Jumat 19:00 WIB + Rabu 14:00 WIB
+  const ZOOM_SLOTS = [
+    {wd:1, h:19, m:0}, // Mon 19:00
+    {wd:3, h:14, m:0}, // Wed 14:00
+    {wd:3, h:19, m:0}, // Wed 19:00
+    {wd:5, h:19, m:0}, // Fri 19:00
+  ];
+  const tz = "Asia/Jakarta";
+  const timerEl = document.getElementById("zoomTimer").querySelector("span");
+
+  function nextSlotWIB(now=new Date()){
+    // Convert "now" to WIB reference
+    const nowWIB = new Date(new Intl.DateTimeFormat('en-US', { timeZone: tz, hour12:false, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit'}).format(now).replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, (m,mm,dd,yyyy,HH,MM,SS)=>{
+      return `${yyyy}-${mm}-${dd}T${HH}:${MM}:${SS}`;
+    }));
+    // Find next slot within next 8 days
+    for(let add=0; add<8; add++){
+      const d = new Date(nowWIB); d.setDate(d.getDate()+add);
+      const wd = d.getDay(); // 0 Sun ... 6 Sat
+      for(const s of ZOOM_SLOTS){
+        // Map Mon=1..Fri=5 to JS: Mon=1..Fri=5 already ok
+        if(wd===s.wd){
+          const cand = new Date(d); cand.setHours(s.h, s.m, 0, 0);
+          if(cand > nowWIB) return cand;
+        }
+      }
+    }
+    return null;
+  }
+
+  const target = nextSlotWIB();
+  if(!target){
+    timerEl.textContent = "Jadwal Zoom belum tersedia.";
+  }else{
+    function tick(){
+      const now = new Date(new Intl.DateTimeFormat('en-US', { timeZone: tz, hour12:false, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit'}).format(new Date()).replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, (m,mm,dd,yyyy,HH,MM,SS)=>`${yyyy}-${mm}-${dd}T${HH}:${MM}:${SS}`));
+      const diff = (target - now)/1000; // sec
+      if(diff<=0){ timerEl.textContent = "Sedang berlangsung — klik Chat Leader untuk link Zoom."; return; }
+      const d = Math.floor(diff/86400);
+      const h = Math.floor((diff%86400)/3600);
+      const m = Math.floor((diff%3600)/60);
+      const s = Math.floor(diff%60);
+      timerEl.innerHTML = `Zoom terdekat dalam <b>${d}h ${h}j ${m}m ${s}d</b> (WIB).`;
+      requestAnimationFrame(()=>setTimeout(tick,1000));
+    }
+    tick();
+  }
+})();
 </script>
 </body>
 </html>
