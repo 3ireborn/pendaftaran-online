@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NPA Smart — Admin Pusat v4.8 (AutoLink)</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--b:#0b5ef0;--bg:#f5f8ff;--card:#fff;--mut:#6b7280}
+  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
+  .wrap{max-width:720px;margin:24px auto;padding:16px}
+  .h1{font-size:28px;font-weight:800;margin:0 0 6px} .mut{color:var(--mut)}
+  .card{background:var(--card);border-radius:14px;box-shadow:0 8px 24px rgba(10,34,80,.06);padding:16px;margin:16px 0}
+  label{display:block;font-weight:600;margin:10px 0 6px} input{width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:16px}
+  .btn{background:var(--b);color:#fff;border:0;padding:12px 16px;border-radius:10px;font-weight:700;cursor:pointer}
+  .links a{display:block;text-decoration:none;background:#eef4ff;border:1px dashed #cfe0ff;padding:12px;border-radius:10px;margin:8px 0;word-break:break-all}
+  .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  .small{font-size:13px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="h1">Admin Pusat — v4.8 <span class="mut">(AutoLink)</span></div>
+  <div class="mut">Masukkan <b>Nama</b> & <b>No. WhatsApp (62…)</b> → langsung dapat 3 tautan pribadi.</div>
+
+  <div class="card">
+    <label>Nama Leader</label>
+    <input id="name" placeholder="cth: Agnes Marsilah">
+    <label>No. WhatsApp (format 62…)</label>
+    <input id="wa" placeholder="cth: 62812xxxxxxx" inputmode="numeric">
+    <div style="margin-top:14px;display:flex;gap:10px">
+      <button class="btn" id="gen">Buat 3 Link</button>
+      <div class="small" id="slugInfo"></div>
+    </div>
+    <div class="links" id="out" style="margin-top:14px;display:none"></div>
+  </div>
+
+  <div class="card small">
+    Tips: Bagikan alur <b>LP Master → LP Hot → Form</b>. Semua halaman menampilkan nama & klik WA langsung ke nomor leader Anda.
+  </div>
+</div>
+
+<script>
+  const kebab = s=> s.toLowerCase().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+
+  function build(name, wa){
+    const slug = kebab(name || "");
+    const q = new URLSearchParams({name, wa, slug}).toString();
+    const base = location.origin + location.pathname.replace(/[^/]+$/,'');
+    return {
+      slug,
+      master: base + 'lp-master.html?' + q,
+      hot   : base + 'lp-hot.html?' + q,
+      form  : base + 'form-pendaftaran.html?' + q
+    };
+  }
+
+  const $ = id=>document.getElementById(id);
+  $('gen').onclick = ()=>{
+    const name = $('name').value.trim();
+    const wa   = $('wa').value.trim();
+    if(!name || !/^62\d{7,15}$/.test(wa)){
+      alert('Isi nama & WA (wajib mulai 62).'); return;
+    }
+    const L = build(name,wa);
+    $('slugInfo').innerHTML = 'slug: <b>'+L.slug+'</b>';
+    $('out').style.display='block';
+    $('out').innerHTML = `
+      <a href="${L.master}" target="_blank">🌐 LP Master → ${L.master}</a>
+      <a href="${L.hot}" target="_blank">🔥 LP Hot → ${L.hot}</a>
+      <a href="${L.form}" target="_blank">📝 Form Pendaftaran → ${L.form}</a>
+    `;
+  };
+</script>
+</body>
+</html>
