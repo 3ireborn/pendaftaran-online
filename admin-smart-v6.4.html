@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NPA Smart — Admin Pusat v6.4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0d1321;--card:#121a2b;--text:#e9eefc;--muted:#a8b3cf;
+      --pri:#00d991;--btn:#1f6feb;--bad:#ef4444;--good:#22c55e;
+    }
+    body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text);}
+    .wrap{max-width:960px;margin:32px auto;padding:0 16px;}
+    h1{margin:0 0 4px;font-size:26px;} .sub{color:var(--muted);margin-bottom:18px;}
+    .card{background:var(--card);border:1px solid #25324f;border-radius:14px;padding:18px;margin:12px 0;}
+    .inp{width:100%;background:#0c1427;border:1px solid #2a3556;color:var(--text);border-radius:10px;padding:10px 12px;}
+    .btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;color:#fff;}
+    .btn.good{background:var(--good);} .btn.bad{background:var(--bad);} .btn.blue{background:var(--btn);}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#0f1a31;border:1px solid #233155;border-radius:999px;padding:8px 12px;color:var(--muted);}
+    .log{height:260px;overflow:auto;background:#0b1222;border:1px dashed #2a3556;border-radius:12px;padding:10px;font-family:monospace;}
+    a{color:#8ecbff;word-break:break-all;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧭 NPA Smart — Admin Pusat v6.4</h1>
+  <div class="sub">Auto Follow-Up AI • Leader Links • Fonnte BOT</div>
+
+  <!-- TOKEN -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="pill">🔐 Token: <span id="tok-stat">memeriksa...</span></div>
+      <div class="pill">🕒 WIB: <span id="clock">--:--</span></div>
+    </div>
+    <div style="margin-top:10px;display:grid;grid-template-columns:1fr auto auto auto;gap:10px;">
+      <input id="in-token" class="inp" placeholder="tempel token Fonnte di sini" />
+      <button id="btn-save" class="btn good">Set Token</button>
+      <button id="btn-test" class="btn blue">Tes Kirim</button>
+      <button id="btn-del" class="btn bad">Hapus</button>
+    </div>
+    <small style="color:var(--muted);">Token disimpan lokal & terenkripsi (tidak dikirim ke server).</small>
+  </div>
+
+  <!-- AUTOLINK -->
+  <div class="card">
+    <h3 style="margin-top:0;">➕ Tambah Mitra / Leader</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <input id="in-name" class="inp" placeholder="cth: Sugiarto Kurniawan">
+      <input id="in-wa" class="inp" placeholder="cth: 62852xxxxxxx">
+    </div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:10px;">
+      <button id="btn-build" class="btn good">🚀 Buat 3 Link</button>
+      <div class="pill">slug: <span id="slug">-</span></div>
+    </div>
+    <div id="links" style="margin-top:8px;"></div>
+  </div>
+
+  <!-- FOLLOW-UP -->
+  <div class="card">
+    <h3 style="margin-top:0;">🤖 Follow-Up Otomatis (AI)</h3>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <label>Status:</label>
+      <select id="auto" class="inp" style="width:120px;">
+        <option value="on">Aktif</option>
+        <option value="off">Nonaktif</option>
+      </select>
+      <div class="pill">Next: 06:00 WIB</div>
+      <button id="btn-sim" class="btn blue">Simulasi</button>
+    </div>
+  </div>
+
+  <!-- MANUAL -->
+  <div class="card">
+    <h3 style="margin-top:0;">🧭 Manual Follow-Up</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;">
+      <button class="btn good" data-type="motivasi">🌅 Motivasi</button>
+      <button class="btn blue" data-type="bonus">📊 Info Bonus</button>
+      <button class="btn" style="background:#f59e0b;" data-type="landing">☕ Bonus Landing</button>
+      <button class="btn" style="background:#0284c7;" data-type="rekrut">🚀 Rekrutmen</button>
+      <button class="btn bad" data-type="premi">💰 Pengingat Premi</button>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3 style="margin:0;">🧾 Log Aktivitas</h3>
+      <button id="btn-clear" class="btn blue">Bersihkan</button>
+    </div>
+    <div id="log" class="log"></div>
+  </div>
+
+  <p class="sub">Powered by <b>NPA Smart System × 3iReborn</b> • “KitaNganggur Punya Penghasilan” 🚀</p>
+</div>
+
+<script>
+const $ = s=>document.querySelector(s);
+const logBox = $('#log');
+function log(t){const now=new Date().toLocaleTimeString('id-ID',{hour12:false});logBox.innerHTML=`[${now}] ${t}<br>`+logBox.innerHTML;}
+
+const SALT='3iRebornxNPA64';const KEY='npa_tok_v64';
+function enc(s){let o='';for(let i=0;i<s.length;i++){o+=String.fromCharCode(s.charCodeAt(i)^SALT.charCodeAt(i%SALT.length));}return btoa(o);}
+function dec(b){try{const s=atob(b);let o='';for(let i=0;i<s.length;i++){o+=String.fromCharCode(s.charCodeAt(i)^SALT.charCodeAt(i%SALT.length));}return o;}catch{return ''}}
+function getTok(){const v=localStorage.getItem(KEY)||'';return v?dec(v):'';}
+function saveTok(v){localStorage.setItem(KEY,enc(v.trim()));paintTok();}
+function delTok(){localStorage.removeItem(KEY);paintTok();}
+function paintTok(){$('#tok-stat').textContent=getTok()?'✅ aktif':'❌ belum diatur';}
+
+const LEADERS=['6288293744431','6281236781273','6282252161911','6281236544821','6281285949074'];
+
+async function sendFonnte(target,msg){
+ const t=getTok();if(!t)throw new Error('Token belum diatur');
+ const f=new FormData();f.append('target',target);f.append('message',msg);
+ const r=await fetch('https://api.fonnte.com/send',{method:'POST',headers:{Authorization:t},body:f});
+ if(!r.ok)throw new Error('HTTP '+r.status);return r.json().catch(()=>({status:true}));
+}
+
+const MSG={
+ motivasi:`Selamat pagi ☀️\nLangkah kecil hari ini bisa jadi lompatan besar esok.\nAyo semangat bersama 3iReborn! 🚀`,
+ bonus:`Info Bonus 📊\nCek dashboard dan kejar target minggu ini.\nKonsisten = hasil nyata.`,
+ landing:`Bonus Landing ☕\nNikmati hasil kerja kerasmu, tetap semangat menebar peluang.`,
+ rekrut:`Rekrutmen 🚀\nBuka peluang untuk 1–3 orang hari ini.\nGunakan LP Master & arahkan isi form.`,
+ premi:`Pengingat Premi 💰\nPastikan premi bulan ini aman agar bonus tetap lancar.`
+};
+
+async function broadcast(type){
+  const msg=MSG[type]||'Pesan';for(const p of LEADERS){
+    try{await sendFonnte(p,msg);log(`✅ ${p} terkirim`);}
+    catch(e){log(`❌ ${p} gagal • ${e.message}`);}
+  }
+}
+
+$('#btn-save').onclick=()=>{const v=$('#in-token').value.trim();if(!v)return alert('Token kosong');saveTok(v);log('🔐 Token disimpan');};
+$('#btn-del').onclick=()=>{delTok();log('🗑️ Token dihapus');};
+$('#btn-test').onclick=async()=>{try{const n=prompt('No tes (62...)');if(!n)return;await sendFonnte(n,'Tes kirim dari NPA Smart v6.4 ✅');log('✅ Tes terkirim');}catch(e){log('❌ '+e.message);}};
+
+function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
+$('#btn-build').onclick=()=>{
+  const n=$('#in-name').value,w=$('#in-wa').value;if(!n||!w)return alert('Isi dulu');
+  const slug=slugify(n);$('#slug').textContent=slug;
+  const q=new URLSearchParams({name:n,wa:w,slug}).toString();
+  const base='https://3ireborn.github.io/pendaftaran-online/';
+  $('#links').innerHTML=`
+    <div>🌐 <b>LP Master:</b><br><a href='${base}lp-master-v6.4.html?${q}' target='_blank'>${base}lp-master-v6.4.html?${q}</a></div>
+    <div>🔥 <b>LP Hot:</b><br><a href='${base}lp-hot-v6.4.html?${q}' target='_blank'>${base}lp-hot-v6.4.html?${q}</a></div>
+    <div>📝 <b>Form Pendaftaran:</b><br><a href='${base}form-pendaftaran-v3.1.html?${q}' target='_blank'>${base}form-pendaftaran-v3.1.html?${q}</a></div>`;
+};
+
+document.querySelectorAll('[data-type]').forEach(b=>b.onclick=()=>{const t=b.dataset.type;log('🚀 Manual: '+t);broadcast(t);});
+$('#btn-clear').onclick=()=>logBox.innerHTML='';
+paintTok();
+setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString('id-ID',{hour12:false});},1000);
+</script>
+</body>
+</html>
