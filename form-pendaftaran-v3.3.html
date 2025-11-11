@@ -92,12 +92,10 @@ document.getElementById('kirim').onclick=()=>{
   };
 
   console.log('Data tersimpan:',data);
-  alert('✅ Data berhasil dikirim! Leader Anda akan segera menghubungi.');
-
-  if(wa){
-    const pesan=`Halo%20${leader},%0ASaya%20${n}%20baru%20saja%20mengisi%20form%20pendaftaran.%0A%0A📞%20${w}%0A💰%20Premi%20${p}%0A🏙️%20${data.kota||'-'}`;
-    location.href=`https://wa.me/${wa}?text=${pesan}`;
-  }
+  alert('✅ Data berhasil dikirim! Leader Anda akan segera menghubungi.\n\n📝 Untuk melengkapi data resmi sesuai SOP 3iReborn, silakan isi formulir lengkap di halaman berikutnya.');
+  
+  // Redirect otomatis ke form SOP resmi
+  location.href='https://3ireborn.github.io/pendaftaran-online/index-v2.html';
 };
 </script>
 </body>
