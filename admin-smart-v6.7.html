@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NPA Smart v6.7 — Admin Pusat (Dual Mode Glossy)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f8ff; --card:#ffffff; --text:#0a1f44; --muted:#5f6f8d;
+    --brand:#2b6cf4; --brand-2:#1f3ea1; --border:#e6ecff;
+    --ok:#16a34a; --err:#ef4444; --chip:#eaf1ff;
+    --gloss1: linear-gradient(135deg, rgba(255,255,255,.6), rgba(255,255,255,0));
+    --gloss2: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,0));
+    --glass-bg: rgba(255,255,255,.8);
+    --shadow: 0 18px 40px rgba(43,108,244,.18);
+    --ring: 0 0 0 10px rgba(43,108,244,.08);
+  }
+  html.dark{
+    --bg:#0b1324; --card:#111b33; --text:#eaf2ff; --muted:#9fb2d9;
+    --brand:#5aa2ff; --brand-2:#2959ff; --border:#1c2a4d;
+    --ok:#22c55e; --err:#f87171; --chip:#0f1a32;
+    --gloss1: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+    --gloss2: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    --glass-bg: rgba(17,27,51,.75);
+    --shadow: 0 18px 44px rgba(0,0,0,.45);
+    --ring: 0 0 0 10px rgba(90,162,255,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;transition:background .35s,color .35s}
+  .wrap{max-width:980px;margin:auto;padding:24px}
+  .bar{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:14px}
+  h1{margin:0;font-size:26px;font-weight:700;letter-spacing:.2px}
+  .mode-toggle{display:inline-flex;align-items:center;gap:8px;background:var(--glass-bg);border:1px solid var(--border);padding:8px 12px;border-radius:14px;backdrop-filter: blur(10px);box-shadow: var(--shadow)}
+  .mode-toggle button{border:0;border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  @media (max-width:860px){.grid{grid-template-columns:1fr}}
+  .card{
+    position:relative;background:
+      var(--gloss1),var(--card);
+    border:1px solid var(--border);border-radius:18px;padding:18px;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .card:before{
+    content:"";position:absolute;inset:0;background:var(--gloss2);
+    pointer-events:none;
+  }
+  label{font-size:14px;font-weight:700;margin-bottom:8px;display:block}
+  input, textarea, select{
+    width:100%;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.65);
+    outline:none;transition: box-shadow .2s,border-color .2s;
+  }
+  html.dark input,html.dark textarea,html.dark select{background:rgba(255,255,255,.06)}
+  input:focus, textarea:focus, select:focus{box-shadow: var(--ring);border-color: var(--brand)}
+  .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:800;letter-spacing:.2px;transition: transform .08s ease}
+  .btn:active{transform: translateY(1px)}
+  .btn-blue{background:linear-gradient(180deg, var(--brand), var(--brand-2));color:#fff;box-shadow:0 10px 24px rgba(43,108,244,.35)}
+  .btn-ghost{background:linear-gradient(180deg, rgba(43,108,244,.12), rgba(43,108,244,.04));color:var(--brand)}
+  .btn-red{background:linear-gradient(180deg, #ff8e8e, #ef4444);color:#fff;box-shadow:0 10px 24px rgba(239,68,68,.35)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .pill{background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.45));
+    border:1px solid var(--border);padding:12px 14px;border-radius:14px}
+  html.dark .pill{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02))}
+  .kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .mono{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;word-break:break-word;white-space:pre-wrap;background:rgba(0,0,0,.05);border-radius:10px;padding:10px}
+  html.dark .mono{background:rgba(255,255,255,.04)}
+  .status{display:flex;gap:10px;align-items:center;background:#e8fff3;color:#166534;border:1px solid #b7f0c3;border-radius:12px;padding:10px 12px;font-weight:700}
+  .status.err{background:#ffecec;color:#b91c1c;border-color:#ffc1c1}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--chip);border:1px solid var(--border);padding:8px 10px;border-radius:999px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <div>
+      <h1>NPA Smart v6.7 — Admin Pusat</h1>
+      <div class="muted">Dual Mode Glossy • Broadcast otomatis & manual untuk semua leader</div>
+    </div>
+    <div class="mode-toggle">
+      <span id="modeLabel" class="muted">Mode: Light</span>
+      <button id="toggleMode" title="Ganti tema">🌙 / ☀️</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="kpi">
+        <div class="pill">⏱️ Waktu (WIB): <b id="clock">--:--</b><br><span class="muted">Scheduler: 06:00 & 17:00</span></div>
+        <div class="pill">👥 Leader Aktif (lokal): <b id="leadCount">0</b><br><span class="muted">Cache perangkat ini</span></div>
+      </div>
+      <div class="chips" style="margin-top:10px">
+        <div class="chip">Auto 06:00 ✅</div>
+        <div class="chip">Auto 17:00 ✅</div>
+        <div class="chip">FonNTE API</div>
+        <div class="chip">Templates JSON</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 8px">🔐 Token FonNTE</h3>
+      <label for="token">Tempel token FonNTE</label>
+      <input id="token" placeholder="contoh: a2vtTGhWMnWxFZtxw1U1..." />
+      <div class="row" style="margin-top:10px">
+        <button class="btn btn-blue" id="save">Simpan Token</button>
+        <button class="btn btn-ghost" id="test">Tes Kirim (dummy)</button>
+        <button class="btn btn-red" id="del">Hapus Token</button>
+      </div>
+      <div id="tokStatus" class="status" style="margin-top:12px;display:none"></div>
+      <div class="hint">Token disimpan di <b>localStorage</b>. Wajib ada agar broadcast berjalan.</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3 style="margin:0 0 10px">📅 Tema Hari Ini</h3>
+      <div id="temaBox" class="pill" style="margin-bottom:10px">
+        <div><b id="tema-title">Memuat tema…</b></div>
+        <div class="muted" id="tema-sub">—</div>
+      </div>
+      <div class="row">
+        <button class="btn btn-ghost" id="refreshTema">🔄 Muat Ulang Tema</button>
+        <button class="btn btn-blue" id="sendMorning">🌅 Kirim Motivasi Pagi (Manual)</button>
+        <button class="btn btn-blue" id="sendEvening">🌇 Kirim Refleksi Sore (Manual)</button>
+      </div>
+      <div class="hint">Sumber: <code>npa_templates.json</code> (jika ada). Jika tidak, gunakan fallback bawaan.</div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 8px">📦 Data Leader (lokal)</h3>
+      <div id="leaders" class="mono">(belum ada)</div>
+      <div class="hint">Berisi cache leader yang pernah dibuat via Admin Leader pada perangkat ini.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px">📣 Broadcast Manual Cepat</h3>
+    <div class="row">
+      <button class="btn btn-blue" id="btnBroadcastNow">🚀 Broadcast Sekarang</button>
+      <button class="btn btn-ghost" id="btnPreviewMsg">👀 Lihat Pesan</button>
+    </div>
+    <div class="hint">Gunakan untuk mengirim segera tanpa menunggu jadwal 06:00/17:00.</div>
+  </div>
+
+  <p class="muted" style="margin-top:12px">
+    ℹ️ <b>Tips:</b> Agar auto-scheduler berjalan di GitHub Pages, biarkan halaman ini tetap terbuka pada perangkat yang online.
+  </p>
+</div>
+
+<script>
+(function(){
+  // =============== THEME ===============
+  const modeKey = "npa_mode";
+  const html = document.documentElement;
+  const modeLabel = document.getElementById("modeLabel");
+  const savedMode = localStorage.getItem(modeKey) || "light";
+  if(savedMode==="dark") html.classList.add("dark");
+  modeLabel.textContent = "Mode: " + (html.classList.contains("dark") ? "Dark" : "Light");
+  document.getElementById("toggleMode").onclick = ()=>{
+    html.classList.toggle("dark");
+    const m = html.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem(modeKey, m);
+    modeLabel.textContent = "Mode: " + (m==="dark"?"Dark":"Light");
+  };
+
+  const $ = (id)=>document.getElementById(id);
+
+  // =============== CLOCK (WIB) ===============
+  function tickClock(){
+    const wib = new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Jakarta"}));
+    const pad = (n)=>String(n).padStart(2,"0");
+    $("clock").textContent = pad(wib.getHours())+":"+pad(wib.getMinutes());
+  }
+  tickClock(); setInterval(tickClock, 1000*30);
+
+  // =============== LEADER CACHE (LOKAL) ===============
+  function renderLeaders(){
+    try{
+      const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]').sort((a,b)=>b.ts-a.ts);
+      $("leadCount").textContent = arr.length;
+      $("leaders").textContent = arr.length ? JSON.stringify(arr,null,2) : "(belum ada data)";
+    }catch(e){
+      $("leaders").textContent = "(gagal baca data)";
+    }
+  }
+  renderLeaders();
+
+  // =============== TOKEN IO ===============
+  function showTokStatus(msg, ok=true){
+    const box = $("tokStatus");
+    box.style.display = "flex";
+    box.className = ok ? "status" : "status err";
+    box.textContent = msg;
+  }
+  const savedTok = localStorage.getItem("fonnte_token")||"";
+  if(savedTok){ $("token").value = savedTok; showTokStatus("Token aktif di perangkat ini ✅", true); }
+  $("save").onclick = ()=>{
+    const t = $("token").value.trim();
+    if(t.length<10) return showTokStatus("Token tidak valid ❌", false);
+    localStorage.setItem("fonnte_token", t);
+    showTokStatus("Token disimpan ✅", true);
+  };
+  $("del").onclick = ()=>{
+    localStorage.removeItem("fonnte_token");
+    $("token").value = "";
+    showTokStatus("Token dihapus 🗑️", true);
+  };
+  $("test").onclick = ()=>{
+    if((localStorage.getItem("fonnte_token")||"").length<10) return showTokStatus("Token belum diset ❌", false);
+    alert("Tes dummy: token terdeteksi ✅ (panggilan API bisa ditanam di sini)");
+  };
+
+  // =============== TEMPLATE HARI INI ===============
+  const fallbackTemplates = {
+    1:{tema:"Niat & Awal Baru", pagi:"Mulai hari ini dengan niat lurus dan langkah ringan.", sore:"Setiap niat baik adalah doa yang bergerak."},
+    2:{tema:"Istiqamah", pagi:"Sedikit tapi terus itu kuat.", sore:"Lebih baik lelah di jalan istiqamah daripada nyaman di kelalaian."},
+    3:{tema:"Berbagi & Memberdayakan", pagi:"Berbagi menambah makna hidup.", sore:"Rezeki terbaik yang bermanfaat bagi orang lain."},
+    4:{tema:"Koneksi & Silaturahmi", pagi:"Silaturahmi memperluas rezeki.", sore:"Jaga hubungan, bukan hanya hasil."},
+    5:{tema:"Optimisme", pagi:"Lihat peluang, bukan hambatan.", sore:"Hari berat tetap berharga karena kamu tak menyerah."}
+    // … (cukup untuk fallback singkat; JSON penuh bisa diambil dari npa_templates.json)
+  };
+  let todayTemplate = {tema:"Memuat…", pagi:"—", sore:"—"};
+
+  async function loadTemplate(){
+    const d = new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Jakarta"})).getDate();
+    try{
+      const r = await fetch("./npa_templates.json",{cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const j = await r.json();
+      const rec = (j.templates||[]).find(x=>x.day===d);
+      if(rec){
+        todayTemplate = {tema:rec.tema, pagi:rec.pagi, sore:rec.sore};
+      }else{
+        const f = fallbackTemplates[d] || fallbackTemplates[1];
+        todayTemplate = {tema:f.tema, pagi:f.pagi, sore:f.sore};
+      }
+    }catch(e){
+      const f = fallbackTemplates[d] || fallbackTemplates[1];
+      todayTemplate = {tema:f.tema, pagi:f.pagi, sore:f.sore};
+    }
+    $("tema-title").textContent = "Tema Hari Ini: " + todayTemplate.tema;
+    $("tema-sub").textContent = "Pagi: " + todayTemplate.pagi + " • Sore: " + todayTemplate.sore;
+  }
+  loadTemplate();
+  $("refreshTema").onclick = loadTemplate;
+
+  // =============== FONNTE SEND ===============
+  async function sendMessage(target, text){
+    const token = localStorage.getItem("fonnte_token");
+    if(!token){ showTokStatus("Token belum diset ❌", false); throw new Error("No token"); }
+    await fetch("https://api.fonnte.com/send",{
+      method:"POST",
+      headers:{ "Authorization": token, "Content-Type":"application/json" },
+      body: JSON.stringify({ target, message: text })
+    });
+  }
+
+  const defaultLeaders = [
+    "6285218453131","6285932684440","62881011823140","6281388675615",
+    "6282199558169","6281327498929","6281285949074","966563414575",
+    "6586210326","6281236544821","6282252161911","6281236781273","6288293744431"
+  ];
+  function getAllTargets(){
+    // gabung default + cache (kalau cache punya field phone)
+    let targets = [...defaultLeaders];
+    try{
+      const cache = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
+      const phones = cache.map(x=>String(x.wa||"").trim()).filter(Boolean);
+      targets = Array.from(new Set([...targets, ...phones]));
+    }catch(e){}
+    return targets;
+  }
+
+  function buildMorningMsg(){
+    return `🌅 *Selamat Pagi Leader 3IReborn!*\nTema: *${todayTemplate.tema}*\n${todayTemplate.pagi}\n\nFokus hari ini: Follow up 3 prospek + 1 progress.\n#Terkirim dengan 💞 dari NPA Smart System 🚀`;
+  }
+  function buildEveningMsg(){
+    return `🌇 *Refleksi Sore — 3IReborn*\nTema: *${todayTemplate.tema}*\n${todayTemplate.sore}\n\nKecil tapi konsisten = hasil besar.\n#Terkirim dengan 💞 dari NPA Smart System 🚀`;
+  }
+
+  async function broadcast(text){
+    const targets = getAllTargets();
+    for(const t of targets){
+      try{ await sendMessage(t, text); console.log("✅ terkirim ke", t); }
+      catch(e){ console.warn("❌ gagal ke", t, e.message); }
+    }
+    showTokStatus("Broadcast terkirim ✅ ("+targets.length+" nomor)", true);
+  }
+
+  // Manual actions
+  $("sendMorning").onclick = ()=> broadcast(buildMorningMsg());
+  $("sendEvening").onclick = ()=> broadcast(buildEveningMsg());
+  $("btnBroadcastNow").onclick = ()=> broadcast(buildMorningMsg());
+  $("btnPreviewMsg").onclick = ()=> alert(buildMorningMsg());
+
+  // =============== AUTO SCHEDULER 06:00 & 17:00 WIB ===============
+  function tickAuto(){
+    const now = new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Jakarta"}));
+    const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+    // Pagi 06:00
+    if(h===6 && m===0 && s<10){
+      console.log("⏰ Auto 06:00 WIB — broadcast pagi");
+      broadcast(buildMorningMsg());
+    }
+    // Sore 17:00
+    if(h===17 && m===0 && s<10){
+      console.log("⏰ Auto 17:00 WIB — broadcast sore");
+      broadcast(buildEveningMsg());
+    }
+  }
+  setInterval(tickAuto, 5000);
+})();
+</script>
+</body>
+  </html>
