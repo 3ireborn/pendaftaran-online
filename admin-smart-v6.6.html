@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NPA Smart v6.6 — Admin Pusat</title>
+<style>
+  :root{--bg:#f7fbff;--card:#ffffff;--text:#0b3d91;--muted:#5f6b86;--line:#dfe8ff;
+        --brand:#0b3d91;--accent:#21a47a;--warn:#ffb020;--danger:#e45858}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:system-ui,Segoe UI,Roboto,Inter,Arial}
+  .wrap{max-width:960px;margin:20px auto;padding:0 16px}
+  h1{color:var(--brand);margin:6px 0 2px} .sub{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+  label{font-weight:600;color:var(--brand);display:block;margin:8px 0 6px}
+  input,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .grid{display:grid;gap:10px} @media(min-width:720px){.grid.cols2{grid-template-columns:1fr 1fr}}
+  button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+  .btn{background:#eaf2ff;color:#0b3d91} .btn.primary{background:var(--brand);color:#fff}
+  .btn.green{background:var(--accent);color:#fff}
+  .btn.warn{background:var(--warn);color:#352800} .btn.danger{background:var(--danger);color:#fff}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:#eaf2ff;border:1px solid var(--line);color:#0b3d91;border-radius:999px;padding:4px 10px;font-size:.9rem}
+  .muted{color:var(--muted)} .log{max-height:220px;overflow:auto;background:#f3f7ff;border:1px solid var(--line);border-radius:10px;padding:10px}
+  .kpi{display:flex;gap:14px;flex-wrap:wrap}
+  .kpi>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:180px}
+  .right{float:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NPA Smart v6.6 — Admin Pusat</h1>
+  <p class="sub">Broadcast otomatis & manual untuk semua leader. Tema: putih–biru lembut.</p>
+
+  <div class="card">
+    <div class="kpi">
+      <div><b>Status Token:</b> <span id="stToken" class="tag">Memeriksa…</span><br><span class="muted">Token disimpan lokal perangkat ini.</span></div>
+      <div><b>Leader Aktif:</b> <span id="stLeader" class="tag">0</span><br><span class="muted">Daftar leader tersimpan di perangkat admin.</span></div>
+      <div><b>Waktu (WIB):</b> <span id="clock" class="tag">--:--</span><br><span class="muted">Scheduler: 06:00, 17:00, 10/15/18/29</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔐 Token FonNTE</h3>
+    <div class="grid cols2">
+      <div>
+        <label>Masukkan / perbarui token</label>
+        <input id="token" placeholder="tempel token di sini">
+        <div class="row" style="margin-top:8px">
+          <button class="btn primary" onclick="saveToken()">Simpan Token</button>
+          <button class="btn danger" onclick="clearToken()">Hapus Token</button>
+        </div>
+      </div>
+      <div>
+        <label>Uji kirim ke Admin (WA kamu)</label>
+        <input id="adminWa" value="6285218453131">
+        <div class="row" style="margin-top:8px">
+          <button class="btn green" onclick="testSend()">Tes Kirim</button>
+        </div>
+        <p class="muted">Nama admin: <b>Sugiarto Kurniawan</b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>👥 Tambah Leader</h3>
+    <div class="grid cols2">
+      <div>
+        <label>Nama Leader</label><input id="Lname" placeholder="cth: Agnes Marsilah">
+      </div>
+      <div>
+        <label>No WA (format 62…)</label><input id="Lwa" placeholder="cth: 6285xxxxxxxxx">
+      </div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn primary" onclick="addLeader()">+ Tambah Leader</button>
+      <button class="btn" onclick="exportLeaders()">⬇️ Export Leader (JSON)</button>
+      <button class="btn" onclick="clearLeaders()">🧹 Bersihkan Leader</button>
+    </div>
+    <p class="muted" style="margin-top:8px"><b>Daftar Leader:</b></p>
+    <div id="leaderList" class="log"></div>
+  </div>
+
+  <div class="card">
+    <h3>📤 Broadcast Manual (Admin ➜ Semua Leader)</h3>
+    <div class="row">
+      <button class="btn" onclick="broadcast('motivasi')">🌞 Motivasi</button>
+      <button class="btn" onclick="broadcast('infoBonus')">📊 Info Bonus</button>
+      <button class="btn" onclick="broadcast('landing')">☕ Bonus Landing</button>
+      <button class="btn" onclick="broadcast('rekrut')">🚀 Rekrutmen</button>
+      <button class="btn" onclick="broadcast('premi')">💳 Premi</button>
+      <button class="btn" onclick="broadcast('zoom')">🕖 Zoom 19:00</button>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="card">
+    <h3>✍️ Editor Template</h3>
+    <label>🌞 Motivasi</label><textarea id="tpl-motivasi" rows="3"></textarea>
+    <label style="margin-top:10px">📊 Info Bonus</label><textarea id="tpl-info" rows="3"></textarea>
+    <label style="margin-top:10px">☕ Bonus Landing</label><textarea id="tpl-landing" rows="3"></textarea>
+    <label style="margin-top:10px">🚀 Rekrutmen</label><textarea id="tpl-rekrut" rows="3"></textarea>
+    <label style="margin-top:10px">💳 Premi</label><textarea id="tpl-premi" rows="3"></textarea>
+    <label style="margin-top:10px">🕖 Zoom 19:00</label><textarea id="tpl-zoom" rows="3"></textarea>
+    <div class="row" style="margin-top:8px">
+      <button class="btn primary" onclick="saveTemplates()">Simpan Semua Template</button>
+      <button class="btn" onclick="loadTemplates()">Reset ke Default</button>
+    </div>
+  </div>
+
+  <p class="muted">Powered by NPA Smart System × 3iReborn • Putih–Biru Lembut</p>
+</div>
+
+<script>
+/* ===== CORE CONFIG (ringkas) ===== */
+const K = {
+  token:'npa_fonnte_token', leaders:'npa_leaders', templates:'npa_templates', schedule:'npa_schedule'
+};
+const store = {
+  get:(k,d=null)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},
+  set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)), del:(k)=>localStorage.removeItem(k)
+};
+const DEF_TPL = {
+  adminBroadcast:{
+    motivasi:"🌞 Selamat pagi, Leader {leader_name}! Hari ini bantu minimal 3 prospek ya. Konsisten itu kunci. #KitaNganggurPunyaPenghasilan 🚀",
+    infoBonus:"📊 Update bonus: review target mingguan. Fokus 1% lebih baik setiap hari 💪",
+    landing:"☕ Bonus landing! Syukuri berapa pun hasilnya. Yang belum, koordinasi dengan upline. Gaspol hari ini! 🔥",
+    rekrut:"🚀 Saatnya rekrut! Kirim LP Master ke 5 orang hari ini. Ajak ke Zoom 19:00 WIB.",
+    premi:"💳 Pengingat premi: bantu follow-up nasabah jatuh tempo. Premi lancar = bonus aman. 🙏"
+  },
+  zoomReminder:"⏰ Malam ini Zoom 3IReborn jam 19:00 WIB. Undang minimal 2 prospek. Link dishare 15’ sebelum mulai."
+};
+if(!store.get(K.templates)) store.set(K.templates, DEF_TPL);
+
+function nowWIB(){const t=new Date(),u=t.getTime()+t.getTimezoneOffset()*60000;return new Date(u+7*3600000)}
+function hhmm(d){return d.toTimeString().slice(0,5)}
+
+function log(line){const L=document.getElementById('log');const t=nowWIB().toLocaleTimeString('id-ID',{hour12:false});L.innerHTML=`<div>[${t}] ${line}</div>`+L.innerHTML}
+function paintClock(){document.getElementById('clock').textContent=hhmm(nowWIB())}
+setInterval(paintClock,1000); paintClock();
+
+function getLeaders(){return store.get(K.leaders,[])}
+function paintLeaders(){
+  const arr=getLeaders(); document.getElementById('stLeader').textContent=arr.length;
+  document.getElementById('leaderList').innerHTML=arr.map(x=>`• ${x.name} — ${x.wa}`).join('<br>')||'<i>Belum ada leader.</i>';
+}
+function addLeader(){
+  const name=document.getElementById('Lname').value.trim();
+  const wa=document.getElementById('Lwa').value.trim();
+  if(!name||!/^62\d{7,15}$/.test(wa)) return alert('Nama & WA (62…) wajib benar.');
+  const arr=getLeaders(); arr.push({name,wa}); store.set(K.leaders,arr); paintLeaders();
+  document.getElementById('Lname').value=''; document.getElementById('Lwa').value='';
+}
+function exportLeaders(){ const blob=new Blob([JSON.stringify(getLeaders(),null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='leaders.json'; a.click(); }
+function clearLeaders(){ if(!confirm('Hapus semua leader di perangkat ini?'))return; store.del(K.leaders); paintLeaders(); }
+
+function saveToken(){ const v=document.getElementById('token').value.trim(); if(!v) return alert('Token kosong.');
+  store.set(K.token,v); paintToken(); alert('Token disimpan.')}
+function clearToken(){ if(!confirm('Hapus token dari perangkat ini?'))return; store.del(K.token); paintToken(); }
+function paintToken(){ const ok=!!store.get(K.token); document.getElementById('stToken').textContent= ok?'Aktif':'Tidak ada' }
+paintToken(); paintLeaders();
+
+async function sendFonnte(to,text){
+  const token=store.get(K.token,""); if(!token) throw new Error('Token kosong');
+  const fd=new FormData(); fd.append('target',to); fd.append('message',text);
+  const res=await fetch('https://api.fonnte.com/send',{method:'POST',headers:{'Authorization':token},body:fd});
+  if(!res.ok) throw new Error('HTTP '+res.status); return true;
+}
+async function testSend(){ try{await sendFonnte(document.getElementById('adminWa').value,'Tes kirim dari Admin Pusat v6.6 ✅'); alert('Terkirim!');}catch(e){alert('Gagal: '+e.message)} }
+
+function loadTemplates(def=false){
+  const t=def?DEF_TPL:store.get(K.templates,DEF_TPL);
+  document.getElementById('tpl-motivasi').value=t.adminBroadcast.motivasi;
+  document.getElementById('tpl-info').value=t.adminBroadcast.infoBonus;
+  document.getElementById('tpl-landing').value=t.adminBroadcast.landing;
+  document.getElementById('tpl-rekrut').value=t.adminBroadcast.rekrut;
+  document.getElementById('tpl-premi').value=t.adminBroadcast.premi;
+  document.getElementById('tpl-zoom').value=t.zoomReminder;
+}
+function saveTemplates(){
+  const t=store.get(K.templates,DEF_TPL);
+  t.adminBroadcast.motivasi=document.getElementById('tpl-motivasi').value;
+  t.adminBroadcast.infoBonus=document.getElementById('tpl-info').value;
+  t.adminBroadcast.landing=document.getElementById('tpl-landing').value;
+  t.adminBroadcast.rekrut=document.getElementById('tpl-rekrut').value;
+  t.adminBroadcast.premi=document.getElementById('tpl-premi').value;
+  t.zoomReminder=document.getElementById('tpl-zoom').value;
+  store.set(K.templates,t); alert('Template disimpan.');
+}
+loadTemplates();
+
+async function broadcast(type){
+  const t=store.get(K.templates,DEF_TPL), arr=getLeaders(); if(arr.length===0) return alert('Belum ada leader.');
+  let msg = type==='zoom'? t.zoomReminder : t.adminBroadcast[type];
+  let sent=0;
+  for(const L of arr){ const text=msg.replaceAll('{leader_name}',L.name||'Leader'); try{await sendFonnte(L.wa,text); sent++;}catch(e){log(`Gagal ➜ ${L.wa}: ${e.message}`)} }
+  log(`Broadcast ${type} terkirim ke ${sent}/${arr.length} leader.`);
+}
+
+// SCHEDULER: 06:00 motivasi, 17:00 zoom, tgl 10(info)/15(landing)/18(rekrut)/29(premi)
+function schedulerTick(){
+  const d=nowWIB(), time=hhmm(d), day=d.getDate();
+  if(time==='06:00') broadcast('motivasi');
+  if(time==='17:00') broadcast('zoom');
+  if(time==='09:00'){
+    if(day===10) broadcast('infoBonus');
+    if(day===15) broadcast('landing');
+    if(day===18) broadcast('rekrut');
+    if(day===29) broadcast('premi');
+  }
+}
+setInterval(schedulerTick,60*1000);
+</script>
+</body></html>
