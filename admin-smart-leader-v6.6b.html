@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NPA Smart v6.6b — Admin Leader (Putih–Biru)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f9ff; --card:#ffffff; --text:#0b2245; --muted:#5b6b84;
+    --brand:#2563eb; --brand-2:#1e40af; --ok:#16a34a; --warn:#f59e0b;
+    --border:#e6ecff; --chip:#eaf1ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:860px;margin:auto;padding:24px}
+  .title{font-weight:700;font-size:28px;margin:0 0 10px}
+  .subtitle{color:var(--muted);margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 16px;margin:14px 0;box-shadow:0 6px 20px rgba(20,51,120,.06)}
+  .row{display:grid;gap:12px}
+  @media(min-width:680px){.row{grid-template-columns:1fr 1fr}}
+  label{font-size:14px;font-weight:600;margin-bottom:6px;display:block}
+  input,select{width:100%;padding:14px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--text);outline:none}
+  .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:14px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-2)}
+  .btn-ghost{background:#eef4ff;color:var(--brand);font-weight:600}
+  .status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:var(--chip);border:1px solid var(--border);color:var(--brand-2);font-weight:600}
+  .muted{color:var(--muted);font-size:13px}
+  .links li{margin:10px 0;line-height:1.4}
+  .links a{color:var(--brand);text-decoration:none;word-break:break-all}
+  .links a:hover{text-decoration:underline}
+  .flex{display:flex;gap:10px;flex-wrap:wrap}
+  .copybox{white-space:pre-wrap;background:#0b1a3a;color:#e5edff;border-radius:12px;padding:12px 14px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  .small{font-size:12px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">NPA Smart v6.6b — Admin Leader</h1>
+    <p class="subtitle">Buat 3 link &amp; follow-up AI (otomatis 09:00 WIB). Tema putih–biru lembut.</p>
+
+    <div class="card">
+      <div id="tokenStatus" class="status">🔒 Status FonNTE: <span id="tokFlag">Tidak ada</span></div>
+      <p class="muted small" style="margin-top:8px">Token diambil otomatis dari perangkat ini bila Admin Pusat pernah menyimpannya.</p>
+    </div>
+
+    <form id="makeForm" class="card">
+      <h3 style="margin:0 0 12px">🔗 Buat 3 Link Otomatis</h3>
+      <div class="row">
+        <div>
+          <label>Nama Leader</label>
+          <input id="name" placeholder="cth: Sugiarto Kurniawan" required />
+        </div>
+        <div>
+          <label>No WA (62…)</label>
+          <input id="wa" placeholder="62852xxxxxxx" pattern="^62[0-9]{6,}$" required />
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <label>Slug (opsional)</label>
+        <input id="slug" placeholder="cth: ngangguraja" />
+        <p class="muted small">Slug adalah <em>username</em> unik opsional, contoh: <b>ngangguraja</b>, <b>team-banten</b>.</p>
+      </div>
+      <div class="flex" style="margin-top:6px">
+        <button class="btn btn-primary" type="submit">🚀 Buat 3 Link</button>
+        <button class="btn btn-ghost" type="button" id="resetBtn">Bersihkan</button>
+      </div>
+    </form>
+
+    <div id="resultCard" class="card" style="display:none">
+      <h3 style="margin:0 0 10px">✅ Hasil Link Anda (Aktif &amp; Siap Dibagikan)</h3>
+      <ul class="links" id="linkList"></ul>
+      <div class="flex" style="margin-top:8px">
+        <button class="btn btn-primary" id="copyAll">📋 Salin Semua Link</button>
+        <button class="btn btn-ghost" id="previewAll">🧾 Preview Semua</button>
+      </div>
+      <div id="copyPreview" class="copybox" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <p class="muted small">Tip: simpan halaman ini ke Home Screen supaya Leader cepat bikin link dari HP.</p>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const base = 'https://3ireborn.github.io/pendaftaran-online/';
+  const els = {
+    tokFlag: document.getElementById('tokFlag'),
+    tokenStatus: document.getElementById('tokenStatus'),
+    form: document.getElementById('makeForm'),
+    name: document.getElementById('name'),
+    wa: document.getElementById('wa'),
+    slug: document.getElementById('slug'),
+    result: document.getElementById('resultCard'),
+    list: document.getElementById('linkList'),
+    copy: document.getElementById('copyAll'),
+    prev: document.getElementById('previewAll'),
+    box: document.getElementById('copyPreview'),
+    resetBtn: document.getElementById('resetBtn')
+  };
+
+  // token indicator
+  const token = localStorage.getItem('fonnte_token');
+  if(token && token.trim().length>10){
+    els.tokFlag.textContent = 'Aktif (tersimpan lokal)';
+    els.tokenStatus.style.background = '#e8fff3';
+    els.tokenStatus.style.color = '#166534';
+    els.tokenStatus.style.borderColor = '#b7f0c3';
+  } else {
+    els.tokFlag.textContent = 'Tidak ada';
+  }
+
+  function slugify(s){return (s||'').toString().trim()
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'leader';}
+
+  function makeLinks(name, wa, slug){
+    const q = (n)=>encodeURIComponent(n||'');
+    const p = `?name=${q(name)}&wa=${q(wa)}&slug=${q(slug)}`;
+    return {
+      master:  base + 'lp-master-v6.6.html' + p,
+      hot:     base + 'lp-hot-v6.6.html' + p,
+      form:    base + 'form-pendaftaran-v3.1.html' + p
+    };
+  }
+
+  function setClipboard(txt){
+    navigator.clipboard?.writeText(txt).then(()=>alert('Disalin ke clipboard ✅'))
+      .catch(()=>{ // fallback
+        const ta = document.createElement('textarea');
+        ta.value = txt; document.body.appendChild(ta); ta.select();
+        try{document.execCommand('copy'); alert('Disalin ke clipboard ✅');}catch(e){}
+        document.body.removeChild(ta);
+      });
+  }
+
+  els.form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const name = els.name.value.trim();
+    const wa   = els.wa.value.trim();
+    const slug = els.slug.value.trim() || slugify(name);
+
+    // simpan daftar leader lokal (dibaca admin pusat)
+    try{
+      const k='npa_leaders';
+      const arr = JSON.parse(localStorage.getItem(k)||'[]');
+      const exists = arr.find(x=>x.wa===wa);
+      const row = {name,wa,slug,ts:Date.now()};
+      if(exists){Object.assign(exists,row)} else {arr.push(row)}
+      localStorage.setItem(k, JSON.stringify(arr));
+    }catch(_){}
+
+    const links = makeLinks(name,wa,slug);
+    els.list.innerHTML = `
+      <li>🌐 <b>LP Master</b><br><a target="_blank" href="${links.master}">${links.master}</a></li>
+      <li>🔥 <b>LP Hot</b><br><a target="_blank" href="${links.hot}">${links.hot}</a></li>
+      <li>📝 <b>Form Pendaftaran</b><br><a target="_blank" href="${links.form}">${links.form}</a></li>
+    `;
+    const block = [
+      `🌐 LP Master: ${links.master}`,
+      `🔥 LP Hot: ${links.hot}`,
+      `📝 Form Pendaftaran: ${links.form}`
+    ].join('\n\n');
+    els.box.textContent = block;
+    els.result.style.display='block';
+  });
+
+  els.copy.addEventListener('click', ()=> setClipboard(els.box.textContent));
+  els.prev.addEventListener('click', ()=>{
+    [...els.list.querySelectorAll('a')].forEach(a=>window.open(a.href,'_blank'));
+  });
+
+  els.resetBtn.addEventListener('click', ()=>{
+    els.form.reset();
+    els.result.style.display='none';
+    els.box.textContent='';
+    els.list.innerHTML='';
+  });
+})();
+</script>
+</body>
+</html>
