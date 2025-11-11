@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pendaftaran 3iReborn — v3.1</title>
+<style>
+  :root{--bg:#f7fbff;--card:#ffffff;--text:#0b3d91;--muted:#5f6b86;--line:#dfe8ff;--brand:#0b3d91}
+  body{margin:0;background:var(--bg);font-family:system-ui,Segoe UI,Inter}
+  .wrap{max-width:860px;margin:16px auto;padding:0 16px}
+  h1{color:var(--brand);margin:8px 0 4px;text-align:center}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+  label{font-weight:600;color:var(--brand);display:block;margin:10px 0 6px}
+  input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  button{border:0;border-radius:10px;padding:12px 16px;font-weight:700;background:#0b3d91;color:#fff;cursor:pointer}
+  .muted{color:var(--muted);font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Form Pendaftaran 3iReborn — v3.1</h1>
+  <div id="lead" class="muted" style="text-align:center;margin-bottom:8px">Memuat leader…</div>
+
+  <div class="card">
+    <form id="f">
+      <h3>Data Pribadi</h3>
+      <label>Kontribusi Premi (Rp)</label>
+      <select name="premi" required>
+        <option value="">Pilih</option>
+        <option>350.000</option><option>500.000</option><option>700.000</option>
+        <option>1.000.000</option><option>2.000.000</option>
+      </select>
+      <label>Nama Lengkap *</label><input name="nama" required>
+      <label>No HP (WA) *</label><input name="hp" placeholder="62xxxxxxxxxx" required>
+      <label>Alamat</label><input name="alamat" placeholder="Jalan/Gang">
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(3,1fr)">
+        <input name="rt" placeholder="RT"><input name="rw" placeholder="RW"><input name="kodepos" placeholder="Kode Pos">
+      </div>
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(2,1fr)">
+        <input name="kelurahan" placeholder="Kelurahan"><input name="kecamatan" placeholder="Kecamatan">
+      </div>
+      <input name="kota" placeholder="Kota/Kabupaten">
+      <label>Tempat & Tgl Lahir</label>
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(2,1fr)">
+        <input name="tempat_lahir" placeholder="Tempat"><input type="date" name="tgl_lahir">
+      </div>
+      <label>Agama</label>
+      <select name="agama"><option value="">Pilih</option><option>Islam</option><option>Kristen</option><option>Katolik</option><option>Hindu</option><option>Budha</option><option>Lainnya</option></select>
+      <label>Jenis Kelamin</label>
+      <select name="jk"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select>
+      <label>No Identitas (KTP)</label><input name="no_ktp">
+
+      <h3>Bank</h3>
+      <label>Nama Bank</label><input name="bank">
+      <label>No Rekening</label><input name="norek">
+      <label>Nama di Rekening</label><input name="nama_rek">
+
+      <h3>Pajak</h3>
+      <label>No NPWP</label><input name="npwp">
+      <label>Status Pajak</label><select name="status_pajak"><option>Kawin</option><option>Tidak Kawin</option></select>
+      <label>Jumlah Tanggungan</label><input type="number" name="tanggungan" min="0" value="0">
+
+      <h3>Lainnya</h3>
+      <label>Tinggi & Berat Badan</label>
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(2,1fr)">
+        <input type="number" name="tinggi" placeholder="cm"><input type="number" name="berat" placeholder="kg">
+      </div>
+      <label>Pekerjaan/Jabatan</label><input name="pekerjaan">
+      <label>Penghasilan/Tahun</label><input name="penghasilan" placeholder="Contoh: 50 juta">
+      <label>Nama Ibu Kandung</label><input name="ibu">
+
+      <h3>Ahli Waris Bisnis</h3>
+      <label>Nama</label><input name="waris_bisnis_nama">
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(2,1fr)">
+        <input type="date" name="waris_bisnis_tgl"><select name="waris_bisnis_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select>
+      </div>
+      <label>Hubungan</label><input name="waris_bisnis_hub">
+
+      <h3>Ahli Waris Manfaat</h3>
+      <label>Nama</label><input name="waris_manfaat_nama">
+      <div class="grid" style="display:grid;gap:8px;grid-template-columns:repeat(2,1fr)">
+        <input type="date" name="waris_manfaat_tgl"><select name="waris_manfaat_jk"><option value="">JK</option><option>Laki-laki</option><option>Perempuan</option></select>
+      </div>
+      <label>Hubungan</label><input name="waris_manfaat_hub">
+
+      <div style="margin-top:12px">
+        <button type="submit">KIRIM KE WA LEADER</button>
+      </div>
+    </form>
+  </div>
+  <p class="muted" style="text-align:center">Powered by NPA Smart System × 3iReborn</p>
+</div>
+
+<script>
+const P=new URLSearchParams(location.search);
+const leader={ name:P.get('name')||'Leader', wa:P.get('wa')||'6285218453131', slug:P.get('slug')||'' };
+document.getElementById('lead').innerHTML = `Bisnis ini dipresentasikan oleh <b>${leader.name}</b> • WA: ${leader.wa}`;
+
+document.getElementById('f').addEventListener('submit', e=>{
+  e.preventDefault();
+  const data=new FormData(e.target);
+  let msg="PENDAFTARAN 3IREBORN\n\n";
+  for(const [k,v] of data.entries()){ if(v){ const label=k.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase()); msg+=`${label}: ${v}\n`; } }
+  msg += `\n—\nSponsor/Leader: ${leader.name} (${leader.wa})`;
+  location.href=`https://wa.me/${leader.wa}?text=${encodeURIComponent(msg)}`;
+});
+</script>
+</body></html>
