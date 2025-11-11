@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPA Smart — Admin Pusat v6.5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0b0f19;
+      font-family: 'Inter', sans-serif;
+      color: #f1f5ff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #ffd65a;
+      margin-bottom: 5px;
+    }
+    p.sub {
+      color: #a5b0cf;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #10182b;
+      border: 1px solid #1e2742;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #243154;
+      background: #0f1628;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-green { background: #22c55e; color: white; }
+    .btn-blue { background: #2563eb; color: white; }
+    .btn-red { background: #dc2626; color: white; }
+    .btn-yellow { background: #facc15; color: black; }
+    .btn-green:hover { background: #16a34a; }
+    .btn-blue:hover { background: #1e40af; }
+    .btn-red:hover { background: #b91c1c; }
+    .btn-yellow:hover { background: #eab308; }
+    .log {
+      background: #0f1628;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .flex {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #9ca3af;
+      margin-top: 20px;
+    }
+    .title {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .badge {
+      display: inline-block;
+      background: #16a34a;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌍 NPA Smart — Admin Pusat v6.5</h1>
+    <p class="sub">Auto Follow-Up AI • Leader Links • FonNTE Connected</p>
+
+    <div class="card">
+      <div class="title">🔐 Token FonNTE</div>
+      <input id="token" placeholder="Masukkan token FonNTE...">
+      <div class="flex">
+        <button class="btn-green" id="setToken">Set Token</button>
+        <button class="btn-blue" id="testSend">Tes Kirim</button>
+        <button class="btn-red" id="hapusToken">Hapus</button>
+      </div>
+      <p id="statusToken">Status: belum diatur.</p>
+    </div>
+
+    <div class="card">
+      <div class="title">➕ Tambah Mitra / Leader</div>
+      <label>Nama Leader</label>
+      <input id="namaLeader" placeholder="cth: Sugiarto Kurniawan">
+      <label>No. WhatsApp (format 62...)</label>
+      <input id="waLeader" placeholder="62852xxxxxxx">
+      <label>Slug (optional)</label>
+      <input id="slug" placeholder="misal: team-sukses">
+      <button class="btn-green" id="buatLink">🚀 Buat 3 Link</button>
+      <div id="outputLink" style="margin-top:10px;font-size:14px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="title">🤖 Follow-Up Otomatis (AI)</div>
+      <label>Status</label>
+      <select id="aiStatus">
+        <option value="aktif">Aktif</option>
+        <option value="nonaktif">Nonaktif</option>
+      </select>
+      <p>Next run: 06:00 WIB</p>
+      <button class="btn-yellow" id="simulateAI">Simulasi</button>
+    </div>
+
+    <div class="card">
+      <div class="title">📩 Manual Follow-Up</div>
+      <div class="flex">
+        <button class="btn-green">🌅 Motivasi</button>
+        <button class="btn-blue">📊 Info Bonus</button>
+        <button class="btn-yellow">☕ Bonus Landing</button>
+        <button class="btn-red">💰 Premi</button>
+        <button class="btn-blue">🚀 Rekrutmen</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title">🧾 Log Aktivitas</div>
+      <div class="log" id="logAktivitas">Belum ada data prospek.</div>
+      <button class="btn-red" id="clearLog">Bersihkan Log</button>
+    </div>
+
+    <footer>
+      Powered by <b>NPA Smart System × 3iReborn</b><br>
+      “KitaNganggur Punya Penghasilan” 🚀
+    </footer>
+  </div>
+
+  <script>
+    // --- Token Handling ---
+    const tokenInput = document.getElementById('token');
+    const statusToken = document.getElementById('statusToken');
+    if(localStorage.getItem('fonntetoken')){
+      tokenInput.value = localStorage.getItem('fonntetoken');
+      statusToken.textContent = 'Status: ✅ aktif';
+    }
+    document.getElementById('setToken').onclick = () => {
+      localStorage.setItem('fonntetoken', tokenInput.value);
+      statusToken.textContent = 'Status: ✅ aktif';
+      alert('Token disimpan!');
+    };
+    document.getElementById('hapusToken').onclick = () => {
+      localStorage.removeItem('fonntetoken');
+      tokenInput.value = '';
+      statusToken.textContent = 'Status: ❌ dihapus';
+    };
+
+    // --- Generate Links ---
+    document.getElementById('buatLink').onclick = () => {
+      const nama = document.getElementById('namaLeader').value.trim();
+      const wa = document.getElementById('waLeader').value.trim();
+      const slug = document.getElementById('slug').value.trim() || '-';
+      if(!nama || !wa) return alert('Isi nama & nomor WA leader!');
+      const master = `https://3ireborn.github.io/pendaftaran-online/lp-master.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+      const hot = `https://3ireborn.github.io/pendaftaran-online/lp-hot.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+      const form = `https://3ireborn.github.io/pendaftaran-online/form-pendaftaran-v3.3.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
+      document.getElementById('outputLink').innerHTML = `
+        🔗 LP Master: <a href="${master}" target="_blank">${master}</a><br>
+        🔥 LP Hot: <a href="${hot}" target="_blank">${hot}</a><br>
+        📝 Form Pendaftaran: <a href="${form}" target="_blank">${form}</a>
+      `;
+    };
+
+    // --- Log Prospek Integration ---
+    const logContainer = document.getElementById('logAktivitas');
+    const logs = JSON.parse(localStorage.getItem('prospekLogs') || '[]');
+    const renderLogs = () => {
+      if(!logs.length) return logContainer.innerHTML = 'Belum ada data prospek.';
+      logContainer.innerHTML = logs.map(l => 
+        `📌 <b>${l.nama}</b> (${l.wa}) — Premi: ${l.premi} — ${l.kota} — ${l.waktu}`
+      ).join('<br>');
+    };
+    renderLogs();
+    document.getElementById('clearLog').onclick = () => {
+      localStorage.removeItem('prospekLogs');
+      logContainer.innerHTML = 'Log dihapus.';
+    };
+  </script>
+</body>
+</html>
