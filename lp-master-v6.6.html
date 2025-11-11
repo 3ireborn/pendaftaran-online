@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3iReborn — LP Master v6.6 (Putih–Biru)</title>
+<style>
+  :root{
+    --bg:#f6faff; --card:#ffffff; --ink:#0b3d91; --muted:#627096; --line:#e2ecff;
+    --brand:#0b3d91; --accent:#21a47a; --cta:#0b3d91; --ctaHover:#082a6a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#1b2553;font-family:system-ui,Segoe UI,Roboto,Inter,Arial}
+  .wrap{max-width:1080px;margin:auto;padding:18px}
+  .hero{background:linear-gradient(180deg,#f9fbff, #eef4ff);border:1px solid var(--line);border-radius:16px;padding:28px;overflow:hidden;position:relative}
+  .hero h1{color:var(--ink);margin:0 0 10px;font-size:28px}
+  .lead{color:var(--muted);margin:0 0 10px}
+  .presenter{font-weight:700;color:var(--ink);background:#eaf2ff;border:1px solid var(--line);display:inline-block;padding:6px 10px;border-radius:999px}
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .btn{border:0;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+  .btn.cta{background:var(--cta);color:#fff}
+  .btn.cta:hover{background:var(--ctaHover)}
+  .btn.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .grid{display:grid;gap:16px}
+  @media(min-width:900px){.grid.cols2{grid-template-columns:1.2fr .8fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  h2{color:var(--ink);margin:0 0 10px}
+  ul{margin:6px 0 0 18px}
+  .count{display:flex;align-items:center;gap:10px;background:#eef6ff;border:1px dashed var(--line);padding:12px;border-radius:14px;color:var(--ink);font-weight:700}
+  .footer{color:var(--muted);text-align:center;margin:18px 0}
+  /* Animations */
+  .fadeUp{opacity:0;transform:translateY(10px);animation:fadeUp .6s ease forwards}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero fadeUp" style="animation-delay:.05s">
+      <span id="presented" class="presenter">Memuat leader…</span>
+      <h1>3iReborn — <span style="color:#0b3d91">Muda Kaya Raya</span>, Tua Sejahtera</h1>
+      <p class="lead">Perlindungan Jiwa + Tabungan Investasi + Potensi Income — sistem yang rapi dan syariah-minded.</p>
+      <div class="hero-cta">
+        <button class="btn cta" id="btnWhatsApp">Gabung Sekarang</button>
+        <button class="btn outline" id="btnHot">Pelajari Cepat (LP HOT)</button>
+      </div>
+    </div>
+
+    <div class="grid cols2" style="margin-top:16px">
+      <div class="card fadeUp" style="animation-delay:.1s">
+        <h2>HOOK</h2>
+        <p>Semua orang ingin tenang secara finansial. Tapi kenyataannya, banyak yang bingung mulai dari mana, takut rugi, dan takut salah langkah.</p>
+
+        <h2 style="margin-top:14px">MASALAH</h2>
+        <ul>
+          <li>Uang habis tanpa arah, tidak ada perlindungan jangka panjang.</li>
+          <li>Takut mulai investasi karena takut rugi.</li>
+          <li>Tambahan penghasilan terasa mustahil di tengah kesibukan.</li>
+        </ul>
+
+        <h2 style="margin-top:14px">SOLUSI 3iReborn</h2>
+        <ul>
+          <li><b>Proteksi + Investasi</b> dalam satu program yang rapi.</li>
+          <li><b>Kontribusi fleksibel:</b> mulai Rp350.000 s/d Rp2.000.000/bulan.</li>
+          <li><b>Duplikasi digital:</b> sistem bantu presentasi & follow-up.</li>
+        </ul>
+
+        <div class="count" style="margin-top:14px">
+          <span>🕖 Zoom Sharing Gratis:</span>
+          <span id="cdown">Memuat…</span>
+        </div>
+      </div>
+
+      <div class="card fadeUp" style="animation-delay:.15s">
+        <h2>Video Singkat</h2>
+        <div style="aspect-ratio:16/9;background:#eaf2ff;border:1px solid var(--line);border-radius:12px;overflow:hidden">
+          <iframe id="yt" width="100%" height="100%" src="https://www.youtube.com/embed/JW9OmqnXSz8" title="3iReborn" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="lead" style="margin-top:10px">Tonton sebentar — lalu klik “Gabung Sekarang”.</p>
+      </div>
+    </div>
+
+    <div class="card fadeUp" style="animation-delay:.2s">
+      <h2>Marketing Plan (Ringkas)</h2>
+      <ul>
+        <li><b>Bonus Sponsor</b>, <b>Bonus Elite</b>, <b>Bonus Posisi</b>, <b>Bonus Level</b>.</li>
+        <li>Fokus 4 pilar bonus ini — yang lain akan mengikut.</li>
+      </ul>
+      <div style="margin-top:10px">
+        <a class="btn outline" href="https://sites.google.com/view/cashtobe/3-pilar/marketing-plan?authuser=0" target="_blank">Baca Selengkapnya MP</a>
+      </div>
+    </div>
+
+    <p class="footer">Powered by NPA Smart System || 3IReborn</p>
+  </div>
+
+<script>
+  // ===== Params & Links
+  const Q = new URLSearchParams(location.search);
+  const LDR = {
+    name: Q.get('name') || 'Leader',
+    wa:   Q.get('wa')   || '6285218453131',
+    slug: Q.get('slug') || ''
+  };
+  const base = 'https://3ireborn.github.io/pendaftaran-online';
+  const hotUrl = `${base}/lp-hot-v6.6.html?name=${encodeURIComponent(LDR.name)}&wa=${encodeURIComponent(LDR.wa)}&slug=${encodeURIComponent(LDR.slug)}`;
+  document.getElementById('presented').textContent = `Bisnis ini dipresentasikan oleh ${LDR.name}`;
+  document.getElementById('btnWhatsApp').onclick = ()=> {
+    const msg = `Halo ${LDR.name}, saya tertarik 3iReborn. Mohon pandu saya ya.`;
+    location.href = `https://wa.me/${LDR.wa}?text=${encodeURIComponent(msg)}`;
+  };
+  document.getElementById('btnHot').onclick = ()=> location.href = hotUrl;
+
+  // ===== Countdown Zoom (tiap hari 19:00 WIB)
+  function nowWIB() {
+    const t = new Date();
+    const u = t.getTime() + t.getTimezoneOffset()*60000;
+    return new Date(u + 7*3600000);
+  }
+  function updateCountdown(){
+    const n = nowWIB();
+    const target = new Date(n);
+    target.setHours(19,0,0,0); // 19:00 WIB
+    if (n > target) target.setDate(target.getDate()+1); // besok
+    const diff = target - n;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('cdown').textContent = `${h}j ${m}m ${s}d lagi`;
+  }
+  updateCountdown(); setInterval(updateCountdown,1000);
+</script>
+</body>
+</html>
