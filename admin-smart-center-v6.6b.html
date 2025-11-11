@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NPA Smart v6.6b — Admin Pusat (Putih–Biru)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f9ff; --card:#ffffff; --text:#0b2245; --muted:#5b6b84;
+    --brand:#2563eb; --brand-2:#1e40af; --border:#e6ecff;
+    --ok:#16a34a; --err:#dc2626; --chip:#eaf1ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:860px;margin:auto;padding:24px}
+  h1{margin:0 0 8px;font-size:28px}
+  .muted{color:var(--muted)}
+  .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 6px 20px rgba(20,51,120,.06)}
+  label{font-size:14px;font-weight:600;margin-bottom:6px;display:block}
+  input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
+  .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+  .btn-blue{background:var(--brand);color:#fff}
+  .btn-red{background:var(--err);color:#fff}
+  .btn-ghost{background:#eef4ff;color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .status{display:flex;gap:10px;align-items:center;background:#e8fff3;color:#166534;border:1px solid #b7f0c3;border-radius:12px;padding:10px 12px;font-weight:600}
+  .kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pill{background:var(--chip);border:1px solid var(--border);padding:10px 12px;border-radius:12px}
+  .mono{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NPA Smart v6.6b — Admin Pusat</h1>
+  <p class="muted">Broadcast otomatis & manual untuk semua leader. Tema putih–biru lembut.</p>
+
+  <div id="topInfo" class="kpi">
+    <div class="pill">⏱️ Waktu (WIB): <b id="clock">--:--</b><br><span class="muted">Scheduler: 06:00 & 17:00 (contoh)</span></div>
+    <div class="pill">👥 Leader Aktif: <b id="leadCount">0</b><br><span class="muted">Diambil dari browser ini</span></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">🔐 Token FonNTE</h3>
+    <label>Masukkan / perbarui token</label>
+    <input id="token" placeholder="tempel token FonNTE di sini" />
+    <div class="row" style="margin-top:10px">
+      <button class="btn btn-blue" id="save">Simpan Token</button>
+      <button class="btn btn-ghost" id="test">Tes Kirim (dummy)</button>
+      <button class="btn btn-red" id="del">Hapus Token</button>
+    </div>
+    <div id="tokStatus" class="status" style="margin-top:12px;display:none"></div>
+    <p class="muted" style="margin:10px 0 0">Token disimpan lokal di perangkat ini dan akan otomatis terbaca oleh halaman <b>Admin Leader</b>.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px">📦 Data Leader (lokal)</h3>
+    <p class="muted">Berikut cache leader yang pernah membuat link dari perangkat ini.</p>
+    <div id="leaders" class="mono"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px">📣 Tombol Manual (contoh)</h3>
+    <div class="row">
+      <button class="btn btn-blue" onclick="alert('Mengirim: Motivasi Pagi (contoh)')">🌅 Motivasi</button>
+      <button class="btn btn-blue" onclick="alert('Mengirim: Info Bonus (contoh)')">📊 Info Bonus</button>
+      <button class="btn btn-blue" onclick="alert('Mengirim: Rekrutmen (contoh)')">🚀 Rekrutmen</button>
+      <button class="btn btn-blue" onclick="alert('Mengirim: Pengingat Premi (contoh)')">💰 Premi</button>
+    </div>
+    <p class="muted" style="margin-top:8px">Integrasi FonNTE dapat ditanam di sini bila diperlukan (fetch API dengan bearer token).</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = (id)=>document.getElementById(id);
+
+  // clock
+  function tick(){
+    const d = new Date();
+    const pad = (n)=>String(n).padStart(2,'0');
+    $('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes());
+  }
+  tick(); setInterval(tick, 1000*30);
+
+  // leader cache
+  function renderLeaders(){
+    try{
+      const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]')
+        .sort((a,b)=>b.ts-a.ts);
+      $('leadCount').textContent = arr.length;
+      $('leaders').textContent = arr.length ? JSON.stringify(arr,null,2) : '(belum ada data)';
+    }catch(e){
+      $('leaders').textContent = '(gagal baca data)';
+    }
+  }
+  renderLeaders();
+
+  // token io
+  function showTokStatus(msg, ok=true){
+    const box = $('tokStatus');
+    box.style.display='block';
+    box.style.background = ok ? '#e8fff3' : '#ffecec';
+    box.style.color = ok ? '#166534' : '#991b1b';
+    box.style.borderColor = ok ? '#b7f0c3' : '#ffc8c8';
+    box.textContent = msg;
+  }
+  const saved = localStorage.getItem('fonnte_token')||'';
+  if(saved) {$('token').value = saved; showTokStatus('Token aktif di perangkat ini ✅', true);}
+
+  $('save').onclick = function(){
+    const t = $('token').value.trim();
+    if(t.length<10) return showTokStatus('Token tidak valid ❌', false);
+    localStorage.setItem('fonnte_token', t);
+    showTokStatus('Token disimpan ✅', true);
+  };
+  $('del').onclick = function(){
+    localStorage.removeItem('fonnte_token');
+    $('token').value=''; showTokStatus('Token dihapus 🗑️', true);
+  };
+  $('test').onclick = function(){
+    // Di sini biasanya lakukan fetch ke API FonNTE.
+    // Contoh dummy:
+    if((localStorage.getItem('fonnte_token')||'').length<10) return showTokStatus('Token belum diset ❌', false);
+    alert('Tes kirim dummy: token terdeteksi. (Integrasi API bisa ditambahkan)');
+  };
+})();
+</script>
+</body>
+</html>
