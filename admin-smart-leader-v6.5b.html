@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPA Smart — Admin Leader v6.5b</title>
+<style>
+  body {
+    background: #0d1117;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0 20px;
+  }
+  h2, h3 { color: #ffd700; text-align:center; }
+  .card {
+    background: #161b22;
+    border-radius: 14px;
+    padding: 18px;
+    margin: 14px auto;
+    max-width: 500px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.05);
+  }
+  label { font-weight: 600; display:block; margin-top:8px; }
+  input {
+    width: 100%; padding:10px; margin-top:4px;
+    border-radius: 8px; border:none; background:#21262d; color:#fff;
+  }
+  button {
+    border:none; border-radius:8px; padding:10px 16px; font-weight:600;
+    cursor:pointer; color:#fff; margin-top:10px;
+  }
+  .btn-green { background:#2ea043; }
+  .btn-ghost { background:#30363d; }
+  .small { font-size:13px; opacity:0.8; }
+  .success { color:#00ff91; }
+</style>
+</head>
+<body>
+<h2>✨ NPA Smart — Admin Leader v6.5b</h2>
+<p style="text-align:center;opacity:0.8;">Tambah Mitra & Buat 3 Link Otomatis (Auto Connect ke FonNTE)</p>
+
+<div class="card">
+  <h3>🔗 Status Koneksi</h3>
+  <p>FonNTE: <span id="statusFonNTE" class="success">Aktif (tersimpan lokal)</span></p>
+  <p class="small">💡 Token FonNTE disembunyikan demi keamanan. Bila admin pusat pernah set token di perangkat ini, sistem akan tetap aktif otomatis.</p>
+</div>
+
+<div class="card">
+  <h3>🧩 Data Leader</h3>
+  <label>Nama Leader</label>
+  <input id="leaderName" placeholder="cth: Sugiarto Kurniawan">
+
+  <label>No. WhatsApp (format 62...)</label>
+  <input id="leaderWA" placeholder="cth: 62852xxxxxxx">
+
+  <label>Slug (opsional)</label>
+  <input id="slug" placeholder="cth: ngangguraja">
+  <div class="small">
+    💡 <b>Slug</b> adalah <i>username</i> unik untuk link Anda, contoh:
+    <b>ngangguraja</b>, <b>team-banten</b>, atau <b>mentor-nurjanah</b>.<br>
+    Opsional, tapi disarankan diisi agar mudah dikenali & dilacak otomatis.
+  </div>
+
+  <button class="btn-green" onclick="buatLink()">🚀 Buat 3 Link</button>
+  <button class="btn-ghost" onclick="bersihkan()">🧹 Bersihkan</button>
+</div>
+
+<div class="card">
+  <h3>🌐 Hasil Link</h3>
+  <pre id="hasilLink" style="white-space:pre-wrap;word-break:break-word;font-size:13px;"></pre>
+  <button class="btn-green" onclick="salinSemua()">📋 Salin Semua Link</button>
+</div>
+
+<script>
+function buatLink() {
+  const name = encodeURIComponent(document.getElementById("leaderName").value.trim());
+  const wa = encodeURIComponent(document.getElementById("leaderWA").value.trim());
+  const slug = encodeURIComponent(document.getElementById("slug").value.trim() || document.getElementById("leaderName").value.trim().toLowerCase().replace(/\s+/g,''));
+  if (!name || !wa) return alert("Harap isi Nama dan Nomor WhatsApp!");
+
+  const base = "https://3ireborn.github.io/pendaftaran-online/";
+  const lpMaster = `${base}lp-master.html?name=${name}&wa=${wa}&slug=${slug}`;
+  const lpHot = `${base}lp-hot.html?name=${name}&wa=${wa}&slug=${slug}`;
+  const form = `${base}form-pendaftaran-v3.1.html?name=${name}&wa=${wa}&slug=${slug}`;
+
+  document.getElementById("hasilLink").innerText =
+    `🌐 LP Master:\n${lpMaster}\n\n🔥 LP Hot:\n${lpHot}\n\n📝 Form Pendaftaran:\n${form}`;
+}
+
+function salinSemua() {
+  const text = document.getElementById("hasilLink").innerText;
+  navigator.clipboard.writeText(text).then(() => alert("Semua link berhasil disalin!"));
+}
+
+function bersihkan() {
+  document.getElementById("leaderName").value = "";
+  document.getElementById("leaderWA").value = "";
+  document.getElementById("slug").value = "";
+  document.getElementById("hasilLink").innerText = "";
+}
+</script>
+<p style="text-align:center;font-size:12px;opacity:0.6;margin-top:20px;">
+Powered by <b>NPA Smart System × 3IReborn</b> • "KitaNganggur Punya Penghasilan" 🚀
+</p>
+</body>
+</html>
