@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NPA Smart v7.2 — Admin Pusat + GitHub Sync</title>
+<title>NPA Smart v7.3 — Admin Pusat Auto Sync</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -50,8 +50,8 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
 </head>
 <body>
 <div class="wrap">
-  <h1>NPA Smart v7.2 — Admin Pusat</h1>
-  <p class="muted">Kontrol penuh sistem mitra & auto motivasi 🌅🌇</p>
+  <h1>NPA Smart v7.3 — Admin Pusat</h1>
+  <p class="muted">Auto Sinkron, Auto Backup, Auto Motivasi 🌅🌇</p>
 
   <div id="toast-container" class="toast-container"></div>
 
@@ -79,14 +79,6 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
   </div>
 
   <div class="card">
-    <h3>🌅🌇 Manual Mode</h3>
-    <div class="row">
-      <button class="btn btn-blue" id="sendPagi">🌅 Kirim Motivasi Pagi</button>
-      <button class="btn btn-blue" id="sendSore">🌇 Kirim Motivasi Sore</button>
-    </div>
-  </div>
-
-  <div class="card">
     <h3>📜 Log Aktivitas</h3>
     <div id="logBox" class="log">(belum ada aktivitas)</div>
   </div>
@@ -96,7 +88,7 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
 (async function(){
   const $ = id => document.getElementById(id);
   const toastContainer = $('toast-container');
-  const toast = (msg)=>{
+  const toast = msg => {
     const t=document.createElement('div');
     t.className='toast'; t.textContent=msg;
     toastContainer.appendChild(t);
@@ -122,68 +114,55 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
   let leaders=[];
   try{leaders=JSON.parse(localStorage.getItem('npa_leaders')||'[]');$('leadCount').textContent=leaders.length;}catch{}
 
-  $('addLeader').onclick = async () => {
-    const nama = prompt("Nama mitra baru:");
-    if (!nama) return log("Input dibatalkan ❌","warn");
-    const id = Date.now();
-    const newLeader = { id, nama, aktif:true };
-    leaders.push(newLeader);
-    localStorage.setItem('npa_leaders', JSON.stringify(leaders));
-    $('leadCount').textContent = leaders.length;
-    log(`Mitra baru "${nama}" ditambahkan ✅`, 'ok');
-  };
-
-  $('syncGithub').onclick = async () => {
-    try {
+  // auto-sync ke GitHub
+  async function syncToGithub(auto=false){
+    try{
       const token = localStorage.getItem('npa_token');
-      if (!token) return log("Token GitHub belum diatur ❌", "err");
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify({ leaders }))));
-      const res = await fetch("https://api.github.com/repos/3ireborn/npa-data/contents/leader.json", {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: "Update leader.json via NPA Smart System",
+      if(!token) return log("Token belum diatur ❌","err");
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify({
+        leaders,
+        updated_at:new Date().toISOString()
+      }))));
+      const res = await fetch("https://api.github.com/repos/3ireborn/npa-data/contents/leader.json",{
+        method:"PUT",
+        headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},
+        body:JSON.stringify({
+          message:`${auto?"Auto":"Manual"} sync leader.json via NPA Smart v7.3`,
           content
         })
       });
-      if (res.ok) log("Sinkronisasi ke GitHub berhasil ✅", "ok");
-      else log("Gagal sinkron ke GitHub ❌", "err");
-    } catch (e) {
-      log("Error sinkronisasi: " + e.message, "err");
-    }
+      if(res.ok) log((auto?"Auto":"Manual")+" sinkronisasi ke GitHub ✅","ok");
+      else log("Gagal sinkron ke GitHub ❌","err");
+    }catch(e){log("Error sync: "+e.message,"err")}
+  }
+
+  $('syncGithub').onclick=()=>syncToGithub(false);
+
+  $('addLeader').onclick = async ()=>{
+    const nama = prompt("Nama mitra baru:");
+    if(!nama) return log("Input dibatalkan ❌","warn");
+    const id = Date.now();
+    const newLeader = {id,nama,aktif:true};
+    leaders.push(newLeader);
+    localStorage.setItem('npa_leaders',JSON.stringify(leaders));
+    $('leadCount').textContent=leaders.length;
+    log(`Mitra baru "${nama}" ditambahkan ✅`,'ok');
+    await syncToGithub(true);
   };
 
-  // template motivasi
-  let templates=null;
-  try{
-    const r=await fetch("./npa_templates.json?ts="+Date.now());
-    templates=await r.json();log('Template motivasi aktif ✅','ok');
-  }catch{log('Template tidak ditemukan, gunakan AI fallback 🤖','warn')}
-
+  // auto motivasi (06:00 & 17:00)
   function aiQuote(type){
-    const pagi=["💫 Hari baru, semangat baru — teruslah melangkah!","🌞 Senyum pagi ini adalah awal dari kesuksesanmu!"];
-    const sore=["🌇 Waktunya bersyukur, hari ini kamu sudah hebat.","🌙 Jangan menyerah, esok selalu punya harapan baru."];
+    const pagi=["🌅 Semangat baru, rezeki baru!","💫 Hari yang indah dimulai dari niat baik."];
+    const sore=["🌇 Bersyukurlah, kamu sudah luar biasa hari ini.","🌙 Rehat sejenak, esok lanjut berjuang lagi."];
     return (type==='pagi'?pagi:sore)[Math.floor(Math.random()*2)];
   }
 
-  function getMessage(type){
-    if(!templates)return aiQuote(type);
-    const d=new Date().getDate();
-    const data=templates.templates.find(x=>x.day===d);
-    return (type==='pagi'?data?.pagi:data?.sore) || aiQuote(type);
-  }
+  function getMessage(type){return aiQuote(type);}
 
-  $('sendPagi').onclick=()=>{const msg=getMessage('pagi');log('Manual kirim motivasi pagi 🚀','ok')}
-  $('sendSore').onclick=()=>{const msg=getMessage('sore');log('Manual kirim motivasi sore 💫','ok')}
-
-  // auto scheduler
   setInterval(()=>{
     const now=new Date(),h=now.getHours(),m=now.getMinutes();
-    if(h===6 && m===0){const msg=getMessage('pagi');log('Auto 06:00 WIB: '+msg,'ok')}
-    if(h===17 && m===0){const msg=getMessage('sore');log('Auto 17:00 WIB: '+msg,'ok')}
+    if(h===6&&m===0){log("Auto 06:00 WIB: "+getMessage('pagi'),'ok');syncToGithub(true);}
+    if(h===17&&m===0){log("Auto 17:00 WIB: "+getMessage('sore'),'ok');syncToGithub(true);}
   },60000);
 })();
 </script>
