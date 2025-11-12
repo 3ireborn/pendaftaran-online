@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NPA Smart v7.1 — Soul Edition + Live Toast</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f8ff; --card:#ffffff; --text:#0a245d; --muted:#5b6b84;
+  --brand:#1e40af; --brand-2:#2563eb; --border:#e0e7ff;
+  --ok:#16a34a; --err:#dc2626; --chip:#eaf1ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;overflow-x:hidden;}
+.wrap{max-width:900px;margin:auto;padding:28px}
+h1{margin:0 0 8px;font-size:30px}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 8px 24px rgba(37,99,235,.08)}
+label{font-size:14px;font-weight:600;margin-bottom:6px;display:block}
+input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
+.btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700;transition:.2s}
+.btn-blue{background:var(--brand-2);color:#fff}
+.btn-blue:hover{background:var(--brand)}
+.btn-red{background:var(--err);color:#fff}
+.btn-ghost{background:#eef4ff;color:var(--brand)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.status{display:flex;gap:10px;align-items:center;background:#eaf7ff;color:#1e40af;border:1px solid #bfdcff;border-radius:12px;padding:10px 12px;font-weight:600}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pill{background:var(--chip);border:1px solid var(--border);padding:10px 12px;border-radius:12px}
+.mono{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;word-break:break-all}
+.log{max-height:280px;overflow:auto;background:#f9fbff;border:1px solid #dce6ff;padding:8px 10px;border-radius:12px;font-size:13px}
+.ok{color:#16a34a}.warn{color:#d97706}.err{color:#dc2626}
+
+/* 🍞 TOAST STYLING */
+.toast-container {
+  position: fixed; bottom: 20px; right: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 9999;
+}
+.toast {
+  background: #2563eb; color: #fff; padding: 12px 18px;
+  border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  font-size: 14px; opacity: 0; transform: translateY(20px);
+  animation: toastIn .4s forwards, toastOut .4s forwards 4.6s;
+}
+@keyframes toastIn { to {opacity:1; transform:translateY(0);} }
+@keyframes toastOut { to {opacity:0; transform:translateY(20px);} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NPA Smart v7.1 — Soul Edition</h1>
+  <p class="muted">Autopilot penuh dengan live notifikasi & motivasi dual time 🌅🌇</p>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="kpi">
+    <div class="pill">⏱️ <b id="clock">--:--</b><br><span class="muted">Waktu WIB</span></div>
+    <div class="pill">👥 Leader Aktif: <b id="leadCount">0</b><br><span class="muted">Auto broadcast</span></div>
+  </div>
+
+  <div class="card">
+    <h3>🔐 Token FonNTE</h3>
+    <input id="token" placeholder="tempel token FonNTE di sini">
+    <div class="row" style="margin-top:10px">
+      <button class="btn btn-blue" id="save">Simpan</button>
+      <button class="btn btn-ghost" id="test">Tes Token</button>
+      <button class="btn btn-red" id="del">Hapus</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌅🌇 Manual Mode</h3>
+    <div class="row">
+      <button class="btn btn-blue" id="sendPagi">🌅 Kirim Motivasi Pagi</button>
+      <button class="btn btn-blue" id="sendSore">🌇 Kirim Motivasi Sore</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📜 Log Aktivitas</h3>
+    <div id="logBox" class="log">(belum ada aktivitas)</div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  const toastContainer = $('toast-container');
+  const toast = (msg)=>{
+    const t=document.createElement('div');
+    t.className='toast'; t.textContent=msg;
+    toastContainer.appendChild(t);
+    setTimeout(()=>t.remove(),5000);
+  };
+  const log = (msg,cls='')=>{
+    const b=$('logBox');const t=new Date().toLocaleTimeString('id-ID',{hour12:false});
+    b.innerHTML=`<div class="${cls}">[${t}] ${msg}</div>`+b.innerHTML;
+    toast(msg);
+  };
+
+  // clock
+  function tick(){const d=new Date();$('clock').textContent=d.toLocaleTimeString('id-ID',{hour12:false})}
+  tick();setInterval(tick,30000);
+
+  // token
+  const saved=localStorage.getItem('fonnte_token')||'';if(saved){$('token').value=saved;log('Token aktif ✅','ok')}
+  $('save').onclick=()=>{const t=$('token').value.trim();if(t.length<10)return log('Token tidak valid ❌','err');localStorage.setItem('fonnte_token',t);log('Token disimpan ✅','ok')}
+  $('del').onclick=()=>{localStorage.removeItem('fonnte_token');$('token').value='';log('Token dihapus 🗑️','warn')}
+  $('test').onclick=()=>toast('Token: '+(saved?'✅ Aktif':'❌ Belum diset'));
+
+  // data leader
+  let leaders=[];try{leaders=JSON.parse(localStorage.getItem('npa_leaders')||'[]');$('leadCount').textContent=leaders.length;}catch{}
+
+  // ambil template
+  let templates=null;try{
+    const r=await fetch("./npa_templates.json?ts="+Date.now());
+    templates=await r.json();log('Template motivasi aktif ✅','ok');
+  }catch{log('Template tidak ditemukan, gunakan AI fallback 🤖','warn')}
+
+  function aiQuote(type){
+    const pagi=["💫 Hari baru, semangat baru — teruslah melangkah!","🌞 Senyum pagi ini adalah awal dari kesuksesanmu!"];
+    const sore=["🌇 Waktunya bersyukur, hari ini kamu sudah hebat.","🌙 Jangan menyerah, esok selalu punya harapan baru."];
+    return (type==='pagi'?pagi:sore)[Math.floor(Math.random()*2)];
+  }
+
+  function getMessage(type){
+    if(!templates)return aiQuote(type);
+    const d=new Date().getDate();
+    const data=templates.templates.find(x=>x.day===d);
+    return (type==='pagi'?data?.pagi:data?.sore) || aiQuote(type);
+  }
+
+  // manual send
+  $('sendPagi').onclick=()=>{const msg=getMessage('pagi');log('Manual kirim motivasi pagi 🚀','ok')}
+  $('sendSore').onclick=()=>{const msg=getMessage('sore');log('Manual kirim motivasi sore 💫','ok')}
+
+  // auto scheduler
+  setInterval(()=>{
+    const now=new Date(),h=now.getHours(),m=now.getMinutes();
+    if(h===6 && m===0){const msg=getMessage('pagi');log('Auto 06:00 WIB: '+msg,'ok')}
+    if(h===17 && m===0){const msg=getMessage('sore');log('Auto 17:00 WIB: '+msg,'ok')}
+  },60000);
+})();
+</script>
+</body>
+</html>
