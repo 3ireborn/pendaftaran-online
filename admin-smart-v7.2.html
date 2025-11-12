@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NPA Smart v7.1 — Soul Edition + Live Toast</title>
+<title>NPA Smart v7.2 — Admin Pusat + GitHub Sync</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -50,8 +50,8 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
 </head>
 <body>
 <div class="wrap">
-  <h1>NPA Smart v7.1 — Soul Edition</h1>
-  <p class="muted">Autopilot penuh dengan live notifikasi & motivasi dual time 🌅🌇</p>
+  <h1>NPA Smart v7.2 — Admin Pusat</h1>
+  <p class="muted">Kontrol penuh sistem mitra & auto motivasi 🌅🌇</p>
 
   <div id="toast-container" class="toast-container"></div>
 
@@ -61,12 +61,20 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
   </div>
 
   <div class="card">
-    <h3>🔐 Token FonNTE</h3>
-    <input id="token" placeholder="tempel token FonNTE di sini">
+    <h3>🔐 Token GitHub / FonNTE</h3>
+    <input id="token" placeholder="tempel token GitHub atau FonNTE di sini">
     <div class="row" style="margin-top:10px">
       <button class="btn btn-blue" id="save">Simpan</button>
       <button class="btn btn-ghost" id="test">Tes Token</button>
       <button class="btn btn-red" id="del">Hapus</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>👥 Manajemen Mitra</h3>
+    <div class="row">
+      <button class="btn btn-blue" id="addLeader">➕ Tambah Mitra Baru</button>
+      <button class="btn btn-ghost" id="syncGithub">🔄 Sinkronisasi ke GitHub</button>
     </div>
   </div>
 
@@ -105,16 +113,52 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
   tick();setInterval(tick,30000);
 
   // token
-  const saved=localStorage.getItem('fonnte_token')||'';if(saved){$('token').value=saved;log('Token aktif ✅','ok')}
-  $('save').onclick=()=>{const t=$('token').value.trim();if(t.length<10)return log('Token tidak valid ❌','err');localStorage.setItem('fonnte_token',t);log('Token disimpan ✅','ok')}
-  $('del').onclick=()=>{localStorage.removeItem('fonnte_token');$('token').value='';log('Token dihapus 🗑️','warn')}
+  const saved=localStorage.getItem('npa_token')||'';if(saved){$('token').value=saved;log('Token aktif ✅','ok')}
+  $('save').onclick=()=>{const t=$('token').value.trim();if(t.length<10)return log('Token tidak valid ❌','err');localStorage.setItem('npa_token',t);log('Token disimpan ✅','ok')}
+  $('del').onclick=()=>{localStorage.removeItem('npa_token');$('token').value='';log('Token dihapus 🗑️','warn')}
   $('test').onclick=()=>toast('Token: '+(saved?'✅ Aktif':'❌ Belum diset'));
 
-  // data leader
-  let leaders=[];try{leaders=JSON.parse(localStorage.getItem('npa_leaders')||'[]');$('leadCount').textContent=leaders.length;}catch{}
+  // leader data
+  let leaders=[];
+  try{leaders=JSON.parse(localStorage.getItem('npa_leaders')||'[]');$('leadCount').textContent=leaders.length;}catch{}
 
-  // ambil template
-  let templates=null;try{
+  $('addLeader').onclick = async () => {
+    const nama = prompt("Nama mitra baru:");
+    if (!nama) return log("Input dibatalkan ❌","warn");
+    const id = Date.now();
+    const newLeader = { id, nama, aktif:true };
+    leaders.push(newLeader);
+    localStorage.setItem('npa_leaders', JSON.stringify(leaders));
+    $('leadCount').textContent = leaders.length;
+    log(`Mitra baru "${nama}" ditambahkan ✅`, 'ok');
+  };
+
+  $('syncGithub').onclick = async () => {
+    try {
+      const token = localStorage.getItem('npa_token');
+      if (!token) return log("Token GitHub belum diatur ❌", "err");
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify({ leaders }))));
+      const res = await fetch("https://api.github.com/repos/3ireborn/npa-data/contents/leader.json", {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "Update leader.json via NPA Smart System",
+          content
+        })
+      });
+      if (res.ok) log("Sinkronisasi ke GitHub berhasil ✅", "ok");
+      else log("Gagal sinkron ke GitHub ❌", "err");
+    } catch (e) {
+      log("Error sinkronisasi: " + e.message, "err");
+    }
+  };
+
+  // template motivasi
+  let templates=null;
+  try{
     const r=await fetch("./npa_templates.json?ts="+Date.now());
     templates=await r.json();log('Template motivasi aktif ✅','ok');
   }catch{log('Template tidak ditemukan, gunakan AI fallback 🤖','warn')}
@@ -132,7 +176,6 @@ input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px}
     return (type==='pagi'?data?.pagi:data?.sore) || aiQuote(type);
   }
 
-  // manual send
   $('sendPagi').onclick=()=>{const msg=getMessage('pagi');log('Manual kirim motivasi pagi 🚀','ok')}
   $('sendSore').onclick=()=>{const msg=getMessage('sore');log('Manual kirim motivasi sore 💫','ok')}
 
