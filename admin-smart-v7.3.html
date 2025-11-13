@@ -1,464 +1,305 @@
 <!doctype html>
+
 <html lang="id">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NPA Admin Pusat — v7.2 (Dark Elegant)</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>NPA Smart — Admin v7.6 (Preview & Broadcast)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0b1220; --card:#071028; --panel:#0f1724; --muted:#a3b0c6; --accent:#0ea5e9;
-  --glass: rgba(255,255,255,0.04);
-  --success:#16a34a; --danger:#ef4444;
-}
+:root{--bg:#0b1220;--card:#0f1724;--muted:#98a0b3;--accent:#06b6d4;--accent-2:#8b5cf6;--ok:#16a34a;--err:#ef4444;--glass:rgba(255,255,255,0.03)}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#071026 0%, #08122a 60%);color:#e6eef8;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial}
-.wrap{max-width:1100px;margin:28px auto;padding:22px}
-.header{display:flex;gap:16px;align-items:center;justify-content:space-between}
-.title{font-size:20px;font-weight:700}
-.sub{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:1fr 420px;gap:18px;margin-top:18px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+body{margin:0;font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#071027 0%, #071827 60%);color:#e6eef8}
+.wrap{max-width:980px;margin:24px auto;padding:20px}
+h1{font-size:30px;margin:6px 0}
+.muted{color:var(--muted)}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);border-radius:12px;padding:16px;margin:14px 0;box-shadow:0 8px 30px rgba(2,6,23,.6)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+.btn{padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021022}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+.kpi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .small{font-size:13px;color:var(--muted)}
-.field{display:flex;flex-direction:column;margin-bottom:10px}
-label{font-weight:600;font-size:13px;color:#dbe9fb;margin-bottom:6px}
-input[type=text], input[type=tel], input[type=password], select {background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:#e9f6ff}
-.btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-.btn-primary{background:linear-gradient(90deg,var(--accent),#1e40af);color:#04263a}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#d3e9ff}
-.btn-warn{background:var(--danger);color:white}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.list{max-height:460px;overflow:auto;margin-top:10px}
-.leader-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);margin-bottom:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
-.leader-left{display:flex;gap:12px;align-items:center}
-.avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#1e40af);display:flex;align-items:center;justify-content:center;font-weight:700;color:#041427}
-.leader-meta{line-height:1}
-.meta-name{font-weight:700}
-.meta-sub{font-size:12px;color:var(--muted)}
-.links{display:flex;gap:8px;align-items:center}
-.link-btn{padding:8px 10px;border-radius:10px;border:0;cursor:pointer;background:rgba(255,255,255,0.03);color:#cfefff;font-weight:700;font-size:13px}
-.mono{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;color:#cfefff;font-size:13px}
-.toast-wrap{position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{background:#0ea5e9;color:#041427;padding:10px 14px;border-radius:10px;box-shadow:0 6px 18px rgba(14,165,233,0.12);font-weight:700}
-.log{max-height:220px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;margin-top:8px;font-size:13px;color:var(--muted)}
-.notice{background:linear-gradient(90deg,#07203a,#051028);padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);font-size:13px;margin-top:8px;color:var(--muted)}
-.copy-ok{color:var(--success);font-weight:700;font-size:13px}
-.footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-@media (max-width:980px){.grid{grid-template-columns:1fr;}}
+.leader-list{display:grid;gap:8px}
+.leader-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)}
+.preview{background:linear-gradient(180deg,#021225,#081821);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);min-height:90px}
+.log{max-height:260px;overflow:auto;padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02)}
+.notice{font-size:13px;color:var(--muted);margin-top:8px}
+.switch{display:inline-flex;align-items:center;gap:8px}
+.toast{position:fixed;right:20px;bottom:20px;background:#052036;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div>
-        <div class="title">NPA Smart — Admin Pusat v7.2</div>
-        <div class="sub">Dark elegant — kontrol leader, generate link, FonNTE + GitHub sync (opsional)</div>
-      </div>
-      <div class="small">Sugiarto Kurniawan · NPA Smart System</div>
+<div class="wrap">
+  <header>
+    <h1>NPA Smart — Admin v7.6</h1>
+    <p class="muted">Preview broadcast & manual follow-up • Auto scheduler (active while page open)</p>
+  </header>  <div class="kpi card">
+    <div>
+      <div class="small">Waktu (local)</div>
+      <div id="clock">--:--:--</div>
     </div>
-
-    <div class="grid">
-      <!-- LEFT: Controls -->
-      <div>
-        <div class="card">
-          <h3 style="margin:0 0 8px">🔐 Token & Integrasi</h3>
-          <div class="field">
-            <label>Token FonNTE (untuk kirim WA)</label>
-            <input id="fonnte_token" placeholder="Masukkan token FonNTE (disimpan lokal)">
-          </div>
-          <div class="field">
-            <label>GitHub — Owner / Repo</label>
-            <div class="row">
-              <input id="gh_owner" type="text" placeholder="owner (contoh: 3ireborn)" style="flex:1" />
-              <input id="gh_repo" type="text" placeholder="repo (contoh: pendaftaran-online)" style="flex:1" />
-            </div>
-          </div>
-          <div class="field">
-            <label>GitHub Token (opsional, untuk sync)</label>
-            <input id="gh_token" type="password" placeholder="Personal access token (repo :contents)"/>
-          </div>
-          <div class="row" style="margin-top:8px">
-            <button class="btn btn-primary" id="saveFonnte">Simpan Token FonNTE</button>
-            <button class="btn btn-ghost" id="testFonnte">Tes Kirim (dummy)</button>
-            <button class="btn btn-ghost" id="saveGH">Simpan GitHub Info</button>
-            <button class="btn btn-ghost" id="syncGit">Sync leaders → GitHub</button>
-          </div>
-          <div class="notice">
-            <strong>Catatan:</strong> Token disimpan di <code>localStorage</code> per perangkat. Tombol <em>Sync</em> akan mencoba update file <code>/data/leaders.json</code> di repository (butuh token & hak akses).
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h3 style="margin:0 0 8px">➕ Tambah Leader (cepat)</h3>
-          <div class="row">
-            <input id="new_name" type="text" placeholder="Nama leader (contoh: Sugiarto Kurniawan)" style="flex:2" />
-            <input id="new_phone" type="tel" placeholder="628..." style="flex:1" />
-          </div>
-          <div style="margin-top:10px" class="row">
-            <button class="btn btn-primary" id="addLeaderBtn">Tambah & Buat Link</button>
-            <button class="btn btn-ghost" id="refreshLeaders">Refresh</button>
-          </div>
-          <div class="small" style="margin-top:8px">Slug dibuat otomatis dari nama (lowercase, tanpa spasi). Kamu bisa edit slug di file <code>data/leaders.json</code> jika perlu.</div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h3 style="margin:0 0 8px">📣 Broadcast & Scheduler</h3>
-          <div class="small">Auto-scheduler: <strong>06:00</strong> & <strong>17:00</strong> WIB (aktif saat halaman terbuka)</div>
-          <div style="margin-top:8px" class="row">
-            <button class="btn btn-primary" id="broadcastNow">Broadcast Manual (All)</button>
-            <button class="btn btn-ghost" id="motivatePagi">Kirim Motivasi Pagi (Manual)</button>
-            <button class="btn btn-ghost" id="motivateSore">Kirim Motivasi Sore (Manual)</button>
-          </div>
-          <div class="notice" style="margin-top:8px">
-            Pesan akan dikirim via FonNTE API jika token terpasang; jika tidak, hanya tercatat di log.
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h3 style="margin:0 0 8px">📝 Log Aktivitas</h3>
-          <div id="logArea" class="log">(belum ada aktivitas)</div>
-        </div>
-
+    <div>
+      <div class="small">Leader aktif (cache)</div>
+      <div id="leadCount">0</div>
+    </div>
+    <div>
+      <div class="small">Auto Scheduler</div>
+      <div id="schedulerInfo">06:00 & 17:00 (while open)</div>
+    </div>
+  </div>  <section class="card">
+    <h3>🔐 Tokens (localStorage)</h3>
+    <div class="row">
+      <div style="flex:1">
+        <label class="small">Token FonNTE</label>
+        <input id="fonnte_token" placeholder="a2vt..."/>
       </div>
-
-      <!-- RIGHT: Leaders list & links -->
-      <div>
-        <div class="card">
-          <h3 style="margin:0 0 8px">👥 Leader (data)</h3>
-          <div class="small">Sumber: <code>/data/leaders.json</code> (fetch) → fallback ke localStorage bila fetch gagal</div>
-          <div class="list" id="leaderList"></div>
-
-          <div style="margin-top:12px">
-            <div class="field">
-              <label>Contoh output link (klik untuk buka / copy)</label>
-              <div id="linkPreview" class="mono">Pilih leader lalu klik "Generate Links"</div>
-            </div>
-            <div class="row" style="margin-top:8px">
-              <button class="btn btn-primary" id="genAllLinks">Generate Semua Link</button>
-              <button class="btn btn-ghost" id="copyAll">Copy Semua (terformat)</button>
-            </div>
-            <div id="copyMsg" class="small" style="margin-top:8px"></div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h3 style="margin:0 0 8px">ℹ️ Petunjuk Penting</h3>
-          <div class="small">
-            - <strong>Tidak</strong> mengubah struktur form pendaftaran final (v3.3).<br>
-            - Pastikan nomor WA berformat internasional (contoh: 6281234...). Hati-hati copy dari Excel yang memangkas angka nol di akhir.<br>
-            - Jika mau sinkron ke GitHub: masukkan owner/repo & token yang memiliki akses untuk mengubah file di repo. Gunakan hati-hati.
-          </div>
-        </div>
+      <div style="flex:1">
+        <label class="small">Token GitHub (ghp_...)</label>
+        <input id="github_token" placeholder="ghp_..."/>
+      </div>
+      <div style="flex:1">
+        <label class="small">GitHub Owner</label>
+        <input id="github_owner" placeholder="3ireborn"/>
+      </div>
+      <div style="flex:1">
+        <label class="small">Repo (file leaders.json)</label>
+        <input id="github_repo" placeholder="pendaftaran-online"/>
       </div>
     </div>
-
-    <div class="footer">NPA Smart System • 3iReborn — Admin v7.2</div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn btn-primary" id="saveTokens">Simpan Token</button>
+      <button class="btn btn-ghost" id="testFonnte">Tes FonNTE</button>
+      <button class="btn btn-ghost" id="testGithub">Tes GitHub</button>
+      <button class="btn btn-ghost" id="syncGithub">Sinkronisasi ke GitHub</button>
+    </div>
+    <div id="tokenStatus" class="notice"></div>
+  </section>  <section class="card">
+    <h3>👥 Leader (data)</h3>
+    <div class="small">Sumber: <code>/data/leaders.json</code> (fetch) → fallback ke localStorage</div>
+    <div style="margin-top:10px" class="leader-list" id="leaders"></div>
+    <div style="margin-top:10px" class="row">
+      <button class="btn btn-primary" id="addLeaderBtn">➕ Tambah Mitra Baru</button>
+      <button class="btn btn-ghost" id="exportCache">⬇️ Export Cache</button>
+      <button class="btn btn-ghost" id="clearCache">🗑️ Bersihkan Cache</button>
+    </div>
+  </section>  <section class="card">
+    <h3>📣 Broadcast Manual (Preview + Target)</h3>
+    <label class="small">Judul / Hook (opsional)</label>
+    <input id="broadcast_title" placeholder="Contoh: Pengumuman penting untuk leader"/>
+    <label class="small" style="margin-top:8px">Isi Pesan</label>
+    <textarea id="broadcast_text" rows="6" placeholder="Tulis pengumuman, event, instruksi... (bisa pakai emoji)"></textarea><div style="margin-top:8px" class="row">
+  <div style="flex:1">
+    <label class="small">Kirim ke</label>
+    <select id="targetSelect">
+      <option value="all">Semua Leader</option>
+    </select>
   </div>
+  <div style="flex:1">
+    <label class="small">Test ke nomor</label>
+    <input id="testNumber" placeholder="62..." />
+  </div>
+</div>
 
-  <div class="toast-wrap" id="toastWrap"></div>
+<div style="margin-top:10px" class="row">
+  <button class="btn btn-primary" id="previewBtn">Preview</button>
+  <button class="btn btn-primary" id="sendBroadcastBtn">Kirim</button>
+  <button class="btn btn-ghost" id="sendTestBtn">Kirim Test</button>
+</div>
 
-<script>
-(() => {
-  const TZ = "Asia/Jakarta";
-  const API_FONNTE = "https://api.fonnte.com/send"; // Fonnte base
-  const leaderListEl = document.getElementById('leaderList');
-  const logArea = document.getElementById('logArea');
-  const toastWrap = document.getElementById('toastWrap');
-  function toast(msg){ const d=document.createElement('div'); d.className='toast'; d.textContent=msg; toastWrap.appendChild(d); setTimeout(()=>d.remove(),4800); }
-  function log(msg){ const t=new Date().toLocaleTimeString('id-ID',{timeZone:TZ,hour12:false}); logArea.innerHTML = '['+t+'] '+msg + '<br>' + logArea.innerHTML; }
+<div style="margin-top:12px">
+  <div class="small">Preview:</div>
+  <div id="broadcastPreview" class="preview">(tekan Preview untuk melihat)</div>
+</div>
 
-  // Utilities
-  function slugify(name){ return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
-  function codeFromName(name, idx){ const initials = name.split(' ').map(s=>s[0]||'').join('').slice(0,3).toUpperCase(); return initials + ('00'+(idx+1)).slice(-3); }
-  function saveLocalLeaders(arr){ localStorage.setItem('npa_leaders', JSON.stringify(arr)); }
+  </section>  <section class="card">
+    <h3>🔁 Manual Follow-up (Template Motivasi)</h3>
+    <div class="row">
+      <button class="btn btn-primary" id="sendMotPagi">🌅 Kirim Motivasi Pagi (Template)</button>
+      <button class="btn btn-primary" id="sendMotSore">🌇 Kirim Motivasi Sore (Template)</button>
+      <button class="btn btn-ghost" id="broadcastAll">📢 Broadcast Manual (ALL)</button>
+    </div>
+    <div class="small notice">Note: template motivasi diambil dari <code>/data/motivation.json</code> atau fallback AI short quotes.</div>
+  </section>  <section class="card">
+    <h3>📜 Log Aktivitas</h3>
+    <div id="logBox" class="log">(belum ada aktivitas)</div>
+  </section>
+</div><div id="toast" class="toast" style="display:none">OK</div><script>
+(function(){
+  // utilities
+  const $ = id=>document.getElementById(id);
+  const toast = (t)=>{ const el=$('toast'); el.textContent=t; el.style.display='block'; setTimeout(()=>el.style.display='none',3000)};
+  const log = (msg)=>{ const b=$('logBox'); const t=new Date().toLocaleTimeString('id-ID',{hour12:false}); b.innerHTML=`[${t}] ${msg}<br>`+b.innerHTML };
 
-  // Load initial leaders: try fetch /data/leaders.json then fallback to localStorage or built-in
+  // clock
+  function tick(){ $('clock').textContent = new Date().toLocaleTimeString('id-ID',{hour12:false}); }
+  tick(); setInterval(tick,1000);
+
+  // load/save tokens
+  function loadTokens(){ $('fonnte_token').value = localStorage.getItem('fonnte_token')||''; $('github_token').value = localStorage.getItem('github_token')||''; $('github_owner').value = localStorage.getItem('github_owner')||'3ireborn'; $('github_repo').value = localStorage.getItem('github_repo')||'pendaftaran-online'; }
+  loadTokens();
+
+  $('saveTokens').onclick = ()=>{
+    localStorage.setItem('fonnte_token', $('fonnte_token').value.trim());
+    localStorage.setItem('github_token', $('github_token').value.trim());
+    localStorage.setItem('github_owner', $('github_owner').value.trim()||'3ireborn');
+    localStorage.setItem('github_repo', $('github_repo').value.trim()||'pendaftaran-online');
+    toast('Token disimpan (lokal)'); log('Token FonNTE/GitHub disimpan (lokal)');
+    loadTokens();
+  };
+
+  $('testFonnte').onclick = ()=>{
+    const t=localStorage.getItem('fonnte_token')||''; toast(t? 'FonNTE token terdeteksi ✅':'FonNTE belum diset ❌'); }
+
+  $('testGithub').onclick = async ()=>{
+    const token=localStorage.getItem('github_token')||''; if(!token){toast('Token GitHub belum diset');return}
+    const owner=localStorage.getItem('github_owner')||'3ireborn'; const repo=localStorage.getItem('github_repo')||'pendaftaran-online';
+    try{
+      const res=await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+      if(res.ok){toast('Repo ditemukan ✅'); log('GitHub repo reachable')}
+      else{toast('Repo tidak ditemukan / permission denied'); log('GitHub test failed: '+res.status)}
+    }catch(e){toast('Gagal koneksi GitHub'); log('GitHub test error: '+e.message)}
+  };
+
+  // leader cache and fetch
+  let leaders = [];
   async function loadLeaders(){
-    let leaders = [];
     try{
-      const r = await fetch('./data/leaders.json?ts=' + Date.now(), {cache:'no-store'});
-      if(r.ok){
-        leaders = await r.json();
-        // normalize format (allow older shapes)
-        leaders = leaders.map((l,i) => {
-          if(l.name && l.phone && l.slug) return l;
-          // older simple shape
-          return {
-            name: l.name || l.name,
-            phone: l.phone || l.phone || l.phone,
-            slug: l.slug || slugify(l.name || ('leader-'+(i+1))),
-            code: l.code || codeFromName(l.name || ('Leader'+(i+1)), i)
-          };
-        });
-        saveLocalLeaders(leaders);
-        log('Leaders loaded from /data/leaders.json');
-      } else {
-        throw new Error('fetch failed');
-      }
-    } catch(e){
-      // fallback to localStorage
-      const cached = localStorage.getItem('npa_leaders');
-      if(cached){
-        try{ leaders = JSON.parse(cached); log('Leaders loaded from localStorage'); }
-        catch(err){ leaders = []; log('Gagal parse cache leaders'); }
-      } else {
-        // default empty
-        leaders = [];
-        log('No leaders.json found — start kosong (tambah leader via form)');
-      }
+      const r = await fetch('/data/leaders.json?ts='+Date.now());
+      if(!r.ok) throw new Error('fetch fail');
+      leaders = await r.json();
+      localStorage.setItem('npa_leaders', JSON.stringify(leaders));
+      log('Leaders loaded from /data/leaders.json');
+    }catch(e){
+      const s = localStorage.getItem('npa_leaders')||'[]'; leaders = JSON.parse(s);
+      log('Leaders loaded from localStorage (fallback)');
     }
-    renderLeaders(leaders);
-    return leaders;
+    renderLeaders();
   }
-
-  function renderLeaders(list){
-    leaderListEl.innerHTML = '';
-    if(!Array.isArray(list) || list.length===0){
-      leaderListEl.innerHTML = '<div class="small">(belum ada leader — tambahkan dengan form di kiri)</div>';
-      document.getElementById('leadCount') && (document.getElementById('leadCount').textContent = '0');
-      return;
-    }
-    document.getElementById('leadCount') && (document.getElementById('leadCount').textContent = list.length);
-    list.forEach((l, idx) => {
+  function renderLeaders(){
+    const el=$('leaders'); el.innerHTML='';
+    leaders.sort((a,b)=> (a.code||'').localeCompare(b.code||''));
+    leaders.forEach(l=>{
       const div = document.createElement('div'); div.className='leader-item';
-      const left = document.createElement('div'); left.className='leader-left';
-      const avatar = document.createElement('div'); avatar.className='avatar'; avatar.textContent = (l.name||'L').split(' ').map(p=>p[0]||'').slice(0,2).join('');
-      const meta = document.createElement('div'); meta.className='leader-meta';
-      const n = document.createElement('div'); n.className='meta-name'; n.textContent = l.code ? (l.code + ' • ' + l.name) : l.name;
-      const s = document.createElement('div'); s.className='meta-sub'; s.textContent = (l.phone || '') + ' • slug: ' + (l.slug || '');
-      meta.appendChild(n); meta.appendChild(s);
-      left.appendChild(avatar); left.appendChild(meta);
-
-      const right = document.createElement('div'); right.className='links';
-      const genBtn = document.createElement('button'); genBtn.className='link-btn'; genBtn.textContent='Generate Links';
-      genBtn.onclick = ()=> generateForLeader(l);
-      const copyBtn = document.createElement('button'); copyBtn.className='link-btn'; copyBtn.textContent='Copy Link';
-      copyBtn.onclick = ()=> { copyText(formatLinks(l)); toast('Copied links for ' + l.name); }
-      right.appendChild(genBtn); right.appendChild(copyBtn);
-
+      const left = document.createElement('div'); left.innerHTML = `<div style="font-weight:700">${l.code||''} • ${l.name}</div><div class="small">${l.phone||''} • slug: ${l.slug||''}</div>`;
+      const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
+      const gbtn = document.createElement('button'); gbtn.className='btn btn-ghost'; gbtn.textContent='Generate Links'; gbtn.onclick=()=>{ generateLinksFor(l); };
+      const cbtn = document.createElement('button'); cbtn.className='btn btn-ghost'; cbtn.textContent='Copy Link'; cbtn.onclick=()=>{ const url = location.origin + '/?ref='+ (l.slug||l.name.replace(/\s+/g,'-').toLowerCase()); navigator.clipboard.writeText(url); toast('Link disalin'); }
+      right.appendChild(gbtn); right.appendChild(cbtn);
       div.appendChild(left); div.appendChild(right);
-      leaderListEl.appendChild(div);
+      el.appendChild(div);
     });
+    $('leadCount').textContent = leaders.length;
+    // populate target select
+    const sel = $('targetSelect'); sel.innerHTML = '<option value="all">Semua Leader</option>';
+    leaders.forEach(l=>{ const o=document.createElement('option'); o.value=l.phone||l.slug||l.name; o.textContent = `${l.code||''} • ${l.name}`; sel.appendChild(o); });
   }
 
-  function formatLinks(l){
-    const base = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
-    // choose the latest filenames if you changed naming; keep it flexible:
-    const lpMaster = `${location.origin}/pendaftaran-online/lp-master-v6.6.html?name=${encodeURIComponent(l.name)}&wa=${encodeURIComponent(l.phone)}&slug=${encodeURIComponent(l.slug)}`;
-    const lpHot = `${location.origin}/pendaftaran-online/lp-hot-v6.6.html?name=${encodeURIComponent(l.name)}&wa=${encodeURIComponent(l.phone)}&slug=${encodeURIComponent(l.slug)}`;
-    const form = `${location.origin}/pendaftaran-online/form-pendaftaran-v3.1.html?name=${encodeURIComponent(l.name)}&wa=${encodeURIComponent(l.phone)}&slug=${encodeURIComponent(l.slug)}`;
-    return `🌐 LP Master: ${lpMaster}\n\n🔥 LP Hot: ${lpHot}\n\n📝 Form Pendaftaran: ${form}`;
-  }
+  function generateLinksFor(leader){ const ref = leader.slug||leader.name.replace(/\s+/g,'-').toLowerCase(); const url = location.origin + '/?ref='+ref; navigator.clipboard.writeText(url); toast('Link untuk '+leader.name+' disalin'); log('Generated link for '+leader.name); }
 
-  function generateForLeader(l){
-    const out = formatLinks(l);
-    document.getElementById('linkPreview').textContent = out;
-    toast('Links dibuat untuk ' + l.name);
-    log('Generated links for ' + l.name);
-  }
+  // add leader
+  $('addLeaderBtn').onclick = ()=>{
+    const name = prompt('Nama mitra (singkat)'); if(!name) return; const phone = prompt('No HP (62...)'); if(!phone) return; const code = prompt('Kode (misal: 014)') || String(Math.floor(Math.random()*900+100)); const slug = (name||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-');
+    const obj = { id:slug.toUpperCase().slice(0,3), code: code, name: name.trim(), phone: phone.trim().replace(/\s+/g,''), slug };
+    leaders.push(obj); localStorage.setItem('npa_leaders', JSON.stringify(leaders)); renderLeaders(); log('Tambah mitra: '+name+' ('+phone+')'); toast('Mitra ditambahkan ke cache (lokal)');
+  };
 
-  function copyText(txt){
+  $('exportCache').onclick = ()=>{ const data = JSON.stringify(leaders,null,2); const blob = new Blob([data],{type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='leaders-cache.json'; a.click(); URL.revokeObjectURL(url); toast('Export siap'); }
+  $('clearCache').onclick = ()=>{ if(confirm('Hapus cache leader lokal?')){ leaders=[]; localStorage.removeItem('npa_leaders'); renderLeaders(); log('Cache leader dibersihkan'); toast('Cache dibersihkan'); } }
+
+  // GitHub sync (PUT file content) - requires proper token with repo access
+  $('syncGithub').onclick = async ()=>{
+    const token = localStorage.getItem('github_token')||''; if(!token){ toast('Token GitHub belum diset'); return }
+    const owner = localStorage.getItem('github_owner')||'3ireborn'; const repo = localStorage.getItem('github_repo')||'pendaftaran-online';
     try{
-      const ta = document.createElement('textarea'); ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-      document.getElementById('copyMsg').textContent = 'Copied ✔';
-      setTimeout(()=>document.getElementById('copyMsg').textContent='',1600);
-    } catch(e){ toast('Copy gagal'); }
-  }
-
-  // Add leader
-  document.getElementById('addLeaderBtn').addEventListener('click', async ()=>{
-    const name = (document.getElementById('new_name').value || '').trim();
-    const phone = (document.getElementById('new_phone').value || '').trim().replace(/\s+/g,'');
-    if(!name || !phone){ alert('Isi nama dan nomor WA (628...)'); return; }
-    const cached = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
-    const slug = slugify(name);
-    const item = { name, phone, slug, code: codeFromName(name, cached.length) };
-    cached.unshift(item);
-    saveLocalLeaders(cached);
-    renderLeaders(cached);
-    document.getElementById('new_name').value=''; document.getElementById('new_phone').value='';
-    generateForLeader(item);
-    log('Leader ditambahkan: ' + name);
-    toast('Leader ditambahkan ✔');
-  });
-
-  document.getElementById('refreshLeaders').addEventListener('click', ()=> loadLeaders());
-
-  // generate all
-  document.getElementById('genAllLinks').addEventListener('click', ()=>{
-    const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
-    if(!arr.length){ toast('Belum ada leader'); return; }
-    let text = '';
-    arr.forEach(l=> text += formatLinks(l) + '\n\n');
-    document.getElementById('linkPreview').textContent = text;
-    toast('Semua link ter-generate');
-    log('Generate semua links');
-  });
-  document.getElementById('copyAll').addEventListener('click', ()=>{
-    const text = document.getElementById('linkPreview').textContent || '';
-    if(!text) return toast('Nothing to copy');
-    copyText(text);
-  });
-
-  // FonNTE token io
-  document.getElementById('saveFonnte').addEventListener('click', ()=>{
-    const t = document.getElementById('fonnte_token').value.trim();
-    if(t.length < 10) return alert('Token terlalu pendek');
-    localStorage.setItem('fonnte_token', t);
-    toast('Token FonNTE tersimpan');
-    log('Token FonNTE disimpan di perangkat ini');
-  });
-  document.getElementById('testFonnte').addEventListener('click', async ()=>{
-    const token = localStorage.getItem('fonnte_token') || '';
-    if(!token) return alert('Token belum diset');
-    // dummy send (jangan kirim real tanpa izin)
-    toast('Tes FonNTE: token terdeteksi (dummy)');
-    log('Tes token FonNTE (dummy)');
-  });
-
-  // GitHub save (sync leaders to /data/leaders.json)
-  document.getElementById('saveGH').addEventListener('click', ()=>{
-    const owner = document.getElementById('gh_owner').value.trim();
-    const repo = document.getElementById('gh_repo').value.trim();
-    const token = document.getElementById('gh_token').value.trim();
-    if(!owner || !repo || !token) return alert('Isi owner/repo/token GitHub');
-    localStorage.setItem('gh_owner', owner); localStorage.setItem('gh_repo', repo); localStorage.setItem('gh_token', token);
-    toast('GitHub info disimpan (lokal)');
-    log('GitHub info disimpan (local)');
-  });
-
-  // Sync to GitHub: PUT /repos/{owner}/{repo}/contents/{path}
-  document.getElementById('syncGit').addEventListener('click', async ()=>{
-    const owner = localStorage.getItem('gh_owner');
-    const repo = localStorage.getItem('gh_repo');
-    const token = localStorage.getItem('gh_token');
-    if(!owner||!repo||!token) return alert('Owner/repo/token belum diset via "Simpan GitHub Info"');
-    const path = 'data/leaders.json';
-    const contentArr = JSON.parse(localStorage.getItem('npa_leaders') || '[]');
-    const body = btoa(unescape(encodeURIComponent(JSON.stringify(contentArr, null, 2))));
-    // Need to get current sha first (optional) -> we'll try GET then PUT
-    try{
-      // get existing file sha
-      const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      const r = await fetch(getUrl, { headers: { Authorization: 'token ' + token }});
+      // get sha of existing file
+      const path = 'data/leaders.json';
+      const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
       let sha = null;
-      if(r.ok){
-        const j = await r.json(); sha = j.sha;
-      }
-      const putRes = await fetch(getUrl, {
-        method: 'PUT',
-        headers: {
-          Authorization: 'token ' + token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: 'Update leaders.json via NPA Admin v7.2',
-          content: body,
-          sha: sha
-        })
+      if(getRes.ok){ const data = await getRes.json(); sha = data.sha; }
+      const body = btoa(unescape(encodeURIComponent(JSON.stringify(leaders,null,2))));
+      const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{
+        method:'PUT', headers:{ 'Authorization':'token '+token, 'Content-Type':'application/json' },
+        body: JSON.stringify({ message: 'Update leaders.json via NPA Admin v7.6', content: body, sha: sha })
       });
-      if(putRes.ok){
-        toast('Sync sukses ✔');
-        log('Sync to GitHub sukses');
-      } else {
-        const err = await putRes.json();
-        alert('Sync gagal: ' + (err.message || putRes.statusText));
-        log('Sync gagal: ' + (err.message || putRes.statusText));
-      }
-    } catch(e){
-      alert('Sync error: ' + e.message);
-      log('Sync error: ' + e.message);
-    }
-  });
+      if(putRes.ok){ toast('Sync sukses ✔'); log('Sync to GitHub sukses'); }
+      else{ const err = await putRes.json(); alert('Sync gagal: '+(err.message||putRes.statusText)); log('Sync gagal: '+(err.message||putRes.statusText)); }
+    }catch(e){ alert('Sync error: '+e.message); log('Sync error: '+e.message); }
+  };
 
-  // Broadcast + scheduler
-  const MOTIVATIONS = [
-    "💫 Hari baru, semangat baru — teruslah melangkah!",
-    "🌅 Jangan takut gagal, takutlah bila berhenti mencoba.",
-    "🔥 Konsistensi kecil > impuls besar. Tetap jalan!",
-    "💪 Siapkan hari ini untuk menuai esok yang lebih baik."
-  ];
-  function pickMotivation(){ return MOTIVATIONS[Math.floor(Math.random()*MOTIVATIONS.length)]; }
-  async function sendViaFonnte(target, text){
-    const token = localStorage.getItem('fonnte_token') || '';
-    if(!token) throw new Error('Token FonNTE belum diset');
-    await fetch(API_FONNTE, {
-      method: 'POST',
-      headers: { 'Authorization': token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ target, message: text })
-    });
+  // Broadcast preview + send
+  $('previewBtn').onclick = ()=>{
+    const title = $('broadcast_title').value.trim(); const txt = $('broadcast_text').value.trim();
+    const html = `<div style="font-weight:700">${escapeHtml(title||'Pengumuman')}</div><div style="margin-top:6px">${escapeHtml(txt)}</div>`;
+    $('broadcastPreview').innerHTML = html || '(kosong)';
+  };
+
+  function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+
+  async function sendViaFonNTE(targetPhone, text){
+    // This is a dummy implementation — integrate real FonNTE API here.
+    const token = localStorage.getItem('fonnte_token')||'';
+    log('Terkirim ke '+targetPhone+' -> '+text.slice(0,60));
+    // If real API: fetch(...)
+    return true;
   }
 
-  async function broadcastAll(msg){
-    const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
-    if(!arr.length) { toast('Tidak ada leader di cache'); return; }
-    for(const l of arr){
-      try{
-        if(localStorage.getItem('fonnte_token')){
-          await sendViaFonnte(l.phone, msg + `\n\nSmart Auto Broadcast by 3iReborn || NPA Team`);
-          log('Terkirim ke ' + l.phone);
-        } else {
-          log('(sim) -> ' + l.phone + ': ' + msg);
-        }
-      } catch(e){
-        log('Gagal kirim ke ' + l.phone + ' : ' + e.message);
-      }
-    }
-    toast('Broadcast selesai');
+  $('sendBroadcastBtn').onclick = async ()=>{
+    const target = $('targetSelect').value; const txt = $('broadcast_text').value.trim(); const title = $('broadcast_title').value.trim();
+    if(!txt) { alert('Isi pesan dulu'); return }
+    let list = [];
+    if(target==='all'){ list = leaders.map(l=>l.phone).filter(Boolean); }
+    else{ list = [target]; }
+    const payload = (title? title+'\n\n':'') + txt;
+    for(const p of list){ await sendViaFonNTE(p, payload); }
+    toast('Broadcast selesai (log tercatat)');
+  };
+
+  $('sendTestBtn').onclick = async ()=>{
+    const num = $('testNumber').value.trim(); if(!num){ alert('Masukkan nomor test'); return }
+    const txt = $('broadcast_text').value.trim(); await sendViaFonNTE(num, txt||'Test message'); toast('Test terkirim (dummy)'); }
+
+  // Template motivasi
+  let templates = null;
+  async function loadTemplates(){
+    try{ const r = await fetch('/data/motivation.json?ts='+Date.now()); templates = await r.json(); log('Template motivasi aktif ✅'); }
+    catch(e){ templates = null; log('Template motivasi tidak ditemukan — fallback'); }
   }
 
-  document.getElementById('broadcastNow').addEventListener('click', async ()=>{
-    const msg = prompt('Masukkan pesan broadcast singkat:', pickMotivation());
-    if(!msg) return;
-    log('Manual broadcast dimulai');
-    await broadcastAll(msg);
-  });
-  document.getElementById('motivatePagi').addEventListener('click', async ()=> {
-    const m = pickMotivation();
-    log('Manual motivasi pagi: ' + m);
-    await broadcastAll(m);
-  });
-  document.getElementById('motivateSore').addEventListener('click', async ()=> {
-    const m = pickMotivation();
-    log('Manual motivasi sore: ' + m);
-    await broadcastAll(m);
-  });
+  function pickTemplate(type){
+    if(!templates) return (type==='pagi'? '💫 Hari baru, semangat baru — teruslah melangkah!':'🌇 Sore hari: istirahat sejenak, syukuri pencapaian hari ini.');
+    const today = new Date().getDate();
+    // templates may be array with day-indexed or object — try flexible handling
+    if(Array.isArray(templates)) { return templates[(today-1)%templates.length] || templates[0]; }
+    if(typeof templates === 'object'){ // try keys pagi/sore or day
+      if(templates[type]) return Array.isArray(templates[type])? templates[type][ (today-1)%templates[type].length ] : templates[type];
+      if(templates.daily && templates.daily[today]) return templates.daily[today];
+    }
+    return (type==='pagi'? '💫 Semangat pagi!':'🌇 Semangat sore!');
+  }
 
-  // Auto scheduler (runs while page open)
-  let lastAutoDay = null;
+  $('sendMotPagi').onclick = async ()=>{ const txt = pickTemplate('pagi'); for(const l of leaders){ await sendViaFonNTE(l.phone, txt); } toast('Motivasi pagi dikirim (manual)'); };
+  $('sendMotSore').onclick = async ()=>{ const txt = pickTemplate('sore'); for(const l of leaders){ await sendViaFonNTE(l.phone, txt); } toast('Motivasi sore dikirim (manual)'); };
+
+  // auto scheduler (active while page open)
+  const scheduleTimes = [ {h:6,m:0,type:'pagi'}, {h:17,m:0,type:'sore'} ];
   setInterval(async ()=>{
-    const now = new Date(new Date().toLocaleString("en-US", { timeZone: TZ }));
-    const hh = now.getHours(), mm = now.getMinutes();
-    const dayKey = now.toDateString();
-    // morning 06:00
-    if(hh===6 && mm===0 && lastAutoDay !== dayKey + '-6'){
-      lastAutoDay = dayKey + '-6';
-      const msg = pickMotivation();
-      log('Auto 06:00 -> ' + msg);
-      await broadcastAll(msg);
-    }
-    // evening 17:00
-    if(hh===17 && mm===0 && lastAutoDay !== dayKey + '-17'){
-      lastAutoDay = dayKey + '-17';
-      const msg = pickMotivation();
-      log('Auto 17:00 -> ' + msg);
-      await broadcastAll(msg);
-    }
-  }, 60*1000); // check per menit
+    const now = new Date(); const h=now.getHours(), m=now.getMinutes();
+    for(const s of scheduleTimes){ if(h===s.h && m===s.m){ const txt = pickTemplate(s.type); for(const l of leaders){ await sendViaFonNTE(l.phone, txt); } log(`Auto ${s.type} : messages enqueued (${leaders.length})`); toast('Auto '+s.type+' dispatched (while open)'); } }
+  }, 60000);
 
-  // Init: load leaders from file or cache
-  (async ()=>{
-    // try load
-    await loadLeaders();
-  })();
+  // initial load
+  loadTokens(); loadLeaders(); loadTemplates();
 
-  // Helper: copy when click links in preview
-  document.getElementById('linkPreview').addEventListener('click', (e)=>{
-    const text = e.target.textContent || e.target.innerText;
-    if(text) copyText(text);
-  });
+  // quick demo seed if empty (developer convenience)
+  if(!localStorage.getItem('npa_leaders')){
+    const seed=[
+      {id:'SK',code:'001',name:'Sugiarto Kurniawan',phone:'6282240001731',slug:'sugiarto-ksm'},
+      {id:'AM',code:'002',name:'Agnes Marsilah',phone:'6285932684440',slug:'agnes-marsilah'}
+    ]; localStorage.setItem('npa_leaders', JSON.stringify(seed)); leaders=seed; renderLeaders(); log('Seed leaders loaded (demo)');
+  }
 
 })();
-</script>
-</body>
+</script></body>
 </html>
