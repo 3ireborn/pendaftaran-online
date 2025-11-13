@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pendaftaran Online 3iReborn v3.3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        background: #0d1b1e;
+        color: #e5e9ec;
+        font-family: "Poppins", sans-serif;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #00eaff;
+        font-weight: 600;
+    }
+
+    .card {
+        background: #132225;
+        border: 1px solid #1f2f33;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 860px;
+        margin: auto;
+        box-shadow: 0 6px 24px rgba(0, 255, 255, 0.05);
+    }
+
+    label {
+        display: block;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: #0f1a1c;
+        border: 1px solid #2d3c40;
+        color: #dce3e6;
+    }
+
+    textarea {
+        height: 70px;
+        resize: vertical;
+    }
+
+    .btn {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        border: none;
+        background: #00bcd4;
+        color: #0a1b1d;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn:hover {
+        background: #00eaff;
+    }
+
+    .note {
+        font-size: 13px;
+        color: #9fb4b8;
+        margin-top: 6px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Form Pendaftaran Online 3iReborn</h1>
+
+<div class="card">
+
+    <!-- ====== FIELD UTAMA SOP ====== -->
+
+    <label>Nama Lengkap *</label>
+    <input id="nama">
+
+    <label>Alamat Lengkap *</label>
+    <textarea id="alamat"></textarea>
+
+    <label>RT / RW</label>
+    <input id="rtrw" placeholder="Contoh: 03/07">
+
+    <label>Kode Pos</label>
+    <input id="kodepos">
+
+    <label>Kelurahan</label>
+    <input id="kelurahan">
+
+    <label>Kecamatan</label>
+    <input id="kecamatan">
+
+    <label>Kota / Kabupaten</label>
+    <input id="kota">
+
+    <label>Tempat & Tanggal Lahir</label>
+    <input id="ttl" placeholder="Contoh: Bandung, 17/08/1995">
+
+    <label>Agama</label>
+    <input id="agama">
+
+    <label>Jenis Kelamin</label>
+    <select id="jk">
+        <option value="">-- Pilih --</option>
+        <option>Laki-laki</option>
+        <option>Perempuan</option>
+    </select>
+
+    <label>No HP *</label>
+    <input id="hp">
+
+    <label>Email</label>
+    <input id="email">
+
+    <label>No Identitas (KTP)</label>
+    <input id="ktp">
+
+    <label>Nama Bank</label>
+    <input id="bank">
+
+    <label>No Rekening</label>
+    <input id="norek">
+
+    <label>Nama di Rekening</label>
+    <input id="namarek">
+
+    <label>No NPWP</label>
+    <input id="npwp">
+
+    <label>Status Pajak</label>
+    <select id="pajak">
+        <option value="">-- Pilih --</option>
+        <option>Kawin</option>
+        <option>Tidak Kawin</option>
+    </select>
+
+    <label>Jumlah Tanggungan</label>
+    <input id="tanggungan">
+
+    <label>Tinggi & Berat Badan</label>
+    <input id="tb" placeholder="Contoh: 170 cm / 60 kg">
+
+    <label>Pekerjaan / Jabatan</label>
+    <input id="pekerjaan">
+
+    <label>Penghasilan per Tahun</label>
+    <input id="gaji">
+
+    <!-- ===== AHLI WARIS BISNIS ===== -->
+    <h3 style="margin-top:25px;color:#00eaff;">Ahli Waris Bisnis</h3>
+
+    <label>Nama</label>
+    <input id="awb_nama">
+
+    <label>Tanggal Lahir</label>
+    <input id="awb_lahir" placeholder="DD/MM/YYYY">
+
+    <label>Jenis Kelamin</label>
+    <select id="awb_jk">
+        <option value="">-- Pilih --</option>
+        <option>Laki-laki</option>
+        <option>Perempuan</option>
+    </select>
+
+    <label>Hubungan</label>
+    <input id="awb_hub">
+
+    <!-- ===== AHLI WARIS MANFAAT ===== -->
+    <h3 style="margin-top:25px;color:#00eaff;">Ahli Waris Manfaat</h3>
+
+    <label>Nama</label>
+    <input id="awm_nama">
+
+    <label>Tanggal Lahir</label>
+    <input id="awm_lahir" placeholder="DD/MM/YYYY">
+
+    <label>Jenis Kelamin</label>
+    <select id="awm_jk">
+        <option value="">-- Pilih --</option>
+        <option>Laki-laki</option>
+        <option>Perempuan</option>
+    </select>
+
+    <label>Hubungan</label>
+    <input id="awm_hub">
+
+    <!-- ===== DATA TAMBAHAN ===== -->
+    <h3 style="margin-top:25px;color:#00eaff;">Jika Tertanggung Berbeda</h3>
+
+    <label>Nama</label>
+    <input id="t_nama">
+
+    <label>Tempat & Tanggal Lahir</label>
+    <input id="t_ttl">
+
+    <label>Agama</label>
+    <input id="t_agama">
+
+    <label>Jenis Kelamin</label>
+    <select id="t_jk">
+        <option value="">-- Pilih --</option>
+        <option>Laki-laki</option>
+        <option>Perempuan</option>
+    </select>
+
+    <label>No Identitas</label>
+    <input id="t_ktp">
+
+    <label>Tinggi & Berat Badan</label>
+    <input id="t_tb">
+
+    <label>Hubungan dengan PP</label>
+    <input id="t_hub">
+
+    <div class="note">
+        *Pastikan data sesuai identitas. Leader akan memvalidasi sebelum input ke sistem perusahaan.
+    </div>
+
+    <button class="btn" onclick="kirim()">Kirim ke WhatsApp Leader</button>
+</div>
+
+<script>
+function kirim(){
+    let nama = document.getElementById("nama").value.trim();
+    let alamat = document.getElementById("alamat").value.trim();
+    let hp = document.getElementById("hp").value.trim();
+
+    if(!nama || !alamat || !hp){
+        alert("Nama, Alamat dan No HP wajib diisi.");
+        return;
+    }
+
+    let teks =
+`*FORM PENDAFTARAN ONLINE 3iReborn*
+==============================
+
+*DATA PRIBADI*
+Nama: ${nama}
+Alamat: ${alamat}
+RT/RW: ${rtrw.value}
+Kode Pos: ${kodepos.value}
+Kelurahan: ${kelurahan.value}
+Kecamatan: ${kecamatan.value}
+Kota: ${kota.value}
+
+TTL: ${ttl.value}
+Agama: ${agama.value}
+Jenis Kelamin: ${jk.value}
+
+No HP: ${hp}
+Email: ${email.value}
+No Identitas: ${ktp.value}
+
+Bank: ${bank.value}
+No Rekening: ${norek.value}
+Nama di Rekening: ${namarek.value}
+
+NPWP: ${npwp.value}
+Status Pajak: ${pajak.value}
+Tanggungan: ${tanggungan.value}
+
+Tinggi/Berat: ${tb.value}
+Pekerjaan: ${pekerjaan.value}
+Penghasilan/Tahun: ${gaji.value}
+
+==============================
+
+*AHLI WARIS BISNIS*
+Nama: ${awb_nama.value}
+Tgl Lahir: ${awb_lahir.value}
+JK: ${awb_jk.value}
+Hubungan: ${awb_hub.value}
+
+*AHLI WARIS MANFAAT*
+Nama: ${awm_nama.value}
+Tgl Lahir: ${awm_lahir.value}
+JK: ${awm_jk.value}
+Hubungan: ${awm_hub.value}
+
+==============================
+
+*Tertanggung Berbeda*
+Nama: ${t_nama.value}
+TTL: ${t_ttl.value}
+Agama: ${t_agama.value}
+JK: ${t_jk.value}
+No Identitas: ${t_ktp.value}
+Tinggi/Berat: ${t_tb.value}
+Hubungan dengan PP: ${t_hub.value}
+
+==============================
+
+*Form dikirim otomatis via NPA Smart System 3iReborn*`;
+
+    let nomorWA = new URLSearchParams(window.location.search).get("wa");
+
+    if(!nomorWA){
+        alert("Nomor WhatsApp Leader tidak ditemukan.");
+        return;
+    }
+
+    let url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(teks)}`;
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
