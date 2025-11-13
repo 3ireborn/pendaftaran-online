@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pendaftaran 3I Reborn — Dark Elegan</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #0d1117;
+        color: #e6edf3;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #58a6ff;
+        margin-bottom: 10px;
+    }
+
+    .card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 650px;
+        margin: auto;
+        box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
+    }
+
+    label {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        background: #0d1117;
+        border: 1px solid #30363d;
+        color: #e6edf3;
+        padding: 12px;
+        border-radius: 8px;
+        margin-top: 6px;
+        margin-bottom: 16px;
+    }
+
+    input::placeholder {
+        color: #7d8590;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        background: #2385ff;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #1f6fe0;
+    }
+</style>
+</head>
+<body>
+
+<h1>Form Pendaftaran 3I Reborn</h1>
+
+<div class="card">
+
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Tulis nama lengkap Anda">
+
+    <label>No. KTP</label>
+    <input type="text" id="ktp" placeholder="Nomor KTP">
+
+    <label>Tempat Lahir</label>
+    <input type="text" id="tempat" placeholder="Contoh: Jakarta">
+
+    <label>Tanggal Lahir</label>
+    <input type="text" id="tgl" placeholder="DD/MM/YYYY">
+
+    <label>Alamat Lengkap</label>
+    <textarea id="alamat" rows="3" placeholder="Tulis alamat lengkap Anda"></textarea>
+
+    <label>No. HP / WhatsApp</label>
+    <input type="text" id="hp" placeholder="Contoh: 6285xxxx">
+
+    <label>Pekerjaan</label>
+    <input type="text" id="job" placeholder="Jenis pekerjaan">
+
+    <label>Penghasilan Perbulan</label>
+    <input type="text" id="income" placeholder="Contoh: 3.000.000">
+
+    <label>Paket Premi</label>
+    <select id="premi">
+        <option value="350">350</option>
+        <option value="500">500</option>
+        <option value="700">700</option>
+        <option value="1000">1000</option>
+        <option value="2000">2000</option>
+    </select>
+
+    <label>Nama Ahli Waris</label>
+    <input type="text" id="ahli" placeholder="Nama ahli waris (usia fleksibel)">
+
+    <label>Hubungan Ahli Waris</label>
+    <input type="text" id="hubungan" placeholder="Contoh: Istri, Suami, Anak">
+
+    <label>No HP Ahli Waris</label>
+    <input type="text" id="hpahli" placeholder="Nomor WA ahli waris">
+
+    <button onclick="kirim()">Kirim Pendaftaran</button>
+
+</div>
+
+<script>
+function kirim() {
+    const nama = document.getElementById("nama").value;
+    const hp = document.getElementById("hp").value;
+
+    if (!nama || !hp) {
+        alert("Nama & No HP wajib diisi.");
+        return;
+    }
+
+    const waTujuan = new URLSearchParams(window.location.search).get("wa") || "";
+    const leaderName = new URLSearchParams(window.location.search).get("name") || "Leader";
+
+    let msg = `*PENDAFTARAN MITRA BARU - 3I REBORN*\n\n`;
+    msg += `Nama: ${nama}\n`;
+    msg += `HP: ${hp}\n\n`;
+    msg += `Silakan diproses, ${leaderName}.`;
+
+    window.location.href = `https://wa.me/${waTujuan}?text=${encodeURIComponent(msg)}`;
+}
+</script>
+
+</body>
+</html>
