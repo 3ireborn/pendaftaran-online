@@ -1,109 +1,197 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>LP Master — 3iReborn</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LP Master • 3iReborn</title>
 <style>
-:root{
-  --bg:#071326; --card:#0d2130; --muted:#9fb0c7; --text:#dff3ff;
-  --accent1:#1fb6ff; --accent2:#8a6bff; --glass: rgba(255,255,255,0.03);
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: #ffffff;
+        color: #0a1a2b;
+        line-height: 1.6;
+    }
+    header {
+        padding: 40px 20px;
+        text-align: center;
+        background: #e8f3ff;
+    }
+    header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+    header p {
+        font-size: 18px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .hero-img {
+        width: 90%;
+        max-width: 420px;
+        margin: 25px auto;
+        display: block;
+        border-radius: 12px;
+    }.section {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: auto;
 }
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#051425 0%, #071326 100%);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
-.container{max-width:900px;margin:0 auto;padding:28px}
-.header{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding:34px 8px}
-.h-title{font-size:36px;font-weight:700;margin:0;color:var(--accent1)}
-.h-sub{color:var(--muted);margin:0}
-.hero{background:var(--card);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 8px 30px rgba(0,0,0,.5)}
-.section{background:var(--card);border-radius:14px;padding:18px;margin:18px 0;border:1px solid rgba(255,255,255,0.03)}
-.btn{display:inline-block;padding:12px 18px;border-radius:12px;color:#051425;font-weight:700;background:linear-gradient(90deg,var(--accent1),var(--accent2));text-decoration:none}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:720px){.grid{grid-template-columns:1fr}}
-.testi{font-size:14px;color:var(--muted)}
-.countdown{display:flex;gap:10px;align-items:center;justify-content:center;font-weight:700;padding:8px 12px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)}
-.footer{color:var(--muted);font-size:13px;text-align:center;padding:20px 0}
-.hr{height:1px;background:rgba(255,255,255,0.03);margin:12px 0;border-radius:2px}
+
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Testimoni */
+.testi-box {
+    background: #f6f9ff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+.testi-flex {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.testi-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ddd;
+}
+.testi-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Video */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Countdown */
+.countdown-box {
+    background: #0a1a2b;
+    color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+}
+#countdown {
+    font-size: 28px;
+    margin: 15px 0;
+    font-weight: 700;
+}
+.btn-zoom {
+    display: inline-block;
+    margin-top: 15px;
+    background: #ff8a00;
+    padding: 12px 22px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+}
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background: #e8f3ff;
+    font-size: 14px;
+}
+
 </style>
 </head>
-<body>
-  <div class="container">
-    <header class="header">
-      <div class="h-title">3iReborn — Peluang Istikmal Syariah</div>
-      <div class="h-sub">Produk resmi • Panduan pendaftaran standar perusahaan • Dukungan follow-up otomatis</div>
-    </header>
-
-    <main>
-      <section class="hero">
-        <h2 style="margin:0 0 8px">Kenapa bergabung?</h2>
-        <p class="testi" style="margin:0 0 12px">
-          • Produk Istikmal Syariah — kontribusi fleksibel sesuai kemampuan.<br>
-          • Sistem pendaftaran langsung ke sponsor / leader via WhatsApp (format POM resmi).<br>
-          • Follow-up otomatis untuk leader (pagi & malam) — aktif bila halaman admin terbuka.
-        </p>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:12px">
-          <a class="btn" href="pendaftaran-online-v3.3.html" target="_blank">Daftar Sekarang — Isi Form Resmi</a>
-          <a class="btn" href="#zoom" style="background:transparent;border:2px solid rgba(255,255,255,0.06);color:var(--text)">Lihat Jadwal Zoom</a>
+<body><header>
+    <h1>Mengapa 3iReborn?</h1>
+    <p>Peluang resmi • Sistem modern • Panduan otomatis • Komunitas besar nasional</p>
+    <img src="https://i.ibb.co/qMTVvnj/saving-img.jpg" alt="Menabung" class="hero-img" />
+</header><div class="section">
+    <div class="section-title">Kesaksian Member</div><div class="testi-box">
+    <div class="testi-flex">
+        <img src="https://i.ibb.co/1zVJg7y/user1.jpg" class="testi-img" />
+        <div>
+            <div class="testi-name">Dewi Andini</div>
+            "Saya awalnya ragu, tapi setelah ikut, alhamdulillah berkembang dan terbantu sistem follow-up otomatis."
         </div>
-      </section>
+    </div>
+</div>
 
-      <section class="section" id="testimonial">
-        <h3 style="margin:0 0 8px">Kesaksian</h3>
-        <div class="grid">
-          <div>
-            <p class="testi">"Berkat sistem dan tim, saya berhasil closing pertama bulan ini — prosesnya rapi & terpercaya." — <strong>Alpiano</strong></p>
-          </div>
-          <div>
-            <p class="testi">"Form pendaftaran terstandar memudahkan input ke sistem perusahaan." — <strong>Dina</strong></p>
-          </div>
+<div class="testi-box">
+    <div class="testi-flex">
+        <img src="https://i.ibb.co/2tSsd2q/user2.jpg" class="testi-img" />
+        <div>
+            <div class="testi-name">Rizky Mahendra</div>
+            "Training jelas, komunitas suportif. Income pertama saya dapat dalam 2 minggu."
         </div>
-      </section>
+    </div>
+</div>
 
-      <section class="section" id="zoom">
-        <h3 style="margin:0 0 8px">Countdown Zoom Meeting (contoh)</h3>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-          <div class="countdown" id="countdown">-- hari --:--:--</div>
-          <div style="flex:1">
-            <p class="testi" style="margin:0 0 8px">Bergabung di sesi training mingguan — materi: cara closing & input aplikasi perusahaan.</p>
-            <a class="btn" href="https://example.com/zoom-link" target="_blank" style="background:linear-gradient(90deg,#ffb36b,#ff7ab6)">Join Zoom</a>
-          </div>
+<div class="testi-box">
+    <div class="testi-flex">
+        <img src="https://i.ibb.co/vkgbQqh/user3.jpg" class="testi-img" />
+        <div>
+            <div class="testi-name">Siti Rahma</div>
+            "Tidak ribet! Tinggal promosi, sistem sudah bantu follow-up calon mitra."
         </div>
-      </section>
+    </div>
+</div>
 
-      <section class="section">
-        <h3 style="margin:0 0 8px">Cara Kerja</h3>
-        <ol class="testi" style="margin:0 0 8px;padding-left:18px;color:var(--muted)">
-          <li>Pengunjung klik "Daftar Sekarang" → buka form pendaftaran (file terpisah).</li>
-          <li>Form mengikuti SOP perusahaan (POM) — berisi Nama Ibu Kandung dan semua field wajib.</li>
-          <li>Leader menerima notifikasi WA sesuai nomor di data leaders.json, lalu input manual ke sistem perusahaan bila closing.</li>
-        </ol>
-        <div class="hr"></div>
-        <p class="testi" style="margin:0">Catatan: bila leader ingin otomatis follow-up via admin pusat, buka halaman <strong>admin</strong> (file admin terpisah) dan isi token FonNTE + GitHub repo untuk sinkronisasi.</p>
-      </section>
+</div><div class="section">
+    <div class="section-title">Video Penjelasan</div><div class="video-container">
+    <iframe src="https://www.youtube.com/embed/qYAMGiY7RBE" allowfullscreen></iframe>
+</div>
 
-      <footer class="footer">
-        © 3iReborn — Gunakan form sesuai SOP perusahaan. <br>Jika perlu revisi POM — hubungi admin pusat.
-      </footer>
-    </main>
-  </div>
+</div><div class="section">
+    <div class="section-title">Countdown Zoom Meeting</div><div class="countdown-box">
+    <div>Jadwal berikutnya:</div>
+    <div><b>Senin / Rabu / Jum'at</b> • <b>19:00 WIB</b></div>
+    <div id="countdown">Loading...</div>
+    <a href="https://us02web.zoom.us/j/3131888831" class="btn-zoom">Join Zoom</a>
+</div>
 
-<script>
-  // Simple countdown example (set acara: change date below)
-  const target = new Date();
-  target.setDate(target.getDate()+2); // demo: 2 hari lagi
-  function updateCountdown(){
-    const now=new Date();
-    let diff=target-now;
-    if(diff<0){ document.getElementById('countdown').textContent='Acara dimulai'; return }
-    const d=Math.floor(diff/86400000); diff%=86400000;
-    const h=String(Math.floor(diff/3600000)).padStart(2,'0');
-    const m=String(Math.floor(diff/60000)%60).padStart(2,'0');
-    const s=String(Math.floor(diff/1000)%60).padStart(2,'0');
-    document.getElementById('countdown').textContent=`${d} hari ${h}:${m}:${s}`;
-  }
-  updateCountdown(); setInterval(updateCountdown,1000);
-</script>
-</body>
+</div><script>
+// ===== COUNTDOWN SETIAP 19:00 WIB =====
+function updateCountdown() {
+    const now = new Date();
+    let target = new Date();
+    target.setHours(19, 0, 0, 0);
+
+    if (now > target) {
+        target.setDate(target.getDate() + 1);
+    }
+
+    const diff = target - now;
+
+    const h = Math.floor(diff / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML = `${h} jam ${m} menit ${s} detik`;
+}
+
+setInterval(updateCountdown, 1000);
+</script><footer>
+    NPA Smart System • 2025 3iReborn
+</footer></body>
 </html>
