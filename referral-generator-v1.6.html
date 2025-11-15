@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral Generator — 3IReborn</title>
+
+<style>
+:root {
+  --bg: #061229;
+  --card: #0b1f3a;
+  --accent: #1a73e8;
+  --gold: #ffd700;
+  --text: #ffffff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  border: 3px solid var(--gold);
+  margin-bottom: 25px;
+  box-shadow: 0 0 25px rgba(255,215,0,0.3);
+}
+
+h2 {
+  text-align: center;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+  color: var(--gold);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 5px;
+  border: 2px solid var(--gold);
+  background: #08172e;
+  color: white;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 18px;
+  font-size: 17px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-weight: bold;
+}
+
+.link-box {
+  padding: 12px;
+  background: #08172e;
+  border: 2px solid var(--gold);
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.qr-box {
+  text-align: center;
+  margin-top: 25px;
+}
+
+#previewCard {
+  background: var(--card);
+  padding: 15px;
+  border-radius: 16px;
+  border: 3px solid var(--gold);
+  text-align: center;
+  margin-top: 25px;
+}
+
+#previewCard img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.btn-wa {
+  background: #2ecc71;
+  margin-top: 15px;
+}
+
+.btn-red {
+  background: #e74c3c;
+  margin-top: 15px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🔗 Referral Generator</h2>
+
+    <label>Nama Leader</label>
+    <input type="text" id="name" placeholder="contoh: Sugiarto KSM">
+
+    <label>Nomor WA Leader</label>
+    <input type="text" id="wa" placeholder="628xxxxxxx">
+
+    <label>Slug (ID unik)</label>
+    <input type="text" id="slug" placeholder="contoh: mentor-ksm">
+
+    <label>Upload Foto (opsional)</label>
+    <input type="file" id="photo">
+
+    <button onclick="generate()">🔗 Buat Link & QR Code</button>
+  </div>
+
+  <div id="result" class="card" style="display:none;">
+    <h2>🔗 Link Siap Pakai</h2>
+
+    <div class="link-box" id="linkMaster"></div>
+    <div class="link-box" id="linkHot"></div>
+    <div class="link-box" id="linkDaftar"></div>
+
+    <button class="btn-wa" onclick="shareWA()">Bagikan ke WhatsApp</button>
+  </div>
+
+  <div id="previewCard" style="display:none;">
+      <img id="previewPhoto">
+      <h3 id="previewName"></h3>
+      <p style="color:#ccc;">Scan QR untuk membuka link referral</p>
+      <div id="previewQR"></div>
+
+      <button class="btn-red" onclick="downloadCard()">Download Social Card</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<script>
+
+function generate(){
+    let name = document.getElementById("name").value.trim();
+    let wa = document.getElementById("wa").value.trim();
+    let slug = document.getElementById("slug").value.trim();
+
+    if(!name || !wa || !slug){
+        alert("Lengkapi semua data dulu beb 🙏");
+        return;
+    }
+
+    // Link Final Clean
+    let base = "https://3ireborn.github.io/pendaftaran-online";
+
+    let link1 = `${base}/lp-master-v6.6.html?leader=${slug}&wa=${wa}`;
+    let link2 = `${base}/lp-hot-v6.6.html?leader=${slug}&wa=${wa}`;
+    let link3 = `${base}/index-v2.html?leader=${slug}&wa=${wa}`;
+
+    document.getElementById("linkMaster").textContent = link1;
+    document.getElementById("linkHot").textContent = link2;
+    document.getElementById("linkDaftar").textContent = link3;
+
+    document.getElementById("result").style.display = "block";
+
+    // ==== PREVIEW SOCIAL CARD ====
+    document.getElementById("previewName").textContent = name;
+
+    // QR
+    let qr = new QRious({
+        value: link1,
+        size: 220,
+        foreground: "#ffd700",
+        background: "white"
+    });
+
+    document.getElementById("previewQR").innerHTML =
+      `<img src="${qr.toDataURL()}" style="width:220px;">`;
+
+    // Foto
+    let file = document.getElementById("photo").files[0];
+
+    if(file){
+        let reader = new FileReader();
+        reader.onload = function(e){
+            document.getElementById("previewPhoto").src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    } else {
+        document.getElementById("previewPhoto").src = "";
+    }
+
+    document.getElementById("previewCard").style.display = "block";
+}
+
+function shareWA(){
+    let teks =
+`Assalamu'alaikum 🙏
+
+Berikut link informasi resmi 3IReborn:
+
+🌐 LP Master:
+${linkMaster.textContent}
+
+🔥 LP Hot:
+${linkHot.textContent}
+
+📝 Form Pendaftaran:
+${linkDaftar.textContent}`;
+
+    window.open("https://wa.me/?text=" + encodeURIComponent(teks));
+}
+
+function downloadCard(){
+    html2canvas(document.getElementById("previewCard")).then(canvas=>{
+        let a = document.createElement("a");
+        a.href = canvas.toDataURL();
+        a.download = "social-card.png";
+        a.click();
+    });
+}
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</body>
+</html>
