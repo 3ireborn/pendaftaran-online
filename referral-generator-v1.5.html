@@ -1,180 +1,286 @@
-<!DOCTYPE html><html lang="id">
+<!doctype html>
+
+<html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Referral Generator • NPA Smart System</title>
-<style>
-    body {
-        background: #071631;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        color: #fff;
-    }
-    .container {
-        max-width: 480px;
-        margin: auto;
-        padding: 20px;
-    }
-    .card {
-        background: #0c1f45;
-        padding: 20px;
-        border-radius: 20px;
-        border: 2px solid gold;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
-        margin-bottom: 25px;
-    }
-    input {
-        width: 100%;
-        padding: 14px;
-        font-size: 15px;
-        margin-top: 8px;
-        margin-bottom: 18px;
-        color: #fff;
-        background: #041125;
-        border: 2px solid gold;
-        border-radius: 12px;
-    }
-    button {
-        width: 100%;
-        padding: 15px;
-        color: #fff;
-        background: linear-gradient(90deg,#1a73e8,#3a8eff);
-        border: none;
-        border-radius: 12px;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-    .result-box {
-        margin-top: 25px;
-        display: none;
-        padding: 20px;
-        background: #0c1f45;
-        border-radius: 20px;
-        border: 2px solid gold;
-    }
-    .result-item {
-        background: #041125;
-        color: #fff;
-        padding: 12px;
-        margin-bottom: 10px;
-        border-radius: 10px;
-        border: 2px solid gold;
-    }
-    .copy-btn {
-        background: #1a73e8;
-        padding: 10px;
-        font-size: 14px;
-        border-radius: 10px;
-        margin-bottom: 15px;
-        cursor: pointer;
-        border: none;
-        width: 100%;
-    }
-    #qrcode {
-        margin: auto;
-        text-align: center;
-        padding-top: 15px;
-    }
-    .wa-share {
-        background: #25D366;
-        padding: 14px;
-        color: #fff;
-        font-size: 17px;
-        font-weight: bold;
-        border-radius: 12px;
-        cursor: pointer;
-        margin-top: 20px;
-        width: 100%;
-    }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Referral Generator — NPA Smart / 3iReborn (v1.0F)</title>
+  <style>
+    :root{--bg:#071229;--card:#0b1730;--muted:#a9b3c7;--accent:#1A73E8;--gold:#f5c542}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:linear-gradient(180deg,#031026 0%, #071229 100%);color:#e7eefc}
+    .wrap{max-width:720px;margin:28px auto;padding:20px}
+    h1{margin:0 0 8px;font-size:22px;color:var(--accent)}
+    p.lead{margin:0 0 18px;color:var(--muted)}.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 20px rgba(3,7,18,.6);border:4px solid rgba(0,0,0,0.15)}
+
+/* gold outer stroke */
+.frame{padding:8px;border-radius:14px;border:4px solid var(--gold);}
+
+label{display:block;font-weight:600;margin-top:12px;color:#dff0ff}
+input[type=text], input[type=file]{width:100%;padding:14px;border-radius:12px;border:2px solid rgba(26,115,232,.25);background:rgba(255,255,255,0.02);color:#fff;box-sizing:border-box}
+input[type=text]::placeholder{color:#7f94b7}
+
+.btn{display:inline-block;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),#5aa6ff);color:#fff;font-weight:700;cursor:pointer;margin-top:14px}
+.btn.ghost{background:transparent;border:2px solid rgba(255,255,255,0.06)}
+.btn.copy{background:linear-gradient(90deg,#2bb673,#00d17a)}
+
+.links .linkbox{margin-top:14px;padding:12px;border-radius:10px;border:2px solid rgba(26,115,232,.35);background:linear-gradient(180deg, rgba(10,20,40,.6), rgba(6,12,23,.5));word-break:break-all}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+
+.preview{margin-top:18px;display:grid;grid-template-columns:1fr;gap:12px}
+.qr{width:260px;height:260px;background:#fff;border-radius:6px;display:block}
+
+.social-card{width:600px;height:750px;background:#fff;color:#111;border-radius:16px;padding:22px;box-sizing:border-box}
+.card-top{display:flex;gap:12px;align-items:center}
+.p-foto{width:120px;height:120px;border-radius:12px;background:#e6eefc;overflow:hidden;flex-shrink:0}
+.p-foto img{width:100%;height:100%;object-fit:cover}
+.card-title{font-size:22px;font-weight:800;color:#0b2b66}
+.card-sub{margin-top:6px;color:#2e3d6b}
+.card-qr{position:absolute;right:22px;bottom:22px}
+
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+
+/* responsive */
+@media(max-width:640px){.social-card{width:360px;height:480px}}
+
+  </style>
 </head>
 <body>
-<div class="container"><div class="card">
-    <h2 style="text-align:center;color:gold;margin-top:0;">🔗 Referral Generator</h2>
+  <div class="wrap">
+    <div class="frame">
+      <div class="card">
+        <h1>Referral Generator — NPA Smart / 3iReborn (v1.0F)</h1>
+        <p class="lead">Buat LP Master, LP Hot, Form pendaftaran & social card (PNG) per leader. QR otomatis, tombol Share WA, Copy all links.</p><label>1) Nama Leader (tampil di card)</label>
+    <input id="inpName" type="text" placeholder="Contoh: Sugiarto KSM" value="" />
 
-    <label>Nama Leader</label>
-    <input type="text" id="nama" placeholder="contoh: Sugiarto KSM" />
+    <label>2) No. WhatsApp (format: 628...)</label>
+    <input id="inpWA" type="text" placeholder="Contoh: 6285218453131" value="" />
 
-    <label>No. WhatsApp</label>
-    <input type="text" id="wa" placeholder="628xxxxxxxxxx" />
+    <label>3) Slug (unik, tanpa spasi) — masukan slug custom di sini</label>
+    <input id="inpSlug" type="text" placeholder="Contoh: sugiarto-ksm" value="" />
 
-    <label>Slug (ID Unik)</label>
-    <input type="text" id="slug" placeholder="contoh: sugiarto-ksm" />
+    <label>4) Upload Foto Leader (opsional — hanya untuk social card)</label>
+    <input id="inpFile" type="file" accept="image/*" />
 
-    <button onclick="generate()">🚀 Buat Link & QR</button>
+    <div class="controls">
+      <button id="btnCreate" class="btn">🚀 Buat Link & QR</button>
+      <button id="btnReset" class="btn ghost">🔁 Reset</button>
+      <button id="btnCopyAll" class="btn copy">📋 Copy Semua Link</button>
+      <button id="btnSaveAll" class="btn ghost" title="Simpan PNG social card">💾 Save Card (PNG)</button>
+    </div>
+
+    <div class="note">Tip: gunakan tombol <strong>Bagikan ke WhatsApp</strong> untuk sharing cepat ke grup/teman. QR dan PNG dapat dipakai untuk cetak brosur.</div>
+
+    <div class="preview" id="previewArea">
+      <!-- live links & QR appear here -->
+    </div>
+
+  </div>
 </div>
 
-<div id="hasil" class="result-box">
-    <h3 style="color:gold;text-align:center;">Hasil Generate</h3>
+  </div><script>
+  // base URLs (editable if repo path changes)
+  const BASE = location.origin + location.pathname.replace(/[^\/]*$/, '');
+  const LP_MASTER = BASE + 'lp-master-v6.6.html';
+  const LP_HOT = BASE + 'lp-hot-v6.6.html';
+  const FORM = BASE + 'index-v2.html';
 
-    <div class="result-item" id="lpMaster"></div>
-    <button class="copy-btn" onclick="copyText('lpMaster')">Copy</button>
+  const $ = id => document.getElementById(id);
+  const inpName = $('inpName');
+  const inpWA = $('inpWA');
+  const inpSlug = $('inpSlug');
+  const inpFile = $('inpFile');
+  const btnCreate = $('btnCreate');
+  const btnReset = $('btnReset');
+  const btnCopyAll = $('btnCopyAll');
+  const btnSaveAll = $('btnSaveAll');
+  const previewArea = $('previewArea');
 
-    <div class="result-item" id="lpHot"></div>
-    <button class="copy-btn" onclick="copyText('lpHot')">Copy</button>
+  function sanitizeSlug(s){
+    return String(s||'').toLowerCase().trim().replace(/[^a-z0-9\-]/g,'-').replace(/\-+/g,'-').replace(/^\-|\-$/g,'') || '';
+  }
 
-    <div class="result-item" id="daftar"></div>
-    <button class="copy-btn" onclick="copyText('daftar')">Copy</button>
+  function buildLinks(name, wa, slug){
+    const ref = encodeURIComponent(slug || '');
+    const waParam = wa ? '&wa=' + encodeURIComponent(wa) : '';
+    const master = LP_MASTER + '?ref=' + ref + waParam;
+    const hot = LP_HOT + '?ref=' + ref + waParam;
+    const form = FORM + '?leader=' + ref + waParam;
+    return {master, hot, form};
+  }
 
-    <button class="copy-btn" onclick="copyAll()">Copy Semua Link</button>
+  function qrUrl(text,size=300){
+    return 'https://chart.googleapis.com/chart?cht=qr&chs='+size+'x'+size+'&chl='+encodeURIComponent(text)+'&chld=L|1';
+  }
 
-    <div id="qrcode"></div>
+  function makeCaption(name, links){
+    return `${name} — Info lengkap:\nLP Master: ${links.master}\nLP Hot: ${links.hot}\nForm: ${links.form}\n\nGabung sekarang!`;
+  }
 
-    <button class="wa-share" onclick="shareWA()">Bagikan ke WhatsApp</button>
-</div>
+  function createSocialCardDataURL(name, photoURL, qrDataURL, links, cb){
+    // draw on canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200; canvas.height = 1500; // high-res
+    const ctx = canvas.getContext('2d');
 
-</div><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script>
-function generate() {
-    let nama = document.getElementById('nama').value;
-    let wa = document.getElementById('wa').value;
-    let slug = document.getElementById('slug').value;
+    // background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    if (!nama || !wa || !slug) {
-        alert('Semua kolom wajib diisi');
-        return;
+    // left top photo box
+    const pad = 60;
+    const photoX = pad; const photoY = pad; const photoW = 360; const photoH = 360;
+
+    // rounded rect for photo
+    ctx.fillStyle = '#eef5ff';
+    roundRect(ctx, photoX-6, photoY-6, photoW+12, photoH+12, 28, true, false);
+
+    if(photoURL){
+      const img = new Image(); img.crossOrigin='anonymous'; img.onload = ()=>{
+        ctx.drawImage(img, photoX, photoY, photoW, photoH);
+        drawTextAndQR();
+      }; img.onerror=()=>{ drawTextAndQR(); }; img.src = photoURL;
+    } else drawTextAndQR();
+
+    function drawTextAndQR(){
+      // title
+      ctx.fillStyle = '#0b2b66';
+      ctx.font = 'bold 60px sans-serif';
+      ctx.fillText(''+name, photoX + photoW + 30, photoY + 80);
+
+      ctx.font = '22px sans-serif'; ctx.fillStyle='#1f3b73';
+      wrapText(ctx, 'Tautan: '+ links.master, photoX + photoW + 30, photoY + 130, 700, 28);
+
+      // QR image
+      const qr = new Image(); qr.crossOrigin='anonymous'; qr.onload = ()=>{
+        const qSize = 360;
+        ctx.drawImage(qr, canvas.width - pad - qSize, canvas.height - pad - qSize, qSize, qSize);
+        // small footer
+        ctx.fillStyle='#233a6b'; ctx.font='18px sans-serif';
+        ctx.fillText('Powered by NPA Smart System | 3iReborn', pad, canvas.height - 28);
+        cb(canvas.toDataURL('image/png'));
+      }; qr.onerror=()=>{ cb(canvas.toDataURL('image/png')); };
+      qr.src = qrDataURL;
+    }
+  }
+
+  function roundRect(ctx, x, y, w, h, r, fill, stroke){
+    if (typeof r === 'undefined') r = 5;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    if(fill) ctx.fill();
+    if(stroke) ctx.stroke();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      }
+      else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
+
+  // --- events ---
+  let currentPNG = null;
+  let currentLinks = null;
+
+  btnCreate.addEventListener('click', ()=>{
+    const name = inpName.value.trim() || 'Leader';
+    const wa = inpWA.value.trim();
+    const slug = sanitizeSlug(inpSlug.value) || 'leader-'+Date.now();
+    inpSlug.value = slug;
+    currentLinks = buildLinks(name, wa, slug);
+
+    // build preview
+    previewArea.innerHTML = '';
+
+    const divLinks = document.createElement('div'); divLinks.className='links';
+    const boxMaster = document.createElement('div'); boxMaster.className='linkbox'; boxMaster.textContent = currentLinks.master;
+    const btnCopyMaster = document.createElement('button'); btnCopyMaster.className='btn ghost'; btnCopyMaster.textContent='Copy'; btnCopyMaster.onclick = ()=>copyText(currentLinks.master);
+    const boxHot = document.createElement('div'); boxHot.className='linkbox'; boxHot.textContent = currentLinks.hot;
+    const btnCopyHot = btnCopyMaster.cloneNode(true); btnCopyHot.onclick = ()=>copyText(currentLinks.hot);
+    const boxForm = document.createElement('div'); boxForm.className='linkbox'; boxForm.textContent = currentLinks.form;
+    const btnCopyForm = btnCopyMaster.cloneNode(true); btnCopyForm.onclick = ()=>copyText(currentLinks.form);
+
+    divLinks.appendChild(boxMaster); divLinks.appendChild(btnCopyMaster);
+    divLinks.appendChild(boxHot); divLinks.appendChild(btnCopyHot);
+    divLinks.appendChild(boxForm); divLinks.appendChild(btnCopyForm);
+
+    previewArea.appendChild(divLinks);
+
+    // QR
+    const qrImg = document.createElement('img'); qrImg.className='qr'; qrImg.src = qrUrl(currentLinks.master, 520);
+    previewArea.appendChild(qrImg);
+
+    // share button
+    const shareBtn = document.createElement('button'); shareBtn.className='btn copy'; shareBtn.textContent='Bagikan ke WhatsApp';
+    shareBtn.onclick = ()=>{
+      const caption = makeCaption(name, currentLinks);
+      const url = 'https://wa.me/?text='+encodeURIComponent(caption);
+      window.open(url,'_blank');
+    };
+    previewArea.appendChild(shareBtn);
+
+    // social card generation
+    const reader = new FileReader();
+    if(inpFile.files && inpFile.files[0]){
+      reader.onload = e => {
+        const photoURL = e.target.result;
+        createSocialCardDataURL(name, photoURL, qrUrl(currentLinks.master,600), currentLinks, (png)=>{
+          currentPNG = png;
+          addDownloadButtons(png);
+        });
+      };
+      reader.readAsDataURL(inpFile.files[0]);
+    } else {
+      createSocialCardDataURL(name, null, qrUrl(currentLinks.master,600), currentLinks, (png)=>{
+        currentPNG = png; addDownloadButtons(png);
+      });
     }
 
-    let base = location.origin + location.pathname.replace('referral-generator-v1.6-gold.html','');
+  });
 
-    let lpMaster = `${base}lp-master-v6.6.html?ref=${slug}&wa=${wa}`;
-    let lpHot = `${base}lp-hot-v6.6.html?ref=${slug}&wa=${wa}`;
-    let daftar = `${base}index-v2.html?leader=${slug}&wa=${wa}`;
+  function addDownloadButtons(png){
+    const down = document.createElement('a'); down.className='btn'; down.textContent='Download Social Card (PNG)'; down.href = png; down.download = 'social-card.png';
+    previewArea.appendChild(down);
 
-    document.getElementById('lpMaster').innerText = lpMaster;
-    document.getElementById('lpHot').innerText = lpHot;
-    document.getElementById('daftar').innerText = daftar;
+    const img = document.createElement('img'); img.src = png; img.style.maxWidth='320px'; img.style.borderRadius='8px'; img.style.marginTop='12px';
+    previewArea.appendChild(img);
+  }
 
-    document.getElementById('hasil').style.display = 'block';
+  btnCopyAll.addEventListener('click', ()=>{
+    if(!currentLinks) return alert('Buat link dulu');
+    const txt = `LP Master: ${currentLinks.master}\nLP Hot: ${currentLinks.hot}\nForm: ${currentLinks.form}`;
+    copyText(txt); alert('Semua link disalin ke clipboard');
+  });
 
-    document.getElementById('qrcode').innerHTML = "";
-    new QRCode(document.getElementById('qrcode'), lpMaster);
-}
+  btnSaveAll.addEventListener('click', ()=>{
+    if(!currentPNG) return alert('Buat dulu social card');
+    // trigger download
+    const a = document.createElement('a'); a.href = currentPNG; a.download = (inpSlug.value||'card') + '.png'; a.click();
+  });
 
-function copyText(id) {
-    let text = document.getElementById(id).innerText;
-    navigator.clipboard.writeText(text);
-    alert('Disalin');
-}
+  btnReset.addEventListener('click', ()=>{ inpName.value=''; inpWA.value=''; inpSlug.value=''; inpFile.value=''; previewArea.innerHTML=''; currentPNG=null; currentLinks=null; });
 
-function copyAll() {
-    let a = document.getElementById('lpMaster').innerText;
-    let b = document.getElementById('lpHot').innerText;
-    let c = document.getElementById('daftar').innerText;
+  function copyText(text){ navigator.clipboard?.writeText(text).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}); }
 
-    navigator.clipboard.writeText(`${a}\n${b}\n${c}`);
-    alert('Semua link berhasil disalin');
-}
+  // auto-generate slug on name change (non-forcing)
+  inpName.addEventListener('blur', ()=>{ if(!inpSlug.value.trim()) inpSlug.value = sanitizeSlug(inpName.value); });
 
-function shareWA() {
-    let a = document.getElementById('lpMaster').innerText;
-    let b = document.getElementById('lpHot').innerText;
-    let c = document.getElementById('daftar').innerText;
-
-    let pesan = encodeURIComponent(`Link Leader Anda:\n\nLP Master:\n${a}\n\nLP Hot:\n${b}\n\nPendaftaran Online:\n${c}`);
-    window.open(`https://wa.me/?text=${pesan}`);
-}
 </script></body>
 </html>
