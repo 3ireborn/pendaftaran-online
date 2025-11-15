@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Referral Generator — 3iReborn (v1.5H)</title>
+
+<!-- Basic styling (mobile-first) -->
+<style>
+  :root{
+    --brand:#1A73E8; /* pilihan A */
+    --bg:#071025;
+    --card:#0e2136;
+    --muted:#9fb3c8;
+    --white:#ffffff;
+    --radius:12px;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{background:linear-gradient(180deg,#041027 0%,#071025 100%);color:var(--white);padding:20px;}
+  .wrap{max-width:820px;margin:0 auto;}
+  h1{font-size:20px;margin:0 0 6px 0;color:var(--brand);}
+  h2{font-size:16px;margin:8px 0 12px 0;}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:var(--radius);box-shadow:0 8px 30px rgba(0,0,0,0.6);margin-bottom:16px;border:1px solid rgba(255,255,255,0.03);}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input[type="text"], input[type="tel"]{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white);font-size:14px;box-sizing:border-box}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .col{flex:1;min-width:140px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+  .btn-primary{background:linear-gradient(90deg,var(--brand),#3aa1ff);color:var(--white)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white)}
+  .btn-danger{background:#ff5b6b;color:white}
+  small.note{color:var(--muted);display:block;margin-top:8px;font-size:12px}
+  .preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+  .card-preview{background:linear-gradient(180deg,#0e2438,#0b1b2b);padding:12px;border-radius:12px;position:relative;border:2px solid rgba(255,255,255,0.06)}
+  .card-preview .title{font-size:15px;color:var(--brand);font-weight:700;margin-bottom:8px}
+  .card-preview .subtitle{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .card-preview .link{font-size:12px;color:#cfeaff;word-break:break-all}
+  .meta{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .qr{width:84px;height:84px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .stroke{border:2px solid rgba(255,255,255,0.12);padding:10px;border-radius:10px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .small{font-size:12px;color:var(--muted)}
+  .top-note{font-size:13px;color:var(--muted);margin-top:6px}
+  footer{font-size:12px;color:var(--muted);text-align:center;margin:16px 0 40px}
+  .code{background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;font-size:12px;color:var(--muted);overflow:auto}
+  @media(min-width:860px){h1{font-size:26px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Referral Generator — NPA Smart / 3iReborn (v1.5H)</h1>
+    <h2>Buat LP Master, LP Hot, dan Form pendaftaran untuk tiap leader — fast share & social card</h2>
+    <div class="top-note">Warna utama: <strong style="color:var(--brand)">#1A73E8</strong> • Kotak preview diberi stroke 2px putih transparan.</div>
+  </div>
+
+  <!-- Input -->
+  <div class="card">
+    <label>Nama Leader</label>
+    <input id="leaderName" type="text" placeholder="Contoh: Sugiarto Kurniawan" value="">
+
+    <div style="height:8px"></div>
+
+    <div class="row">
+      <div class="col">
+        <label>Nomor WhatsApp (format 62...)</label>
+        <input id="leaderPhone" type="tel" placeholder="6285xxxxxxxx" value="">
+      </div>
+      <div class="col">
+        <label>Slug / ID unik</label>
+        <input id="leaderSlug" type="text" placeholder="cth: sugiarto-kurniawan" value="">
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="autoSlug" class="btn btn-ghost">🔧 Auto slug</button>
+      <button id="genLinks" class="btn btn-primary">🔗 Generate Links</button>
+      <button id="resetBtn" class="btn btn-ghost">♻️ Reset</button>
+    </div>
+
+    <small class="note">Tip: field slug otomatis mengubah spasi → tanda minus, huruf kecil. Links di-generate berdasarkan domain saat ini (location.origin + pathname).</small>
+  </div>
+
+  <!-- Actions -->
+  <div class="card stroke">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button id="copyAll" class="btn btn-ghost">📋 Copy All Links</button>
+      <button id="saveAll" class="btn btn-primary">💾 Save All Cards (ZIP)</button>
+      <button id="shareAllWA" class="btn btn-primary">📤 Share All via WhatsApp</button>
+    </div>
+    <small class="note">Share to WhatsApp membuka composer WA Web/APP dengan teks berisi ketiga link.</small>
+  </div>
+
+  <!-- Preview -->
+  <div class="card">
+    <label style="margin-bottom:8px">Preview Social Card</label>
+    <div id="previews" class="preview-grid">
+      <!-- cards injected here -->
+    </div>
+    <div id="linksBox" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card">
+    <label>Manual control / quick actions</label>
+    <div class="row" style="margin-top:8px">
+      <div class="col">
+        <label>Base URL (optional, auto = current)</label>
+        <input id="baseUrl" type="text" placeholder="https://3ireborn.github.io/pendaftaran-online" value="">
+        <small class="small">Kosongkan bila ingin gunakan domain saat ini.</small>
+      </div>
+      <div style="min-width:160px;">
+        <label>&nbsp;</label>
+        <div style="display:flex;gap:8px;">
+          <button id="btnLPmaster" class="btn btn-ghost">Open LP Master</button>
+          <button id="btnLPHot" class="btn btn-ghost">Open LP Hot</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Log / hasil</h2>
+    <div id="log" class="code" style="height:110px"></div>
+  </div>
+
+  <footer>NPA Smart System || 3IReborn • v1.5H</footer>
+</div>
+
+<!-- Dependencies from CDN (html2canvas + jszip + file-saver) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+/* Utility */
+const $ = id => document.getElementById(id);
+const log = msg => {
+  const el = $('log');
+  el.textContent = '['+new Date().toLocaleTimeString()+'] ' + msg + '\\n' + el.textContent;
+};
+
+/* Slugify */
+function slugify(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/[^a-z0-9\\s-]/g,'')
+    .replace(/\\s+/g,'-')
+    .replace(/-+/g,'-')
+    .replace(/^-|-$/g,'');
+}
+
+/* Build links */
+function buildLinks({base,slug,phone}){
+  // paths used in repo (change if needed)
+  const lpMaster = (base + '/lp-master-v6.6.html') ;
+  const lpHot = (base + '/lp-hot-v6.6.html') ;
+  const form = (base + '/index-v2.html?ref=' + encodeURIComponent(slug));
+  // replicate: add slug param / anchor for replications
+  return {
+    lpMaster: lpMaster + (slug ? ('?ref=' + encodeURIComponent(slug)) : ''),
+    lpHot: lpHot + (slug ? ('?ref=' + encodeURIComponent(slug)) : ''),
+    form: form,
+    waLink: phone ? ('https://wa.me/' + phone + '?text=' + encodeURIComponent('Assalamualaikum, saya dari team ' + slug + '. Info: ' + form)) : null
+  };
+}
+
+/* Generate QR (Google Chart API) */
+function qrDataUrl(text,size=200){
+  return 'https://chart.googleapis.com/chart?cht=qr&chs=' + size + 'x' + size + '&chl=' + encodeURIComponent(text) + '&choe=UTF-8';
+}
+
+/* Render previews */
+function renderPreviews(links, name, phone, slug){
+  const container = $('previews');
+  container.innerHTML = '';
+
+  const items = [
+    {title:'LP Master', url:links.lpMaster, note:'Landing Page Master (pintu gerbang klossing)'},
+    {title:'LP Hot', url:links.lpHot, note:'Landing Page Hot (promosi singkat)'},
+    {title:'Form Pendaftaran', url:links.form, note:'Form pendaftaran (POM lengkap)'}
+  ];
+
+  items.forEach((it, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'card-preview stroke';
+    card.setAttribute('data-index', idx);
+
+    card.innerHTML = `
+      <div class="title">${it.title}</div>
+      <div class="subtitle">${it.note}</div>
+      <div class="link">${it.url}</div>
+      <div class="meta">
+        <div style="flex:1">
+          <div class="small">Leader: <strong>${name||'—'}</strong></div>
+          <div class="small">Slug: ${slug||'—'}</div>
+          <div class="small">WA: ${phone||'—'}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+          <div class="qr"><img src="${qrDataUrl(it.url,200)}" width="84" height="84" alt="qr"></div>
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button class="btn btn-ghost" data-copy="${it.url}">📋 Copy</button>
+            <button class="btn btn-primary" data-wa="${it.url}">📤 WA</button>
+            <button class="btn btn-ghost" data-png="${idx}">💾 PNG</button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  // linksBox
+  const linksBox = $('linksBox');
+  linksBox.innerHTML = '<div class="code" style="padding:10px;">' +
+    '<strong>LP Master:</strong> ' + items[0].url + '<br>' +
+    '<strong>LP Hot:</strong> ' + items[1].url + '<br>' +
+    '<strong>Form:</strong> ' + items[2].url +
+    '</div>';
+}
+
+/* Copy helper */
+async function copyText(s){
+  try{ await navigator.clipboard.writeText(s); log('Copied to clipboard'); }catch(e){ log('Copy failed: '+e.message); alert('Clipboard error: '+e.message); }
+}
+
+/* Build and bind actions */
+document.addEventListener('DOMContentLoaded',()=>{
+  const nameEl = $('leaderName'), phoneEl = $('leaderPhone'), slugEl = $('leaderSlug'), baseEl = $('baseUrl');
+
+  $('autoSlug').addEventListener('click', ()=>{
+    const s = slugify(nameEl.value || phoneEl.value || 'leader');
+    slugEl.value = s;
+    log('Auto slug: ' + s);
+  });
+
+  $('resetBtn').addEventListener('click', ()=>{
+    nameEl.value=''; phoneEl.value=''; slugEl.value=''; baseEl.value=''; $('previews').innerHTML=''; $('linksBox').innerHTML=''; log('Reset form');
+  });
+
+  $('genLinks').addEventListener('click', ()=>{
+    const name = nameEl.value.trim();
+    const phone = (phoneEl.value||'').replace(/[^0-9]/g,'');
+    let slug = slugEl.value.trim();
+    if(!slug) slug = slugify(name || phone || ('leader-'+Date.now()));
+    slugEl.value = slug;
+
+    const base = (baseEl.value && baseEl.value.trim()) ? (baseEl.value.trim().replace(/\/$/,'')) : (location.origin + (location.pathname.replace(/\\/[^/]*$/,'')));
+    const links = buildLinks({base,slug,phone});
+    renderPreviews(links, name, phone, slug);
+
+    // store last
+    localStorage.setItem('refgen_last', JSON.stringify({name,phone,slug,base}));
+    log('Generated links for '+slug);
+  });
+
+  // click handlers in previews (delegation)
+  $('previews').addEventListener('click',(e)=>{
+    const copy = e.target.getAttribute('data-copy');
+    const wa = e.target.getAttribute('data-wa');
+    const pngIdx = e.target.getAttribute('data-png');
+    if(copy){ copyText(copy); log('Link copied'); return; }
+    if(wa){ // open wa
+      const text = encodeURIComponent('Assalamualaikum, info: ' + wa);
+      window.open('https://wa.me/?text=' + text, '_blank');
+      log('Open WhatsApp composer');
+      return;
+    }
+    if(pngIdx!==null){
+      // render specific card as PNG
+      const card = e.target.closest('.card-preview');
+      if(!card) return;
+      html2canvas(card, {backgroundColor: null, scale:1.6}).then(canvas=>{
+        canvas.toBlob(blob=>{
+          saveAs(blob, (slugEl.value||'card') + '-' + pngIdx + '.png');
+          log('Saved PNG for card '+pngIdx);
+        });
+      });
+      return;
+    }
+  });
+
+  // copy all links
+  $('copyAll').addEventListener('click', async ()=>{
+    const box = $('linksBox').querySelector('.code');
+    if(!box){ alert('Belum ada link, klik Generate Links dahulu.'); return; }
+    await copyText(box.textContent.trim());
+    log('All links copied');
+  });
+
+  // share all WA
+  $('shareAllWA').addEventListener('click', ()=>{
+    const box = $('linksBox').querySelector('.code');
+    if(!box){ alert('Belum ada link, klik Generate Links dahulu.'); return; }
+    const text = encodeURIComponent('Halo, lihat penawaran kami:\\n' + box.textContent.trim());
+    window.open('https://wa.me/?text=' + text, '_blank');
+    log('Open WA share (all links)');
+  });
+
+  // Save all cards (ZIP)
+  $('saveAll').addEventListener('click', async ()=>{
+    const cards = Array.from(document.querySelectorAll('.card-preview'));
+    if(!cards.length){ alert('Tidak ada card. Generate links dulu.'); return; }
+    const zip = new JSZip();
+    log('Rendering ' + cards.length + ' cards to PNG...');
+    for(let i=0;i<cards.length;i++){
+      const card = cards[i];
+      // ensure full rendering
+      // temporarily increase scale for quality
+      await html2canvas(card, {backgroundColor: null, scale:1.6}).then(canvas=>{
+        return new Promise(res=>{
+          canvas.toBlob(blob=>{
+            zip.file((slugEl.value||'leader') + '-card-' + i + '.png', blob);
+            log('Rendered card '+i);
+            res();
+          }, 'image/png');
+        });
+      });
+    }
+    log('Generating ZIP...');
+    zip.generateAsync({type:'blob'}).then(content=>{
+      saveAs(content, (slugEl.value||'leader') + '-cards.zip');
+      log('ZIP downloaded');
+    });
+  });
+
+  // quick open buttons
+  $('btnLPmaster').addEventListener('click', ()=>{
+    const base = (baseEl.value && baseEl.value.trim()) ? baseEl.value.trim().replace(/\/$/,'') : (location.origin + (location.pathname.replace(/\\/[^/]*$/,'')));
+    window.open(base + '/lp-master-v6.6.html', '_blank');
+  });
+  $('btnLPHot').addEventListener('click', ()=>{
+    const base = (baseEl.value && baseEl.value.trim()) ? baseEl.value.trim().replace(/\/$/,'') : (location.origin + (location.pathname.replace(/\\/[^/]*$/,'')));
+    window.open(base + '/lp-hot-v6.6.html', '_blank');
+  });
+
+  // load last
+  try{
+    const last = JSON.parse(localStorage.getItem('refgen_last') || 'null');
+    if(last){ nameEl.value=last.name||''; phoneEl.value=last.phone||''; slugEl.value=last.slug||''; baseEl.value=last.base||''; log('Loaded last session'); }
+  }catch(e){}
+});
+</script>
+</body>
+   </html>                                                                              </html>
