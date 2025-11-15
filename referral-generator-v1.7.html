@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Referral Generator v1.7</title>
+
+<style>
+    body {
+        background:#06112b;
+        font-family: Arial, sans-serif;
+        color:white;
+        margin:0; padding:0;
+    }
+
+    .container {
+        max-width:480px;
+        margin:0 auto;
+        padding:20px;
+    }
+
+    h1 {
+        text-align:center;
+        font-size:28px;
+        color:#fcd600;
+        margin-bottom:20px;
+    }
+
+    label {
+        display:block;
+        margin-top:15px;
+        font-weight:bold;
+        color:#fcd600;
+        font-size:16px;
+    }
+
+    input {
+        width:100%;
+        padding:14px;
+        border-radius:10px;
+        border:2px solid #fcd600;
+        background:#ffffff;
+        color:#000;
+        margin-top:5px;
+        font-size:16px;
+        box-sizing:border-box;
+    }
+
+    button {
+        width:100%;
+        padding:15px;
+        background:#1a73e8;
+        border:none;
+        border-radius:10px;
+        color:white;
+        font-size:18px;
+        font-weight:bold;
+        margin-top:20px;
+        cursor:pointer;
+    }
+
+    button.red {
+        background:#e53935;
+    }
+
+    .linksBox {
+        margin-top:25px;
+        padding:20px;
+        border:3px solid #fcd600;
+        border-radius:15px;
+    }
+
+    .linksBox p {
+        word-break:break-all;
+        background:#00000033;
+        padding:10px;
+        border-radius:10px;
+    }
+
+    /* SOCIAL CARD */
+    #cardCanvasWrapper {
+        margin-top:30px;
+        background:#071735;
+        padding:20px;
+        border-radius:20px;
+        border:4px solid #fcd600;
+        text-align:center;
+    }
+
+    #photoPreview {
+        width:90%;
+        border-radius:15px;
+        margin-bottom:15px;
+    }
+
+    #qrCanvas {
+        margin-top:15px;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Referral Generator v1.7</h1>
+
+<label>Nama Leader</label>
+<input id="nama" placeholder="contoh: Sugiarto" />
+
+<label>Nomor WA Leader</label>
+<input id="wa" placeholder="628xxxx" />
+
+<label>Slug (ID unik)</label>
+<input id="slug" placeholder="contoh: mentor-ksm" />
+
+<label>Upload Foto Leader</label>
+<input type="file" id="foto" accept="image/*" />
+
+<button onclick="generate()">🔗 Buat Link & QR</button>
+
+<div id="result" style="display:none;">
+
+    <div class="linksBox">
+        <h2 style="color:#fcd600;">Link Siap Pakai</h2>
+        <p id="link1"></p>
+        <p id="link2"></p>
+        <p id="link3"></p>
+    </div>
+
+    <button class="red" onclick="shareWA()">📩 Bagikan ke WhatsApp</button>
+    <button class="red" onclick="downloadCard()">⬇ Download Social Card</button>
+
+    <div id="cardCanvasWrapper">
+        <img id="cardPhoto" style="width:100%; border-radius:15px;" />
+        <h2 id="cardName"></h2>
+        <p style="color:#ddd;">Scan QR untuk membuka link referral</p>
+
+        <canvas id="qrCanvas"></canvas>
+    </div>
+
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<script>
+function generate() {
+
+    let nama = document.getElementById("nama").value.trim();
+    let wa = document.getElementById("wa").value.trim();
+    let slug = document.getElementById("slug").value.trim();
+
+    if (!nama || !wa || !slug) {
+        alert("Isi semua data terlebih dahulu");
+        return;
+    }
+
+    // SLUG UNIVERSAL (tidak ada lagi error leader tidak ditemukan)
+    let linkMaster = `https://3ireborn.github.io/pendaftaran-online/lp-master-v6.6.html?leader=${slug}&wa=${wa}`;
+    let linkHot = `https://3ireborn.github.io/pendaftaran-online/lp-hot-v6.6.html?leader=${slug}&wa=${wa}`;
+    let linkForm = `https://3ireborn.github.io/pendaftaran-online/index-v2.html?leader=${slug}&wa=${wa}`;
+
+    document.getElementById("link1").innerText = linkMaster;
+    document.getElementById("link2").innerText = linkHot;
+    document.getElementById("link3").innerText = linkForm;
+
+    // === QR CODE UTAMA ===
+    let qr = new QRious({
+        element: document.getElementById("qrCanvas"),
+        size: 260,
+        value: linkMaster,
+        level: "H",
+        foreground: "#ffd700"
+    });
+
+    // FOTO (preview)
+    let file = document.getElementById("foto").files[0];
+    if (file) {
+        let r = new FileReader();
+        r.onload = function(e) {
+            document.getElementById("cardPhoto").src = e.target.result;
+        }
+        r.readAsDataURL(file);
+    }
+
+    document.getElementById("cardName").innerText = nama;
+
+    document.getElementById("result").style.display = "block";
+}
+
+
+
+function shareWA() {
+    let t =
+`Assalamu’alaikum 🙏
+
+Berikut link pendaftaran 3iReborn Anda:
+
+📌 LP Master:
+${document.getElementById("link1").innerText}
+
+🔥 LP Hot:
+${document.getElementById("link2").innerText}
+
+📝 Form Pendaftaran:
+${document.getElementById("link3").innerText}
+
+Silakan dibagikan ke mitra Anda 🙏`;
+
+    window.location.href = "https://wa.me/?text=" + encodeURIComponent(t);
+}
+
+
+
+function downloadCard() {
+    html2canvas(document.getElementById("cardCanvasWrapper")).then(canvas => {
+        let a = document.createElement("a");
+        a.download = "social-card.png";
+        a.href = canvas.toDataURL();
+        a.click();
+    });
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</body>
+</html>
