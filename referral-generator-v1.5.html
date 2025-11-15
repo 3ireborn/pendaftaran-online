@@ -1,286 +1,405 @@
+<!-- referral-generator-v1.html
+     Referral Generator v1.0 — NPA Smart System (short-link mode)
+     Save as referral-generator-v1.html and open in browser.
+-->
 <!doctype html>
-
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Referral Generator — NPA Smart / 3iReborn (v1.0F)</title>
-  <style>
-    :root{--bg:#071229;--card:#0b1730;--muted:#a9b3c7;--accent:#1A73E8;--gold:#f5c542}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:linear-gradient(180deg,#031026 0%, #071229 100%);color:#e7eefc}
-    .wrap{max-width:720px;margin:28px auto;padding:20px}
-    h1{margin:0 0 8px;font-size:22px;color:var(--accent)}
-    p.lead{margin:0 0 18px;color:var(--muted)}.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 20px rgba(3,7,18,.6);border:4px solid rgba(0,0,0,0.15)}
-
-/* gold outer stroke */
-.frame{padding:8px;border-radius:14px;border:4px solid var(--gold);}
-
-label{display:block;font-weight:600;margin-top:12px;color:#dff0ff}
-input[type=text], input[type=file]{width:100%;padding:14px;border-radius:12px;border:2px solid rgba(26,115,232,.25);background:rgba(255,255,255,0.02);color:#fff;box-sizing:border-box}
-input[type=text]::placeholder{color:#7f94b7}
-
-.btn{display:inline-block;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),#5aa6ff);color:#fff;font-weight:700;cursor:pointer;margin-top:14px}
-.btn.ghost{background:transparent;border:2px solid rgba(255,255,255,0.06)}
-.btn.copy{background:linear-gradient(90deg,#2bb673,#00d17a)}
-
-.links .linkbox{margin-top:14px;padding:12px;border-radius:10px;border:2px solid rgba(26,115,232,.35);background:linear-gradient(180deg, rgba(10,20,40,.6), rgba(6,12,23,.5));word-break:break-all}
-.controls{display:flex;gap:8px;flex-wrap:wrap}
-
-.preview{margin-top:18px;display:grid;grid-template-columns:1fr;gap:12px}
-.qr{width:260px;height:260px;background:#fff;border-radius:6px;display:block}
-
-.social-card{width:600px;height:750px;background:#fff;color:#111;border-radius:16px;padding:22px;box-sizing:border-box}
-.card-top{display:flex;gap:12px;align-items:center}
-.p-foto{width:120px;height:120px;border-radius:12px;background:#e6eefc;overflow:hidden;flex-shrink:0}
-.p-foto img{width:100%;height:100%;object-fit:cover}
-.card-title{font-size:22px;font-weight:800;color:#0b2b66}
-.card-sub{margin-top:6px;color:#2e3d6b}
-.card-qr{position:absolute;right:22px;bottom:22px}
-
-.note{font-size:13px;color:var(--muted);margin-top:10px}
-
-/* responsive */
-@media(max-width:640px){.social-card{width:360px;height:480px}}
-
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Referral Generator — NPA Smart System (v1.0)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f6f9ff;
+    --card: #fff;
+    --text: #0b2245;
+    --muted: #566580;
+    --brand: #0b3d91;
+    --gold: #d4af37;
+    --border: #e6ecff;
+  }
+  *{box-sizing:border-box}
+  body{font-family:Poppins,system-ui,Arial,sans-serif;margin:0;background:linear-gradient(180deg,#f7fbff 0%, #eef6ff 100%);color:var(--text)}
+  .wrap{max-width:980px;margin:28px auto;padding:20px}
+  h1{margin:0 0 8px;font-size:22px;color:var(--brand)}
+  .sub{color:var(--muted);margin-bottom:12px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 8px 30px rgba(11,61,145,0.06)}
+  label{display:block;font-weight:600;margin-bottom:6px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  input, select, textarea{padding:10px 12px;border-radius:10px;border:2px solid #eee;outline:none;font-size:14px}
+  input:focus, select:focus, textarea:focus{border-color:var(--gold);box-shadow:0 4px 18px rgba(212,175,55,0.12)}
+  .gold-border{border:2px solid var(--gold) !important}
+  .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-ghost{background:#eef6ff;color:var(--brand);border:1px solid #dbeeff}
+  .btn-success{background:#16a34a;color:#fff}
+  .links{margin-top:12px}
+  .link-item{background:#f7fbff;border:1px solid #e4efff;padding:10px;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; font-size:13px; color:#084}
+  .preview{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px dashed #e7f0ff}
+  .qr{width:120px;height:120px;border-radius:8px;border:1px solid #e6efff;background:#fff;display:flex;align-items:center;justify-content:center}
+  img.preview-img{max-width:160px;border-radius:10px;display:block}
+  .small{font-size:13px;color:var(--muted)}
+  .flex{display:flex;gap:8px;align-items:center}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  .gold-input{border:2px solid var(--gold)}
+</style>
 </head>
 <body>
   <div class="wrap">
-    <div class="frame">
-      <div class="card">
-        <h1>Referral Generator — NPA Smart / 3iReborn (v1.0F)</h1>
-        <p class="lead">Buat LP Master, LP Hot, Form pendaftaran & social card (PNG) per leader. QR otomatis, tombol Share WA, Copy all links.</p><label>1) Nama Leader (tampil di card)</label>
-    <input id="inpName" type="text" placeholder="Contoh: Sugiarto KSM" value="" />
+    <h1>Referral Generator — NPA Smart System (v1.0)</h1>
+    <div class="sub">Buat short-link & QR cepat untuk LP Master / LP Hot / Form Pendaftaran. Short link = <b>/r-<i>slug</i>.html</b> (download & upload ke repo)</div>
 
-    <label>2) No. WhatsApp (format: 628...)</label>
-    <input id="inpWA" type="text" placeholder="Contoh: 6285218453131" value="" />
+    <div class="card">
+      <label>1) Pilih leader (atau isi manual)</label>
+      <div class="row" style="align-items:center">
+        <select id="leaderSelect" style="min-width:260px">
+          <option value="">— Pilih leader (jika ada) —</option>
+        </select>
+        <button class="btn btn-ghost" id="loadLeaders">Load leaders.json</button>
+        <div style="flex:1"></div>
+      </div>
 
-    <label>3) Slug (unik, tanpa spasi) — masukan slug custom di sini</label>
-    <input id="inpSlug" type="text" placeholder="Contoh: sugiarto-ksm" value="" />
+      <div style="height:10px"></div>
 
-    <label>4) Upload Foto Leader (opsional — hanya untuk social card)</label>
-    <input id="inpFile" type="file" accept="image/*" />
+      <label>Nama Leader</label>
+      <input id="name" placeholder="Sugiarto Kurniawan" class="gold-input" />
 
-    <div class="controls">
-      <button id="btnCreate" class="btn">🚀 Buat Link & QR</button>
-      <button id="btnReset" class="btn ghost">🔁 Reset</button>
-      <button id="btnCopyAll" class="btn copy">📋 Copy Semua Link</button>
-      <button id="btnSaveAll" class="btn ghost" title="Simpan PNG social card">💾 Save Card (PNG)</button>
+      <label style="margin-top:8px">No WA (628....)</label>
+      <input id="wa" placeholder="6285218453131" class="gold-input" />
+
+      <label style="margin-top:8px">Slug (gunakan huruf kecil, pakai '-') </label>
+      <input id="slug" placeholder="sugiarto-kurniawan" class="gold-input" />
+
+      <div style="height:12px"></div>
+      <div class="row">
+        <button id="generate" class="btn btn-primary">Buat Link & QR</button>
+        <button id="downloadShort" class="btn btn-success" style="display:none">Download Short HTML</button>
+        <button id="downloadCard" class="btn btn-ghost" style="display:none">Download Social Card (PNG)</button>
+        <div style="flex:1"></div>
+        <label class="small">Social Card: upload foto (opsional)</label>
+        <input type="file" id="cardImage" accept="image/*" style="margin-left:8px" />
+      </div>
     </div>
 
-    <div class="note">Tip: gunakan tombol <strong>Bagikan ke WhatsApp</strong> untuk sharing cepat ke grup/teman. QR dan PNG dapat dipakai untuk cetak brosur.</div>
+    <div id="resultPanel" class="card" style="display:none">
+      <label>Output Links & QR</label>
+      <div class="links" id="links">
+        <!-- link items injected here -->
+      </div>
 
-    <div class="preview" id="previewArea">
-      <!-- live links & QR appear here -->
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:10px">
+        <div>
+          <div class="qr" id="qrWrap"><img id="qrImg" src="" alt="QR" style="max-width:100%;border-radius:6px"></div>
+          <div class="small" style="margin-top:6px">Scan atau screenshot</div>
+        </div>
+        <div style="flex:1">
+          <div class="preview" id="previewCard">
+            <div style="display:flex;gap:12px;align-items:center">
+              <img id="cardPreview" class="preview-img" src="" alt="" style="display:none">
+              <div>
+                <div id="pTitle" style="font-weight:700;color:var(--brand)">[LP Master Title]</div>
+                <div id="pSubtitle" class="small" style="margin-top:6px">Share this referral — short link ready</div>
+                <div style="margin-top:8px"><span class="mono" id="shortUrlDisplay"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+            <button id="copyAll" class="btn btn-ghost">Copy All Links</button>
+            <button id="copyShort" class="btn btn-ghost">Copy Short Link</button>
+            <button id="shareWA" class="btn btn-primary">Bagikan ke WhatsApp</button>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <footer>
+      Tip: setelah download file short HTML, upload ke repo GitHub:
+      <ul>
+        <li>untuk URL <code>/r-sugiarto.html</code> → upload file ke root repo</li>
+        <li>untuk URL <code>/r/sugiarto/</code> → upload file sebagai <code>r/sugiarto/index.html</code></li>
+      </ul>
+      Footer: Powered by NPA Smart System || 3IReborn.
+    </footer>
   </div>
-</div>
 
-  </div><script>
-  // base URLs (editable if repo path changes)
-  const BASE = location.origin + location.pathname.replace(/[^\/]*$/, '');
-  const LP_MASTER = BASE + 'lp-master-v6.6.html';
-  const LP_HOT = BASE + 'lp-hot-v6.6.html';
-  const FORM = BASE + 'index-v2.html';
+<script>
+(async function(){
+  // Config — sesuaikan path LP jika butuh
+  const BASE = "https://3ireborn.github.io/pendaftaran-online";
+  const LP_MASTER = BASE + "/lp-master-v6.6.html";
+  const LP_HOT = BASE + "/lp-hot-v6.6.html";
+  const FORM = BASE + "/form-pendaftaran-v3.1.html";
 
-  const $ = id => document.getElementById(id);
-  const inpName = $('inpName');
-  const inpWA = $('inpWA');
-  const inpSlug = $('inpSlug');
-  const inpFile = $('inpFile');
-  const btnCreate = $('btnCreate');
-  const btnReset = $('btnReset');
-  const btnCopyAll = $('btnCopyAll');
-  const btnSaveAll = $('btnSaveAll');
-  const previewArea = $('previewArea');
+  // DOM
+  const leaderSelect = document.getElementById('leaderSelect');
+  const loadLeadersBtn = document.getElementById('loadLeaders');
+  const nameInput = document.getElementById('name');
+  const waInput = document.getElementById('wa');
+  const slugInput = document.getElementById('slug');
+  const generateBtn = document.getElementById('generate');
+  const resultPanel = document.getElementById('resultPanel');
+  const linksDiv = document.getElementById('links');
+  const qrImg = document.getElementById('qrImg');
+  const shortUrlDisplay = document.getElementById('shortUrlDisplay');
+  const cardImage = document.getElementById('cardImage');
+  const cardPreview = document.getElementById('cardPreview');
+  const downloadShort = document.getElementById('downloadShort');
+  const downloadCard = document.getElementById('downloadCard');
+  const copyAll = document.getElementById('copyAll');
+  const copyShort = document.getElementById('copyShort');
+  const shareWA = document.getElementById('shareWA');
+  const pTitle = document.getElementById('pTitle');
+  const pSubtitle = document.getElementById('pSubtitle');
 
-  function sanitizeSlug(s){
-    return String(s||'').toLowerCase().trim().replace(/[^a-z0-9\-]/g,'-').replace(/\-+/g,'-').replace(/^\-|\-$/g,'') || '';
+  let uploadedCardData = null;
+  let lastGenerated = null;
+
+  // load leaders.json if exists
+  loadLeadersBtn.onclick = async () => {
+    try {
+      const resp = await fetch('./data/leaders.json');
+      if(!resp.ok) throw new Error('404');
+      const data = await resp.json();
+      leaderSelect.innerHTML = '<option value="">— Pilih leader —</option>';
+      data.forEach(l=>{
+        const opt = document.createElement('option');
+        opt.value = JSON.stringify(l);
+        opt.text = `${l.code || ''} ${l.name} (${l.slug || l.name.toLowerCase().replace(/\s+/g,'-')})`;
+        leaderSelect.appendChild(opt);
+      });
+      alert('Leaders loaded ✅');
+    } catch(e){
+      alert('Gagal load leaders.json (pastikan file ada di /data/leaders.json).');
+    }
+  };
+
+  leaderSelect.onchange = () => {
+    if(!leaderSelect.value) return;
+    const l = JSON.parse(leaderSelect.value);
+    nameInput.value = l.name || '';
+    waInput.value = l.phone || '';
+    slugInput.value = l.slug || (l.name||'').toLowerCase().replace(/\s+/g,'-');
+  };
+
+  // card image preview
+  cardImage.onchange = (e) => {
+    const f = e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = ()=> {
+      uploadedCardData = reader.result; // base64 data URL
+      cardPreview.src = uploadedCardData;
+      cardPreview.style.display = 'block';
+      downloadCard.style.display = 'inline-block';
+    };
+    reader.readAsDataURL(f);
+  };
+
+  // helpers
+  function safeSlug(s){
+    return (s||'').trim().toLowerCase().replace(/[^a-z0-9\-]/g,'-').replace(/\-+/g,'-').replace(/^\-|\-$/g,'') || null;
+  }
+  function urlencode(s){ return encodeURIComponent(s||'') }
+
+  // QR generator helper (free)
+  function qrFor(url){
+    return "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" + encodeURIComponent(url);
   }
 
+  // create the three links
   function buildLinks(name, wa, slug){
-    const ref = encodeURIComponent(slug || '');
-    const waParam = wa ? '&wa=' + encodeURIComponent(wa) : '';
-    const master = LP_MASTER + '?ref=' + ref + waParam;
-    const hot = LP_HOT + '?ref=' + ref + waParam;
-    const form = FORM + '?leader=' + ref + waParam;
-    return {master, hot, form};
+    // safety
+    const s = safeSlug(slug) || Date.now().toString(36);
+    const q = (u) => `${u}?name=${urlencode(name)}&wa=${urlencode(wa)}&slug=${urlencode(s)}`;
+    const master = q(LP_MASTER);
+    const hot = q(LP_HOT);
+    const form = q(FORM);
+    // Short link target: r-s<slug>.html (download & upload)
+    const shortFilename = `r-${s}.html`;
+    const shortUrl = `${BASE}/${shortFilename}`;
+    return {s,master,hot,form,shortFilename,shortUrl};
   }
 
-  function qrUrl(text,size=300){
-    return 'https://chart.googleapis.com/chart?cht=qr&chs='+size+'x'+size+'&chl='+encodeURIComponent(text)+'&chld=L|1';
+  // generate file content for short HTML (redirect)
+  function makeShortHtml(shortToUrl, name, wa, slug, cardData){
+    // short page will redirect to master (with full query) and include meta tags for social
+    const title = `Referral — ${name}`;
+    const desc = `Join via ${name} — klik untuk daftar. WA: ${wa}`;
+    const imageTag = cardData ? `<meta property="og:image" content="${cardData}" />` : '';
+    const imgHtml = cardData ? `<div style="text-align:center;margin-top:14px"><img src="${cardData}" style="max-width:280px;border-radius:12px"/></div>` : '';
+    const html = `<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>${title}</title>
+<meta name="description" content="${desc}" />
+<meta property="og:title" content="${title}" />
+<meta property="og:description" content="${desc}" />
+${imageTag}
+<meta http-equiv="refresh" content="0;url=${shortToUrl}" />
+<script> // fallback redirect
+  setTimeout(()=>{location.href=${JSON.stringify(shortToUrl)}}, 500);
+</script>
+</head>
+<body style="font-family:system-ui,Arial,sans-serif;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;height:100vh">
+  <div style="text-align:center">
+    <h2 style="margin:0 0 6px">Mengalihkan ke halaman pendaftaran...</h2>
+    <p style="color:#666;margin:0 0 10px">${name} — WA: ${wa}</p>
+    ${imgHtml}
+    <p style="font-size:13px;color:#888;margin-top:12px">Jika tidak otomatis, klik <a href="${shortToUrl}">di sini</a>.</p>
+  </div>
+</body>
+</html>`;
+    return html;
   }
 
-  function makeCaption(name, links){
-    return `${name} — Info lengkap:\nLP Master: ${links.master}\nLP Hot: ${links.hot}\nForm: ${links.form}\n\nGabung sekarang!`;
-  }
-
-  function createSocialCardDataURL(name, photoURL, qrDataURL, links, cb){
-    // draw on canvas
+  // create social-card PNG (simple): using canvas
+  async function makeSocialCardPng(title, subtitle, imageData){
+    // create canvas
     const canvas = document.createElement('canvas');
-    canvas.width = 1200; canvas.height = 1500; // high-res
+    canvas.width = 1200; canvas.height = 630;
     const ctx = canvas.getContext('2d');
-
-    // background
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    // left top photo box
-    const pad = 60;
-    const photoX = pad; const photoY = pad; const photoW = 360; const photoH = 360;
-
-    // rounded rect for photo
-    ctx.fillStyle = '#eef5ff';
-    roundRect(ctx, photoX-6, photoY-6, photoW+12, photoH+12, 28, true, false);
-
-    if(photoURL){
-      const img = new Image(); img.crossOrigin='anonymous'; img.onload = ()=>{
-        ctx.drawImage(img, photoX, photoY, photoW, photoH);
-        drawTextAndQR();
-      }; img.onerror=()=>{ drawTextAndQR(); }; img.src = photoURL;
-    } else drawTextAndQR();
-
-    function drawTextAndQR(){
-      // title
-      ctx.fillStyle = '#0b2b66';
-      ctx.font = 'bold 60px sans-serif';
-      ctx.fillText(''+name, photoX + photoW + 30, photoY + 80);
-
-      ctx.font = '22px sans-serif'; ctx.fillStyle='#1f3b73';
-      wrapText(ctx, 'Tautan: '+ links.master, photoX + photoW + 30, photoY + 130, 700, 28);
-
-      // QR image
-      const qr = new Image(); qr.crossOrigin='anonymous'; qr.onload = ()=>{
-        const qSize = 360;
-        ctx.drawImage(qr, canvas.width - pad - qSize, canvas.height - pad - qSize, qSize, qSize);
-        // small footer
-        ctx.fillStyle='#233a6b'; ctx.font='18px sans-serif';
-        ctx.fillText('Powered by NPA Smart System | 3iReborn', pad, canvas.height - 28);
-        cb(canvas.toDataURL('image/png'));
-      }; qr.onerror=()=>{ cb(canvas.toDataURL('image/png')); };
-      qr.src = qrDataURL;
-    }
-  }
-
-  function roundRect(ctx, x, y, w, h, r, fill, stroke){
-    if (typeof r === 'undefined') r = 5;
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
-    if(fill) ctx.fill();
-    if(stroke) ctx.stroke();
-  }
-
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = ctx.measureText(testLine);
-      const testWidth = metrics.width;
-      if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, y);
-        line = words[n] + ' ';
-        y += lineHeight;
-      }
-      else {
-        line = testLine;
+    // bg
+    ctx.fillStyle = "#0b3d91"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    // light overlay
+    ctx.fillStyle = "rgba(255,255,255,0.06)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    // image on left if exists
+    if(imageData){
+      const img = await new Promise((res,rej)=>{
+        const im = new Image();
+        im.onload = ()=>res(im);
+        im.onerror = ()=>res(null);
+        im.src = imageData;
+      });
+      if(img){
+        const iw = 420; const ih = 420;
+        ctx.drawImage(img, 60, 105, iw, ih);
       }
     }
-    ctx.fillText(line, x, y);
+    // title
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 48px Poppins, system-ui";
+    ctx.fillText(title, imageData?540:60, 200);
+    ctx.font = "20px Poppins, system-ui";
+    ctx.fillStyle = "#ffe9b3";
+    ctx.fillText(subtitle, imageData?540:60, 260);
+    // footer
+    ctx.fillStyle = "#d4af37";
+    ctx.font = "700 18px Poppins, system-ui";
+    ctx.fillText("NPA Smart System — 3IReborn", 60, 600);
+    return canvas.toDataURL("image/png");
   }
 
-  // --- events ---
-  let currentPNG = null;
-  let currentLinks = null;
+  // click generate
+  generateBtn.onclick = async () => {
+    const name = (nameInput.value || '').trim(); 
+    const wa = (waInput.value || '').trim();
+    const slug = (slugInput.value || '').trim();
+    if(!name || !wa || !slug){
+      return alert('Isi Nama, WA, dan Slug terlebih dulu.');
+    }
+    const payload = buildLinks(name, wa, slug);
+    lastGenerated = {name,wa,slug,...payload};
 
-  btnCreate.addEventListener('click', ()=>{
-    const name = inpName.value.trim() || 'Leader';
-    const wa = inpWA.value.trim();
-    const slug = sanitizeSlug(inpSlug.value) || 'leader-'+Date.now();
-    inpSlug.value = slug;
-    currentLinks = buildLinks(name, wa, slug);
-
-    // build preview
-    previewArea.innerHTML = '';
-
-    const divLinks = document.createElement('div'); divLinks.className='links';
-    const boxMaster = document.createElement('div'); boxMaster.className='linkbox'; boxMaster.textContent = currentLinks.master;
-    const btnCopyMaster = document.createElement('button'); btnCopyMaster.className='btn ghost'; btnCopyMaster.textContent='Copy'; btnCopyMaster.onclick = ()=>copyText(currentLinks.master);
-    const boxHot = document.createElement('div'); boxHot.className='linkbox'; boxHot.textContent = currentLinks.hot;
-    const btnCopyHot = btnCopyMaster.cloneNode(true); btnCopyHot.onclick = ()=>copyText(currentLinks.hot);
-    const boxForm = document.createElement('div'); boxForm.className='linkbox'; boxForm.textContent = currentLinks.form;
-    const btnCopyForm = btnCopyMaster.cloneNode(true); btnCopyForm.onclick = ()=>copyText(currentLinks.form);
-
-    divLinks.appendChild(boxMaster); divLinks.appendChild(btnCopyMaster);
-    divLinks.appendChild(boxHot); divLinks.appendChild(btnCopyHot);
-    divLinks.appendChild(boxForm); divLinks.appendChild(btnCopyForm);
-
-    previewArea.appendChild(divLinks);
+    // show links
+    linksDiv.innerHTML = '';
+    const addLink = (label, url) => {
+      const el = document.createElement('div');
+      el.className = 'link-item';
+      el.innerHTML = `<div><div style="font-weight:700">${label}</div><div class="small mono">${url}</div></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-ghost" data-url="${url}">Copy</button>
+          <a class="btn btn-ghost" href="${url}" target="_blank" rel="noopener">Buka</a>
+        </div>`;
+      linksDiv.appendChild(el);
+      el.querySelector('button').onclick = (e)=>{navigator.clipboard.writeText(url).then(()=>alert('Copied ✅'))}
+    };
+    addLink('🌐 LP Master', payload.master);
+    addLink('🔥 LP Hot', payload.hot);
+    addLink('📝 Form Pendaftaran', payload.form);
+    addLink('🔗 Short Link (upload file)', payload.shortUrl);
 
     // QR
-    const qrImg = document.createElement('img'); qrImg.className='qr'; qrImg.src = qrUrl(currentLinks.master, 520);
-    previewArea.appendChild(qrImg);
+    qrImg.src = qrFor(payload.shortUrl);
+    shortUrlDisplay.textContent = payload.shortUrl;
+    pTitle.textContent = `Referral — ${name}`;
+    pSubtitle.textContent = `${name} • WA ${wa}`;
 
-    // share button
-    const shareBtn = document.createElement('button'); shareBtn.className='btn copy'; shareBtn.textContent='Bagikan ke WhatsApp';
-    shareBtn.onclick = ()=>{
-      const caption = makeCaption(name, currentLinks);
-      const url = 'https://wa.me/?text='+encodeURIComponent(caption);
-      window.open(url,'_blank');
-    };
-    previewArea.appendChild(shareBtn);
-
-    // social card generation
-    const reader = new FileReader();
-    if(inpFile.files && inpFile.files[0]){
-      reader.onload = e => {
-        const photoURL = e.target.result;
-        createSocialCardDataURL(name, photoURL, qrUrl(currentLinks.master,600), currentLinks, (png)=>{
-          currentPNG = png;
-          addDownloadButtons(png);
-        });
-      };
-      reader.readAsDataURL(inpFile.files[0]);
+    // display card preview if uploaded
+    if(uploadedCardData){
+      cardPreview.src = uploadedCardData;
+      cardPreview.style.display = 'block';
     } else {
-      createSocialCardDataURL(name, null, qrUrl(currentLinks.master,600), currentLinks, (png)=>{
-        currentPNG = png; addDownloadButtons(png);
-      });
+      cardPreview.style.display = 'none';
     }
 
-  });
+    // show result panel and download buttons
+    resultPanel.style.display = 'block';
+    downloadShort.style.display = 'inline-block';
+    downloadCard.style.display = uploadedCardData ? 'inline-block' : 'none';
+  };
 
-  function addDownloadButtons(png){
-    const down = document.createElement('a'); down.className='btn'; down.textContent='Download Social Card (PNG)'; down.href = png; down.download = 'social-card.png';
-    previewArea.appendChild(down);
+  // download short html
+  downloadShort.onclick = (e) => {
+    if(!lastGenerated) return alert('Buat link dulu.');
+    const target = lastGenerated.master;
+    const shortHtml = makeShortHtml(target, lastGenerated.name, lastGenerated.wa, lastGenerated.s, uploadedCardData);
+    const blob = new Blob([shortHtml], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = lastGenerated.shortFilename;
+    document.body.appendChild(a); a.click(); a.remove();
+    alert('File short HTML ter-download. Upload ke repo sesuai petunjuk di halaman.');
+  };
 
-    const img = document.createElement('img'); img.src = png; img.style.maxWidth='320px'; img.style.borderRadius='8px'; img.style.marginTop='12px';
-    previewArea.appendChild(img);
-  }
+  // download social card png
+  downloadCard.onclick = async () => {
+    if(!lastGenerated) return alert('Buat link dulu.');
+    const png = await makeSocialCardPng(`${lastGenerated.name}`, 'Gabung sekarang!', uploadedCardData);
+    const a = document.createElement('a');
+    a.href = png;
+    a.download = `social-card-${lastGenerated.s}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+  };
 
-  btnCopyAll.addEventListener('click', ()=>{
-    if(!currentLinks) return alert('Buat link dulu');
-    const txt = `LP Master: ${currentLinks.master}\nLP Hot: ${currentLinks.hot}\nForm: ${currentLinks.form}`;
-    copyText(txt); alert('Semua link disalin ke clipboard');
-  });
+  // copy all
+  copyAll.onclick = ()=>{
+    if(!lastGenerated) return alert('Buat link dulu.');
+    const text = `LP Master: ${lastGenerated.master}\nLP Hot: ${lastGenerated.hot}\nPendaftaran: ${lastGenerated.form}\nShort: ${lastGenerated.shortUrl}`;
+    navigator.clipboard.writeText(text).then(()=>alert('Semua link disalin ✅'));
+  };
 
-  btnSaveAll.addEventListener('click', ()=>{
-    if(!currentPNG) return alert('Buat dulu social card');
-    // trigger download
-    const a = document.createElement('a'); a.href = currentPNG; a.download = (inpSlug.value||'card') + '.png'; a.click();
-  });
+  copyShort.onclick = ()=>{
+    if(!lastGenerated) return alert('Buat link dulu.');
+    navigator.clipboard.writeText(lastGenerated.shortUrl).then(()=>alert('Short link disalin ✅'));
+  };
 
-  btnReset.addEventListener('click', ()=>{ inpName.value=''; inpWA.value=''; inpSlug.value=''; inpFile.value=''; previewArea.innerHTML=''; currentPNG=null; currentLinks=null; });
+  shareWA.onclick = ()=>{
+    if(!lastGenerated) return alert('Buat link dulu.');
+    const msg = `Assalamu'alaikum. Cek info ini ya:\n${lastGenerated.shortUrl}\nHubungi ${lastGenerated.name} — WA: ${lastGenerated.wa}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(url,'_blank');
+  };
 
-  function copyText(text){ navigator.clipboard?.writeText(text).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}); }
+  // auto load leaders.json if present
+  (async ()=>{ try{
+    const r = await fetch('./data/leaders.json');
+    if(!r.ok) return;
+    const data = await r.json();
+    leaderSelect.innerHTML = '<option value="">— Pilih leader —</option>';
+    data.forEach(l=>{
+      const opt = document.createElement('option');
+      opt.value = JSON.stringify(l);
+      opt.text = `${l.code || ''} ${l.name} (${l.slug || l.name.toLowerCase().replace(/\s+/g,'-')})`;
+      leaderSelect.appendChild(opt);
+    });
+  }catch(e){ /* ignore */ } })();
 
-  // auto-generate slug on name change (non-forcing)
-  inpName.addEventListener('blur', ()=>{ if(!inpSlug.value.trim()) inpSlug.value = sanitizeSlug(inpName.value); });
-
-</script></body>
+})();
+</script>
+</body>
 </html>
