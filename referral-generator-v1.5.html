@@ -1,405 +1,248 @@
-<!-- referral-generator-v1.html
-     Referral Generator v1.0 — NPA Smart System (short-link mode)
-     Save as referral-generator-v1.html and open in browser.
--->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Referral Generator — NPA Smart System (v1.0)</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Referral Generator v1.5 — NPA Smart System</title>
+
+<!-- Anti-cache -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
 <style>
-  :root{
-    --bg: #f6f9ff;
-    --card: #fff;
-    --text: #0b2245;
-    --muted: #566580;
-    --brand: #0b3d91;
-    --gold: #d4af37;
-    --border: #e6ecff;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Poppins,system-ui,Arial,sans-serif;margin:0;background:linear-gradient(180deg,#f7fbff 0%, #eef6ff 100%);color:var(--text)}
-  .wrap{max-width:980px;margin:28px auto;padding:20px}
-  h1{margin:0 0 8px;font-size:22px;color:var(--brand)}
-  .sub{color:var(--muted);margin-bottom:12px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 8px 30px rgba(11,61,145,0.06)}
-  label{display:block;font-weight:600;margin-bottom:6px}
-  .row{display:flex;gap:10px;flex-wrap:wrap}
-  input, select, textarea{padding:10px 12px;border-radius:10px;border:2px solid #eee;outline:none;font-size:14px}
-  input:focus, select:focus, textarea:focus{border-color:var(--gold);box-shadow:0 4px 18px rgba(212,175,55,0.12)}
-  .gold-border{border:2px solid var(--gold) !important}
-  .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-  .btn-primary{background:var(--brand);color:#fff}
-  .btn-ghost{background:#eef6ff;color:var(--brand);border:1px solid #dbeeff}
-  .btn-success{background:#16a34a;color:#fff}
-  .links{margin-top:12px}
-  .link-item{background:#f7fbff;border:1px solid #e4efff;padding:10px;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:8px;justify-content:space-between}
-  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; font-size:13px; color:#084}
-  .preview{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px dashed #e7f0ff}
-  .qr{width:120px;height:120px;border-radius:8px;border:1px solid #e6efff;background:#fff;display:flex;align-items:center;justify-content:center}
-  img.preview-img{max-width:160px;border-radius:10px;display:block}
-  .small{font-size:13px;color:var(--muted)}
-  .flex{display:flex;gap:8px;align-items:center}
-  footer{margin-top:18px;color:var(--muted);font-size:13px}
-  .gold-input{border:2px solid var(--gold)}
+    body {
+        margin: 0;
+        font-family: Poppins, sans-serif;
+        background: #0b1220;
+        color: #fff;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 26px;
+        color: #f1c40f;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #111827;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 2px solid #1e40af;
+        box-shadow: 0 0 20px rgba(0,0,0,.4);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #f1c40f;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        border: 2px solid #f1c40f;
+        background: #0f172a;
+        color: #fff;
+        font-size: 15px;
+    }
+
+    input::placeholder {
+        color: #9ca3af;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background: #2563eb;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #1e40af;
+    }
+
+    .preview-card {
+        background: #0f172a;
+        padding: 20px;
+        border-radius: 16px;
+        border: 2px solid #f1c40f;
+        margin-top: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    .qr-box {
+        margin-top: 20px;
+    }
+
+    .social-card {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 20px;
+        background: #111827;
+        border: 3px solid #f1c40f;
+        text-align: center;
+        display: none;
+    }
+
+    #photoPreview {
+        width: 100%;
+        border-radius: 20px;
+        margin-bottom: 10px;
+    }
+
+    .share-btn {
+        background: #10b981;
+        margin-top: 10px;
+    }
+
+    .copy-btn {
+        background: #f59e0b;
+        margin-top: 10px;
+    }
+
+    .download-btn {
+        background: #ef4444;
+        margin-top: 10px;
+    }
 </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Referral Generator — NPA Smart System (v1.0)</h1>
-    <div class="sub">Buat short-link & QR cepat untuk LP Master / LP Hot / Form Pendaftaran. Short link = <b>/r-<i>slug</i>.html</b> (download & upload ke repo)</div>
 
-    <div class="card">
-      <label>1) Pilih leader (atau isi manual)</label>
-      <div class="row" style="align-items:center">
-        <select id="leaderSelect" style="min-width:260px">
-          <option value="">— Pilih leader (jika ada) —</option>
-        </select>
-        <button class="btn btn-ghost" id="loadLeaders">Load leaders.json</button>
-        <div style="flex:1"></div>
-      </div>
+<h1>Referral Generator v1.5<br>NPA Smart System</h1>
 
-      <div style="height:10px"></div>
+<div class="card">
+    <label>Nama Leader</label>
+    <input id="name" placeholder="contoh: Sugiarto Kurniawan">
 
-      <label>Nama Leader</label>
-      <input id="name" placeholder="Sugiarto Kurniawan" class="gold-input" />
+    <label>Nomor WA Leader</label>
+    <input id="wa" placeholder="628xxxx">
 
-      <label style="margin-top:8px">No WA (628....)</label>
-      <input id="wa" placeholder="6285218453131" class="gold-input" />
+    <label>Slug (ID unik)</label>
+    <input id="slug" placeholder="contoh: sugiarto-ksm">
 
-      <label style="margin-top:8px">Slug (gunakan huruf kecil, pakai '-') </label>
-      <input id="slug" placeholder="sugiarto-kurniawan" class="gold-input" />
+    <label>Upload Foto (opsional)</label>
+    <input type="file" accept="image/*" id="photoInput">
+</div>
 
-      <div style="height:12px"></div>
-      <div class="row">
-        <button id="generate" class="btn btn-primary">Buat Link & QR</button>
-        <button id="downloadShort" class="btn btn-success" style="display:none">Download Short HTML</button>
-        <button id="downloadCard" class="btn btn-ghost" style="display:none">Download Social Card (PNG)</button>
-        <div style="flex:1"></div>
-        <label class="small">Social Card: upload foto (opsional)</label>
-        <input type="file" id="cardImage" accept="image/*" style="margin-left:8px" />
-      </div>
-    </div>
+<button onclick="generate()">Buat Link & QR Code</button>
 
-    <div id="resultPanel" class="card" style="display:none">
-      <label>Output Links & QR</label>
-      <div class="links" id="links">
-        <!-- link items injected here -->
-      </div>
+<div id="preview" class="preview-card"></div>
 
-      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:10px">
-        <div>
-          <div class="qr" id="qrWrap"><img id="qrImg" src="" alt="QR" style="max-width:100%;border-radius:6px"></div>
-          <div class="small" style="margin-top:6px">Scan atau screenshot</div>
-        </div>
-        <div style="flex:1">
-          <div class="preview" id="previewCard">
-            <div style="display:flex;gap:12px;align-items:center">
-              <img id="cardPreview" class="preview-img" src="" alt="" style="display:none">
-              <div>
-                <div id="pTitle" style="font-weight:700;color:var(--brand)">[LP Master Title]</div>
-                <div id="pSubtitle" class="small" style="margin-top:6px">Share this referral — short link ready</div>
-                <div style="margin-top:8px"><span class="mono" id="shortUrlDisplay"></span></div>
-              </div>
-            </div>
-          </div>
+<div id="qrArea" class="qr-box"></div>
 
-          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-            <button id="copyAll" class="btn btn-ghost">Copy All Links</button>
-            <button id="copyShort" class="btn btn-ghost">Copy Short Link</button>
-            <button id="shareWA" class="btn btn-primary">Bagikan ke WhatsApp</button>
-          </div>
-        </div>
-      </div>
-    </div>
+<div id="socialCard" class="social-card">
+    <img id="photoPreview">
+    <p id="socialName" style="font-size:18px;font-weight:700;color:#f1c40f;margin:5px 0;"></p>
+    <p style="font-size:14px;color:#9ca3af">Scan QR untuk membuka link referral</p>
+    <canvas id="socialQR"></canvas>
 
-    <footer>
-      Tip: setelah download file short HTML, upload ke repo GitHub:
-      <ul>
-        <li>untuk URL <code>/r-sugiarto.html</code> → upload file ke root repo</li>
-        <li>untuk URL <code>/r/sugiarto/</code> → upload file sebagai <code>r/sugiarto/index.html</code></li>
-      </ul>
-      Footer: Powered by NPA Smart System || 3IReborn.
-    </footer>
-  </div>
+    <button class="copy-btn" onclick="copyAll()">Copy Semua Link</button>
+    <button class="share-btn" onclick="shareWA()">Bagikan ke WhatsApp</button>
+    <button class="download-btn" onclick="downloadCard()">Download Social Card</button>
+</div>
+
+<!-- QR Generator -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
 <script>
-(async function(){
-  // Config — sesuaikan path LP jika butuh
-  const BASE = "https://3ireborn.github.io/pendaftaran-online";
-  const LP_MASTER = BASE + "/lp-master-v6.6.html";
-  const LP_HOT = BASE + "/lp-hot-v6.6.html";
-  const FORM = BASE + "/form-pendaftaran-v3.1.html";
 
-  // DOM
-  const leaderSelect = document.getElementById('leaderSelect');
-  const loadLeadersBtn = document.getElementById('loadLeaders');
-  const nameInput = document.getElementById('name');
-  const waInput = document.getElementById('wa');
-  const slugInput = document.getElementById('slug');
-  const generateBtn = document.getElementById('generate');
-  const resultPanel = document.getElementById('resultPanel');
-  const linksDiv = document.getElementById('links');
-  const qrImg = document.getElementById('qrImg');
-  const shortUrlDisplay = document.getElementById('shortUrlDisplay');
-  const cardImage = document.getElementById('cardImage');
-  const cardPreview = document.getElementById('cardPreview');
-  const downloadShort = document.getElementById('downloadShort');
-  const downloadCard = document.getElementById('downloadCard');
-  const copyAll = document.getElementById('copyAll');
-  const copyShort = document.getElementById('copyShort');
-  const shareWA = document.getElementById('shareWA');
-  const pTitle = document.getElementById('pTitle');
-  const pSubtitle = document.getElementById('pSubtitle');
+function generate() {
+    const name = document.getElementById("name").value.trim();
+    const wa = document.getElementById("wa").value.trim();
+    const slug = document.getElementById("slug").value.trim();
 
-  let uploadedCardData = null;
-  let lastGenerated = null;
-
-  // load leaders.json if exists
-  loadLeadersBtn.onclick = async () => {
-    try {
-      const resp = await fetch('./data/leaders.json');
-      if(!resp.ok) throw new Error('404');
-      const data = await resp.json();
-      leaderSelect.innerHTML = '<option value="">— Pilih leader —</option>';
-      data.forEach(l=>{
-        const opt = document.createElement('option');
-        opt.value = JSON.stringify(l);
-        opt.text = `${l.code || ''} ${l.name} (${l.slug || l.name.toLowerCase().replace(/\s+/g,'-')})`;
-        leaderSelect.appendChild(opt);
-      });
-      alert('Leaders loaded ✅');
-    } catch(e){
-      alert('Gagal load leaders.json (pastikan file ada di /data/leaders.json).');
-    }
-  };
-
-  leaderSelect.onchange = () => {
-    if(!leaderSelect.value) return;
-    const l = JSON.parse(leaderSelect.value);
-    nameInput.value = l.name || '';
-    waInput.value = l.phone || '';
-    slugInput.value = l.slug || (l.name||'').toLowerCase().replace(/\s+/g,'-');
-  };
-
-  // card image preview
-  cardImage.onchange = (e) => {
-    const f = e.target.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = ()=> {
-      uploadedCardData = reader.result; // base64 data URL
-      cardPreview.src = uploadedCardData;
-      cardPreview.style.display = 'block';
-      downloadCard.style.display = 'inline-block';
-    };
-    reader.readAsDataURL(f);
-  };
-
-  // helpers
-  function safeSlug(s){
-    return (s||'').trim().toLowerCase().replace(/[^a-z0-9\-]/g,'-').replace(/\-+/g,'-').replace(/^\-|\-$/g,'') || null;
-  }
-  function urlencode(s){ return encodeURIComponent(s||'') }
-
-  // QR generator helper (free)
-  function qrFor(url){
-    return "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" + encodeURIComponent(url);
-  }
-
-  // create the three links
-  function buildLinks(name, wa, slug){
-    // safety
-    const s = safeSlug(slug) || Date.now().toString(36);
-    const q = (u) => `${u}?name=${urlencode(name)}&wa=${urlencode(wa)}&slug=${urlencode(s)}`;
-    const master = q(LP_MASTER);
-    const hot = q(LP_HOT);
-    const form = q(FORM);
-    // Short link target: r-s<slug>.html (download & upload)
-    const shortFilename = `r-${s}.html`;
-    const shortUrl = `${BASE}/${shortFilename}`;
-    return {s,master,hot,form,shortFilename,shortUrl};
-  }
-
-  // generate file content for short HTML (redirect)
-  function makeShortHtml(shortToUrl, name, wa, slug, cardData){
-    // short page will redirect to master (with full query) and include meta tags for social
-    const title = `Referral — ${name}`;
-    const desc = `Join via ${name} — klik untuk daftar. WA: ${wa}`;
-    const imageTag = cardData ? `<meta property="og:image" content="${cardData}" />` : '';
-    const imgHtml = cardData ? `<div style="text-align:center;margin-top:14px"><img src="${cardData}" style="max-width:280px;border-radius:12px"/></div>` : '';
-    const html = `<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>${title}</title>
-<meta name="description" content="${desc}" />
-<meta property="og:title" content="${title}" />
-<meta property="og:description" content="${desc}" />
-${imageTag}
-<meta http-equiv="refresh" content="0;url=${shortToUrl}" />
-<script> // fallback redirect
-  setTimeout(()=>{location.href=${JSON.stringify(shortToUrl)}}, 500);
-</script>
-</head>
-<body style="font-family:system-ui,Arial,sans-serif;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;height:100vh">
-  <div style="text-align:center">
-    <h2 style="margin:0 0 6px">Mengalihkan ke halaman pendaftaran...</h2>
-    <p style="color:#666;margin:0 0 10px">${name} — WA: ${wa}</p>
-    ${imgHtml}
-    <p style="font-size:13px;color:#888;margin-top:12px">Jika tidak otomatis, klik <a href="${shortToUrl}">di sini</a>.</p>
-  </div>
-</body>
-</html>`;
-    return html;
-  }
-
-  // create social-card PNG (simple): using canvas
-  async function makeSocialCardPng(title, subtitle, imageData){
-    // create canvas
-    const canvas = document.createElement('canvas');
-    canvas.width = 1200; canvas.height = 630;
-    const ctx = canvas.getContext('2d');
-    // bg
-    ctx.fillStyle = "#0b3d91"; ctx.fillRect(0,0,canvas.width,canvas.height);
-    // light overlay
-    ctx.fillStyle = "rgba(255,255,255,0.06)"; ctx.fillRect(0,0,canvas.width,canvas.height);
-    // image on left if exists
-    if(imageData){
-      const img = await new Promise((res,rej)=>{
-        const im = new Image();
-        im.onload = ()=>res(im);
-        im.onerror = ()=>res(null);
-        im.src = imageData;
-      });
-      if(img){
-        const iw = 420; const ih = 420;
-        ctx.drawImage(img, 60, 105, iw, ih);
-      }
-    }
-    // title
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 48px Poppins, system-ui";
-    ctx.fillText(title, imageData?540:60, 200);
-    ctx.font = "20px Poppins, system-ui";
-    ctx.fillStyle = "#ffe9b3";
-    ctx.fillText(subtitle, imageData?540:60, 260);
-    // footer
-    ctx.fillStyle = "#d4af37";
-    ctx.font = "700 18px Poppins, system-ui";
-    ctx.fillText("NPA Smart System — 3IReborn", 60, 600);
-    return canvas.toDataURL("image/png");
-  }
-
-  // click generate
-  generateBtn.onclick = async () => {
-    const name = (nameInput.value || '').trim(); 
-    const wa = (waInput.value || '').trim();
-    const slug = (slugInput.value || '').trim();
-    if(!name || !wa || !slug){
-      return alert('Isi Nama, WA, dan Slug terlebih dulu.');
-    }
-    const payload = buildLinks(name, wa, slug);
-    lastGenerated = {name,wa,slug,...payload};
-
-    // show links
-    linksDiv.innerHTML = '';
-    const addLink = (label, url) => {
-      const el = document.createElement('div');
-      el.className = 'link-item';
-      el.innerHTML = `<div><div style="font-weight:700">${label}</div><div class="small mono">${url}</div></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="btn btn-ghost" data-url="${url}">Copy</button>
-          <a class="btn btn-ghost" href="${url}" target="_blank" rel="noopener">Buka</a>
-        </div>`;
-      linksDiv.appendChild(el);
-      el.querySelector('button').onclick = (e)=>{navigator.clipboard.writeText(url).then(()=>alert('Copied ✅'))}
-    };
-    addLink('🌐 LP Master', payload.master);
-    addLink('🔥 LP Hot', payload.hot);
-    addLink('📝 Form Pendaftaran', payload.form);
-    addLink('🔗 Short Link (upload file)', payload.shortUrl);
-
-    // QR
-    qrImg.src = qrFor(payload.shortUrl);
-    shortUrlDisplay.textContent = payload.shortUrl;
-    pTitle.textContent = `Referral — ${name}`;
-    pSubtitle.textContent = `${name} • WA ${wa}`;
-
-    // display card preview if uploaded
-    if(uploadedCardData){
-      cardPreview.src = uploadedCardData;
-      cardPreview.style.display = 'block';
-    } else {
-      cardPreview.style.display = 'none';
+    if (!name || !wa || !slug) {
+        alert("Isi semua data dulu beb 🙏");
+        return;
     }
 
-    // show result panel and download buttons
-    resultPanel.style.display = 'block';
-    downloadShort.style.display = 'inline-block';
-    downloadCard.style.display = uploadedCardData ? 'inline-block' : 'none';
-  };
+    const base = "https://3ireborn.github.io/pendaftaran-online/";
 
-  // download short html
-  downloadShort.onclick = (e) => {
-    if(!lastGenerated) return alert('Buat link dulu.');
-    const target = lastGenerated.master;
-    const shortHtml = makeShortHtml(target, lastGenerated.name, lastGenerated.wa, lastGenerated.s, uploadedCardData);
-    const blob = new Blob([shortHtml], {type:'text/html'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = lastGenerated.shortFilename;
-    document.body.appendChild(a); a.click(); a.remove();
-    alert('File short HTML ter-download. Upload ke repo sesuai petunjuk di halaman.');
-  };
+    const lpMaster = `${base}lp-master-v6.6.html?leader=${slug}&wa=${wa}`;
+    const lpHot = `${base}lp-hot-v6.6.html?leader=${slug}&wa=${wa}`;
+    const form = `${base}index-v2.html?leader=${slug}&wa=${wa}`;
 
-  // download social card png
-  downloadCard.onclick = async () => {
-    if(!lastGenerated) return alert('Buat link dulu.');
-    const png = await makeSocialCardPng(`${lastGenerated.name}`, 'Gabung sekarang!', uploadedCardData);
-    const a = document.createElement('a');
-    a.href = png;
-    a.download = `social-card-${lastGenerated.s}.png`;
-    document.body.appendChild(a); a.click(); a.remove();
-  };
+    const preview = document.getElementById("preview");
+    preview.style.display = "block";
+    preview.innerHTML = `
+        <h3>🔗 Link Siap Pakai</h3>
+        <p>🌐 LP Master:<br><a href="${lpMaster}" target="_blank">${lpMaster}</a></p>
+        <p>🔥 LP Hot:<br><a href="${lpHot}" target="_blank">${lpHot}</a></p>
+        <p>📝 Form Pendaftaran:<br><a href="${form}" target="_blank">${form}</a></p>
+    `;
 
-  // copy all
-  copyAll.onclick = ()=>{
-    if(!lastGenerated) return alert('Buat link dulu.');
-    const text = `LP Master: ${lastGenerated.master}\nLP Hot: ${lastGenerated.hot}\nPendaftaran: ${lastGenerated.form}\nShort: ${lastGenerated.shortUrl}`;
-    navigator.clipboard.writeText(text).then(()=>alert('Semua link disalin ✅'));
-  };
-
-  copyShort.onclick = ()=>{
-    if(!lastGenerated) return alert('Buat link dulu.');
-    navigator.clipboard.writeText(lastGenerated.shortUrl).then(()=>alert('Short link disalin ✅'));
-  };
-
-  shareWA.onclick = ()=>{
-    if(!lastGenerated) return alert('Buat link dulu.');
-    const msg = `Assalamu'alaikum. Cek info ini ya:\n${lastGenerated.shortUrl}\nHubungi ${lastGenerated.name} — WA: ${lastGenerated.wa}`;
-    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-    window.open(url,'_blank');
-  };
-
-  // auto load leaders.json if present
-  (async ()=>{ try{
-    const r = await fetch('./data/leaders.json');
-    if(!r.ok) return;
-    const data = await r.json();
-    leaderSelect.innerHTML = '<option value="">— Pilih leader —</option>';
-    data.forEach(l=>{
-      const opt = document.createElement('option');
-      opt.value = JSON.stringify(l);
-      opt.text = `${l.code || ''} ${l.name} (${l.slug || l.name.toLowerCase().replace(/\s+/g,'-')})`;
-      leaderSelect.appendChild(opt);
+    // QR untuk social card
+    const qrCanvas = document.getElementById("socialQR");
+    const qr = new QRious({
+        element: qrCanvas,
+        value: lpMaster,
+        size: 220,
+        background: "#0f172a",
+        foreground: "#f1c40f"
     });
-  }catch(e){ /* ignore */ } })();
 
-})();
+    // tampilkan social card
+    const sCard = document.getElementById("socialCard");
+    sCard.style.display = "block";
+    document.getElementById("socialName").innerText = name;
+
+    // upload foto ke preview
+    const file = document.getElementById("photoInput").files[0];
+    const photoPrev = document.getElementById("photoPreview");
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = e => photoPrev.src = e.target.result;
+        reader.readAsDataURL(file);
+    } else {
+        photoPrev.src = "https://via.placeholder.com/600x400/111827/f1c40f?text=Social+Card";
+    }
+
+    // simpan untuk share WA
+    window._allLinks = `🌐 LP Master:\n${lpMaster}\n\n🔥 LP Hot:\n${lpHot}\n\n📝 Form Pendaftaran:\n${form}`;
+}
+
+// COPY ALL LINKS
+function copyAll() {
+    navigator.clipboard.writeText(window._allLinks || "");
+    alert("Semua link sudah disalin! 🚀");
+}
+
+// SHARE WHATSAPP
+function shareWA() {
+    const url = "https://wa.me/?text=" + encodeURIComponent(window._allLinks);
+    window.open(url, "_blank");
+}
+
+// DOWNLOAD SOCIAL CARD
+function downloadCard() {
+    html2canvas(document.getElementById("socialCard")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "social-card.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
 </script>
+
+<!-- html2canvas -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 </body>
 </html>
