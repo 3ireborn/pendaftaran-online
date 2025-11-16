@@ -319,20 +319,18 @@ function renderTable() {
     });
 }
 
-// === TOMBOL: TAMBAH LEADER BARU ===
+// === TOMBOL: TAMBAH LEADER BARU (TANPA INPUT SLUG) ===
 document.getElementById("btnAddLeader").onclick = () => {
-    const name  = document.getElementById("inName").value.trim();
+    const name = document.getElementById("inName").value.trim();
     const phone = document.getElementById("inPhone").value.trim();
-    let slug    = document.getElementById("inSlug").value.trim();
 
     if(!name || !phone){
         toast("Nama dan nomor WA wajib diisi");
         return;
     }
 
-    if(!slug){
-        slug = name.toLowerCase().replace(/[^a-z0-9]+/g,"-");
-    }
+    // slug otomatis dari nama
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,"-");
 
     const arr = loadLeaders();
     arr.push({ name, phone, slug });
@@ -344,7 +342,6 @@ document.getElementById("btnAddLeader").onclick = () => {
     // reset form
     document.getElementById("inName").value="";
     document.getElementById("inPhone").value="";
-    document.getElementById("inSlug").value="";
 };
 
 // === INITIAL LOAD ===
