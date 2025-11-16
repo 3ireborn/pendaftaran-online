@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LP Master 3iReborn</title>
+
+<style>
+body{font-family:Arial;margin:0;padding:0;background:#fff}
+.container{padding:20px}
+.whatsapp-btn{
+display:block;background:#25D366;color:#fff;padding:15px;
+text-align:center;font-size:20px;border-radius:8px;text-decoration:none;
+margin-top:20px;
+}
+.alert{background:#e9f3ff;border-left:4px solid #1d6dff;color:#003f8a;
+padding:12px;border-radius:6px;margin-bottom:20px}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Pendaftaran Online 3i Reborn</h2>
+
+<div id="leaderInfo" class="alert">Memuat data leader...</div>
+
+<a id="waButton" class="whatsapp-btn" href="#" target="_blank">
+💬 Chat WhatsApp Leader
+</a>
+
+</div>
+
+<script>
+// --- Ambil parameter URL ---
+const params = new URLSearchParams(window.location.search);
+const leader = params.get("leader");
+const wa = params.get("wa");
+
+// --- Jika slug tidak ada di URL ---
+if(!leader){
+    document.getElementById("leaderInfo").innerHTML =
+    "Leader pada URL tidak ditemukan. Minta link yang benar dari leader Anda.";
+} else {
+    document.getElementById("leaderInfo").innerHTML =
+    `Bisnis ini dipresentasikan oleh: <b>${leader}</b>`;
+}
+
+// --- Tombol WhatsApp ke WA Leader --- 
+let waFinal = wa ? wa : "6282240001731"; // fallback admin jika kosong
+document.getElementById("waButton").href =
+`https://wa.me/${waFinal}?text=Halo%20saya%20minat%203iReborn`;
+
+</script>
+
+</body>
+</html>
