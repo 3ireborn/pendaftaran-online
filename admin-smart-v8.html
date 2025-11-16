@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Smart v8 – 3iReborn (Biru Tua)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+:root{
+    --bg:#f3f7ff;
+    --card:#ffffff;
+    --text:#06204a;
+    --muted:#5d6b86;
+    --brand:#0b3d91;
+    --accent:#f8c102;
+    --danger:#e84b4b;
+    --success:#25d366;
+}
+
+*{box-sizing:border-box}
+body{
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+.container{
+    max-width:480px;
+    margin:0 auto;
+    padding:20px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.08);
+    margin-bottom:25px;
+}
+
+h2{
+    margin:0 0 15px;
+    color:var(--brand);
+    text-align:center;
+    font-weight:700;
+}
+
+label{
+    font-size:14px;
+    font-weight:600;
+    color:var(--brand);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0 15px;
+    border-radius:8px;
+    border:1px solid #bcc7dd;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    background:var(--brand);
+    color:white;
+    margin-top:10px;
+}
+
+button.danger{ background:var(--danger) }
+button.accent{ background:var(--accent); color:#000 }
+button.success{ background:var(--success) }
+
+.list-item{
+    padding:14px;
+    border-radius:10px;
+    background:#eef3ff;
+    margin-bottom:10px;
+}
+
+.slug{
+    font-size:12px;
+    color:var(--muted);
+}
+
+hr{
+    border:none;
+    border-top:1px solid #d7ddea;
+    margin:20px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Admin Smart v8<br>3iReborn – Biru Tua</h2>
+
+    <!-- CARD INPUT PEMBUATAN LEADER -->
+    <div class="card">
+        <label>Nama Leader</label>
+        <input id="name" placeholder="cth: Sugiarto Kurniawan">
+
+        <label>No. WhatsApp Leader</label>
+        <input id="phone" placeholder="628xxxxx">
+
+        <button onclick="addLeader()" class="success">Tambah Leader</button>
+    </div>
+
+    <!-- LIST LEADER -->
+    <div class="card">
+        <h3 style="text-align:center;margin-top:0">Daftar Leader</h3>
+        <div id="leaderList"></div>
+    </div>
+
+</div>
+<script>
+// === UTILITAS SLUG ===
+function slugify(text) {
+    return text
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')       // ganti spasi dengan -
+        .replace(/[^a-z0-9-]/g, '') // hapus karakter aneh
+        .replace(/--+/g, '-')       // hilangkan --
+        .replace(/^-+|-+$/g, '');   // trim -
+}
+
+// === LOAD / SAVE LEADER STORAGE ===
+function loadLeaders() {
+    return JSON.parse(localStorage.getItem("leaders-smart-v8") || "[]");
+}
+function saveLeaders(arr) {
+    localStorage.setItem("leaders-smart-v8", JSON.stringify(arr));
+}
+
+// === RENDER LIST ===
+function renderLeaders() {
+    const list = document.getElementById("leaderList");
+    const arr = loadLeaders();
+    list.innerHTML = "";
+
+    if (arr.length === 0) {
+        list.innerHTML = "<p style='text-align:center;color:#5d6b86'>Belum ada leader.</p>";
+        return;
+    }
+
+    arr.forEach((l, i) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+            <strong>${l.name}</strong><br>
+            Slug: <b>${l.slug}</b><br>
+            WA: ${l.phone}<br><br>
+
+            <button onclick="editLeader(${i})" class="success">Edit</button>
+            <button onclick="deleteLeader(${i})" class="danger">Hapus</button>
+            <button onclick="__createLP(${i})" class="brand">Download LP</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// === TAMBAH LEADER ===
+function addLeader() {
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    if (!name || !phone) {
+        toast("Nama & WA wajib diisi", true);
+        return;
+    }
+
+    const arr = loadLeaders();
+    const slug = slugify(name);
+
+    // Cegah slug duplikat
+    if (arr.some(a => a.slug === slug)) {
+        toast("Slug sudah ada. Gunakan nama unik!", true);
+        return;
+    }
+
+    arr.push({ name, phone, slug });
+    saveLeaders(arr);
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+
+    toast("Leader ditambahkan!");
+    renderLeaders();
+}
+
+// === EDIT LEADER ===
+function editLeader(i) {
+    const arr = loadLeaders();
+    const l = arr[i];
+    if (!l) return;
+
+    const newName = prompt("Edit Nama:", l.name);
+    if (newName === null) return;
+
+    const newPhone = prompt("Edit No WA:", l.phone);
+    if (newPhone === null) return;
+
+    l.name = newName.trim();
+    l.phone = newPhone.trim().replace(/\s+/g, '');
+
+    l.slug = slugify(l.name);
+    arr[i] = l;
+
+    saveLeaders(arr);
+    toast("Leader diperbarui!");
+    renderLeaders();
+}
+
+// === HAPUS LEADER ===
+function deleteLeader(i) {
+    if (!confirm("Yakin hapus leader ini?")) return;
+    const arr = loadLeaders();
+    arr.splice(i, 1);
+    saveLeaders(arr);
+    renderLeaders();
+}
+</script>
+<script>
+// === GENERATE HTML LANDING PAGE ===
+function generateLPHtml(l) {
+    return `
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LP - ${l.name}</title>
+<style>
+body{font-family:Arial;margin:0;padding:20px;background:#ffffff;}
+.card{background:#f4f7ff;padding:15px;border-left:5px solid #1d6dff;
+border-radius:8px;margin-bottom:20px}
+.whatsapp-btn{
+display:block;background:#25D366;color:white;padding:15px;text-align:center;
+border-radius:8px;font-size:18px;text-decoration:none;margin-top:20px}
+</style>
+</head>
+
+<body>
+
+<h2>Pendaftaran Online 3i Reborn</h2>
+
+<div class="card">
+Bisnis ini dipresentasikan oleh:<br>
+<b>${l.slug.toUpperCase()} — ${l.name}</b><br>
+Nomor WA: ${l.phone}
+</div>
+
+<a class="whatsapp-btn"
+href="https://wa.me/${l.phone}?text=Halo%20saya%20tertarik%203iReborn"
+target="_blank">💬 Chat WhatsApp Leader</a>
+
+<p style="margin-top:30px;color:#777">Generated otomatis oleh Smart Admin v8</p>
+
+</body>
+</html>
+`;
+}
+
+// === DOWNLOAD FILE LP ===
+window.__createLP = (i) => {
+    const arr = loadLeaders();
+    if (!arr[i]) return;
+
+    const l = arr[i];
+    const html = generateLPHtml(l);
+    const blob = new Blob([html], { type: "text/html" });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `lp-${l.slug || l.name.split(' ').join('-')}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    toast("File LP berhasil dibuat!");
+};
+</script>
+<script>
+// === RENDER TABEL LIST LEADER ===
+function renderTable() {
+    const tbody = document.getElementById("leaderTableBody");
+    tbody.innerHTML = "";
+
+    loadLeaders().forEach((l, i) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${i+1}</td>
+            <td>${l.name}</td>
+            <td>${l.phone}</td>
+            <td>${l.slug}</td>
+            <td>
+                <button onclick="__createLP(${i})"
+                    style="padding:6px 10px;background:#1d6dff;color:#fff;border:none;border-radius:6px;cursor:pointer;">
+                    Download LP
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+// === TOMBOL: TAMBAH LEADER BARU ===
+document.getElementById("btnAddLeader").onclick = () => {
+    const name  = document.getElementById("inName").value.trim();
+    const phone = document.getElementById("inPhone").value.trim();
+    let slug    = document.getElementById("inSlug").value.trim();
+
+    if(!name || !phone){
+        toast("Nama dan nomor WA wajib diisi");
+        return;
+    }
+
+    if(!slug){
+        slug = name.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+    }
+
+    const arr = loadLeaders();
+    arr.push({ name, phone, slug });
+    saveLeaders(arr);
+
+    renderTable();
+    toast("Leader berhasil ditambahkan!");
+
+    // reset form
+    document.getElementById("inName").value="";
+    document.getElementById("inPhone").value="";
+    document.getElementById("inSlug").value="";
+};
+
+// === INITIAL LOAD ===
+renderTable();
+toast("Admin siap digunakan 🚀");
+</script>
+</body>
+</html>
