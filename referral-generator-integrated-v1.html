@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Referral Generator — Integrated Admin + Generator (v1)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#071032; --card:#0f2540; --accent:#f5c32c; --muted:#9fb0d0; --white:#ffffff;
+    --success:#25D366; --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Poppins, Arial, sans-serif;background:linear-gradient(180deg,#03102a 0%, #071032 100%);color:var(--white);padding:18px}
+  .wrap{max-width:920px;margin:0 auto}
+  h1{margin:6px 0 18px;font-size:26px;color:var(--accent);text-align:center}
+  .grid{display:grid;grid-template-columns:1fr 420px;gap:18px}
+  .card{background:rgba(255,255,255,0.04);border-radius:12px;padding:14px;border:2px solid rgba(255,255,255,0.04)}
+  label{display:block;font-weight:600;margin-bottom:6px;color:#dce9ff}
+  input[type=text], input[type=file], select{width:100%;padding:12px;border-radius:10px;border:2px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:var(--white);outline:none}
+  button{cursor:pointer;border:none;border-radius:10px;padding:12px 14px;font-weight:600}
+  .btn-primary{background:linear-gradient(90deg,#2ea3ff,#2b6cff);color:#fff}
+  .btn-green{background:var(--success);color:#022}
+  .btn-danger{background:var(--danger);color:#fff}
+  .small{font-size:13px;color:var(--muted);margin-top:6px}
+  .leader-row{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;margin-bottom:10px;background:rgba(255,255,255,0.02)}
+  .leader-thumb{width:56px;height:56px;border-radius:50%;overflow:hidden;border:4px solid var(--accent);flex:0 0 56px}
+  .leader-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .leader-meta{flex:1}
+  .links-box{background:rgba(0,0,0,0.15);padding:12px;border-radius:10px;color:#fff;margin-bottom:10px;word-break:break-all}
+  .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .qr-preview{display:block;margin:10px auto 6px;border-radius:12px;background:#fff;padding:10px}
+  .download-btn{display:block;width:100%;padding:12px;border-radius:12px;background:linear-gradient(90deg,#ff6b6b,#ff8a5c);color:#fff;text-align:center;text-decoration:none;font-weight:700;margin-top:10px}
+  .muted{color:var(--muted)}
+  @media(max-width:900px){ .grid{grid-template-columns:1fr; } .card{padding:12px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Referral Generator — Integrated Admin + Generator</h1>
+
+  <div class="grid">
+
+    <!-- LEFT: Admin -->
+    <div class="card" id="adminCard">
+      <h3>Admin: Tambah / Kelola Leader</h3>
+      <div>
+        <label>Nama Leader</label>
+        <input id="inName" type="text" placeholder="contoh: Sugiarto Kurniawan">
+      </div>
+      <div style="margin-top:8px">
+        <label>Nomor WA Leader (format 62...)</label>
+        <input id="inPhone" type="text" placeholder="628xxxxxxxx">
+      </div>
+      <div style="margin-top:8px">
+        <label>Slug (opsional — kosongkan untuk auto)</label>
+        <input id="inSlug" type="text" placeholder="contoh: sugiarto-ksm">
+      </div>
+      <div style="margin-top:8px">
+        <label>Foto Leader (opsional)</label>
+        <input id="inPhoto" type="file" accept="image/*">
+        <div class="small">Foto akan disimpan di browser (localStorage) sebagai data image. Gunakan ukuran kuadrat atau 4:5.</div>
+      </div>
+
+      <div style="margin-top:12px" class="action-row">
+        <button id="btnAddLeader" class="btn-primary">Tambah Leader</button>
+        <button id="btnClearAll" class="btn-danger">Hapus Semua</button>
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
+
+      <h3>Daftar Leader</h3>
+      <div id="leaderList" style="max-height:360px;overflow:auto;padding-right:6px"></div>
+    </div>
+
+    <!-- RIGHT: Generator -->
+    <div class="card" id="genCard">
+      <h3>Referral Generator</h3>
+
+      <div>
+        <label>Pilih Leader</label>
+        <select id="selectLeader"></select>
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Preview Nama tampil (bisa edit)</label>
+        <input id="previewName" type="text">
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Nomor WA tujuan (bisa edit)</label>
+        <input id="previewWA" type="text">
+      </div>
+
+      <div style="margin-top:10px" class="action-row">
+        <button id="btnGenerate" class="btn-primary">Generate Links & QR</button>
+        <button id="btnDownloadLP" class="btn-green">Download LP HTML</button>
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+
+      <div id="linksPanel" style="display:none">
+        <h4 class="muted">Links Siap Pakai</h4>
+        <div class="links-box" id="linkMaster"></div>
+        <div class="links-box" id="linkHot"></div>
+        <div class="links-box" id="linkForm"></div>
+
+        <div class="action-row">
+          <button id="btnCopyAll" class="btn-primary">Copy Semua Link</button>
+          <button id="btnShareWA" class="btn-green">Bagikan ke WhatsApp</button>
+        </div>
+
+        <div style="margin-top:14px">
+          <h4 class="muted">QR (scan akan buka Form referral)</h4>
+          <img id="qrImg" class="qr-preview" width="280" height="280" alt="QR">
+        </div>
+
+        <div style="margin-top:12px">
+          <h4 class="muted">Social Card Preview</h4>
+          <div id="cardPreview" style="text-align:center;padding:12px">
+            <div style="display:inline-block;background:linear-gradient(180deg,#071a3a,#0b2340);padding:18px;border-radius:18px">
+              <div id="cardThumb" style="width:160px;height:160px;border-radius:12px;overflow:hidden;margin:0 auto;border:6px solid var(--accent)">
+                <img id="cardThumbImg" src="" style="width:100%;height:100%;object-fit:cover" alt="">
+              </div>
+              <div style="color:var(--accent);font-weight:700;margin-top:12px" id="cardName">-</div>
+              <img id="cardQRSmall" src="" width="160" height="160" style="margin-top:10px;border-radius:12px;background:#fff;padding:8px" alt="">
+            </div>
+          </div>
+
+          <div class="action-row" style="justify-content:center">
+            <button id="btnDownloadCard" class="btn-primary">Download Social Card (PNG)</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="height:28px"></div>
+  <div class="small muted">Versi integrated — simpan file ini di server / GitHub Pages jika ingin dipakai bersama tim.</div>
+</div>
+
+<script>
+/* ====== Utilities ====== */
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = '3ireborn_leaders_v1';
+
+// simple slugify
+function slugify(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/[^a-z0-9\s-]/g,'')
+    .replace(/\s+/g,'-')
+    .replace(/-+/g,'-');
+}
+
+// load/save leaders (array of {name,phone,slug,photo})
+function loadLeaders(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }catch(e){ return [] } }
+function saveLeaders(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)) }
+
+/* ====== Render Admin List & Select ====== */
+function renderLeaderList(){
+  const list = loadLeaders();
+  const container = $('leaderList');
+  container.innerHTML = '';
+  if(!list.length){ container.innerHTML = '<div class="small muted">Belum ada leader. Tambah leader di atas.</div>'; updateSelect(); return; }
+
+  list.forEach((l, i)=>{
+    const row = document.createElement('div');
+    row.className = 'leader-row';
+    row.innerHTML = `
+      <div class="leader-thumb"><img src="${l.photo || defaultAvatar(l.name)}" alt=""></div>
+      <div class="leader-meta">
+        <div style="font-weight:700">${escapeHtml(l.name)}</div>
+        <div class="small muted">${escapeHtml(l.phone)} • ${escapeHtml(l.slug)}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button data-i="${i}" class="btn-edit" style="background:#2ea3ff;color:#022;padding:8px;border-radius:8px">Pilih</button>
+        <button data-i="${i}" class="btn-del" style="background:#ff6b6b;color:#fff;padding:8px;border-radius:8px">Hapus</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  // attach events
+  container.querySelectorAll('.btn-edit').forEach(b=>{
+    b.addEventListener('click', e=>{
+      const i = +e.currentTarget.dataset.i;
+      populateGenerator(i);
+      toast('Leader dipilih untuk generate');
+    });
+  });
+  container.querySelectorAll('.btn-del').forEach(b=>{
+    b.addEventListener('click', e=>{
+      const i = +e.currentTarget.dataset.i;
+      const arr = loadLeaders();
+      if(!arr[i]) return;
+      if(!confirm('Hapus leader ini?')) return;
+      arr.splice(i,1);
+      saveLeaders(arr);
+      renderAll();
+      toast('Leader dihapus');
+    });
+  });
+
+  updateSelect();
+}
+
+function updateSelect(){
+  const sel = $('selectLeader');
+  const arr = loadLeaders();
+  sel.innerHTML = '';
+  const optEmpty = document.createElement('option');
+  optEmpty.value = '';
+  optEmpty.text = '-- pilih leader --';
+  sel.appendChild(optEmpty);
+  arr.forEach((l,i)=>{
+    const o = document.createElement('option');
+    o.value = i;
+    o.text = `${l.name} (${l.phone})`;
+    sel.appendChild(o);
+  });
+}
+
+/* ====== Default avatar placeholder (svg data url) ====== */
+function defaultAvatar(name){
+  const initials = (name||'U').split(' ').filter(Boolean).map(s=>s[0].toUpperCase()).slice(0,2).join('');
+  const bg='#0b2340', fg='#f5c32c';
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='${bg}'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='120' fill='${fg}' font-family='Poppins,Arial'>${initials}</text></svg>`;
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+}
+
+/* ====== Escaping helper ====== */
+function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+/* ====== Toast simple ====== */
+function toast(msg){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style,{position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'28px',background:'#000a',color:'#fff',padding:'10px 14px',borderRadius:'8px',zIndex:9999});
+  document.body.appendChild(t);
+  setTimeout(()=>t.style.opacity='0.01',2200);
+  setTimeout(()=>t.remove(),2600);
+}
+
+/* ====== Admin actions ====== */
+$('btnAddLeader').addEventListener('click', async ()=>{
+  const name = $('inName').value.trim();
+  const phone = $('inPhone').value.trim();
+  let slug = $('inSlug').value.trim();
+  if(!name || !phone){ toast('Nama dan nomor WA wajib diisi'); return; }
+  if(!slug) slug = slugify(name);
+
+  // photo -> dataURL
+  const fileInput = $('inPhoto');
+  let photoData = '';
+  if(fileInput.files && fileInput.files[0]){
+    photoData = await readFileAsDataURL(fileInput.files[0]);
+  }
+  const arr = loadLeaders();
+  // prevent duplicate slug
+  if(arr.some(x=>x.slug === slug)){
+    toast('Slug sudah ada. Gunakan slug berbeda atau edit nama.');
+    return;
+  }
+  arr.push({name, phone, slug, photo: photoData});
+  saveLeaders(arr);
+  // reset
+  $('inName').value=''; $('inPhone').value=''; $('inSlug').value=''; $('inPhoto').value='';
+  renderAll();
+  toast('Leader berhasil ditambahkan');
+});
+
+$('btnClearAll').addEventListener('click', ()=>{ if(confirm('Hapus semua leader?')){ localStorage.removeItem(STORAGE_KEY); renderAll(); toast('Semua leader dihapus'); } });
+
+function readFileAsDataURL(f){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = ()=>res(r.result);
+    r.onerror = ()=>rej('fail');
+    r.readAsDataURL(f);
+  });
+}
+
+/* ====== Generator actions ====== */
+$('btnGenerate').addEventListener('click', ()=>{
+  const selIndex = $('selectLeader').value;
+  const arr = loadLeaders();
+  let leaderObj = null;
+
+  if(selIndex !== '' && arr[selIndex]){
+    leaderObj = arr[selIndex];
+  } else {
+    // allow using form preview name/wa directly
+    const pName = $('previewName').value.trim();
+    const pWA = $('previewWA').value.trim();
+    if(!pName || !pWA){ toast('Pilih leader atau isi preview name & WA'); return; }
+    leaderObj = {name:pName, phone:pWA, slug: slugify($('previewName').value || pName), photo:''};
+  }
+
+  generateAllForLeader(leaderObj);
+});
+
+function generateAllForLeader(l){
+  const base = location.origin + location.pathname.replace(/\/[^/]*$/, '') + '/'; // fallback but we'll use domain as current path root
+  // better: use domain root based on current location origin and known folder 'pendaftaran-online'
+  // For flexibility, create link templates
+  const root = `${location.origin}/pendaftaran-online/`;
+  const lpMaster = `${root}lp-master-v6.6.html?leader=${encodeURIComponent(l.slug)}&wa=${encodeURIComponent(l.phone)}`;
+  const lpHot = `${root}lp-hot-v6.6.html?leader=${encodeURIComponent(l.slug)}&wa=${encodeURIComponent(l.phone)}`;
+  const form = `${root}index-v2.html?leader=${encodeURIComponent(l.slug)}&wa=${encodeURIComponent(l.phone)}`;
+
+  $('linkMaster').textContent = lpMaster;
+  $('linkHot').textContent = lpHot;
+  $('linkForm').textContent = form;
+
+  $('linksPanel').style.display = 'block';
+
+  // QR point to form (recommended)
+  const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=400x400&chld=L|1&chl=${encodeURIComponent(form)}`;
+  $('qrImg').src = qrUrl;
+  $('cardQRSmall').src = qrUrl;
+
+  // card preview
+  $('cardName').textContent = l.name;
+  $('cardThumbImg').src = l.photo || defaultAvatar(l.name);
+
+  // store last generated for download
+  lastGenerated = { leader:l, links:{lpMaster, lpHot, form}, qrUrl };
+  toast('Links dan QR siap');
+}
+
+let lastGenerated = null;
+
+$('btnCopyAll').addEventListener('click', ()=>{
+  if(!lastGenerated){ toast('Belum generate'); return; }
+  const t = `LP Master: ${lastGenerated.links.lpMaster}\nLP Hot: ${lastGenerated.links.lpHot}\nForm: ${lastGenerated.links.form}`;
+  navigator.clipboard.writeText(t).then(()=>toast('Semua link disalin'));
+});
+
+$('btnShareWA').addEventListener('click', ()=>{
+  if(!lastGenerated){ toast('Belum generate'); return; }
+  const msg = encodeURIComponent(`Assalamu'alaikum. Cek link informasi 3i Reborn Anda:\n\n${lastGenerated.links.lpMaster}\n${lastGenerated.links.lpHot}\n${lastGenerated.links.form}\n\nSilakan dibagikan ke mitra Anda.`);
+  // open wa
+  const waTarget = lastGenerated.leader && lastGenerated.leader.phone ? lastGenerated.leader.phone : '6282240001731';
+  window.open(`https://wa.me/${waTarget}?text=${msg}`, '_blank');
+});
+
+/* ====== Download LP HTML (generate static page with leader prefilled) ====== */
+$('btnDownloadLP').addEventListener('click', ()=>{
+  const sel = $('selectLeader').value;
+  const arr = loadLeaders();
+  if(sel === '' || !arr[sel]){ toast('Pilih leader dari daftar untuk download LP'); return; }
+  const l = arr[sel];
+  const html = generateLPHTML(l);
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `lp-${l.slug || slugify(l.name)}.html`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  toast('File LP siap di-download');
+});
+
+function generateLPHTML(l){
+  // minimal LP that reads leader from URL; but we inject leader values as default query to keep locked
+  const root = 'https://3ireborn.github.io/pendaftaran-online/'; // change if needed
+  const formLink = `${root}index-v2.html?leader=${encodeURIComponent(l.slug)}&wa=${encodeURIComponent(l.phone)}`;
+  return `<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LP - ${escapeHtml(l.name)}</title></head><body>
+<h2>LP Preview — ${escapeHtml(l.name)}</h2>
+<p>Form: <a href="${formLink}" target="_blank">${formLink}</a></p>
+</body></html>`;
+}
+
+/* ====== Social Card Download: draw canvas & save PNG ====== */
+$('btnDownloadCard').addEventListener('click', async ()=>{
+  if(!lastGenerated){ toast('Belum generate social card'); return; }
+  try{
+    await createAndDownloadCard(lastGenerated);
+  }catch(e){
+    console.error(e); toast('Gagal generate card');
+  }
+});
+
+async function createAndDownloadCard(payload){
+  const canvasW = 1200, canvasH = 1500;
+  const cnv = document.createElement('canvas');
+  cnv.width = canvasW; cnv.height = canvasH;
+  const ctx = cnv.getContext('2d');
+
+  // background
+  ctx.fillStyle = '#071032';
+  ctx.fillRect(0,0,canvasW,canvasH);
+
+  // draw rounded panel
+  const pad = 60, cardW = canvasW - pad*2, cardH = canvasH - pad*2;
+  roundRect(ctx, pad, pad, cardW, cardH, 30, true, false);
+  ctx.fillStyle = '#0f2540';
+  ctx.fill();
+
+  // name
+  ctx.fillStyle = '#f5c32c';
+  ctx.font = 'bold 56px Poppins, Arial';
+  ctx.textAlign = 'center';
+  const name = payload.leader.name || '-';
+  ctx.fillText(name, canvasW/2, pad + 340);
+
+  // avatar
+  const avatarSize = 420;
+  const avatarX = (canvasW - avatarSize)/2;
+  const avatarY = pad + 80;
+  const avatarImg = await loadImage(payload.leader.photo || defaultAvatar(payload.leader.name));
+  // circular clip
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(canvasW/2, avatarY + avatarSize/2, avatarSize/2, 0, Math.PI*2);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(avatarImg, avatarX, avatarY, avatarSize, avatarSize);
+  ctx.restore();
+
+  // QR
+  const qrImg = await loadImage(payload.qrUrl);
+  const qrSize = 540;
+  const qrX = (canvasW - qrSize)/2;
+  const qrY = pad + 430;
+  // QR background rounded
+  ctx.fillStyle = '#fff';
+  roundRect(ctx, qrX-16, qrY-16, qrSize+32, qrSize+32, 22, true, false);
+  ctx.fill();
+  ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+
+  // footer text
+  ctx.fillStyle = '#cfe6ff';
+  ctx.font = '20px Poppins, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Scan QR untuk membuka link referral', canvasW/2, qrY + qrSize + 80);
+
+  // download
+  const dataUrl = cnv.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = `social-card-${slugify(payload.leader.name)}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  toast('Social card di-download');
+}
+
+function roundRect(ctx, x, y, w, h, r, fill, stroke){
+  if (typeof r === 'undefined') r = 5;
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+function loadImage(src){
+  return new Promise((res, rej)=>{
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = ()=>res(img);
+    img.onerror = ()=>{ 
+      // fallback to default avatar
+      const a = new Image();
+      a.onload = ()=>res(a);
+      a.onerror = ()=>res(img);
+      a.src = defaultAvatar('U'); 
+    };
+    img.src = src;
+  });
+}
+
+/* ====== Helper: populate generator with given leader index ====== */
+function populateGenerator(index){
+  const arr = loadLeaders();
+  const l = arr[index];
+  if(!l) return;
+  $('selectLeader').value = index;
+  $('previewName').value = l.name;
+  $('previewWA').value = l.phone;
+  // show preview images
+  $('cardThumbImg').src = l.photo || defaultAvatar(l.name);
+  $('cardName').textContent = l.name;
+}
+
+/* ====== Initial render and wiring ====== */
+function renderAll(){
+  renderLeaderList();
+  updateSelect();
+  // clear generate panel
+  $('linksPanel').style.display = 'none';
+}
+renderAll();
+
+/* ====== allow selecting from dropdown to populate preview ====== */
+$('selectLeader').addEventListener('change', (e)=>{
+  const v = e.target.value;
+  if(v === ''){ $('previewName').value=''; $('previewWA').value=''; return; }
+  const arr = loadLeaders();
+  const l = arr[v];
+  if(l){ $('previewName').value = l.name; $('previewWA').value = l.phone; $('cardThumbImg').src = l.photo || defaultAvatar(l.name); $('cardName').textContent = l.name; }
+});
+
+/* ====== helper: escape input when generating LP HTML earlier ====== */
+function escapeForHtml(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+/* ====== small helpers to keep UI in sync after operations ====== */
+document.addEventListener('DOMContentLoaded', ()=>{ renderAll(); });
+
+</script>
+</body>
+</html>
