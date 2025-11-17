@@ -1,0 +1,65 @@
+
+<!-- FILE: admin-generator-simple.html -->
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Generator — Buat 3 Link (Simple)</title>
+  <style>
+    :root{--bg:#f6f9ff;--card:#fff;--brand:#0b3d91}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#0b2245}
+    .wrap{max-width:760px;margin:18px auto;padding:20px}
+    .card{background:#fff;padding:14px;border-radius:12px;border:1px solid #e6f0ff}
+    label{display:block;margin-top:10px;font-weight:700}
+    input{width:100%;padding:10px;border-radius:8px;border:1px solid #dbeafc}
+    .row{display:flex;gap:8px;margin-top:10px}
+    button{padding:10px 12px;border-radius:8px;border:0;background:var(--brand);color:#fff;font-weight:700;cursor:pointer}
+    .out{margin-top:12px;background:#f0f7ff;border:1px solid #dbeeff;padding:10px;border-radius:8px;font-family:monospace}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Admin Generator — Buat 3 Link untuk Leader</h2>
+    <div class="card">
+      <label>Nama Leader</label>
+      <input id="name" placeholder="Contoh: Sugiarto Kurniawan" />
+      <label>No WhatsApp Leader (628...)</label>
+      <input id="wa" placeholder="628..." />
+      <label>Slug (opsional, misal: sugiarto)</label>
+      <input id="slug" placeholder="otomatis kalau kosong" />
+      <div class="row">
+        <button id="build">Buat 3 Link</button>
+        <button id="copyAll">Copy Semua Link</button>
+      </div>
+
+      <div id="out" class="out">Hasil link akan muncul di sini setelah klik "Buat 3 Link"</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const base='https://3ireborn.github.io/pendaftaran-online';
+  function slugify(s){return s?String(s).trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''):'leader';}
+  document.getElementById('build').onclick = ()=>{
+    const name=document.getElementById('name').value.trim() || 'Leader';
+    const wa=document.getElementById('wa').value.trim() || '6285218453131';
+    const slug=document.getElementById('slug').value.trim() || slugify(name);
+
+    const lpMaster = `${base}/lp-master-v6.6.html?name=${encodeURIComponent(name)}&wa=${encodeURIComponent(wa)}&slug=${encodeURIComponent(slug)}`;
+    const lpHot = `${base}/lp-hot-v6.6.html?name=${encodeURIComponent(name)}&wa=${encodeURIComponent(wa)}&slug=${encodeURIComponent(slug)}`;
+    const form = `${base}/index-v2.html?name=${encodeURIComponent(name)}&wa=${encodeURIComponent(wa)}&slug=${encodeURIComponent(slug)}`;
+
+    const out = `LP MASTER: ${lpMaster}\nLP HOT: ${lpHot}\nFORM PENDAFTARAN: ${form}`;
+    document.getElementById('out').textContent = out;
+  };
+
+  document.getElementById('copyAll').onclick = ()=>{
+    const t=document.getElementById('out').textContent;
+    navigator.clipboard.writeText(t).then(()=>alert('Link disalin ke clipboard'));
+  };
+})();
+</script>
+</body>
+</html>
