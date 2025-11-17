@@ -3,80 +3,213 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>3iReborn Bersama Leader Kamu</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>3iReborn — LP HOT v6.6 (Putih–Biru)</title>
+
 <style>
-body{font-family:'Poppins',sans-serif;margin:0;background:#f8fafc;color:#1e293b}
-.hero{background:linear-gradient(135deg,#0b3d91,#d4380d);color:#fff;text-align:center;padding:70px 25px;border-radius:0 0 40px 40px;}
-.hero h1{font-size:28px;margin-bottom:10px}
-.hero p{font-size:15px;opacity:0.9}
-section{max-width:500px;margin:-40px auto 40px;background:#fff;border-radius:20px;padding:30px 25px;box-shadow:0 8px 20px rgba(0,0,0,.1);}
-label{display:block;margin-top:15px;font-weight:600;color:#0b3d91}
-input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;margin-top:6px;font-size:15px}
-button{width:100%;padding:15px;background:#22c55e;color:#fff;border:none;border-radius:50px;font-weight:700;font-size:16px;margin-top:25px;cursor:pointer}
-button:hover{background:#16a34a}
-footer{text-align:center;font-size:14px;color:#64748b;padding:20px 0;}
+  :root{
+    --bg:#f6faff; --card:#ffffff; --ink:#0b3d91; --muted:#627096; --line:#e2ecff;
+    --brand:#0b3d91; --accent:#21a47a; --cta:#0b3d91; --ctaHover:#082a6a;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#1b2553;font-family:system-ui,Segoe UI,Roboto,Inter,Arial}
+  .wrap{max-width:980px;margin:auto;padding:18px}
+
+  .hero{
+    background:#ffffff;border:1px solid var(--line);
+    border-radius:16px;padding:24px
+  }
+  .hero h1{color:var(--ink);margin:0 0 6px;font-size:26px}
+  .presenter{
+    font-weight:700;color:var(--ink);
+    background:#eaf2ff;border:1px solid var(--line);
+    display:inline-block;padding:6px 10px;border-radius:999px;
+    margin-bottom:6px
+  }
+  .lead{color:var(--muted)}
+
+  .btn{border:0;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+  .btn.cta{background:var(--cta);color:#fff}
+  .btn.cta:hover{background:var(--ctaHover)}
+  .btn.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:18px;margin-top:14px
+  }
+
+  /* Carousel */
+  .carousel{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#eef4ff}
+  .slides{display:flex;transition:transform .6s ease}
+  .slide{min-width:100%;padding:16px}
+  .quote{font-size:1.05rem;color:#0b3d91;margin:0}
+  .cite{color:#627096;margin:6px 0 0}
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+  .dot{width:8px;height:8px;border-radius:999px;background:#cbd9ff}
+  .dot.active{background:#0b3d91}
+
+  .grid{display:grid;gap:16px}
+  @media(min-width:880px){.cols2{grid-template-columns:1fr 1fr}}
+
+  .footer{color:var(--muted);text-align:center;margin:16px 0}
+
+  /* fade animation */
+  .fadeUp{opacity:0;transform:translateY(10px);animation:fadeUp .6s ease forwards}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="hero">
-  <h1 id="heroTitle">3iReborn Bersama Leader Kamu</h1>
-  <p>Proteksi • Investasi • Penghasilan Tanpa Batas</p>
+  <!-- HERO -->
+  <div class="hero fadeUp" style="animation-delay:.05s">
+    <div id="presenter" class="presenter">Memuat leader…</div>
+    <h1>Siap Melangkah Lebih Jauh?</h1>
+    <p class="lead">Berikut bukti nyata & langkah praktis untuk mulai hari ini juga.</p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn cta" id="btnDaftar">Daftar Sekarang</button>
+      <button class="btn outline" id="btnWA">Tanya Dulu via WhatsApp</button>
+    </div>
+  </div>
+
+  <div class="grid cols2">
+
+    <!-- ALASAN -->
+    <div class="card fadeUp" style="animation-delay:.1s">
+      <h2 style="color:var(--ink);margin:0 0 8px">3 Alasan Kenapa Banyak Orang Memulai</h2>
+
+      <ul style="margin:6px 0 0 18px">
+        <li><b>Produk jelas:</b> proteksi jiwa + investasi jangka panjang.</li>
+        <li><b>Modal fleksibel:</b> mulai Rp350.000/bulan.</li>
+        <li><b>Duplikasi digital:</b> link presentasi, follow-up, dan form otomatis.</li>
+      </ul>
+
+      <!-- ZOOM -->
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px;color:#0b3d91">Jadwal Zoom (Hari Ini)</h3>
+        <div id="count" style="font-weight:800;color:#0b3d91;background:#eef6ff;border:1px dashed #dbe6ff;border-radius:10px;padding:10px">
+          Menghitung…
+        </div>
+        <p class="lead" style="margin:8px 0 0">Join sebentar, pahami alur, lalu kita bantu registrasi.</p>
+      </div>
+    </div>
+
+    <!-- TESTIMONI -->
+    <div class="card fadeUp" style="animation-delay:.15s">
+      <h2 style="color:#0b3d91;margin:0 0 8px">Testimoni (Geser Otomatis)</h2>
+      <div class="carousel" id="carousel">
+        <div class="slides" id="slides">
+          <div class="slide">
+            <p class="quote">“Dulu bingung mulai nabung. Sekarang jelas: ada proteksi, ada investasi. Tenang dan terarah.”</p>
+            <p class="cite">— Agnes M.</p>
+          </div>
+          <div class="slide">
+            <p class="quote">“Sambil kerja, bisa jalan. Follow-up dibantu sistem. Tinggal konsisten.”</p>
+            <p class="cite">— Regina</p>
+          </div>
+          <div class="slide">
+            <p class="quote">“Mulai dari Rp350 ribu. Yang penting niat dan komitmen. Sisanya ngikut.”</p>
+            <p class="cite">— Rahmawan</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+
+  <div class="card fadeUp" style="animation-delay:.2s">
+    <h2 style="color:#0b3d91;margin:0 0 8px">Langkah Mulai Hari Ini</h2>
+    <ol style="margin:6px 0 0 18px">
+      <li>Klik “Daftar Sekarang” → isi form singkat.</li>
+      <li>Ikut Zoom 19:00 WIB untuk pemahaman utuh.</li>
+      <li>Diskusi strategi premi dan target bersama leader.</li>
+    </ol>
+  </div>
+
+  <p class="footer">#Terkirim dengan 💞 dari NPA Smart System 🚀</p>
+
 </div>
 
-<section>
-  <h2 style="text-align:center;color:#0b3d91;">Daftar Sekarang!</h2>
-
-  <form id="daftarForm">
-    <label>Nama Lengkap *</label>
-    <input type="text" id="nama" required>
-
-    <label>No HP (WA) *</label>
-    <input type="tel" id="wa" placeholder="628..." required>
-
-    <label>Pilih Premi *</label>
-    <select id="premi" required>
-      <option value="">-- Pilih Kontribusi --</option>
-      <option value="350000">350.000 / bulan</option>
-      <option value="500000">500.000 / bulan</option>
-      <option value="700000">700.000 / bulan</option>
-      <option value="1000000">1.000.000 / bulan</option>
-      <option value="2000000">2.000.000 / bulan</option>
-    </select>
-
-    <button type="submit" id="btnKirim">KIRIM KE WA Leader</button>
-  </form>
-</section>
-
-<footer>
-  Salam Nganggur Warbiasyah 💪🔥🚀<br>
-  <small>&copy; 2025 Nganggur Preneur Akademi</small>
-</footer>
-
 <script>
-// Ambil parameter leader
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("leader");
+// ======================================================
+// Parsing Parameter URL
+// ======================================================
+const p = new URLSearchParams(location.search);
+const L = {
+  name: p.get('name') || 'Leader',
+  wa:   p.get('wa')   || '6285218453131',
+  slug: p.get('slug') || ''
+};
 
-// Ambil data leader dari localStorage
-let leaders = JSON.parse(localStorage.getItem("leaders") || "[]");
-const l = leaders.find(x => x.slug === slug) || {name:"Team 3iReborn",phone:"6281234567890"};
+// tampilkan nama leader
+document.getElementById("presenter").textContent = `Bisnis ini dipresentasikan oleh ${L.name}`;
 
-document.getElementById("heroTitle").innerText = `3iReborn Bersama ${l.name}`;
-document.getElementById("btnKirim").innerText = `KIRIM KE WA ${l.name}`;
+// tombol daftar → ke FORM PENDAFTARAN
+const base = 'https://3ireborn.github.io/pendaftaran-online';
+const formUrl = `${base}/index-v2.html?leader=${encodeURIComponent(L.slug)}&name=${encodeURIComponent(L.name)}&wa=${encodeURIComponent(L.wa)}`;
 
-// Fungsi kirim ke WhatsApp
-document.getElementById("daftarForm").addEventListener("submit",function(e){
-  e.preventDefault();
-  const nama = document.getElementById("nama").value;
-  const wa = document.getElementById("wa").value;
-  const premi = document.getElementById("premi").value;
-  
-  const msg = `Halo ${l.name}, saya ${nama} tertarik program 3iReborn.%0A%0A📱 No WA: ${wa}%0A💰 Kontribusi: Rp${premi}%0A%0ATolong pandu saya untuk pendaftaran ya 🙏`;
-  window.open(`https://wa.me/${l.phone}?text=${msg}`,'_blank');
-});
+document.getElementById("btnDaftar").onclick = () => location.href = formUrl;
+
+// tombol WhatsApp
+document.getElementById("btnWA").onclick = () => {
+  const msg = `Halo ${L.name}, saya mau tanya detail sebelum daftar.`;
+  location.href = `https://wa.me/${L.wa}?text=${encodeURIComponent(msg)}`;
+};
+
+// ======================================================
+// Countdown Zoom Meeting (jam 19:00 WIB)
+// ======================================================
+function nowWIB(){
+  const t = new Date();
+  const utc = t.getTime() + t.getTimezoneOffset() * 60000;
+  return new Date(utc + 7*3600000);
+}
+
+function updateCount(){
+  const n = nowWIB();
+  const target = new Date(n);
+
+  target.setHours(19,0,0,0);
+  if(n > target) target.setDate(target.getDate()+1);
+
+  const diff = target - n;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000)/60000);
+  const s = Math.floor((diff % 60000)/1000);
+
+  document.getElementById("count").textContent = `Mulai dalam ${h}j ${m}m ${s}d`;
+}
+
+updateCount();
+setInterval(updateCount,1000);
+
+// ======================================================
+// Carousel Testimoni
+// ======================================================
+const slides = document.getElementById('slides');
+const dotsBox = document.getElementById('dots');
+const total = slides.children.length;
+let i = 0;
+
+function paintDots(){
+  dotsBox.innerHTML = '';
+  for(let k=0;k<total;k++){
+    const d = document.createElement('span');
+    d.className = 'dot' + (k===i ? ' active' : '');
+    dotsBox.appendChild(d);
+  }
+}
+
+function go(next){
+  i = (next + total) % total;
+  slides.style.transform = `translateX(-${i*100}%)`;
+  paintDots();
+}
+
+paintDots();
+setInterval(()=> go(i+1), 3500);
 </script>
-
 </body>
 </html>
