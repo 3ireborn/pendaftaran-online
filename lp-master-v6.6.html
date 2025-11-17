@@ -21,6 +21,9 @@
     .cta-btn{display:block;text-align:center;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;padding:18px 30px;border-radius:50px;margin:30px auto 10px;width:80%;max-width:350px;transition:.3s}
     .cta-btn:hover{background:#1ebe57}
     .testi{margin:15px 0;padding:20px;background:#f9f9f9;border-left:5px solid #d4380d;border-radius:10px;font-style:italic}
+    .small-note{font-size:13px;color:#666;margin-top:8px;text-align:center}
+    .links-block{margin-top:14px;text-align:center;}
+    .links-block a{display:inline-block;margin:6px 8px;padding:10px 12px;border-radius:8px;background:#eef4ff;color:#0b3d91;text-decoration:none;font-weight:600}
     @media(max-width:768px){
       .hero h1{font-size:32px}
       .section{margin:30px 10px;padding:20px}
@@ -83,11 +86,21 @@
     <div class="testi">“Dulu nabung sering bocor, sekarang saya punya aset yang tumbuh tiap bulan. Dan saya bantu keluarga tanpa takut rugi.”<br>— <b>Rahma, 27 tahun</b></div>
   </div>
 
-  <!-- COUNTDOWN -->
+  <!-- COUNTDOWN & CTA -->
   <div class="section" style="text-align:center">
     <h2>📅 Seminar Zoom Gratis Berikutnya</h2>
     <div id="countdown" class="countdown">Menghitung waktu...</div>
-    <a href="https://wa.me/6285218453131?text=Halo%20saya%20ingin%20ikut%20Zoom%203iLC%20malam%20ini" class="cta-btn">DAFTAR SEKARANG</a>
+
+    <!-- CTA utama (akan diupdate oleh script) -->
+    <a id="mainCta" href="https://wa.me/6285218453131?text=Halo%20saya%20ingin%20ikut%20Zoom%203iLC%20malam%20ini" class="cta-btn" target="_blank" rel="noopener">
+      DAFTAR SEKARANG
+    </a>
+
+    <div class="small-note" id="leaderNotice">Menghubungkan ke leader…</div>
+
+    <div class="links-block" id="linksBlock" style="display:none">
+      <!-- Script akan mengisi link live di sini -->
+    </div>
   </div>
 
   <!-- PENUTUP -->
@@ -96,7 +109,134 @@
     <p style="margin-top:15px;font-weight:bold;color:#d4380d">3iReborn — Proteksi • Investasi • Penghasilan</p>
   </div>
 
+  <!-- SCRIPT: tambah logic referral & link otomatis (tidak mengubah tampilan UI) -->
   <script>
+    // ---------------------------
+    // Utility: normalisasi nomor WA
+    // ---------------------------
+    function normalizePhone(raw) {
+      if(!raw) return "";
+      // keep digits only
+      let s = String(raw).replace(/[^\d+]/g, "");
+      // if starts with 0 -> replace with 62
+      if (s.startsWith("0")) s = "62" + s.slice(1);
+      // if starts with +62 -> remove +
+      if (s.startsWith("+")) s = s.slice(1);
+      // if it starts with '8' it's probably missing leading 62
+      if (s.length >= 8 && s[0] === "8") s = "62" + s;
+      return s;
+    }
+
+    // ---------------------------
+    // Read URL params and try to resolve leader from /data/leaders.json
+    // ---------------------------
+    (async function(){
+      const params = new URLSearchParams(window.location.search);
+      const qSlug = params.get('leader') || params.get('slug') || params.get('ref');
+      const qName = params.get('name') || params.get('nama');
+      const qWa   = params.get('wa') || params.get('phone') || params.get('hp');
+
+      const defaultAdmin = { name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto-ksm" };
+
+      // initial displayed values
+      let resolved = { name: defaultAdmin.name, phone: defaultAdmin.phone, slug: defaultAdmin.slug, found:false };
+
+      // Try fetch leaders.json from data folder (if repo has it)
+      try {
+        const r = await fetch('./data/leaders.json', {cache:'no-store'});
+        if (r.ok) {
+          const list = await r.json();
+          // normalize search
+          const lowerSlug = qSlug ? qSlug.toString().toLowerCase() : "";
+          const lowerName = qName ? qName.toString().toLowerCase() : "";
+          // try find by slug first
+          if (lowerSlug) {
+            const f = list.find(x => (x.slug||"").toString().toLowerCase() === lowerSlug || (x.name||"").toString().toLowerCase() === lowerSlug);
+            if (f) {
+              resolved = { name: f.name, phone: normalizePhone(f.phone || f.phone_number || ""), slug: f.slug || lowerSlug, found:true };
+            }
+          }
+          // try by name
+          if (!resolved.found && lowerName) {
+            const f2 = list.find(x => (x.name||"").toString().toLowerCase().includes(lowerName));
+            if (f2) resolved = { name: f2.name, phone: normalizePhone(f2.phone || ""), slug: f2.slug || (f2.name||"").toString().toLowerCase().replace(/\s+/g,'-'), found:true };
+          }
+          // fallback: try match provided wa to any leader
+          if (!resolved.found && qWa) {
+            const norm = normalizePhone(qWa);
+            const f3 = list.find(x => normalizePhone(x.phone||"") === norm);
+            if (f3) resolved = { name: f3.name, phone: normalizePhone(f3.phone||""), slug: f3.slug || (f3.name||"").toString().toLowerCase().replace(/\s+/g,'-'), found:true };
+          }
+        }
+      } catch(e){
+        // fail quietly; repository might not have data/leaders.json or blocked by CORS when testing locally
+        console.warn("leaders.json fetch failed:", e);
+      }
+
+      // If still not found, but qName/qWa present, use them
+      if (!resolved.found) {
+        if (qName || qWa) {
+          resolved = {
+            name: qName ? qName : (qSlug ? qSlug : defaultAdmin.name),
+            phone: normalizePhone(qWa ? qWa : defaultAdmin.phone),
+            slug: (qSlug || (qName ? qName : defaultAdmin.name)).toString().toLowerCase().replace(/\s+/g,'-'),
+            found: !!qWa
+          };
+        }
+      }
+
+      // ensure phone normalized
+      resolved.phone = normalizePhone(resolved.phone || "");
+
+      // Update CTA and notice
+      const mainCta = document.getElementById('mainCta');
+      const leaderNotice = document.getElementById('leaderNotice');
+      const linksBlock = document.getElementById('linksBlock');
+
+      // WhatsApp URL builder (text encoded)
+      const safeText = encodeURIComponent("Halo saya tertarik dengan program 3iReborn. Mohon info lanjutan.");
+      const waTarget = resolved.phone ? `https://wa.me/${resolved.phone}?text=${safeText}` : `https://wa.me/${defaultAdmin.phone}?text=${safeText}`;
+
+      mainCta.setAttribute('href', waTarget);
+      mainCta.setAttribute('target', '_blank');
+
+      leaderNotice.innerHTML = resolved.found
+        ? `Link aktif untuk: <b>${resolved.name}</b> — <span style="color:#0b3d91">${resolved.phone}</span>`
+        : `Leader tidak ditemukan otomatis — menggunakan: <b>${resolved.name}</b> (WA: ${resolved.phone})`;
+
+      // Prepare the 3 standard links (LP Master, LP Hot, Form Pendaftaran) with query params
+      const currentHost = location.origin + location.pathname.replace(/\/[^\/]*$/,''); // base folder
+      // Use the repository's canonical file names (you can change names if needed)
+      const lpMasterFile = 'lp-master-v6.6.html';
+      const lpHotFile    = 'lp-hot-v6.6.html';
+      const formFile     = 'index-v2.html';
+
+      const qs = `?name=${encodeURIComponent(resolved.name)}&wa=${encodeURIComponent(resolved.phone)}&slug=${encodeURIComponent(resolved.slug)}`;
+
+      const lpMasterLink = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${lpMasterFile}${qs}`;
+      const lpHotLink    = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${lpHotFile}${qs}`;
+      const formLink     = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${formFile}${qs}`;
+
+      // show links for leader to copy/share
+      linksBlock.style.display = 'block';
+      linksBlock.innerHTML = `
+        <a href="${lpMasterLink}" target="_blank" rel="noopener">🔗 LP Master (live)</a>
+        <a href="${lpHotLink}" target="_blank" rel="noopener">🔥 LP Hot (live)</a>
+        <a href="${formLink}" target="_blank" rel="noopener">📝 Form Pendaftaran (live)</a>
+        <div style="margin-top:10px;font-size:13px;color:#666">Silakan salin link di atas untuk dibagikan di sosial media / komentar.</div>
+      `;
+
+      // Also make it easy to copy one-click: add copy on click
+      linksBlock.querySelectorAll('a').forEach(a=>{
+        a.addEventListener('click',(e)=>{
+          // do nothing special on click; opening target. If you want copy on click, add copy logic here.
+        });
+      });
+
+    })();
+    // ---------------------------
+    // countdown code (tidak diubah dari original)
+    // ---------------------------
     function getNextZoomDate() {
       const now = new Date();
       const day = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
@@ -147,4 +287,4 @@
     updateCountdown();
   </script>
 </body>
-</html>
+  </html>
