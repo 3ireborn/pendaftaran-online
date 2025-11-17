@@ -1,290 +1,62 @@
-<!DOCTYPE html>
+
+<!-- FILE: lp-master-simple.html -->
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mengapa Harus 3iReborn?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LP MASTER — Mengapa Harus 3iReborn?</title>
+  <meta name="theme-color" content="#0b3d91" />
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-    body{background:#f8f9fa;color:#333;line-height:1.6}
-    .hero{
-      background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
-      url('https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?auto=format&fit=crop&w=1350&q=80') center/cover;
-      color:#fff;text-align:center;padding:100px 20px
-    }
-    .hero h1{font-size:42px;margin-bottom:10px}
-    .hero p{font-size:18px;max-width:700px;margin:0 auto}
-    .section{max-width:900px;margin:60px auto;padding:30px;background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.08)}
-    h2{color:#d4380d;margin-bottom:15px;font-size:26px}
-    .countdown{text-align:center;font-size:28px;font-weight:600;color:#0b3d91;margin-top:10px}
-    .cta-btn{display:block;text-align:center;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;padding:18px 30px;border-radius:50px;margin:30px auto 10px;width:80%;max-width:350px;transition:.3s}
-    .cta-btn:hover{background:#1ebe57}
-    .testi{margin:15px 0;padding:20px;background:#f9f9f9;border-left:5px solid #d4380d;border-radius:10px;font-style:italic}
-    .small-note{font-size:13px;color:#666;margin-top:8px;text-align:center}
-    .links-block{margin-top:14px;text-align:center;}
-    .links-block a{display:inline-block;margin:6px 8px;padding:10px 12px;border-radius:8px;background:#eef4ff;color:#0b3d91;text-decoration:none;font-weight:600}
-    @media(max-width:768px){
-      .hero h1{font-size:32px}
-      .section{margin:30px 10px;padding:20px}
-    }
+    :root{--bg:#f6f9ff;--card:#fff;--brand:#0b3d91;--muted:#6b7aa6}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#0b2245}
+    .wrap{max-width:900px;margin:18px auto;padding:20px}
+    .hero{background:linear-gradient(180deg,#ffffff,#eef6ff);border:1px solid #e2ecff;border-radius:14px;padding:22px;text-align:center}
+    .hero h1{margin:0;font-size:28px;color:var(--brand)}
+    .hero p{margin:8px 0 0;color:var(--muted)}
+    .section{background:#fff;border:1px solid #e8f0ff;padding:16px;border-radius:12px;margin-top:14px}
+    .testi{background:#f6fbff;padding:12px;border-left:4px solid #dbeeff;border-radius:8px;margin:10px 0}
+    .count{font-weight:800;color:var(--brand);font-size:18px}
+    .cta{display:inline-block;margin-top:14px;padding:12px 18px;background:var(--brand);color:#fff;border-radius:10px;text-decoration:none;font-weight:700}
+    .footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
-
-  <!-- HERO -->
-  <div class="hero">
-    <h1>Mengapa Harus <span style="color:#d4380d">3iReborn?</span></h1>
-    <p>Proteksi, Investasi, dan Penghasilan dalam satu sistem yang berpihak pada umat.</p>
-  </div>
-
-  <!-- MENGAPA -->
-  <div class="section">
-    <h2>💬 Mengapa Harus 3iReborn?</h2>
-    <p>Hidup sekarang makin cepat berubah — harga naik, kerja makin berat, tapi masa depan tetap harus aman. <br><br>
-    <strong>3iReborn</strong> bukan sekadar peluang bisnis, tapi sebuah gerakan finansial berbasis nilai syariah yang menyeimbangkan proteksi, investasi, dan penghasilan.</p>
-  </div>
-
-  <!-- MASALAH -->
-  <div class="section">
-    <h2>😔 Kenapa Banyak Orang Sulit Bertahan Finansial?</h2>
-    <ul style="text-align:left;margin-left:30px">
-      <li>Hanya punya satu sumber penghasilan.</li>
-      <li>Asuransi terasa beban, bukan solusi.</li>
-      <li>Investasi bikin cemas karena risiko tinggi.</li>
-    </ul>
-    <p style="margin-top:15px">Tanpa sistem finansial yang benar, masa depan aman cuma tinggal harapan.</p>
-  </div>
-
-  <!-- SOLUSI -->
-  <div class="section">
-    <h2>💡 Solusinya: 3iReborn System</h2>
-    <p>Dengan 3iReborn, kamu bisa mendapatkan:</p>
-    <ul style="text-align:left;margin-left:30px">
-      <li>✅ <b>Proteksi</b> berbasis Syariah dari CAR Life Insurance</li>
-      <li>✅ <b>Investasi</b> riil & transparan</li>
-      <li>✅ <b>Penghasilan</b> aktif & pasif lewat sistem modern</li>
-    </ul>
-    <p style="margin-top:15px">Satu premi bulanan, tiga manfaat sekaligus.</p>
-  </div>
-
-  <!-- EDUKASI -->
-  <div class="section">
-    <h2>🎓 Keunggulan 3iReborn</h2>
-    <ul style="text-align:left;margin-left:30px">
-      <li>Sistem transparan, bukan janji cepat kaya.</li>
-      <li>Didukung perusahaan asuransi terpercaya (CAR Life Insurance).</li>
-      <li>Mentoring & training Zoom gratis setiap minggu.</li>
-      <li>Berbasis Syariah — bebas riba, bebas gharar, penuh keberkahan.</li>
-    </ul>
-  </div>
-
-  <!-- TESTIMONI -->
-  <div class="section">
-    <h2>💬 Kisah Nyata</h2>
-    <div class="testi">“Awalnya saya hanya ingin proteksi, tapi setelah 6 bulan saya sadar: ini bukan sekadar asuransi — ini fondasi masa depan saya.”<br>— <b>Agnes, 32 tahun</b></div>
-    <div class="testi">“Dulu nabung sering bocor, sekarang saya punya aset yang tumbuh tiap bulan. Dan saya bantu keluarga tanpa takut rugi.”<br>— <b>Rahma, 27 tahun</b></div>
-  </div>
-
-  <!-- COUNTDOWN & CTA -->
-  <div class="section" style="text-align:center">
-    <h2>📅 Seminar Zoom Gratis Berikutnya</h2>
-    <div id="countdown" class="countdown">Menghitung waktu...</div>
-
-    <!-- CTA utama (akan diupdate oleh script) -->
-    <a id="mainCta" href="https://wa.me/6285218453131?text=Halo%20saya%20ingin%20ikut%20Zoom%203iLC%20malam%20ini" class="cta-btn" target="_blank" rel="noopener">
-      DAFTAR SEKARANG
-    </a>
-
-    <div class="small-note" id="leaderNotice">Menghubungkan ke leader…</div>
-
-    <div class="links-block" id="linksBlock" style="display:none">
-      <!-- Script akan mengisi link live di sini -->
+  <div class="wrap">
+    <div class="hero">
+      <h1>Mengapa Harus <span style="color:#1e90ff">3iReborn?</span></h1>
+      <p>Proteksi • Investasi • Penghasilan — satu premi, tiga manfaat.</p>
     </div>
+
+    <div class="section">
+      <h3>Ringkasan Singkat</h3>
+      <p>3iReborn membantu Anda membangun proteksi keluarga, menumbuhkan investasi, dan membuka peluang penghasilan melalui sistem yang mudah diduplikasi.</p>
+      <div class="testi">“Awalnya ragu, sekarang hasilnya nyata.” — Agnes</div>
+      <div class="testi">“Mulai dari Rp350.000 saja. Sistem menjelaskan jalannya.” — Rahma</div>
+    </div>
+
+    <div class="section" style="text-align:center">
+      <div class="count" id="countdown">Memuat jadwal Zoom...</div>
+      <a id="waLink" class="cta" href="#">💬 Chat WhatsApp Leader</a>
+    </div>
+
+    <p class="footer">#Terkirim dengan 💞 dari NPA Smart System — 3iReborn</p>
   </div>
 
-  <!-- PENUTUP -->
-  <div class="section" style="text-align:center">
-    <p><i>“Mungkin kamu bisa tunda investasi, tapi kamu nggak bisa tunda proteksi.”</i></p>
-    <p style="margin-top:15px;font-weight:bold;color:#d4380d">3iReborn — Proteksi • Investasi • Penghasilan</p>
-  </div>
+<script>
+(function(){
+  // baca param leader & wa
+  const p=new URLSearchParams(location.search);
+  const name=p.get('name')||p.get('leader')||'Leader 3iReborn';
+  const wa=p.get('wa')||p.get('phone')||'6285218453131';
+  document.getElementById('waLink').href = `https://wa.me/${encodeURIComponent(wa)}?text=${encodeURIComponent('Halo '+name+' , saya tertarik dengan 3iReborn')}`;
 
-  <!-- SCRIPT: tambah logic referral & link otomatis (tidak mengubah tampilan UI) -->
-  <script>
-    // ---------------------------
-    // Utility: normalisasi nomor WA
-    // ---------------------------
-    function normalizePhone(raw) {
-      if(!raw) return "";
-      // keep digits only
-      let s = String(raw).replace(/[^\d+]/g, "");
-      // if starts with 0 -> replace with 62
-      if (s.startsWith("0")) s = "62" + s.slice(1);
-      // if starts with +62 -> remove +
-      if (s.startsWith("+")) s = s.slice(1);
-      // if it starts with '8' it's probably missing leading 62
-      if (s.length >= 8 && s[0] === "8") s = "62" + s;
-      return s;
-    }
-
-    // ---------------------------
-    // Read URL params and try to resolve leader from /data/leaders.json
-    // ---------------------------
-    (async function(){
-      const params = new URLSearchParams(window.location.search);
-      const qSlug = params.get('leader') || params.get('slug') || params.get('ref');
-      const qName = params.get('name') || params.get('nama');
-      const qWa   = params.get('wa') || params.get('phone') || params.get('hp');
-
-      const defaultAdmin = { name: "Sugiarto Kurniawan", phone: "6285218453131", slug: "sugiarto-ksm" };
-
-      // initial displayed values
-      let resolved = { name: defaultAdmin.name, phone: defaultAdmin.phone, slug: defaultAdmin.slug, found:false };
-
-      // Try fetch leaders.json from data folder (if repo has it)
-      try {
-        const r = await fetch('./data/leaders.json', {cache:'no-store'});
-        if (r.ok) {
-          const list = await r.json();
-          // normalize search
-          const lowerSlug = qSlug ? qSlug.toString().toLowerCase() : "";
-          const lowerName = qName ? qName.toString().toLowerCase() : "";
-          // try find by slug first
-          if (lowerSlug) {
-            const f = list.find(x => (x.slug||"").toString().toLowerCase() === lowerSlug || (x.name||"").toString().toLowerCase() === lowerSlug);
-            if (f) {
-              resolved = { name: f.name, phone: normalizePhone(f.phone || f.phone_number || ""), slug: f.slug || lowerSlug, found:true };
-            }
-          }
-          // try by name
-          if (!resolved.found && lowerName) {
-            const f2 = list.find(x => (x.name||"").toString().toLowerCase().includes(lowerName));
-            if (f2) resolved = { name: f2.name, phone: normalizePhone(f2.phone || ""), slug: f2.slug || (f2.name||"").toString().toLowerCase().replace(/\s+/g,'-'), found:true };
-          }
-          // fallback: try match provided wa to any leader
-          if (!resolved.found && qWa) {
-            const norm = normalizePhone(qWa);
-            const f3 = list.find(x => normalizePhone(x.phone||"") === norm);
-            if (f3) resolved = { name: f3.name, phone: normalizePhone(f3.phone||""), slug: f3.slug || (f3.name||"").toString().toLowerCase().replace(/\s+/g,'-'), found:true };
-          }
-        }
-      } catch(e){
-        // fail quietly; repository might not have data/leaders.json or blocked by CORS when testing locally
-        console.warn("leaders.json fetch failed:", e);
-      }
-
-      // If still not found, but qName/qWa present, use them
-      if (!resolved.found) {
-        if (qName || qWa) {
-          resolved = {
-            name: qName ? qName : (qSlug ? qSlug : defaultAdmin.name),
-            phone: normalizePhone(qWa ? qWa : defaultAdmin.phone),
-            slug: (qSlug || (qName ? qName : defaultAdmin.name)).toString().toLowerCase().replace(/\s+/g,'-'),
-            found: !!qWa
-          };
-        }
-      }
-
-      // ensure phone normalized
-      resolved.phone = normalizePhone(resolved.phone || "");
-
-      // Update CTA and notice
-      const mainCta = document.getElementById('mainCta');
-      const leaderNotice = document.getElementById('leaderNotice');
-      const linksBlock = document.getElementById('linksBlock');
-
-      // WhatsApp URL builder (text encoded)
-      const safeText = encodeURIComponent("Halo saya tertarik dengan program 3iReborn. Mohon info lanjutan.");
-      const waTarget = resolved.phone ? `https://wa.me/${resolved.phone}?text=${safeText}` : `https://wa.me/${defaultAdmin.phone}?text=${safeText}`;
-
-      mainCta.setAttribute('href', waTarget);
-      mainCta.setAttribute('target', '_blank');
-
-      leaderNotice.innerHTML = resolved.found
-        ? `Link aktif untuk: <b>${resolved.name}</b> — <span style="color:#0b3d91">${resolved.phone}</span>`
-        : `Leader tidak ditemukan otomatis — menggunakan: <b>${resolved.name}</b> (WA: ${resolved.phone})`;
-
-      // Prepare the 3 standard links (LP Master, LP Hot, Form Pendaftaran) with query params
-      const currentHost = location.origin + location.pathname.replace(/\/[^\/]*$/,''); // base folder
-      // Use the repository's canonical file names (you can change names if needed)
-      const lpMasterFile = 'lp-master-v6.6.html';
-      const lpHotFile    = 'lp-hot-v6.6.html';
-      const formFile     = 'index-v2.html';
-
-      const qs = `?name=${encodeURIComponent(resolved.name)}&wa=${encodeURIComponent(resolved.phone)}&slug=${encodeURIComponent(resolved.slug)}`;
-
-      const lpMasterLink = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${lpMasterFile}${qs}`;
-      const lpHotLink    = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${lpHotFile}${qs}`;
-      const formLink     = `${location.origin}${location.pathname.split('/').slice(0,-1).join('/')}/${formFile}${qs}`;
-
-      // show links for leader to copy/share
-      linksBlock.style.display = 'block';
-      linksBlock.innerHTML = `
-        <a href="${lpMasterLink}" target="_blank" rel="noopener">🔗 LP Master (live)</a>
-        <a href="${lpHotLink}" target="_blank" rel="noopener">🔥 LP Hot (live)</a>
-        <a href="${formLink}" target="_blank" rel="noopener">📝 Form Pendaftaran (live)</a>
-        <div style="margin-top:10px;font-size:13px;color:#666">Silakan salin link di atas untuk dibagikan di sosial media / komentar.</div>
-      `;
-
-      // Also make it easy to copy one-click: add copy on click
-      linksBlock.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click',(e)=>{
-          // do nothing special on click; opening target. If you want copy on click, add copy logic here.
-        });
-      });
-
-    })();
-    // ---------------------------
-    // countdown code (tidak diubah dari original)
-    // ---------------------------
-    function getNextZoomDate() {
-      const now = new Date();
-      const day = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-      const date = new Date(now);
-      let target = new Date(now);
-      let hour = 19; // default jam 19:00 WIB
-      const weekOfMonth = Math.ceil((date.getDate() - 1) / 7) + 1;
-
-      if (day === 1) { // Senin
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 2); // ke Rabu
-      } else if (day === 3) { // Rabu
-        if (weekOfMonth === 2 || weekOfMonth === 4) hour = 14;
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 2); // ke Jumat
-      } else if (day === 5) { // Jumat
-        target.setHours(hour, 0, 0, 0);
-        if (now > target) target.setDate(date.getDate() + 3); // ke Senin
-      } else {
-        const daysToNext = [1, 3, 5].map(d => (d - day + 7) % 7).filter(x => x > 0).sort()[0];
-        target.setDate(date.getDate() + daysToNext);
-        const nextDay = (day + daysToNext) % 7;
-        const nextDate = new Date(target);
-        const nextWeek = Math.ceil((nextDate.getDate() - 1) / 7) + 1;
-        hour = (nextDay === 3 && (nextWeek === 2 || nextWeek === 4)) ? 14 : 19;
-        target.setHours(hour, 0, 0, 0);
-      }
-      return target;
-    }
-
-    function updateCountdown() {
-      const target = getNextZoomDate();
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "Zoom sedang berlangsung!";
-        return;
-      }
-
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      document.getElementById("countdown").innerHTML = `${h}j ${m}m ${s}d lagi`;
-      setTimeout(updateCountdown, 1000);
-    }
-    updateCountdown();
-  </script>
+  // simple countdown ke jam 19:00 WIB (next scheduled Zoom)
+  function nowWIB(){const t=new Date();const utc=t.getTime()+t.getTimezoneOffset()*60000;return new Date(utc+7*3600000)}
+  function update(){const n=nowWIB();let target=new Date(n);target.setHours(19,0,0,0);if(n>target) target.setDate(target.getDate()+1);const d=target-n;const h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000);const s=Math.floor((d%60000)/1000);document.getElementById('countdown').textContent = `Zoom berikutnya: ${h}j ${m}m ${s}s`;}
+  update();setInterval(update,1000);
+})();
+</script>
 </body>
-  </html>
+</html>
