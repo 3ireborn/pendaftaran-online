@@ -1,293 +1,178 @@
+
+<!-- FILE: form-pendaftaran-mobis.html -->
 <!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pendaftaran Online 3iReborn — v3.3</title>
-
-  <!-- Gaya: Putih - Biru (senada LP HOT / LP MASTER) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Form Pendaftaran Online — 3iReborn (SOP CAR)</title>
   <style>
-    :root{
-      --bg:#f6faff;
-      --card:#ffffff;
-      --ink:#0b3d91;
-      --muted:#627096;
-      --line:#e2ecff;
-      --accent:#ffb020;
-      --success:#21a47a;
-    }
+    :root{--bg:#0b2140;--card:#0f1b33;--accent:#1e90ff;--muted:#97a6d6}
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;color:#112}
-    .wrap{max-width:820px;margin:24px auto;padding:18px}
-    .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
-    .presenter{display:inline-block;background:#eaf2ff;color:var(--ink);padding:6px 10px;border-radius:999px;font-weight:700;margin-bottom:8px}
-    h1{margin:6px 0 8px;color:var(--ink);font-size:22px}
-    p.lead{color:var(--muted);margin:0 0 12px}
-
-    /* card form */
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
-    label{display:block;margin-top:12px;font-weight:600;color:var(--ink)}
-    input[type="text"], input[type="email"], input[type="tel"], select, textarea{
-      width:100%;padding:12px;border:1px solid #d7e6ff;border-radius:10px;margin-top:8px;font-size:15px;background:#fbfdff;
-    }
-    textarea{min-height:80px;resize:vertical}
-    .row{display:flex;gap:12px;flex-wrap:wrap}
-    .col{flex:1;min-width:160px}
-
-    .note{font-size:13px;color:var(--muted);margin-top:8px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{
-      padding:12px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer;
-    }
-    .btn-primary{background:var(--ink);color:#fff}
-    .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
-    .helper{font-size:13px;color:var(--muted);margin-top:10px}
-
-    /* small screens */
-    @media(max-width:520px){
-      h1{font-size:20px}
-      .row{flex-direction:column}
-    }
-
-    /* toast */
-    .toast{
-      position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:#05224a;color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 6px 20px rgba(2,10,40,.2);
-      display:none;z-index:9999;font-weight:600;font-size:14px;
-    }
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#07102a,#08122f);color:#e6eefc}
+    .wrap{max-width:900px;margin:18px auto;padding:20px}
+    h1{color:var(--accent);margin-bottom:6px}
+    .card{background:rgba(255,255,255,0.03);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04)}
+    label{display:block;margin-top:12px;font-weight:700;color:#dbe8ff}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e8f3ff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{margin-top:14px;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#041028;font-weight:800;cursor:pointer}
+    .note{color:var(--muted);font-size:13px;margin-top:10px}
+    .preview{margin-top:12px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);font-family:monospace;white-space:pre-wrap}
   </style>
 </head>
 <body>
-
   <div class="wrap">
-    <div class="hero">
-      <div id="presenterLabel" class="presenter">Memuat data leader...</div>
-      <h1>Form Pendaftaran Online 3iReborn</h1>
-      <p class="lead">Isi data berikut untuk proses registrasi. (Nama Ibu Kandung wajib)</p>
+    <h1>Form Pendaftaran — 3iReborn (SOP CAR)</h1>
+    <div class="card">
+      <form id="regForm">
+        <label>Kode ID Sponsor (kosongkan bila tidak ada)</label>
+        <input id="sponsor" />
+
+        <label>Kode ID Leader (kosongkan bila tidak ada)</label>
+        <input id="leader" />
+
+        <label>Nama Lengkap</label>
+        <input id="nama" required />
+
+        <div class="row">
+          <div>
+            <label>Tempat Lahir</label>
+            <input id="tempat" />
+          </div>
+          <div>
+            <label>Tanggal Lahir (DD/MM/YYYY)</label>
+            <input id="ttl" placeholder="DD/MM/YYYY" />
+          </div>
+        </div>
+
+        <label>Jenis Kelamin</label>
+        <select id="jk">
+          <option value="L">Laki-laki</option>
+          <option value="P">Perempuan</option>
+        </select>
+
+        <label>Alamat Lengkap (Jalan, RT, RW, Kelurahan, Kecamatan, Kota, Kode Pos)</label>
+        <textarea id="alamat" rows="3"></textarea>
+
+        <label>No HP (WhatsApp)</label>
+        <input id="hp" placeholder="628..." required />
+
+        <label>Email</label>
+        <input id="email" />
+
+        <label>No Identitas (KTP)</label>
+        <input id="ktp" />
+
+        <label>Nama Ibu Kandung <small style="color:#9fb3ff">(WAJIB)</small></label>
+        <input id="ibu" required />
+
+        <label>Bank</label>
+        <input id="bank" />
+        <div class="row">
+          <div>
+            <label>No Rekening</label>
+            <input id="norek" />
+          </div>
+          <div>
+            <label>Nama di Rekening</label>
+            <input id="namarek" />
+          </div>
+        </div>
+
+        <label>No NPWP (boleh dikosongkan)</label>
+        <input id="npwp" />
+
+        <label>Pekerjaan / Jabatan</label>
+        <input id="pekerjaan" />
+
+        <label>Penghasilan / tahun</label>
+        <input id="penghasilan" />
+
+        <label>Tinggi & Berat Badan</label>
+        <input id="tb" />
+
+        <label>Ahli Waris Bisnis — Nama</label>
+        <input id="awNama" />
+        <label>Ahli Waris Bisnis — Tgl Lahir (DD/MM/YYYY)</label>
+        <input id="awTgl" />
+
+        <label>Pilihan Premi</label>
+        <select id="premi">
+          <option value="350000">Rp350.000</option>
+          <option value="500000">Rp500.000</option>
+          <option value="700000">Rp700.000</option>
+          <option value="1000000">Rp1.000.000</option>
+          <option value="2000000">Rp2.000.000</option>
+        </select>
+
+        <button class="btn" type="submit">Generate Pesan WhatsApp (Siap Paste ke MOBIS)</button>
+      </form>
+
+      <div class="note">Output akan muncul di kotak preview — salin lalu kirim ke leader Anda / paste ke MOBIS sesuai SOP.</div>
+      <div id="preview" class="preview">(belum ada output)</div>
     </div>
-
-    <form id="regForm" class="card" autocomplete="off" novalidate>
-      <!-- IMPORTANT: order of fields must not be changed in future updates -->
-      <!-- 1. KONTRIBUSI PREMI -->
-      <label for="premi">Kontribusi Premi (Rp) *</label>
-      <select id="premi" required>
-        <option value="">-- Pilih Kontribusi --</option>
-        <option value="350000">350.000 / bulan</option>
-        <option value="500000">500.000 / bulan</option>
-        <option value="700000">700.000 / bulan</option>
-        <option value="1000000">1.000.000 / bulan</option>
-        <option value="2000000">2.000.000 / bulan</option>
-      </select>
-
-      <!-- 2. NAMA LENGKAP -->
-      <label for="fullName">Nama Lengkap *</label>
-      <input id="fullName" type="text" placeholder="Nama sesuai KTP" required />
-
-      <!-- 3. NAMA IBU KANDUNG (WAJIB) -->
-      <label for="motherName">Nama Ibu Kandung *</label>
-      <input id="motherName" type="text" placeholder="Nama ibu kandung (mis: Siti Aminah)" required />
-
-      <!-- 4. NO KTP -->
-      <label for="noKtp">No KTP *</label>
-      <input id="noKtp" type="text" inputmode="numeric" placeholder="16 digit" maxlength="16" required />
-
-      <!-- 5. EMAIL -->
-      <label for="email">Email *</label>
-      <input id="email" type="email" placeholder="nama@email.com" required />
-
-      <!-- 6. ALAMAT RUMAH (opsional) -->
-      <label for="alamat">Alamat Rumah (opsional)</label>
-      <textarea id="alamat" placeholder="Alamat lengkap (bisa dikosongkan)"></textarea>
-
-      <!-- 7. NO HP PENDAFTAR -->
-      <label for="phone">No HP / WhatsApp Pemohon *</label>
-      <input id="phone" type="tel" placeholder="628..." required />
-
-      <!-- 8. ID MEMBER (opsional) -->
-      <label for="idmember">ID Member (opsional)</label>
-      <input id="idmember" type="text" placeholder="contoh: 88541 atau kosongkan" />
-
-      <div class="helper">
-        <strong>Catatan:</strong> form ini bisa dibuka melalui link leader (URL) — jika leader ditentukan di URL, data leader akan otomatis terpasang. Jika tidak, pesan akan dikirim ke nomor leader fallback.
-      </div>
-
-      <div class="actions">
-        <button id="btnSubmit" class="btn btn-primary" type="submit">KIRIM KE WHATSAPP LEADER</button>
-        <button id="btnPreview" class="btn btn-ghost" type="button">Preview Pesan</button>
-      </div>
-    </form>
-
-    <div class="card" style="margin-top:12px;font-size:14px;color:var(--muted)">
-      <strong>Informasi teknis singkat:</strong>
-      <ul>
-        <li>Form ini membaca parameter URL: <code>?leader=&lt;slug&gt;&amp;name=&lt;nama leader&gt;&amp;wa=&lt;nomorwa&gt;</code></li>
-        <li>Jika leader tidak ditemukan di localStorage, script menggunakan parameter <code>name</code>/<code>wa</code> dari URL atau fallback admin.</li>
-        <li>Urutan field <em>tidak boleh diubah</em> (ini v3.3).</li>
-      </ul>
-    </div>
-
   </div>
 
-  <div id="toast" class="toast"></div>
-
 <script>
-/*
-  form-pendaftaran-v3.3.html
-  - Memastikan Nama Ibu Kandung ada (wajib)
-  - Mempertahankan urutan fields (kontribusi -> nama -> ibu -> KTP -> email -> alamat -> hp -> id)
-  - Mengirim pesan via wa.me ke leader (mengambil dari URL params atau leaders localStorage)
-  - Fallback admin WA jika leader tidak ada
-*/
+(function(){
+  const f=document.getElementById('regForm');
+  const out=document.getElementById('preview');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    const data = {
+      sponsor:document.getElementById('sponsor').value.trim(),
+      leader:document.getElementById('leader').value.trim(),
+      nama:document.getElementById('nama').value.trim(),
+      tempat:document.getElementById('tempat').value.trim(),
+      ttl:document.getElementById('ttl').value.trim(),
+      jk:document.getElementById('jk').value,
+      alamat:document.getElementById('alamat').value.trim(),
+      hp:document.getElementById('hp').value.trim(),
+      email:document.getElementById('email').value.trim(),
+      ktp:document.getElementById('ktp').value.trim(),
+      ibu:document.getElementById('ibu').value.trim(),
+      bank:document.getElementById('bank').value.trim(),
+      norek:document.getElementById('norek').value.trim(),
+      namarek:document.getElementById('namarek').value.trim(),
+      npwp:document.getElementById('npwp').value.trim(),
+      pekerjaan:document.getElementById('pekerjaan').value.trim(),
+      penghasilan:document.getElementById('penghasilan').value.trim(),
+      tb:document.getElementById('tb').value.trim(),
+      awNama:document.getElementById('awNama').value.trim(),
+      awTgl:document.getElementById('awTgl').value.trim(),
+      premi:document.getElementById('premi').value
+    };
 
-/* ---------- util ---------- */
-const qs = sel => document.querySelector(sel);
-const qsa = sel => Array.from(document.querySelectorAll(sel));
-const toast = (txt, showMs=2200) => {
-  const t = qs('#toast');
-  t.textContent = txt; t.style.display = 'block';
-  clearTimeout(t._hid);
-  t._hid = setTimeout(()=> t.style.display='none', showMs);
-};
+    // build message for WhatsApp / MOBIS paste
+    const lines = [];
+    lines.push('*FORM PENDAFTARAN ONLINE — 3iReborn*');
+    if(data.sponsor) lines.push(`Kode ID Sponsor : ${data.sponsor}`);
+    if(data.leader) lines.push(`Kode ID Leader : ${data.leader}`);
+    lines.push(`■ Nama : ${data.nama}`);
+    lines.push(`■ Tempat & Tgl Lahir : ${data.tempat} / ${data.ttl}`);
+    lines.push(`■ Jenis Kelamin : ${data.jk}`);
+    lines.push(`■ Alamat : ${data.alamat}`);
+    lines.push(`■ No HP : ${data.hp}`);
+    if(data.email) lines.push(`■ Email : ${data.email}`);
+    if(data.ktp) lines.push(`■ No Identitas : ${data.ktp}`);
+    lines.push(`■ Nama Ibu Kandung : ${data.ibu}`);
+    if(data.bank) lines.push(`■ Nama Bank : ${data.bank}`);
+    if(data.norek) lines.push(`■ No Rekening : ${data.norek}`);
+    if(data.namarek) lines.push(`■ Nama di Rekening : ${data.namarek}`);
+    if(data.npwp) lines.push(`■ No NPWP : ${data.npwp}`);
+    if(data.pekerjaan) lines.push(`■ Pekerjaan/Jabatan : ${data.pekerjaan}`);
+    if(data.penghasilan) lines.push(`■ Penghasilan/tahun : ${data.penghasilan}`);
+    if(data.tb) lines.push(`■ Tinggi & Berat Badan : ${data.tb}`);
+    if(data.awNama) lines.push(`■ Ahli Waris Bisnis : ${data.awNama} / ${data.awTgl}`);
+    lines.push(`■ Pilihan Premi : Rp${data.premi}`);
+    lines.push('');
+    lines.push('Silakan bantu proses pendaftaran sesuai SOP MOBIS. Terima kasih.');
 
-/* ---------- read leader params & local leaders ---------- */
-const params = new URLSearchParams(window.location.search);
-const paramLeaderSlug = params.get('leader') || params.get('slug') || '';
-const paramLeaderName = params.get('name') || params.get('leaderName') || '';
-const paramLeaderWa   = params.get('wa') || params.get('phone') || params.get('hp') || '';
-
-let leaders = [];
-try {
-  leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
-} catch(e){ leaders = []; }
-
-function findLeaderBySlug(slug){
-  if(!slug) return null;
-  return leaders.find(l => (l.slug||'').toString().toLowerCase() === slug.toString().toLowerCase()) || null;
-}
-
-/* decide final leader object */
-let leader = findLeaderBySlug(paramLeaderSlug);
-if(!leader && paramLeaderName){
-  leader = { name: paramLeaderName, phone: paramLeaderWa || '' };
-}
-if(!leader){
-  // fallback admin (default) - change here only if admin WA berubah
-  leader = { name: 'Admin 3iReborn', phone: '6282240001731' };
-}
-
-/* show presenter */
-const presenterLabel = document.getElementById('presenterLabel');
-presenterLabel.textContent = `Leader yang menanggung: ${leader.name}`;
-
-/* ---------- form handling ---------- */
-const form = document.getElementById('regForm');
-const btnSubmit = document.getElementById('btnSubmit');
-const btnPreview = document.getElementById('btnPreview');
-
-function gatherFormData(){
-  return {
-    premi: document.getElementById('premi').value.trim(),
-    fullName: document.getElementById('fullName').value.trim(),
-    motherName: document.getElementById('motherName').value.trim(),
-    noKtp: document.getElementById('noKtp').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    alamat: document.getElementById('alamat').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    idmember: document.getElementById('idmember').value.trim()
-  };
-}
-
-/* validation: enforce required fields and KTP digit length */
-function validate(data){
-  if(!data.premi) { toast('Pilih kontribusi premi'); return false; }
-  if(!data.fullName) { toast('Nama lengkap wajib diisi'); return false; }
-  if(!data.motherName) { toast('Nama ibu kandung wajib diisi'); return false; }
-  if(!data.noKtp || data.noKtp.replace(/\D/g,'').length < 16){ toast('No KTP harus 16 digit'); return false; }
-  if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)){ toast('Email tidak valid'); return false; }
-  if(!data.phone || !/^\d{6,}$/.test(data.phone.replace(/\D/g,''))){ toast('Masukkan nomor WA valid (format 628...)'); return false; }
-  return true;
-}
-
-/* build whatsapp message (URL-encoded) */
-function buildWaUrl(leaderPhone, data){
-  // include leader slug/name in message for traceability
-  const parts = [
-    `Halo ${leader.name}, saya ingin mendaftar 3iReborn.`,
-    ``,
-    `📌 Data Pendaftar:`,
-    `Nama: ${data.fullName}`,
-    `Nama Ibu Kandung: ${data.motherName}`,
-    `No KTP: ${data.noKtp}`,
-    `Email: ${data.email}`,
-    `Alamat: ${data.alamat || '-'}`,
-    `No HP: ${data.phone}`,
-    `Kontribusi: Rp${data.premi}`,
-    `ID Member: ${data.idmember || '-'}`,
-    ``,
-    `Tolong bantu proses pendaftaran. Terima kasih 🙏`
-  ];
-  const text = parts.join('%0A');
-  // remove non-digit chars from phone
-  const phoneDigits = (leaderPhone || '').replace(/\D/g,'');
-  return `https://wa.me/${encodeURIComponent(phoneDigits)}?text=${text}`;
-}
-
-/* preview (popup) */
-btnPreview.addEventListener('click',()=>{
-  const data = gatherFormData();
-  // quick validation so preview useful
-  if(!data.fullName){ toast('Isi Nama dulu untuk preview'); return; }
-  // create a preview string
-  const preview = `
-  Pemohon: ${data.fullName}
-  Ibu Kandung: ${data.motherName || '-'}
-  Premi: Rp${data.premi || '-'}
-  KTP: ${data.noKtp || '-'}
-  Email: ${data.email || '-'}
-  HP: ${data.phone || '-'}
-  Alamat: ${data.alamat || '-'}
-  ID Member: ${data.idmember || '-'}
-  Akan dikirim ke: ${leader.name} (${leader.phone})
-  `.trim();
-  alert('Preview pesan (akan dikirim ke WA leader):\n\n' + preview);
-});
-
-/* submit -> open WhatsApp */
-form.addEventListener('submit',(ev)=>{
-  ev.preventDefault();
-  const data = gatherFormData();
-  if(!validate(data)) return;
-
-  const waUrl = buildWaUrl(leader.phone, data);
-  // open WA in new tab (or app)
-  window.open(waUrl, '_blank');
-  toast('Mengarahkan ke WhatsApp...');
-});
-
-/* optional: prefill from URL params if provided (so landing pages can pass values) */
-(function prefillFromUrl(){
-  const pre = {};
-  if(params.get('premi')) pre.premi = params.get('premi');
-  if(params.get('nama')) pre.fullName = params.get('nama');
-  if(params.get('mother')) pre.motherName = params.get('mother');
-  if(params.get('ktp')) pre.noKtp = params.get('ktp');
-  if(params.get('email')) pre.email = params.get('email');
-  if(params.get('alamat')) pre.alamat = params.get('alamat');
-  if(params.get('phone')) pre.phone = params.get('phone');
-  if(params.get('id')) pre.idmember = params.get('id');
-
-  if(Object.keys(pre).length){
-    if(pre.premi) document.getElementById('premi').value = pre.premi;
-    if(pre.fullName) document.getElementById('fullName').value = pre.fullName;
-    if(pre.motherName) document.getElementById('motherName').value = pre.motherName;
-    if(pre.noKtp) document.getElementById('noKtp').value = pre.noKtp;
-    if(pre.email) document.getElementById('email').value = pre.email;
-    if(pre.alamat) document.getElementById('alamat').value = pre.alamat;
-    if(pre.phone) document.getElementById('phone').value = pre.phone;
-    if(pre.idmember) document.getElementById('idmember').value = pre.idmember;
-  }
+    const message = lines.join('\n');
+    out.textContent = message;
+  });
 })();
-
 </script>
 </body>
-  </html>
+</html>
