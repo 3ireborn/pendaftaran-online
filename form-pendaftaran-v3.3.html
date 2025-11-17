@@ -1,505 +1,293 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Form Pendaftaran 3iReborn — v3.3 FINAL</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#051322; --card:#0b1d2a; --muted:#9bb0c4; --text:#e6f7ff;
-  --accent:#3be6c8; --accent2:#7a6bff; --danger:#ff6b6b; --glass: rgba(255,255,255,0.03);
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-.container{max-width:920px;margin:0 auto;padding:22px}
-.header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px}
-.title{font-size:28px;font-weight:700;color:var(--accent);margin:6px 0}
-.sub{color:var(--muted);margin:0 0 12px}
-.card{background:var(--card);border-radius:14px;padding:16px;margin:12px 0;border:1px solid rgba(255,255,255,0.03)}
-label{display:block;font-weight:600;margin-bottom:6px;color:var(--text)}
-.input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);font-size:14px}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.small{width:100px}
-.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#03141a}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
-.mono{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--muted)}
-.preview{border:2px solid rgba(255,255,255,0.06);padding:12px;border-radius:10px;background:rgba(255,255,255,0.01)}
-.kpi{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.kpi .pill{background:var(--glass);padding:10px 12px;border-radius:10px}
-.log{max-height:240px;overflow:auto;background:#071827;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);font-family:monospace;font-size:13px;color:var(--muted)}
-.notice{color:var(--muted);font-size:13px;margin-top:8px}
-@media(max-width:720px){.row{flex-direction:column}.small{width:100%}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pendaftaran Online 3iReborn — v3.3</title>
+
+  <!-- Gaya: Putih - Biru (senada LP HOT / LP MASTER) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6faff;
+      --card:#ffffff;
+      --ink:#0b3d91;
+      --muted:#627096;
+      --line:#e2ecff;
+      --accent:#ffb020;
+      --success:#21a47a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;color:#112}
+    .wrap{max-width:820px;margin:24px auto;padding:18px}
+    .hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+    .presenter{display:inline-block;background:#eaf2ff;color:var(--ink);padding:6px 10px;border-radius:999px;font-weight:700;margin-bottom:8px}
+    h1{margin:6px 0 8px;color:var(--ink);font-size:22px}
+    p.lead{color:var(--muted);margin:0 0 12px}
+
+    /* card form */
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
+    label{display:block;margin-top:12px;font-weight:600;color:var(--ink)}
+    input[type="text"], input[type="email"], input[type="tel"], select, textarea{
+      width:100%;padding:12px;border:1px solid #d7e6ff;border-radius:10px;margin-top:8px;font-size:15px;background:#fbfdff;
+    }
+    textarea{min-height:80px;resize:vertical}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1;min-width:160px}
+
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      padding:12px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer;
+    }
+    .btn-primary{background:var(--ink);color:#fff}
+    .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+    .helper{font-size:13px;color:var(--muted);margin-top:10px}
+
+    /* small screens */
+    @media(max-width:520px){
+      h1{font-size:20px}
+      .row{flex-direction:column}
+    }
+
+    /* toast */
+    .toast{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:#05224a;color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 6px 20px rgba(2,10,40,.2);
+      display:none;z-index:9999;font-weight:600;font-size:14px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <header class="header">
-    <div class="title">Form Pendaftaran 3iReborn — v3.3 (FINAL)</div>
-    <div class="sub">Tetap jaga urutan POM — jangan diubah. Form lengkap sesuai SOP perusahaan.</div>
-  </header>
 
-  <!-- System status + scheduler info -->
-  <div class="card">
-    <div class="kpi">
-      <div class="pill"><strong id="clock">--:--:--</strong><div class="mono">WIB (local)</div></div>
-      <div class="pill"><strong id="leaderCount">0</strong><div class="mono">Leader aktif (cache)</div></div>
-      <div class="pill">
-        <div style="font-weight:700">Auto Scheduler</div>
-        <div class="mono">Follow-up pagi 07:00 • Malam 21:00</div>
-        <div class="mono">Periodik 20:00 • Calon Mitra 06:00</div>
-        <div class="notice">(scheduler aktif saat halaman dibuka)</div>
+  <div class="wrap">
+    <div class="hero">
+      <div id="presenterLabel" class="presenter">Memuat data leader...</div>
+      <h1>Form Pendaftaran Online 3iReborn</h1>
+      <p class="lead">Isi data berikut untuk proses registrasi. (Nama Ibu Kandung wajib)</p>
+    </div>
+
+    <form id="regForm" class="card" autocomplete="off" novalidate>
+      <!-- IMPORTANT: order of fields must not be changed in future updates -->
+      <!-- 1. KONTRIBUSI PREMI -->
+      <label for="premi">Kontribusi Premi (Rp) *</label>
+      <select id="premi" required>
+        <option value="">-- Pilih Kontribusi --</option>
+        <option value="350000">350.000 / bulan</option>
+        <option value="500000">500.000 / bulan</option>
+        <option value="700000">700.000 / bulan</option>
+        <option value="1000000">1.000.000 / bulan</option>
+        <option value="2000000">2.000.000 / bulan</option>
+      </select>
+
+      <!-- 2. NAMA LENGKAP -->
+      <label for="fullName">Nama Lengkap *</label>
+      <input id="fullName" type="text" placeholder="Nama sesuai KTP" required />
+
+      <!-- 3. NAMA IBU KANDUNG (WAJIB) -->
+      <label for="motherName">Nama Ibu Kandung *</label>
+      <input id="motherName" type="text" placeholder="Nama ibu kandung (mis: Siti Aminah)" required />
+
+      <!-- 4. NO KTP -->
+      <label for="noKtp">No KTP *</label>
+      <input id="noKtp" type="text" inputmode="numeric" placeholder="16 digit" maxlength="16" required />
+
+      <!-- 5. EMAIL -->
+      <label for="email">Email *</label>
+      <input id="email" type="email" placeholder="nama@email.com" required />
+
+      <!-- 6. ALAMAT RUMAH (opsional) -->
+      <label for="alamat">Alamat Rumah (opsional)</label>
+      <textarea id="alamat" placeholder="Alamat lengkap (bisa dikosongkan)"></textarea>
+
+      <!-- 7. NO HP PENDAFTAR -->
+      <label for="phone">No HP / WhatsApp Pemohon *</label>
+      <input id="phone" type="tel" placeholder="628..." required />
+
+      <!-- 8. ID MEMBER (opsional) -->
+      <label for="idmember">ID Member (opsional)</label>
+      <input id="idmember" type="text" placeholder="contoh: 88541 atau kosongkan" />
+
+      <div class="helper">
+        <strong>Catatan:</strong> form ini bisa dibuka melalui link leader (URL) — jika leader ditentukan di URL, data leader akan otomatis terpasang. Jika tidak, pesan akan dikirim ke nomor leader fallback.
       </div>
-    </div>
-  </div>
 
-  <!-- Tokens & Github sync -->
-  <div class="card">
-    <h3 style="margin:0 0 8px">🔐 Tokens & Sinkronisasi</h3>
-    <label>Token FonNTE (untuk kirim WA via API)</label>
-    <input id="fonnte" class="input" placeholder="Kosongkan jika tidak pakai API (pesan hanya tercatat di log)">
-
-    <label style="margin-top:10px">Token GitHub (ghp_...)</label>
-    <input id="ghtoken" class="input" placeholder="Masukkan token GitHub untuk push leaders.json (opsional)">
-
-    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-      <button id="saveTokens" class="btn btn-primary">Simpan Token</button>
-      <button id="testFonnte" class="btn btn-ghost">Tes FonNTE</button>
-      <button id="testGit" class="btn btn-ghost">Tes GitHub</button>
-    </div>
-
-    <div style="margin-top:12px">
-      <label>GitHub Owner (username)</label>
-      <input id="ghowner" class="input" placeholder="contoh: 3ireborn">
-
-      <label style="margin-top:8px">Nama Repo</label>
-      <input id="ghrepo" class="input" placeholder="contoh: pendaftaran-online">
-
-      <label style="margin-top:8px">File leaders.json (path)</label>
-      <input id="ghfile" class="input" placeholder="contoh: data/leaders.json">
-
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <button id="saveGithub" class="btn btn-primary">Simpan GitHub</button>
-        <button id="syncGithub" class="btn btn-primary">Sinkronisasi ke GitHub</button>
+      <div class="actions">
+        <button id="btnSubmit" class="btn btn-primary" type="submit">KIRIM KE WHATSAPP LEADER</button>
+        <button id="btnPreview" class="btn btn-ghost" type="button">Preview Pesan</button>
       </div>
-      <div class="notice">Catatan: token GitHub jangan commit ke repo. Simpan lokal (localStorage).</div>
+    </form>
+
+    <div class="card" style="margin-top:12px;font-size:14px;color:var(--muted)">
+      <strong>Informasi teknis singkat:</strong>
+      <ul>
+        <li>Form ini membaca parameter URL: <code>?leader=&lt;slug&gt;&amp;name=&lt;nama leader&gt;&amp;wa=&lt;nomorwa&gt;</code></li>
+        <li>Jika leader tidak ditemukan di localStorage, script menggunakan parameter <code>name</code>/<code>wa</code> dari URL atau fallback admin.</li>
+        <li>Urutan field <em>tidak boleh diubah</em> (ini v3.3).</li>
+      </ul>
     </div>
+
   </div>
 
-  <!-- Form Pendaftaran (POM) - DO NOT CHANGE ORDER -->
-  <form id="pomForm" class="card" onsubmit="return false;">
-    <h3 style="margin:0 0 8px">📋 Form Pendaftaran (Data Pribadi)</h3>
-
-    <!-- Kode ID Sponsor & Leader (kosongkan dulu) -->
-    <label>Kode ID Sponsor</label><input id="sponsorId" class="input" placeholder="Kosongkan jika belum ada">
-    <label>Kode ID Leader</label><input id="leaderId" class="input" placeholder="Kosongkan jika belum ada">
-
-    <!-- Nama Lengkap -->
-    <label>Nama Lengkap *</label><input id="fullName" class="input" placeholder="Tulis nama lengkap Anda" required>
-
-    <!-- No Identitas / KTP -->
-    <label>No Identitas (KTP)</label><input id="identityNo" class="input" placeholder="Nomor KTP">
-
-    <!-- Tempat & Tgl Lahir -->
-    <label>Tempat Lahir</label><input id="birthPlace" class="input" placeholder="Contoh: Jakarta">
-    <label>Tanggal Lahir (DD/MM/YYYY)</label>
-    <input id="birthDate" class="input" placeholder="DD/MM/YYYY" pattern="^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(19|20)\d\d$">
-
-    <!-- Alamat lengkap -->
-    <label>Alamat Lengkap</label><textarea id="address" class="input" rows="3" placeholder="Tulis alamat lengkap Anda"></textarea>
-
-    <!-- No HP / WhatsApp -->
-    <label>No. HP / WhatsApp *</label><input id="phone" class="input" placeholder="Contoh: 6285xxxxx" required>
-
-    <!-- Email -->
-    <label>Email</label><input id="email" class="input" placeholder="contoh@domain.com">
-
-    <!-- Bank & Rekening -->
-    <label>Nama Bank</label><input id="bankName" class="input" placeholder="Nama bank">
-    <label>No Rekening</label><input id="bankNo" class="input" placeholder="No rekening">
-    <label>Nama di Rekening</label><input id="bankOwner" class="input" placeholder="Nama pemilik rekening">
-
-    <!-- NPWP & pajak -->
-    <label>No NPWP</label><input id="npwp" class="input" placeholder="No NPWP (boleh kosong)">
-    <label>Status Pajak</label>
-    <select id="taxStatus" class="input">
-      <option value="">-- Pilih --</option>
-      <option value="kawin">Kawin</option>
-      <option value="tidak">Tidak kawin</option>
-    </select>
-    <label>Jumlah Tanggungan</label><input id="dependents" class="input" placeholder="Jumlah tanggungan">
-
-    <!-- Biometrik -->
-    <label>Tinggi & Berat Badan</label><input id="heightWeight" class="input" placeholder="Contoh: 170 cm / 60 kg">
-
-    <!-- Pekerjaan dan Penghasilan -->
-    <label>Pekerjaan / Jabatan</label><input id="job" class="input" placeholder="Pekerjaan / jabatan">
-    <label>Penghasilan per Tahun</label><input id="income" class="input" placeholder="Estimasi penghasilan per tahun">
-
-    <!-- Nama Ibu Kandung (WAJIB ada, jangan dihapus) -->
-    <label>Nama Ibu Kandung</label><input id="motherName" class="input" placeholder="Nama ibu kandung">
-
-    <!-- Ahli Waris Bisnis -->
-    <h4 style="margin-top:12px">Ahli Waris Bisnis</h4>
-    <label>Nama</label><input id="heirBizName" class="input" placeholder="Nama ahli waris">
-    <label>Tgl Lahir (DD/MM/YYYY)</label><input id="heirBizDob" class="input" placeholder="DD/MM/YYYY">
-    <label>Jenis Kelamin</label>
-    <select id="heirBizGender" class="input"><option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option></select>
-    <label>Hubungan</label><input id="heirBizRel" class="input" placeholder="Contoh: anak / istri">
-
-    <!-- Ahli Waris Manfaat -->
-    <h4 style="margin-top:12px">Ahli Waris Manfaat</h4>
-    <label>Nama</label><input id="heirBenName" class="input" placeholder="Nama ahli waris manfaat">
-    <label>Tgl Lahir (DD/MM/YYYY)</label><input id="heirBenDob" class="input" placeholder="DD/MM/YYYY">
-    <label>Jenis Kelamin</label>
-    <select id="heirBenGender" class="input"><option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option></select>
-    <label>Hubungan</label><input id="heirBenRel" class="input" placeholder="Hubungan">
-
-    <!-- Data Tertanggung berbeda -->
-    <h4 style="margin-top:12px">Jika Tertanggung Berbeda</h4>
-    <label>Nama</label><input id="insuredName" class="input" placeholder="Nama tertanggung (jika berbeda)">
-    <label>Tempat & Tgl Lahir</label><input id="insuredBirth" class="input" placeholder="Tempat / DD/MM/YYYY">
-    <label>Agama</label><input id="insuredReligion" class="input" placeholder="Agama">
-    <label>Jenis Kelamin</label>
-    <select id="insuredGender" class="input"><option value="">-- Pilih --</option><option>Laki-laki</option><option>Perempuan</option></select>
-    <label>No Identitas</label><input id="insuredId" class="input" placeholder="No KTP / Akta lahir">
-    <label>Tinggi & Berat</label><input id="insuredHW" class="input" placeholder="Tinggi / berat">
-    <label>Hubungan ke Pemegang Polis</label><input id="insuredRel" class="input" placeholder="Contoh: anak / cucu">
-
-    <!-- Kontribusi / Premi -->
-    <h4 style="margin-top:12px">Kontribusi Premi</h4>
-    <label>Pilih Kontribusi (Rp)</label>
-    <select id="premi" class="input">
-      <option value="">Pilih</option>
-      <option>Rp.50.000 (ID CARD)</option>
-      <option>Rp.350.000</option>
-      <option>Rp.500.000</option>
-      <option>Rp.700.000</option>
-      <option>Rp.1.000.000</option>
-      <option>Rp.2.000.000</option>
-    </select>
-
-    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-      <button id="submitForm" class="btn btn-primary">Kirim Data ke Leader (WA)</button>
-      <button id="saveLocal" class="btn btn-ghost">Simpan ke Cache Lokal</button>
-      <button id="exportJson" class="btn btn-ghost">Export Cache</button>
-    </div>
-
-    <p class="notice">Catatan: bila nomor leader tidak valid (mis. TKW di luar ID), sistem simpan di cache lokal dan notifikasi akan tampil di log. Jangan ubah urutan form (POM).</p>
-  </form>
-
-  <!-- Manual follow-up & preview -->
-  <div class="card">
-    <h3>📣 Manual Follow-up (Preview & Broadcast)</h3>
-
-    <label>Buat pesan broadcast / pengumuman (bebas)</label>
-    <textarea id="manualMsg" class="input" rows="4" placeholder="Tulis pesan broadcast..."></textarea>
-
-    <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
-      <button id="broadcastAll" class="btn btn-primary">Kirim Broadcast Manual (ALL)</button>
-      <button id="previewBtn" class="btn btn-ghost">Preview</button>
-    </div>
-
-    <div style="margin-top:12px">
-      <div class="preview" id="previewBox">Preview pesan akan tampil di sini (stroke putih 2px)</div>
-      <div class="notice">Preview berbeda dengan template follow-up (template dipakai untuk pesan pagi/sore otomatis).</div>
-    </div>
-
-    <div style="margin-top:12px;display:flex;gap:10px">
-      <button id="sendMotPagi" class="btn btn-ghost">Kirim Motivasi Pagi (Template)</button>
-      <button id="sendMotMalam" class="btn btn-ghost">Kirim Motivasi Malam (Template)</button>
-      <button id="sendPeriodic" class="btn btn-ghost">Kirim Follow-up Periodik</button>
-      <button id="sendProspect" class="btn btn-ghost">Kirim Follow-up Calon Mitra</button>
-    </div>
-  </div>
-
-  <!-- Leader cache list & log -->
-  <div class="card">
-    <h3>👥 Leader (Cache)</h3>
-    <div id="leaderList" style="display:flex;flex-direction:column;gap:10px"></div>
-    <div style="margin-top:12px" class="notice">Sumber: /data/leaders.json (fetch) → fallback ke localStorage jika fetch gagal.</div>
-  </div>
-
-  <div class="card">
-    <h3>📝 Log Aktivitas</h3>
-    <div id="log" class="log">(belum ada aktivitas)</div>
-  </div>
-
-</div>
+  <div id="toast" class="toast"></div>
 
 <script>
-(function(){
-  // helper
-  const $ = id=>document.getElementById(id);
-  const logBox = $('log');
-  function log(msg){ const t=new Date().toLocaleTimeString('id-ID',{hour12:false}); logBox.innerHTML = `[${t}] ${msg}<br>` + logBox.innerHTML; }
+/*
+  form-pendaftaran-v3.3.html
+  - Memastikan Nama Ibu Kandung ada (wajib)
+  - Mempertahankan urutan fields (kontribusi -> nama -> ibu -> KTP -> email -> alamat -> hp -> id)
+  - Mengirim pesan via wa.me ke leader (mengambil dari URL params atau leaders localStorage)
+  - Fallback admin WA jika leader tidak ada
+*/
 
-  // clock
-  function tick(){ $('clock').textContent = new Date().toLocaleTimeString('id-ID',{hour12:false}); }
-  tick(); setInterval(tick,1000);
+/* ---------- util ---------- */
+const qs = sel => document.querySelector(sel);
+const qsa = sel => Array.from(document.querySelectorAll(sel));
+const toast = (txt, showMs=2200) => {
+  const t = qs('#toast');
+  t.textContent = txt; t.style.display = 'block';
+  clearTimeout(t._hid);
+  t._hid = setTimeout(()=> t.style.display='none', showMs);
+};
 
-  // load tokens from localStorage
-  $('fonnte').value = localStorage.getItem('fonnte_token') || '';
-  $('ghtoken').value = localStorage.getItem('gh_token') || '';
-  $('ghowner').value = localStorage.getItem('gh_owner') || '';
-  $('ghrepo').value = localStorage.getItem('gh_repo') || '';
-  $('ghfile').value = localStorage.getItem('gh_file') || 'data/leaders.json';
+/* ---------- read leader params & local leaders ---------- */
+const params = new URLSearchParams(window.location.search);
+const paramLeaderSlug = params.get('leader') || params.get('slug') || '';
+const paramLeaderName = params.get('name') || params.get('leaderName') || '';
+const paramLeaderWa   = params.get('wa') || params.get('phone') || params.get('hp') || '';
 
-  // leaders cache
-  let leaders = [];
-  async function loadLeaders(){
-    try {
-      const r = await fetch('/data/leaders.json?ts='+Date.now());
-      if(!r.ok) throw new Error('fetch leaders fail');
-      leaders = await r.json();
-      localStorage.setItem('leaders_cache', JSON.stringify(leaders));
-      log('Leaders loaded from /data/leaders.json');
-    } catch(e){
-      const cached = localStorage.getItem('leaders_cache');
-      leaders = cached ? JSON.parse(cached) : [];
-      log('Leaders loaded from localStorage (fallback)');
-    }
-    renderLeaders();
+let leaders = [];
+try {
+  leaders = JSON.parse(localStorage.getItem('leaders') || '[]');
+} catch(e){ leaders = []; }
+
+function findLeaderBySlug(slug){
+  if(!slug) return null;
+  return leaders.find(l => (l.slug||'').toString().toLowerCase() === slug.toString().toLowerCase()) || null;
+}
+
+/* decide final leader object */
+let leader = findLeaderBySlug(paramLeaderSlug);
+if(!leader && paramLeaderName){
+  leader = { name: paramLeaderName, phone: paramLeaderWa || '' };
+}
+if(!leader){
+  // fallback admin (default) - change here only if admin WA berubah
+  leader = { name: 'Admin 3iReborn', phone: '6282240001731' };
+}
+
+/* show presenter */
+const presenterLabel = document.getElementById('presenterLabel');
+presenterLabel.textContent = `Leader yang menanggung: ${leader.name}`;
+
+/* ---------- form handling ---------- */
+const form = document.getElementById('regForm');
+const btnSubmit = document.getElementById('btnSubmit');
+const btnPreview = document.getElementById('btnPreview');
+
+function gatherFormData(){
+  return {
+    premi: document.getElementById('premi').value.trim(),
+    fullName: document.getElementById('fullName').value.trim(),
+    motherName: document.getElementById('motherName').value.trim(),
+    noKtp: document.getElementById('noKtp').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    alamat: document.getElementById('alamat').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    idmember: document.getElementById('idmember').value.trim()
+  };
+}
+
+/* validation: enforce required fields and KTP digit length */
+function validate(data){
+  if(!data.premi) { toast('Pilih kontribusi premi'); return false; }
+  if(!data.fullName) { toast('Nama lengkap wajib diisi'); return false; }
+  if(!data.motherName) { toast('Nama ibu kandung wajib diisi'); return false; }
+  if(!data.noKtp || data.noKtp.replace(/\D/g,'').length < 16){ toast('No KTP harus 16 digit'); return false; }
+  if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)){ toast('Email tidak valid'); return false; }
+  if(!data.phone || !/^\d{6,}$/.test(data.phone.replace(/\D/g,''))){ toast('Masukkan nomor WA valid (format 628...)'); return false; }
+  return true;
+}
+
+/* build whatsapp message (URL-encoded) */
+function buildWaUrl(leaderPhone, data){
+  // include leader slug/name in message for traceability
+  const parts = [
+    `Halo ${leader.name}, saya ingin mendaftar 3iReborn.`,
+    ``,
+    `📌 Data Pendaftar:`,
+    `Nama: ${data.fullName}`,
+    `Nama Ibu Kandung: ${data.motherName}`,
+    `No KTP: ${data.noKtp}`,
+    `Email: ${data.email}`,
+    `Alamat: ${data.alamat || '-'}`,
+    `No HP: ${data.phone}`,
+    `Kontribusi: Rp${data.premi}`,
+    `ID Member: ${data.idmember || '-'}`,
+    ``,
+    `Tolong bantu proses pendaftaran. Terima kasih 🙏`
+  ];
+  const text = parts.join('%0A');
+  // remove non-digit chars from phone
+  const phoneDigits = (leaderPhone || '').replace(/\D/g,'');
+  return `https://wa.me/${encodeURIComponent(phoneDigits)}?text=${text}`;
+}
+
+/* preview (popup) */
+btnPreview.addEventListener('click',()=>{
+  const data = gatherFormData();
+  // quick validation so preview useful
+  if(!data.fullName){ toast('Isi Nama dulu untuk preview'); return; }
+  // create a preview string
+  const preview = `
+  Pemohon: ${data.fullName}
+  Ibu Kandung: ${data.motherName || '-'}
+  Premi: Rp${data.premi || '-'}
+  KTP: ${data.noKtp || '-'}
+  Email: ${data.email || '-'}
+  HP: ${data.phone || '-'}
+  Alamat: ${data.alamat || '-'}
+  ID Member: ${data.idmember || '-'}
+  Akan dikirim ke: ${leader.name} (${leader.phone})
+  `.trim();
+  alert('Preview pesan (akan dikirim ke WA leader):\n\n' + preview);
+});
+
+/* submit -> open WhatsApp */
+form.addEventListener('submit',(ev)=>{
+  ev.preventDefault();
+  const data = gatherFormData();
+  if(!validate(data)) return;
+
+  const waUrl = buildWaUrl(leader.phone, data);
+  // open WA in new tab (or app)
+  window.open(waUrl, '_blank');
+  toast('Mengarahkan ke WhatsApp...');
+});
+
+/* optional: prefill from URL params if provided (so landing pages can pass values) */
+(function prefillFromUrl(){
+  const pre = {};
+  if(params.get('premi')) pre.premi = params.get('premi');
+  if(params.get('nama')) pre.fullName = params.get('nama');
+  if(params.get('mother')) pre.motherName = params.get('mother');
+  if(params.get('ktp')) pre.noKtp = params.get('ktp');
+  if(params.get('email')) pre.email = params.get('email');
+  if(params.get('alamat')) pre.alamat = params.get('alamat');
+  if(params.get('phone')) pre.phone = params.get('phone');
+  if(params.get('id')) pre.idmember = params.get('id');
+
+  if(Object.keys(pre).length){
+    if(pre.premi) document.getElementById('premi').value = pre.premi;
+    if(pre.fullName) document.getElementById('fullName').value = pre.fullName;
+    if(pre.motherName) document.getElementById('motherName').value = pre.motherName;
+    if(pre.noKtp) document.getElementById('noKtp').value = pre.noKtp;
+    if(pre.email) document.getElementById('email').value = pre.email;
+    if(pre.alamat) document.getElementById('alamat').value = pre.alamat;
+    if(pre.phone) document.getElementById('phone').value = pre.phone;
+    if(pre.idmember) document.getElementById('idmember').value = pre.idmember;
   }
-  function renderLeaders(){
-    const el = $('leaderList'); el.innerHTML='';
-    leaders.forEach(l=>{
-      const b = document.createElement('div');
-      b.style.background='rgba(255,255,255,0.02)';
-      b.style.padding='12px'; b.style.borderRadius='8px';
-      b.innerHTML = `<div style="font-weight:700">${l.code} • ${l.name}</div><div class="mono">${l.phone}</div>`;
-      el.appendChild(b);
-    });
-    $('leaderCount').textContent = leaders.length;
-  }
-  loadLeaders();
-
-  // save tokens
-  $('saveTokens').onclick = ()=>{
-    localStorage.setItem('fonnte_token', $('fonnte').value.trim());
-    localStorage.setItem('gh_token', $('ghtoken').value.trim());
-    log('Token FonNTE/GitHub disimpan (lokal)');
-    alert('Token disimpan lokal (tidak di-commit).');
-  };
-  $('saveGithub').onclick = ()=>{
-    localStorage.setItem('gh_owner', $('ghowner').value.trim());
-    localStorage.setItem('gh_repo', $('ghrepo').value.trim());
-    localStorage.setItem('gh_file', $('ghfile').value.trim());
-    log('GitHub info disimpan (lokal)');
-    alert('GitHub info disimpan lokal.');
-  };
-
-  // simple FonNTE tester (demo only)
-  $('testFonnte').onclick = ()=>{ const t=localStorage.getItem('fonnte_token'); alert(t ? 'FonNTE token present' : 'FonNTE token kosong'); }
-
-  // GitHub test (just checks token present)
-  $('testGit').onclick = ()=>{ const t=localStorage.getItem('gh_token'); alert(t ? 'GitHub token present' : 'GitHub token kosong'); }
-
-  // submit form: build POM message and send via FonNTE if token present, otherwise only log
-  $('submitForm').onclick = async ()=>{
-    // preserve order: produce message following POM structure
-    const data = {
-      sponsorId: $('sponsorId').value.trim(),
-      leaderId: $('leaderId').value.trim(),
-      name: $('fullName').value.trim(),
-      ktp: $('identityNo').value.trim(),
-      tempat_lahir: $('birthPlace').value.trim(),
-      tgl_lahir: $('birthDate').value.trim(),
-      alamat: $('address').value.trim(),
-      phone: $('phone').value.trim(),
-      email: $('email').value.trim(),
-      bank_name: $('bankName').value.trim(),
-      bank_no: $('bankNo').value.trim(),
-      bank_owner: $('bankOwner').value.trim(),
-      npwp: $('npwp').value.trim(),
-      tax_status: $('taxStatus').value,
-      dependents: $('dependents').value,
-      height_weight: $('heightWeight').value,
-      job: $('job').value,
-      income: $('income').value,
-      mother_name: $('motherName').value,
-      heir_biz: {
-        name: $('heirBizName').value, dob: $('heirBizDob').value, gender: $('heirBizGender').value, rel: $('heirBizRel').value
-      },
-      heir_benefit: {
-        name: $('heirBenName').value, dob: $('heirBenDob').value, gender: $('heirBenGender').value, rel: $('heirBenRel').value
-      },
-      insured: {
-        name: $('insuredName').value, birth: $('insuredBirth').value, religion: $('insuredReligion').value, gender: $('insuredGender').value, id: $('insuredId').value, hw: $('insuredHW').value, rel: $('insuredRel').value
-      },
-      premi: $('premi').value
-    };
-
-    // build message (POM format)
-    let msg = `*FORM PENDAFTARAN - 3iReborn*%0A`;
-    msg += `Kode Sponsor: ${data.sponsorId || '-'}%0A`;
-    msg += `Kode Leader: ${data.leaderId || '-'}%0A`;
-    msg += `Nama: ${data.name}%0ANo HP: ${data.phone}%0AEmail: ${data.email || '-'}%0A`;
-    msg += `Tempat & Tgl Lahir: ${data.tempat_lahir || '-'} / ${data.tgl_lahir || '-'}%0A`;
-    msg += `Nama Ibu Kandung: ${data.mother_name || '-'}%0A`;
-    msg += `Bank: ${data.bank_name || '-'} / ${data.bank_no || '-'} / ${data.bank_owner || '-'}%0A`;
-    msg += `NPWP: ${data.npwp || '-'} / Status Pajak: ${data.tax_status || '-'}%0A`;
-    msg += `Pekerjaan: ${data.job || '-'} / Penghasilan/th: ${data.income || '-'}%0A`;
-    msg += `Ahli Waris (Bisnis): ${data.heir_biz.name || '-'} (${data.heir_biz.rel || '-'})%0A`;
-    msg += `Ahli Waris (Manfaat): ${data.heir_benefit.name || '-'} (${data.heir_benefit.rel || '-'})%0A`;
-    msg += `Kontribusi: ${data.premi || '-'}%0A`;
-
-    // target leader phone(s) - use leaderId to find leader in cache else fallback to all leaders
-    let targets = [];
-    if(data.leaderId){
-      const L = leaders.find(x => x.code === data.leaderId || x.id === data.leaderId);
-      if(L) targets.push(L.phone);
-    }
-    if(targets.length===0){
-      // fallback: send to all leaders
-      targets = leaders.map(l=>l.phone);
-    }
-
-    // record to cache (localStorage mitra)
-    let mitraCache = JSON.parse(localStorage.getItem('mitra_cache')||'[]');
-    mitraCache.push({...data, timestamp: new Date().toISOString()});
-    localStorage.setItem('mitra_cache', JSON.stringify(mitraCache));
-    log('Form disimpan ke cache lokal ✔');
-
-    // try sending via FonNTE if token exists
-    const fonnteToken = localStorage.getItem('fonnte_token') || $('fonnte').value.trim();
-    if(fonnteToken){
-      // NOTE: real FonNTE API URL and params may differ. Here we attempt a POST to a demo endpoint.
-      for(const phone of targets){
-        try{
-          // simulate API - replace below with actual FonNTE endpoint if available and adjust fields
-          const payload = {to: phone.replace(/\s+/g,''), message: decodeURIComponent(msg)};
-          // Example POST (commented out because real token/endpoint not included)
-          // await fetch('https://api.fonnte.example/send', {method:'POST',headers:{'Authorization':'Bearer '+fonnteToken,'Content-Type':'application/json'},body:JSON.stringify(payload)});
-          log(`Terkirim ke ${phone}`);
-        }catch(e){
-          log(`Gagal kirim ke ${phone}: ${e.message}`);
-        }
-      }
-      alert('Pesan POM: dicatat & dikirim (jika API aktif).');
-    } else {
-      log('FonNTE token tidak ada — pesan hanya dicatat di log.');
-      alert('Token FonNTE kosong. Pesan dicatat di cache lokal. Kirim manual via WA bila perlu.');
-    }
-  };
-
-  // save to cache
-  $('saveLocal').onclick = ()=>{
-    // minimal: copy current basic fields to mitra cache
-    const payload = {
-      name: $('fullName').value.trim(), phone: $('phone').value.trim(), email: $('email').value.trim(), timestamp: new Date().toISOString()
-    };
-    const arr = JSON.parse(localStorage.getItem('mitra_cache')||'[]'); arr.push(payload); localStorage.setItem('mitra_cache', JSON.stringify(arr));
-    log('Mitra disimpan ke cache lokal');
-    alert('Mitra disimpan ke cache lokal.');
-  };
-
-  // export cache
-  $('exportJson').onclick = ()=>{
-    const arr = JSON.parse(localStorage.getItem('mitra_cache')||'[]');
-    const blob = new Blob([JSON.stringify(arr,null,2)],{type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href=url; a.download='mitra-cache.json'; a.click(); URL.revokeObjectURL(url);
-    log('Export cache: mitra-cache.json');
-  };
-
-  // Broadcast preview & manual send
-  $('previewBtn').onclick = ()=>{
-    const txt = $('manualMsg').value.trim();
-    $('previewBox').textContent = txt || '(kosong)';
-    log('Preview pesan diperbarui');
-    // add white stroke style (2px) for better visibility
-    $('previewBox').style.border = '2px solid rgba(255,255,255,0.12)';
-  };
-  $('broadcastAll').onclick = ()=>{
-    const txt = $('manualMsg').value.trim();
-    if(!txt){ alert('Tulis pesan dulu'); return; }
-    // send to all leaders (simulate)
-    leaders.forEach(l=> log(`Broadcast ke ${l.phone}`));
-    log('Broadcast manual terkirim ✔');
-    alert('Broadcast manual dicatat & (jika API aktif) dikirim.');
-  };
-
-  // Template motivations (load from /data/motivation.json or fallback)
-  let MOTIVATIONS = null;
-  async function loadMotivations(){
-    try{
-      const r = await fetch('/data/motivation.json?ts='+Date.now());
-      if(r.ok) { MOTIVATIONS = await r.json(); log('Template motivasi dimuat'); return; }
-    }catch(e){log('motivation fetch fail')}
-    // fallback short quotes
-    MOTIVATIONS = { daily: ["💫 Hari baru, semangat baru — teruslah melangkah!","🌞 Senyum pagi ini adalah awal dari kesuksesanmu!","🌇 Bersyukur dulu, esok rezeki datang."] };
-    log('Fallback motivasi aktif');
-  }
-  loadMotivations();
-
-  function pickTemplate(kind){
-    if(!MOTIVATIONS) return 'Semangat harian!';
-    if(kind==='pagi') return MOTIVATIONS.daily[ Math.floor(Math.random()*MOTIVATIONS.daily.length) ];
-    return MOTIVATIONS.daily[ Math.floor(Math.random()*MOTIVATIONS.daily.length) ];
-  }
-
-  // manual template buttons
-  $('sendMotPagi').onclick = ()=>{
-    const txt = pickTemplate('pagi');
-    leaders.forEach(l=> log(`Manual template pagi -> ${l.phone}`));
-    log('Manual motivasi pagi terkirim (dicatat)');
-  };
-  $('sendMotMalam').onclick = ()=>{
-    const txt = pickTemplate('malam');
-    leaders.forEach(l=> log(`Manual template malam -> ${l.phone}`));
-    log('Manual motivasi malam terkirim (dicatat)');
-  };
-
-  // follow-up periodic & prospect handlers (manual trigger)
-  $('sendPeriodic').onclick = ()=>{ leaders.forEach(l=> log(`Periodic -> ${l.phone}`)); log('Follow-up periodik terkirim (dicatat)'); };
-  $('sendProspect').onclick = ()=>{ leaders.forEach(l=> log(`Calon Mitra -> ${l.phone}`)); log('Follow-up calon mitra terkirim (dicatat)'); };
-
-  // Auto-scheduler (active while page open)
-  function scheduleChecks(){
-    const now = new Date();
-    const h=now.getHours(), m=now.getMinutes(), s=now.getSeconds();
-    // Pagi 07:00, Malam 21:00, Periodik 20:00, Calon Mitra 06:00
-    if(h===7 && m===0 && s<5) { log('AUTO TRIGGER: 7:0'); leaders.forEach(l=> log(`Terkirim ke ${l.phone}`)); }
-    if(h===21 && m===0 && s<5) { log('AUTO TRIGGER: 21:0'); leaders.forEach(l=> log(`Terkirim ke ${l.phone}`)); }
-    if(h===20 && m===0 && s<5) { log('AUTO TRIGGER: periodik 20:0'); leaders.forEach(l=> log(`Terkirim periodic ke ${l.phone}`)); }
-    if(h===6 && m===0 && s<5) { log('AUTO TRIGGER: calon mitra 6:0'); leaders.forEach(l=> log(`Terkirim calon mitra ke ${l.phone}`)); }
-  }
-  setInterval(scheduleChecks,1000);
-
-  // GitHub sync (update leaders.json) - simplified: prepares content & calls GitHub API if token present
-  $('syncGithub').onclick = async ()=>{
-    const token = localStorage.getItem('gh_token') || $('ghtoken').value.trim();
-    const owner = localStorage.getItem('gh_owner') || $('ghowner').value.trim();
-    const repo = localStorage.getItem('gh_repo') || $('ghrepo').value.trim();
-    const path = localStorage.getItem('gh_file') || $('ghfile').value.trim();
-    if(!token || !owner || !repo || !path){ alert('Lengkapi token & repo di GitHub settings'); return; }
-    try{
-      // fetch current file to get sha
-      const urlGet = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      const rGet = await fetch(urlGet, {headers:{Authorization:'token '+token}});
-      let sha = null;
-      if(rGet.ok){ const js = await rGet.json(); sha = js.sha; }
-      const body = btoa(unescape(encodeURIComponent(JSON.stringify(leaders, null, 2))));
-      const commit = {
-        message: 'Update leaders.json via NPA Admin v3.3',
-        content: body,
-        sha: sha
-      };
-      const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      const putRes = await fetch(putUrl, {method:'PUT', headers:{Authorization:'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(commit)});
-      if(putRes.ok){ log('Sync to GitHub sukses'); alert('Sinkronisasi sukses'); }
-      else { const err = await putRes.json(); log('Sync gagal: '+(err.message||putRes.statusText)); alert('Sync gagal: '+(err.message||putRes.statusText)); }
-    }catch(e){ log('Sync error: '+e.message); alert('Error sync: '+e.message); }
-  };
-
-  // Save GitHub via button (local only)
-  $('saveGithub').onclick = ()=>{ log('GitHub config tersimpan lokal'); };
-
-  // initial log
-  log('Admin v3.3 loaded');
 })();
+
 </script>
 </body>
-</html>
+  </html>
