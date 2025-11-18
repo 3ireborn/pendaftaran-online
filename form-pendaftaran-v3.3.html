@@ -1,178 +1,151 @@
-
-<!-- FILE: form-pendaftaran-mobis.html -->
+<!-- form-pendaftaran-v3.3.html -->
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Form Pendaftaran Online — 3iReborn (SOP CAR)</title>
-  <style>
-    :root{--bg:#0b2140;--card:#0f1b33;--accent:#1e90ff;--muted:#97a6d6}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#07102a,#08122f);color:#e6eefc}
-    .wrap{max-width:900px;margin:18px auto;padding:20px}
-    h1{color:var(--accent);margin-bottom:6px}
-    .card{background:rgba(255,255,255,0.03);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04)}
-    label{display:block;margin-top:12px;font-weight:700;color:#dbe8ff}
-    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e8f3ff}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .btn{margin-top:14px;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#041028;font-weight:800;cursor:pointer}
-    .note{color:var(--muted);font-size:13px;margin-top:10px}
-    .preview{margin-top:12px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);font-family:monospace;white-space:pre-wrap}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Form Pendaftaran — 3iReborn v3.3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  body{
+    margin:0;padding:18px;
+    font-family:'Poppins',sans-serif;
+    background:#06162b;color:white;
+  }
+  .wrap{max-width:760px;margin:auto}
+  h1{font-size:26px;margin-bottom:12px;color:#4ea7ff;text-align:center}
+  label{display:block;margin-top:14px;font-weight:600}
+  input,select{
+    width:100%;padding:12px;margin-top:6px;
+    border-radius:8px;border:1px solid #294466;
+    background:#0a1b36;color:white;
+  }
+  button{
+    width:100%;padding:14px;margin-top:20px;
+    background:#4ea7ff;color:#001933;
+    border:0;border-radius:10px;font-weight:700;
+    cursor:pointer;
+  }
+  .outbox{
+    white-space:pre-wrap;
+    background:#0d1f3e;color:#d9e7ff;
+    padding:14px;border-radius:10px;
+    margin-top:20px;font-size:14px;
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Form Pendaftaran — 3iReborn (SOP CAR)</h1>
-    <div class="card">
-      <form id="regForm">
-        <label>Kode ID Sponsor (kosongkan bila tidak ada)</label>
-        <input id="sponsor" />
+<div class="wrap">
+  <h1>Form Pendaftaran Online — 3iReborn v3.3</h1>
 
-        <label>Kode ID Leader (kosongkan bila tidak ada)</label>
-        <input id="leader" />
+  <!-- INPUT -->
+  <label>Nama Lengkap</label>
+  <input id="nama" type="text">
 
-        <label>Nama Lengkap</label>
-        <input id="nama" required />
+  <label>Tempat & Tanggal Lahir</label>
+  <input id="ttl" type="text" placeholder="Contoh: Jakarta / 12041990">
 
-        <div class="row">
-          <div>
-            <label>Tempat Lahir</label>
-            <input id="tempat" />
-          </div>
-          <div>
-            <label>Tanggal Lahir (DD/MM/YYYY)</label>
-            <input id="ttl" placeholder="DD/MM/YYYY" />
-          </div>
-        </div>
+  <label>Jenis Kelamin</label>
+  <select id="jk">
+    <option value="L">Laki-laki</option>
+    <option value="P">Perempuan</option>
+  </select>
 
-        <label>Jenis Kelamin</label>
-        <select id="jk">
-          <option value="L">Laki-laki</option>
-          <option value="P">Perempuan</option>
-        </select>
+  <label>Alamat Lengkap</label>
+  <input id="alamat" type="text">
 
-        <label>Alamat Lengkap (Jalan, RT, RW, Kelurahan, Kecamatan, Kota, Kode Pos)</label>
-        <textarea id="alamat" rows="3"></textarea>
+  <label>No Handphone</label>
+  <input id="hp" type="text">
 
-        <label>No HP (WhatsApp)</label>
-        <input id="hp" placeholder="628..." required />
+  <label>Email</label>
+  <input id="email" type="email">
 
-        <label>Email</label>
-        <input id="email" />
+  <label>No Identitas (KTP)</label>
+  <input id="ktp" type="text">
 
-        <label>No Identitas (KTP)</label>
-        <input id="ktp" />
+  <label>Nama Ibu Kandung</label>
+  <input id="ibu" type="text">
 
-        <label>Nama Ibu Kandung <small style="color:#9fb3ff">(WAJIB)</small></label>
-        <input id="ibu" required />
+  <label>Nama Bank</label>
+  <input id="bank" type="text">
 
-        <label>Bank</label>
-        <input id="bank" />
-        <div class="row">
-          <div>
-            <label>No Rekening</label>
-            <input id="norek" />
-          </div>
-          <div>
-            <label>Nama di Rekening</label>
-            <input id="namarek" />
-          </div>
-        </div>
+  <label>No Rekening</label>
+  <input id="norek" type="text">
 
-        <label>No NPWP (boleh dikosongkan)</label>
-        <input id="npwp" />
+  <label>Nama di Rekening</label>
+  <input id="namarek" type="text">
 
-        <label>Pekerjaan / Jabatan</label>
-        <input id="pekerjaan" />
+  <label>Pekerjaan</label>
+  <input id="pekerjaan" type="text">
 
-        <label>Penghasilan / tahun</label>
-        <input id="penghasilan" />
+  <label>Penghasilan / tahun</label>
+  <input id="gaji" type="text" placeholder="Contoh: 50juta">
 
-        <label>Tinggi & Berat Badan</label>
-        <input id="tb" />
+  <label>Tinggi & Berat Badan</label>
+  <input id="tb" type="text" placeholder="Contoh: 165 70">
 
-        <label>Ahli Waris Bisnis — Nama</label>
-        <input id="awNama" />
-        <label>Ahli Waris Bisnis — Tgl Lahir (DD/MM/YYYY)</label>
-        <input id="awTgl" />
+  <label>Ahli Waris Bisnis</label>
+  <input id="waris" type="text">
 
-        <label>Pilihan Premi</label>
-        <select id="premi">
-          <option value="350000">Rp350.000</option>
-          <option value="500000">Rp500.000</option>
-          <option value="700000">Rp700.000</option>
-          <option value="1000000">Rp1.000.000</option>
-          <option value="2000000">Rp2.000.000</option>
-        </select>
+  <label>Pilihan Premi</label>
+  <select id="premi">
+    <option value="Rp350000">Rp350.000</option>
+    <option value="Rp500000">Rp500.000</option>
+    <option value="Rp700000">Rp700.000</option>
+    <option value="Rp1000000">Rp1.000.000</option>
+  </select>
 
-        <button class="btn" type="submit">Generate Pesan WhatsApp (Siap Paste ke MOBIS)</button>
-      </form>
+  <button onclick="generateWa()">Generate Pesan WhatsApp (Siap Paste ke MOBIS)</button>
 
-      <div class="note">Output akan muncul di kotak preview — salin lalu kirim ke leader Anda / paste ke MOBIS sesuai SOP.</div>
-      <div id="preview" class="preview">(belum ada output)</div>
-    </div>
-  </div>
+  <div id="out" class="outbox"></div>
+</div>
 
 <script>
-(function(){
-  const f=document.getElementById('regForm');
-  const out=document.getElementById('preview');
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    const data = {
-      sponsor:document.getElementById('sponsor').value.trim(),
-      leader:document.getElementById('leader').value.trim(),
-      nama:document.getElementById('nama').value.trim(),
-      tempat:document.getElementById('tempat').value.trim(),
-      ttl:document.getElementById('ttl').value.trim(),
-      jk:document.getElementById('jk').value,
-      alamat:document.getElementById('alamat').value.trim(),
-      hp:document.getElementById('hp').value.trim(),
-      email:document.getElementById('email').value.trim(),
-      ktp:document.getElementById('ktp').value.trim(),
-      ibu:document.getElementById('ibu').value.trim(),
-      bank:document.getElementById('bank').value.trim(),
-      norek:document.getElementById('norek').value.trim(),
-      namarek:document.getElementById('namarek').value.trim(),
-      npwp:document.getElementById('npwp').value.trim(),
-      pekerjaan:document.getElementById('pekerjaan').value.trim(),
-      penghasilan:document.getElementById('penghasilan').value.trim(),
-      tb:document.getElementById('tb').value.trim(),
-      awNama:document.getElementById('awNama').value.trim(),
-      awTgl:document.getElementById('awTgl').value.trim(),
-      premi:document.getElementById('premi').value
-    };
+function generateWa(){
+  const data = {
+    nama:   get('nama'),
+    ttl:    get('ttl'),
+    jk:     get('jk'),
+    alamat: get('alamat'),
+    hp:     get('hp'),
+    email:  get('email'),
+    ktp:    get('ktp'),
+    ibu:    get('ibu'),
+    bank:   get('bank'),
+    norek:  get('norek'),
+    namarek:get('namarek'),
+    pekerjaan:get('pekerjaan'),
+    gaji:   get('gaji'),
+    tb:     get('tb'),
+    waris:  get('waris'),
+    premi:  get('premi')
+  };
 
-    // build message for WhatsApp / MOBIS paste
-    const lines = [];
-    lines.push('*FORM PENDAFTARAN ONLINE — 3iReborn*');
-    if(data.sponsor) lines.push(`Kode ID Sponsor : ${data.sponsor}`);
-    if(data.leader) lines.push(`Kode ID Leader : ${data.leader}`);
-    lines.push(`■ Nama : ${data.nama}`);
-    lines.push(`■ Tempat & Tgl Lahir : ${data.tempat} / ${data.ttl}`);
-    lines.push(`■ Jenis Kelamin : ${data.jk}`);
-    lines.push(`■ Alamat : ${data.alamat}`);
-    lines.push(`■ No HP : ${data.hp}`);
-    if(data.email) lines.push(`■ Email : ${data.email}`);
-    if(data.ktp) lines.push(`■ No Identitas : ${data.ktp}`);
-    lines.push(`■ Nama Ibu Kandung : ${data.ibu}`);
-    if(data.bank) lines.push(`■ Nama Bank : ${data.bank}`);
-    if(data.norek) lines.push(`■ No Rekening : ${data.norek}`);
-    if(data.namarek) lines.push(`■ Nama di Rekening : ${data.namarek}`);
-    if(data.npwp) lines.push(`■ No NPWP : ${data.npwp}`);
-    if(data.pekerjaan) lines.push(`■ Pekerjaan/Jabatan : ${data.pekerjaan}`);
-    if(data.penghasilan) lines.push(`■ Penghasilan/tahun : ${data.penghasilan}`);
-    if(data.tb) lines.push(`■ Tinggi & Berat Badan : ${data.tb}`);
-    if(data.awNama) lines.push(`■ Ahli Waris Bisnis : ${data.awNama} / ${data.awTgl}`);
-    lines.push(`■ Pilihan Premi : Rp${data.premi}`);
-    lines.push('');
-    lines.push('Silakan bantu proses pendaftaran sesuai SOP MOBIS. Terima kasih.');
+  const msg =
+`*FORM PENDAFTARAN ONLINE — 3iReborn*
+■ Nama : ${data.nama}
+■ Tempat & Tgl Lahir : ${data.ttl}
+■ Jenis Kelamin : ${data.jk}
+■ Alamat : ${data.alamat}
+■ No HP : ${data.hp}
+■ Email : ${data.email}
+■ No Identitas : ${data.ktp}
+■ Nama Ibu Kandung : ${data.ibu}
+■ Nama Bank : ${data.bank}
+■ No Rekening : ${data.norek}
+■ Nama di Rekening : ${data.namarek}
+■ Pekerjaan : ${data.pekerjaan}
+■ Penghasilan/tahun : ${data.gaji}
+■ Tinggi & Berat Badan : ${data.tb}
+■ Ahli Waris Bisnis : ${data.waris}
+■ Pilihan Premi : ${data.premi}
 
-    const message = lines.join('\n');
-    out.textContent = message;
-  });
-})();
+Silakan bantu proses pendaftaran sesuai SOP MOBIS. Terima kasih.`;
+
+  document.getElementById('out').textContent = msg;
+}
+
+function get(id){ return document.getElementById(id).value.trim(); }
 </script>
 </body>
 </html>
