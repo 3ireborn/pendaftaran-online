@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Link Leader 3iReborn</title>
+
+<style>
+  body{
+    font-family: 'Poppins', sans-serif;
+    margin:0;
+    background:#0a1a33;
+    color:white;
+    padding:20px;
+  }
+  .wrap{
+    max-width:480px;
+    margin:auto;
+    background:#112244;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+  }
+  h1{
+    text-align:center;
+    margin-top:0;
+    font-size:24px;
+    font-weight:700;
+  }
+  label{
+    font-weight:600;
+    margin-top:12px;
+    display:block;
+  }
+  input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:0;
+    margin-top:5px;
+  }
+  button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    background:#1e90ff;
+    border:0;
+    border-radius:12px;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    font-size:15px;
+  }
+  button:hover{ background:#1875d6; }
+  .result-box{
+    background:#0e1f3d;
+    padding:18px;
+    border-radius:12px;
+    margin-top:20px;
+  }
+  .qr{
+    text-align:center;
+    margin-top:15px;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>Generator Link Leader</h1>
+
+  <label>Nama Leader</label>
+  <input id="name" placeholder="cth: Sugiarto KSM">
+
+  <label>Nomor WA Leader</label>
+  <input id="wa" placeholder="62822...">
+
+  <label>Slug Leader</label>
+  <input id="slug" placeholder="sugiarto-ksm">
+
+  <button onclick="generate()">Generate Link & QR</button>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+function generate(){
+  const name = encodeURIComponent(document.getElementById("name").value.trim());
+  const wa   = encodeURIComponent(document.getElementById("wa").value.trim());
+  let slug   = document.getElementById("slug").value.trim();
+
+  if(!slug){
+    slug = document.getElementById("name").value.toLowerCase().replace(/\s+/g,'-');
+  }
+
+  const base = "https://3ireborn.github.io/pendaftaran-online";
+
+  // 3 link
+  const lpMaster = `${base}/lp-master-v6.6.html?name=${name}&wa=${wa}&slug=${slug}`;
+  const lpHot    = `${base}/lp-hot-v6.6.html?name=${name}&wa=${wa}&slug=${slug}`;
+  const formReg  = `${base}/form-pendaftaran-v3.1.html?name=${name}&wa=${wa}&slug=${slug}`;
+
+  // MENU utama (satu link)
+  const menuURL = `${base}/menu.html?name=${name}&wa=${wa}&slug=${slug}`;
+
+  // tampilkan hasil
+  document.getElementById("result").innerHTML = `
+    <div class="result-box">
+      <b>Link MENU (1 QR saja):</b><br>
+      <a href="${menuURL}" target="_blank" style="color:#4dd2ff">${menuURL}</a>
+
+      <div class="qr">
+        <canvas id="qr"></canvas><br>
+        <button onclick="downloadQR()">Download QR</button>
+      </div>
+
+      <hr style="border-color:#334">
+
+      <b>LP Master:</b><br>
+      <a href="${lpMaster}" target="_blank" style="color:#4dd2ff">${lpMaster}</a><br><br>
+
+      <b>LP Hot:</b><br>
+      <a href="${lpHot}" target="_blank" style="color:#4dd2ff">${lpHot}</a><br><br>
+
+      <b>Form Pendaftaran:</b><br>
+      <a href="${formReg}" target="_blank" style="color:#4dd2ff">${formReg}</a>
+    </div>
+  `;
+
+  // generate QR
+  const qr = new QRious({
+    element: document.getElementById('qr'),
+    size: 220,
+    value: menuURL
+  });
+}
+
+function downloadQR(){
+  const canvas = document.getElementById("qr");
+  const link = document.createElement("a");
+  link.download = "QR-Menu-Leader.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
