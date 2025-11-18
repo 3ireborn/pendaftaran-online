@@ -1,178 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Template Generator 3iReborn</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Template Generator — 3iReborn (Biru Navy)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-    body{
-        font-family: Poppins, Arial, sans-serif;
-        margin:0;
-        background:#071426;      /* NAVY GELAP */
-        color:#fff;
-        padding:20px;
-    }
-
-    .wrap{
-        max-width:420px;
-        margin:auto;
-        background:#0E2038;
-        padding:22px;
-        border-radius:16px;
-        box-shadow:0 0 25px rgba(0,0,0,.45);
-    }
-
-    h2{
-        text-align:center;
-        margin:0 0 20px;
-        font-weight:700;
-        font-size:20px;
-        color:#4EA8FF;
-        letter-spacing:0.5px;
-    }
-
-    label{
-        font-weight:600;
-        margin-top:12px;
-        display:block;
-    }
-
-    input{
-        width:100%;
-        padding:12px;
-        border-radius:10px;
-        border:1px solid #4EA8FF;
-        background:#0B1B30;
-        color:#fff;
-        margin-top:6px;
-        font-size:14px;
-    }
-
-    button{
-        width:100%;
-        margin-top:18px;
-        padding:14px;
-        border:none;
-        border-radius:12px;
-        background:#4EA8FF;
-        font-weight:700;
-        color:#071426;
-        cursor:pointer;
-        font-size:15px;
-    }
-
-    button:hover{
-        background:#82C4FF;
-    }
-
-    /* CARD PREVIEW */
-    .card{
-        margin-top:25px;
-        padding:20px;
-        background:#071426;
-        border-radius:18px;
-        text-align:center;
-        border:2px solid #4EA8FF;
-    }
-
-    .photo-box{
-        width:180px;
-        height:180px;
-        margin:0 auto 15px;
-        border:3px solid #4EA8FF;
-        border-radius:16px;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        font-size:13px;
-        color:#9ECFFF;
-        background:rgba(255,255,255,0.05);
-    }
-
-    .qr-box img{
-        width:160px;
-        margin-top:8px;
-    }
-
-    .title-top{
-        font-size:18px;
-        font-weight:700;
-        margin-bottom:12px;
-        color:#4EA8FF;
-    }
-
-    .scan-bottom{
-        margin-top:10px;
-        font-size:14px;
-        color:#9ECFFF;
-        font-weight:600;
-    }
-
+  :root{
+    --bg:#071433; /* very dark navy */
+    --card:#071f3a; /* card background */
+    --accent:#1b6fe8; /* blue bright */
+    --accent-2:#0b61b8;
+    --muted:#9fb3d9;
+    --white:#ffffff;
+    --soft:#0f2a4a;
+    --success:#22c55e;
+    --danger:#ef4444;
+  }
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif}
+  body{margin:0;padding:22px;background:linear-gradient(180deg,#06162b 0%, #071433 100%);color:var(--white);min-height:100vh}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{margin:0 0 14px;font-size:24px;color:var(--accent)}
+  .card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);margin-bottom:18px;border:1px solid rgba(255,255,255,0.03)}
+  label{display:block;font-weight:600;color:var(--muted);margin-top:12px}
+  input[type=text], input[type=tel], select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white);outline:none}
+  .row{display:flex;gap:12px}
+  .col{flex:1}
+  .btn{display:inline-block;padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:var(--white)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+  .btn-success{background:var(--success);color:#063b16}
+  .muted-box{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;color:var(--muted);margin-top:12px}
+  .links-out{margin-top:12px;display:grid;gap:8px}
+  .single-link{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-size:14px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+  .single-link a{color:var(--accent);text-decoration:none;word-break:break-all}
+  .preview-wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .card-preview{width:320px;background:#fff;border-radius:18px;padding:18px;color:#111;box-shadow:0 10px 30px rgba(3,9,33,0.2)}
+  .photo-placeholder{width:150px;height:150px;border-radius:12px;background:linear-gradient(180deg,#eef2ff,#ffffff);display:flex;align-items:center;justify-content:center;color:#334155;font-weight:700}
+  .qr{display:block;margin:14px auto 6px;width:170px;height:170px;background:#fff;padding:6px;border-radius:8px}
+  .small-muted{color:#475569;font-size:13px;text-align:center}
+  .center{text-align:center}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  footer{color:var(--muted);text-align:center;margin-top:18px;font-size:13px}
+  @media(max-width:740px){
+    .preview-wrap{flex-direction:column;align-items:center}
+    .card-preview{width:88%}
+  }
 </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <h1>Admin Generator — Template (Biru Navy)</h1>
 
-<div class="wrap">
-    <h2>Template Generator 3iReborn</h2>
+    <div class="card">
+      <label>Nama Leader</label>
+      <input id="inName" type="text" placeholder="Contoh: Sugiarto Kurniawan">
 
-    <label>Nama Leader</label>
-    <input type="text" id="nama">
+      <label>No WhatsApp Leader (bisa +62 / 628 / +966 / dsb)</label>
+      <input id="inPhone" type="tel" placeholder="Contoh: 6282240001731 atau +966XXXXXXXXX">
 
-    <label>Nomor WhatsApp</label>
-    <input type="text" id="wa" placeholder="628xxxx">
+      <label>Slug (opsional — kosongkan untuk auto)</label>
+      <input id="inSlug" type="text" placeholder="otomatis kalau kosong">
 
-    <label>Slug (opsional)</label>
-    <input type="text" id="slug" placeholder="contoh: ksm-mendunia">
+      <label>Base URL (opsional)</label>
+      <select id="inBase">
+        <option value="v6.6">LP v6.6 / Form v3.1 (default)</option>
+        <option value="index-v2">LP (index-v2 lama)</option>
+      </select>
 
-    <button onclick="buatCard()">Buat Card Sosial</button>
+      <div class="row" style="margin-top:12px">
+        <div class="col">
+          <button id="btnGen" class="btn btn-primary">Generate 3 Link</button>
+        </div>
+        <div class="col">
+          <button id="btnSave" class="btn btn-ghost">Save leader (local)</button>
+        </div>
+      </div>
 
-    <!-- PREVIEW -->
-    <div class="card" id="cardPreview" style="display:none;">
+      <div class="muted-box" id="hint">Hasil link akan muncul di bagian "Hasil Link" setelah klik "Generate 3 Link".</div>
 
-        <div class="title-top">CARD SOSIAL 3IREBORN</div>
+      <div id="results" class="links-out" style="display:none"></div>
 
-        <div class="photo-box" id="photoBox">PHOTO DI SINI</div>
-
-        <div class="scan-bottom">SCAN QR CODE</div>
-
-        <div class="qr-box" id="qrBox"></div>
-
-        <p style="font-size:13px;margin-top:12px;color:#4EA8FF">
-            <span id="nameShow"></span><br>
-            WA: <span id="waShow"></span>
-        </p>
-
+      <div style="margin-top:10px" class="actions">
+        <button id="btnCopyAll" class="btn btn-primary" style="display:none">Copy Semua Link</button>
+      </div>
     </div>
 
-</div>
+    <!-- PREVIEW / CARD -->
+    <div class="card preview-wrap">
+      <div style="flex:1">
+        <div class="card" style="margin-bottom:12px">
+          <strong style="color:var(--accent)">Preview / Social Card</strong>
+          <div style="margin-top:12px">
+            <label style="color:var(--muted)">Photo (opsional) — jika kosong, akan tampil kotak placeholder</label>
+            <input id="inPhotoUrl" type="text" placeholder="URL foto (optional) — biarkan kosong untuk placeholder">
+            <button id="btnMakeCard" class="btn btn-primary" style="margin-top:10px;width:100%">Buat Card Sosial & QR</button>
+            <button id="btnDownloadCard" class="btn btn-success" style="margin-top:10px;width:100%;display:none">Download Social Card (PNG)</button>
+          </div>
+        </div>
+
+        <div class="muted-box">
+          Tip: QR akan mengarah ke **LP MASTER** (link master) — Anda bisa ubah target di script jika mau.
+        </div>
+      </div>
+
+      <div style="width:340px">
+        <div class="card-preview" id="previewCard">
+          <div class="center" style="font-weight:800;color:#0b3d91;margin-bottom:8px">CARD SOSIAL 3IREBORN</div>
+          <div style="display:flex;justify-content:center">
+            <div class="photo-placeholder" id="photoBox">PHOTO DI SINI</div>
+          </div>
+          <div class="center small-muted" style="margin-top:10px">SCAN QR CODE — Link referral</div>
+          <div id="qrWrap" class="center">
+            <img id="qrImg" class="qr" src="" alt="QR code" />
+          </div>
+          <div class="center" style="margin-top:6px;font-weight:700;color:#0b3d91" id="previewName">nama leader</div>
+          <div class="center small-muted" id="previewWA">WA: 628xxx</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>3iReborn — NPA Smart System • Template Generator</footer>
+  </div>
 
 <script>
-function buatCard(){
-    let nama = document.getElementById('nama').value.trim();
-    let wa   = document.getElementById('wa').value.trim();
-    let slug = document.getElementById('slug').value.trim();
+/* ============================
+   Config & helper
+   ============================ */
+const baseUrls = {
+  'v6.6': {
+    master: 'https://3ireborn.github.io/pendaftaran-online/lp-master-v6.6.html',
+    hot:    'https://3ireborn.github.io/pendaftaran-online/lp-hot-v6.6.html',
+    form:   'https://3ireborn.github.io/pendaftaran-online/form-pendaftaran-v3.1.html'
+  },
+  'index-v2': {
+    master: 'https://3ireborn.github.io/pendaftaran-online/index-v2.html',
+    hot:    'https://3ireborn.github.io/pendaftaran-online/lp-hot-v6.6.html',
+    form:   'https://3ireborn.github.io/pendaftaran-online/form-pendaftaran-v3.1.html'
+  }
+};
 
-    if(!nama || !wa){
-        alert("Nama dan WA wajib diisi");
-        return;
-    }
-
-    // Link referral
-    let base = "https://3ireborn.github.io/pendaftaran-online";
-    let link = `${base}/lp-master-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
-
-    // QR code API
-    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
-
-    // Tampilkan
-    document.getElementById('cardPreview').style.display = "block";
-    document.getElementById('nameShow').innerText = nama;
-    document.getElementById('waShow').innerText = wa;
-    document.getElementById('qrBox').innerHTML = `<img src="${qr}">`;
+function makeSlug(s){
+  if(!s) return '';
+  return s.toString().trim().toLowerCase()
+    .replace(/[^a-z0-9\s-]/g,'')
+    .replace(/\s+/g,'-')
+    .replace(/-+/g,'-')
+    .replace(/^-|-$/g,'');
 }
-</script>
 
+function encodeQS(obj){
+  return Object.keys(obj).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`).join('&');
+}
+
+/* ============================
+   DOM refs
+   ============================ */
+const inName = document.getElementById('inName');
+const inPhone = document.getElementById('inPhone');
+const inSlug = document.getElementById('inSlug');
+const inBase = document.getElementById('inBase');
+const btnGen = document.getElementById('btnGen');
+const results = document.getElementById('results');
+const btnCopyAll = document.getElementById('btnCopyAll');
+const btnSave = document.getElementById('btnSave');
+
+const inPhotoUrl = document.getElementById('inPhotoUrl');
+const btnMakeCard = document.getElementById('btnMakeCard');
+const btnDownloadCard = document.getElementById('btnDownloadCard');
+
+const photoBox = document.getElementById('photoBox');
+const qrImg = document.getElementById('qrImg');
+const previewName = document.getElementById('previewName');
+const previewWA = document.getElementById('previewWA');
+
+/* ============================
+   Generate 3 links
+   ============================ */
+btnGen.addEventListener('click', ()=> {
+  const name = inName.value.trim();
+  const phone = inPhone.value.trim();
+  let slug = inSlug.value.trim();
+
+  if(!name || !phone){
+    alert('Nama dan nomor WA wajib diisi.');
+    return;
+  }
+  if(!slug) slug = makeSlug(name);
+
+  const baseKey = inBase.value || 'v6.6';
+  const base = baseUrls[baseKey] || baseUrls['v6.6'];
+
+  const q = { name: name, wa: phone, slug: slug };
+
+  const linkMaster = `${base.master}?${encodeQS(q)}`;
+  const linkHot    = `${base.hot}?${encodeQS(q)}`;
+  const linkForm   = `${base.form}?${encodeQS(q)}`;
+
+  // render results
+  results.style.display = 'grid';
+  results.innerHTML = `
+    <div class="single-link"><div>LP Master</div><a href="${linkMaster}" target="_blank">${linkMaster}</a></div>
+    <div class="single-link"><div>LP Hot</div><a href="${linkHot}" target="_blank">${linkHot}</a></div>
+    <div class="single-link"><div>Form Pendaftaran</div><a href="${linkForm}" target="_blank">${linkForm}</a></div>
+  `;
+  btnCopyAll.style.display = 'inline-block';
+  btnCopyAll.dataset.links = [linkMaster, linkHot, linkForm].join('\n');
+
+  // update preview default to show name & phone
+  previewName.textContent = name;
+  previewWA.textContent = `WA: ${phone}`;
+
+  // set QR to LP Master by default
+  setQrFor(linkMaster);
+});
+
+/* copy all */
+btnCopyAll.addEventListener('click', async ()=> {
+  const txt = btnCopyAll.dataset.links || '';
+  try{
+    await navigator.clipboard.writeText(txt);
+    alert('Semua link disalin ke clipboard.');
+  }catch(e){
+    prompt('Silakan salin secara manual (Ctrl+C):', txt);
+  }
+});
+
+/* Save leader to localStorage */
+btnSave.addEventListener('click', ()=>{
+  const name = inName.value.trim();
+  const phone = inPhone.value.trim();
+  let slug = inSlug.value.trim();
+  if(!name || !phone){ alert('Nama & WA wajib untuk disimpan.'); return; }
+  if(!slug) slug = makeSlug(name);
+  const arr = JSON.parse(localStorage.getItem('npa_leaders_v1') || '[]');
+  arr.push({name,phone,slug,created:Date.now()});
+  localStorage.setItem('npa_leaders_v1', JSON.stringify(arr));
+  alert('Leader disimpan di localStorage (cache browser).');
+});
+
+/* ============================
+   QR + Card generation
+   ============================ */
+function setQrFor(url){
+  const api = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=';
+  qrImg.src = api + encodeURIComponent(url);
+  qrImg.onload = ()=> { /* ok */ };
+  qrImg.onerror = ()=> { /* fallback */ };
+}
+
+/* make card (preview + QR) */
+btnMakeCard.addEventListener('click', ()=> {
+  const name = inName.value.trim() || 'nama leader';
+  const phone = inPhone.value.trim() || 'WA: -';
+  const slug = inSlug.value.trim() || makeSlug(name);
+  const baseKey = inBase.value || 'v6.6';
+  const base = baseUrls[baseKey] || baseUrls['v6.6'];
+  const q = { name: name, wa: phone, slug: slug };
+  const linkMaster = `${base.master}?${encodeQS(q)}`;
+
+  previewName.textContent = name;
+  previewWA.textContent = `WA: ${phone}`;
+
+  // photo
+  const photoUrl = inPhotoUrl.value.trim();
+  if(photoUrl){
+    // attempt to set as background image inside placeholder
+    photoBox.style.background = `url(${photoUrl}) center/cover no-repeat`;
+    photoBox.textContent = '';
+  }else{
+    photoBox.style.background = 'linear-gradient(180deg,#eef2ff,#ffffff)';
+    photoBox.textContent = 'PHOTO DI SINI';
+  }
+
+  // set QR to linkMaster
+  setQrFor(linkMaster);
+
+  // show download
+  btnDownloadCard.style.display = 'inline-block';
+
+  // store the link for download usage
+  btnDownloadCard.dataset.target = linkMaster;
+});
+
+/* Download Social Card (canvas render) */
+btnDownloadCard.addEventListener('click', async ()=> {
+  const targetLink = btnDownloadCard.dataset.target;
+  if(!targetLink){ alert('Silakan Generate card terlebih dahulu.'); return; }
+
+  // build canvas 1000x1200
+  const W = 1000, H = 1200;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // background white rounded
+  ctx.fillStyle = '#ffffff';
+  const r = 40;
+  roundRect(ctx, 0, 0, W, H, r, true, false);
+
+  // header text
+  ctx.fillStyle = '#0b3d91';
+  ctx.font = 'bold 48px Poppins, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CARD SOSIAL 3IREBORN', W/2, 80);
+
+  // photo placeholder box
+  const photoX = (W - 380)/2, photoY = 120, photoW = 380, photoH = 380;
+  ctx.fillStyle = '#f1f5f9';
+  roundRect(ctx, photoX, photoY, photoW, photoH, 24, true, false);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '600 28px Poppins, sans-serif';
+  ctx.fillText('PHOTO DI SINI', W/2, photoY + photoH/2 + 10);
+
+  // QR image (load from api)
+  const api = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=';
+  const qrURL = api + encodeURIComponent(targetLink);
+
+  try{
+    const qrImgObj = await loadImage(qrURL);
+    // draw QR below
+    const qrSize = 520;
+    const qrX = (W - qrSize)/2, qrY = photoY + photoH + 40;
+    ctx.fillStyle = '#fff';
+    roundRect(ctx, qrX-12, qrY-12, qrSize+24, qrSize+24, 18, true, false);
+    ctx.drawImage(qrImgObj, qrX, qrY, qrSize, qrSize);
+  }catch(e){
+    console.warn('QR load failed', e);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 22px Poppins, sans-serif';
+    ctx.fillText('QR gagal dimuat', W/2, photoY + photoH + 120);
+  }
+
+  // name & wa below qr
+  const name = inName.value.trim() || 'nama leader';
+  const phone = inPhone.value.trim() || '';
+  ctx.fillStyle = '#0b3d91';
+  ctx.font = '700 38px Poppins, sans-serif';
+  ctx.fillText(name, W/2, H - 140);
+  ctx.fillStyle = '#475569';
+  ctx.font = '600 30px Poppins, sans-serif';
+  ctx.fillText(`WA: ${phone}`, W/2, H - 90);
+
+  // small caption
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '400 20px Poppins, sans-serif';
+  ctx.fillText('SCAN QR CODE — Link referral', W/2, H - 40);
+
+  // convert to dataURL and download
+  const dataUrl = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  const slug = inSlug.value.trim() || makeSlug(name) || 'leader';
+  a.download = `3ireborn-card-${slug}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  function roundRect(ctx, x, y, w, h, r, fill, stroke){
+    if (typeof r === 'undefined') r = 5;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    if (fill) ctx.fill();
+    if (stroke) ctx.stroke();
+  }
+});
+
+function loadImage(src){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = ()=> resolve(img);
+    img.onerror = (e)=> reject(e);
+    img.src = src;
+  });
+}
+
+/* ============================
+   Accept Enter key to generate
+   ============================ */
+[inName, inPhone, inSlug].forEach(el=>{
+  el.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') { btnGen.click(); }
+  });
+});
+
+/* ============================
+   Init: load first demo if exist
+   ============================ */
+(function initFromStorage(){
+  const arr = JSON.parse(localStorage.getItem('npa_leaders_v1') || '[]');
+  if(arr.length>0){
+    // prefill with last saved
+    const last = arr[arr.length-1];
+    inName.value = last.name;
+    inPhone.value = last.phone;
+    inSlug.value = last.slug;
+  }
+})();
+</script>
 </body>
-</html>
+    </html>
