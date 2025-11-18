@@ -1,238 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Referral Generator - 3IReborn</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Referral Generator — 3iReborn (Biru Gelap)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-    body{
-        margin:0;
-        font-family:Arial, sans-serif;
-        background:#061537;
-        color:#fff;
-    }
-    h1{
-        text-align:center;
-        color:#ffd700;
-        font-size:28px;
-        margin-top:20px;
-    }
-    .box{
-        width:90%;
-        margin:20px auto;
-        background:#0c1f4a;
-        padding:20px;
-        border-radius:18px;
-        border:3px solid #ffd700;
-    }
-    label{
-        font-size:16px;
-        font-weight:bold;
-        margin:10px 0 5px;
-        display:block;
-        color:#ffd700;
-    }
-    input{
-        width:100%;
-        padding:14px;
-        border-radius:10px;
-        border:2px solid #ffd700;
-        margin-bottom:12px;
-        font-size:16px;
-    }
-    button{
-        width:100%;
-        padding:16px;
-        background:#1f6bff;
-        color:white;
-        font-size:18px;
-        border:none;
-        border-radius:12px;
-        margin-top:10px;
-        font-weight:bold;
-    }
-    #linksBox{
-        margin-top:20px;
-        display:none;
-    }
-    a{
-        color:#8bb8ff;
-        word-wrap:break-word;
-        display:block;
-        margin-bottom:10px;
-    }
-
-    /* SOCIAL CARD STYLE A (foto bulat premium) */
-    #cardBox{
-        width:90%;
-        margin:25px auto;
-        background:#0c1f4a;
-        padding:20px;
-        border-radius:20px;
-        border:3px solid #ffd700;
-        display:none;
-    }
-    #cardPhoto{
-        width:180px;
-        height:180px;
-        border-radius:50%;
-        object-fit:cover;
-        border:6px solid #ffd700;
-        display:block;
-        margin:10px auto;
-    }
-    #cardName{
-        text-align:center;
-        font-size:26px;
-        font-weight:bold;
-        margin-top:10px;
-    }
-    #cardInfo{
-        text-align:center;
-        margin:5px 0 16px;
-        font-size:16px;
-    }
-    #qrCanvas{
-        display:block;
-        margin:10px auto;
-        padding:12px;
-        background:white;
-        border-radius:16px;
-    }
-
-    .waBtn, .dlBtn{
-        width:100%;
-        padding:16px;
-        font-size:18px;
-        border-radius:12px;
-        border:none;
-        color:white;
-        margin-top:10px;
-    }
-    .waBtn{ background:#25D366; }
-    .dlBtn{ background:#ff4f4f; }
-
+  :root{
+    --bg:#071433; --card:#0b2245; --accent:#f6c84c; --muted:#cfe1ff;
+    --btn:#1f6feb; --btnText:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Poppins,system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#071433 0%, #09203a 100%); color:var(--muted); min-height:100vh}
+  .wrap{max-width:920px;margin:28px auto;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:14px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+  .head{display:flex;gap:16px;align-items:center}
+  .logo{width:76px;height:76px;border-radius:12px;background:#072a63;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:18px}
+  h1{margin:0;font-size:20px;color:#fff}
+  p.sub{margin:4px 0 0;color:#bcd6ff;font-size:13px}
+  .card{margin-top:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  label{display:block;font-weight:600;color:#dceeff;margin-bottom:6px}
+  input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);outline:none}
+  .row{display:grid;grid-template-columns:1fr 220px;gap:10px}
+  .row-sm{display:flex;gap:10px}
+  .btn{background:var(--btn);color:var(--btnText);border:0;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.alt{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+  .links{margin-top:12px;display:grid;gap:8px}
+  .link-item{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid rgba(255,255,255,0.02);word-break:break-all}
+  .small{font-size:12px;color:#a9c8ff}
+  .hint{font-size:12px;color:#98bfff;margin-top:8px}
+  .saved{margin-top:10px;font-size:13px;color:#baf1c6}
+  .leader-list{margin-top:12px;padding:10px;background:rgba(255,255,255,0.01);border-radius:8px;max-height:160px;overflow:auto;border:1px solid rgba(255,255,255,0.02)}
+  .leader-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,0.02);font-size:13px}
+  .muted{color:#96bfff;font-size:13px}
+  footer{margin-top:16px;color:#9fbfff;font-size:12px;text-align:center}
+  .copy-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+  @media(max-width:720px){ .row{grid-template-columns:1fr} .row-sm{flex-direction:column} }
 </style>
 </head>
-
 <body>
+<div class="wrap" role="main">
+  <div class="head">
+    <div class="logo">3iReborn</div>
+    <div>
+      <h1>Referral Generator — 3iReborn</h1>
+      <p class="sub">Tema biru gelap • Generate 3 Link (LP master / LP hot / Form pendaftaran)</p>
+    </div>
+  </div>
 
-<h1>🔗 Referral Generator</h1>
-
-<div class="box">
+  <div class="card" style="margin-top:16px">
     <label>Nama Leader</label>
-    <input id="name" placeholder="sugiarto">
+    <input id="name" placeholder="Contoh: Sugiarto Kurniawan" />
 
-    <label>Nomor WA Leader</label>
-    <input id="wa" placeholder="628xxxxxxx">
+    <div style="height:10px"></div>
+    <label>No WhatsApp Leader (format 62...) </label>
+    <input id="wa" placeholder="62822xxxx..." />
 
-    <label>Slug (ID unik)</label>
-    <input id="slug" placeholder="contoh: sugiarto-ksm">
+    <div style="height:10px"></div>
+    <label>Slug (unik, jika kosong dibuat otomatis dari nama)</label>
+    <div class="row-sm">
+      <input id="slug" placeholder="contoh: sugiarto-ksm" />
+      <button id="autoSlug" class="btn alt" style="width:160px">Buat Slug</button>
+    </div>
 
-    <label>Upload Foto Leader</label>
-    <input type="file" id="photo" accept="image/*">
+    <div style="height:12px"></div>
+    <div class="row">
+      <div>
+        <label>Base URL (opsional)</label>
+        <select id="version">
+          <option value="v6.6">LP v6.6 / Form v3.1 (default)</option>
+          <option value="v_old">LP lama (index-v2)</option>
+        </select>
+      </div>
+      <div style="align-self:end">
+        <button id="generate" class="btn">Generate 3 Link</button>
+      </div>
+    </div>
 
-    <button onclick="generate()">🔗 Buat Link & QR</button>
+    <div class="links" id="results" aria-live="polite" style="margin-top:12px"></div>
+
+    <div class="hint">Tip: Setelah generate — klik "Save leader" untuk menyimpan ke cache browser. Leader yang tersimpan bisa dipakai lagi tanpa ketik ulang.</div>
+
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button id="saveLeader" class="btn alt">Save leader (local)</button>
+      <button id="clearAll" class="btn alt">Hapus cache leader</button>
+    </div>
+
+    <div class="saved" id="savedMsg" style="display:none"></div>
+
+    <div class="leader-list" id="leaderList" aria-label="Daftar leader tersimpan"></div>
+  </div>
+
+  <footer>
+    NPA Smart System || 3iReborn — Generator Template • Simple & Safe
+  </footer>
 </div>
-
-<div id="linksBox" class="box">
-    <h2 style="text-align:center; color:#ffd700;">Link Siap Pakai</h2>
-    <a id="lpMaster"></a>
-    <a id="lpHot"></a>
-    <a id="formReg"></a>
-
-    <button class="waBtn" onclick="shareWA()">Bagikan ke WhatsApp</button>
-</div>
-
-<!-- SOCIAL CARD -->
-<div id="cardBox">
-    <img id="cardPhoto" />
-    <div id="cardName"></div>
-    <div id="cardInfo">Scan QR untuk membuka link referral</div>
-    <canvas id="qrCanvas"></canvas>
-    <button class="dlBtn" onclick="downloadCard()">Download Social Card</button>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
 <script>
-function generate(){
-    let name = document.getElementById("name").value.trim();
-    let wa = document.getElementById("wa").value.trim();
-    let slug = document.getElementById("slug").value.trim();
+(() => {
+  const $ = id => document.getElementById(id);
 
-    if(!name || !wa || !slug){
-        alert("Isi semua data dulu beb 🙏");
-        return;
+  const BASE = {
+    v6.6: {
+      lpMaster: "https://3ireborn.github.io/pendaftaran-online/lp-master-v6.6.html",
+      lpHot:    "https://3ireborn.github.io/pendaftaran-online/lp-hot-v6.6.html",
+      form:     "https://3ireborn.github.io/pendaftaran-online/form-pendaftaran-v3.1.html"
+    },
+    v_old: {
+      lpMaster: "https://3ireborn.github.io/pendaftaran-online/lp-master.html",
+      lpHot:    "https://3ireborn.github.io/pendaftaran-online/lp-hot.html",
+      form:     "https://3ireborn.github.io/pendaftaran-online/index-v2.html"
     }
+  };
 
-    let base = "https://3ireborn.github.io/pendaftaran-online/";
+  function slugify(text){
+    return text.toString().toLowerCase()
+      .replace(/\s+/g,'-')
+      .replace(/[^\w\-]+/g,'')
+      .replace(/\-\-+/g,'-')
+      .replace(/^-+|-+$/g,'');
+  }
 
-    let lpMaster = base+"lp-master-v6.6.html?leader="+slug+"&wa="+wa;
-    let lpHot    = base+"lp-hot-v6.6.html?leader="+slug+"&wa="+wa;
-    let formReg  = base+"index-v2.html?leader="+slug+"&wa="+wa;
+  function makeLinks(data, ver){
+    const b = BASE[ver] || BASE.v6.6;
+    const params = `?name=${encodeURIComponent(data.name)}&wa=${encodeURIComponent(data.wa)}&slug=${encodeURIComponent(data.slug)}`;
+    return {
+      lpMaster: `${b.lpMaster}${params}`,
+      lpHot: `${b.lpHot}${params}`,
+      form: `${b.form}${params}`
+    };
+  }
 
-    document.getElementById("lpMaster").textContent = lpMaster;
-    document.getElementById("lpMaster").href = lpMaster;
-
-    document.getElementById("lpHot").textContent = lpHot;
-    document.getElementById("lpHot").href = lpHot;
-
-    document.getElementById("formReg").textContent = formReg;
-    document.getElementById("formReg").href = formReg;
-
-    document.getElementById("linksBox").style.display = "block";
-
-    // QR for LP Master (utama)
-    let qr = new QRious({
-        element: document.getElementById("qrCanvas"),
-        value: lpMaster,
-        size: 260,
-        background: "white",
-        foreground: "#f8d400"
+  function renderResults(links){
+    const cont = $('results');
+    cont.innerHTML = '';
+    const items = [
+      {label:'🌐 LP Master', url: links.lpMaster},
+      {label:'🔥 LP Hot', url: links.lpHot},
+      {label:'📝 Form Pendaftaran', url: links.form}
+    ];
+    items.forEach(it=>{
+      const el = document.createElement('div');
+      el.className = 'link-item';
+      el.innerHTML = `<div style="max-width:78%"><div style="font-weight:700;color:#eaf6ff">${it.label}</div><div class="small">${it.url}</div></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="copy-btn" data-copy="${it.url}">Copy</button>
+          <a class="copy-btn" href="${it.url}" target="_blank" rel="noopener">Open</a>
+        </div>`;
+      cont.appendChild(el);
     });
+    // attach copy listeners
+    cont.querySelectorAll('.copy-btn').forEach(btn=>{
+      btn.addEventListener('click',async (e)=>{
+        const txt = btn.getAttribute('data-copy') || btn.getAttribute('href');
+        try{
+          await navigator.clipboard.writeText(txt);
+          btn.textContent = 'Copied!';
+          setTimeout(()=>btn.textContent = btn.getAttribute('data-copy') ? 'Copy' : 'Open', 1200);
+        }catch{
+          alert('Gagal copy. Silakan copy manual.');
+        }
+      });
+    });
+  }
 
-    // buat social card
-    let file = document.getElementById("photo").files[0];
-    if(file){
-        let reader = new FileReader();
-        reader.onload = function(e){
-            document.getElementById("cardPhoto").src = e.target.result;
-            document.getElementById("cardName").textContent = name;
-            document.getElementById("cardBox").style.display = "block";
+  function loadLeaders(){
+    try{
+      const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
+      const box = $('leaderList');
+      box.innerHTML = '';
+      if(!arr.length){ box.innerHTML = '<div class="muted">Belum ada leader tersimpan</div>'; return; }
+      arr.forEach((l, idx)=>{
+        const r = document.createElement('div');
+        r.className = 'leader-row';
+        r.innerHTML = `<div><b>${l.name}</b> <div class="small">${l.wa} • ${l.slug}</div></div>
+          <div style="display:flex;gap:8px">
+            <button class="copy-btn" data-use='${idx}'>Pakai</button>
+            <button class="copy-btn" data-del='${idx}'>Hapus</button>
+          </div>`;
+        box.appendChild(r);
+      });
+      // listeners
+      box.querySelectorAll('[data-use]').forEach(btn=>{
+        btn.onclick = ()=> {
+          const idx = +btn.getAttribute('data-use');
+          const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
+          const l = arr[idx];
+          if(l){ $('name').value = l.name; $('wa').value = l.wa; $('slug').value = l.slug; toast('Leader dimuat'); }
         };
-        reader.readAsDataURL(file);
-    } else {
-        document.getElementById("cardPhoto").src = "https://via.placeholder.com/300x300.png?text=No+Photo";
-        document.getElementById("cardName").textContent = name;
-        document.getElementById("cardBox").style.display = "block";
+      });
+      box.querySelectorAll('[data-del]').forEach(btn=>{
+        btn.onclick = ()=> {
+          const idx = +btn.getAttribute('data-del');
+          let arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
+          arr.splice(idx,1);
+          localStorage.setItem('npa_leaders', JSON.stringify(arr));
+          loadLeaders();
+        };
+      });
+    }catch(e){
+      console.error(e);
     }
-}
+  }
 
-function shareWA(){
-    let text =
-        "Assalamu'alaikum 🙏\n" +
-        "Berikut link informasi 3I Reborn Anda:\n\n" +
-        document.getElementById("lpMaster").href + "\n" +
-        document.getElementById("lpHot").href + "\n" +
-        document.getElementById("formReg").href;
+  function toast(msg){
+    // simple inline toast
+    const t = document.createElement('div');
+    t.textContent = msg; t.style.cssText = "position:fixed;right:18px;bottom:18px;padding:10px 14px;background:#0f3b9a;color:#fff;border-radius:8px;z-index:9999";
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1800);
+  }
 
-    let url = "https://wa.me/?text=" + encodeURIComponent(text);
-    window.open(url, "_blank");
-}
+  $('autoSlug').addEventListener('click', ()=> {
+    const name = $('name').value.trim();
+    if(!name){ toast('Isi nama dulu'); return; }
+    $('slug').value = slugify(name);
+  });
 
-function downloadCard(){
-    html2canvas(document.getElementById("cardBox")).then(canvas=>{
-        let a = document.createElement("a");
-        a.href = canvas.toDataURL("image/png");
-        a.download = "social-card-3ireborn.png";
-        a.click();
-    });
-}
+  $('generate').addEventListener('click', ()=> {
+    const name = $('name').value.trim();
+    let wa = $('wa').value.trim().replace(/\s+/g,'');
+    let slug = $('slug').value.trim();
+    const ver = $('version').value || 'v6.6';
+
+    if(!name || !wa){
+      toast('Nama & No WA wajib diisi');
+      return;
+    }
+    // normalize WA: remove leading +, ensure starts with 62
+    wa = wa.replace(/^\+/, '');
+    if(!/^62\d{6,}$/.test(wa)){ if(!confirm('Format WA tidak standar (mulai 62...). Lanjutkan?')) return; }
+
+    if(!slug) slug = slugify(name) || ('leader-' + Date.now());
+
+    const data = {name, wa, slug};
+    const links = makeLinks(data, ver);
+    renderResults(links);
+    toast('3 link berhasil dibuat');
+  });
+
+  $('saveLeader').addEventListener('click', ()=> {
+    const name = $('name').value.trim();
+    let wa = $('wa').value.trim().replace(/\s+/g,'');
+    let slug = $('slug').value.trim();
+    if(!name || !wa){ toast('Nama & WA wajib untuk disimpan'); return; }
+    if(!slug) slug = slugify(name);
+    const arr = JSON.parse(localStorage.getItem('npa_leaders')||'[]');
+    // avoid duplicate wa
+    if(arr.some(x=>x.wa===wa)){ toast('Nomor WA sudah ada di cache'); return; }
+    arr.push({name, wa, slug, ts: Date.now()});
+    localStorage.setItem('npa_leaders', JSON.stringify(arr));
+    $('savedMsg').style.display='block'; $('savedMsg').textContent = 'Leader tersimpan ✅';
+    setTimeout(()=>$('savedMsg').style.display='none',1800);
+    loadLeaders();
+  });
+
+  $('clearAll').addEventListener('click', ()=> {
+    if(confirm('Hapus semua leader tersimpan dari browser ini?')) { localStorage.removeItem('npa_leaders'); loadLeaders(); toast('Cache leader dihapus'); }
+  });
+
+  // init
+  loadLeaders();
+
+})();
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 </body>
 </html>
