@@ -3,147 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Template Generator – 3iReborn</title>
+<title>Template Generator 3iReborn</title>
 
 <style>
     body{
-        font-family: Arial, sans-serif;
-        background:#0b1a33;
-        color:#fff;
+        font-family: Poppins, Arial, sans-serif;
         margin:0;
-        padding:0;
-    }
-    .wrap{
-        max-width:600px;
-        margin:auto;
-        padding:20px;
-    }
-    h2{text-align:center;margin-bottom:20px;color:#ffd260}
-    label{font-weight:bold;margin-top:15px;display:block;color:#ffd260}
-    input{
-        width:100%;padding:12px;border-radius:10px;
-        border:2px solid #ffd260;background:#0d2247;color:#fff;
-        margin-top:6px;font-size:16px;
-    }
-    button{
-        width:100%;padding:15px;margin-top:20px;border:0;
-        border-radius:10px;background:#ffd260;color:#0b1a33;
-        font-weight:bold;font-size:18px;cursor:pointer;
-    }
-    button:hover{background:#ffcc33}
-
-    .preview-box{
-        border:2px solid #ffd260;
-        border-radius:15px;
-        background:#0d2247;
-        padding:20px;
-        margin-top:25px;
-        text-align:center;
-    }
-
-    .card{
-        width:100%;
-        background:#fff;
-        border-radius:20px;
-        padding:15px;
-        color:#000;
-        text-align:center;
-    }
-
-    .qr{
-        margin-top:10px;
-    }
-
-    .download-btn{
-        background:#25D366;
+        background:#071426;      /* NAVY GELAP */
         color:#fff;
-        margin-top:15px;
+        padding:20px;
     }
+
+    .wrap{
+        max-width:420px;
+        margin:auto;
+        background:#0E2038;
+        padding:22px;
+        border-radius:16px;
+        box-shadow:0 0 25px rgba(0,0,0,.45);
+    }
+
+    h2{
+        text-align:center;
+        margin:0 0 20px;
+        font-weight:700;
+        font-size:20px;
+        color:#4EA8FF;
+        letter-spacing:0.5px;
+    }
+
+    label{
+        font-weight:600;
+        margin-top:12px;
+        display:block;
+    }
+
+    input{
+        width:100%;
+        padding:12px;
+        border-radius:10px;
+        border:1px solid #4EA8FF;
+        background:#0B1B30;
+        color:#fff;
+        margin-top:6px;
+        font-size:14px;
+    }
+
+    button{
+        width:100%;
+        margin-top:18px;
+        padding:14px;
+        border:none;
+        border-radius:12px;
+        background:#4EA8FF;
+        font-weight:700;
+        color:#071426;
+        cursor:pointer;
+        font-size:15px;
+    }
+
+    button:hover{
+        background:#82C4FF;
+    }
+
+    /* CARD PREVIEW */
+    .card{
+        margin-top:25px;
+        padding:20px;
+        background:#071426;
+        border-radius:18px;
+        text-align:center;
+        border:2px solid #4EA8FF;
+    }
+
+    .photo-box{
+        width:180px;
+        height:180px;
+        margin:0 auto 15px;
+        border:3px solid #4EA8FF;
+        border-radius:16px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:13px;
+        color:#9ECFFF;
+        background:rgba(255,255,255,0.05);
+    }
+
+    .qr-box img{
+        width:160px;
+        margin-top:8px;
+    }
+
+    .title-top{
+        font-size:18px;
+        font-weight:700;
+        margin-bottom:12px;
+        color:#4EA8FF;
+    }
+
+    .scan-bottom{
+        margin-top:10px;
+        font-size:14px;
+        color:#9ECFFF;
+        font-weight:600;
+    }
+
 </style>
 </head>
 
 <body>
+
 <div class="wrap">
+    <h2>Template Generator 3iReborn</h2>
 
-<h2>TEMPLATE GENERATOR<br>3iReborn</h2>
+    <label>Nama Leader</label>
+    <input type="text" id="nama">
 
-<label>Nama Leader</label>
-<input type="text" id="nama" placeholder="contoh: Sugiarto KSM">
+    <label>Nomor WhatsApp</label>
+    <input type="text" id="wa" placeholder="628xxxx">
 
-<label>Nomor WhatsApp</label>
-<input type="text" id="wa" placeholder="contoh: 6282240001731 / 966xxxx / 65xxxx">
+    <label>Slug (opsional)</label>
+    <input type="text" id="slug" placeholder="contoh: ksm-mendunia">
 
-<label>Slug (Opsional)</label>
-<input type="text" id="slug" placeholder="contoh: ksm-mendunia">
+    <button onclick="buatCard()">Buat Card Sosial</button>
 
-<button onclick="generate()">BUAT LINK & QR CODE</button>
+    <!-- PREVIEW -->
+    <div class="card" id="cardPreview" style="display:none;">
 
-<div id="preview" class="preview-box" style="display:none;">
-    <h3 style="color:#ffd260;margin-top:0;">Preview</h3>
-    <div id="card" class="card"></div>
-    <button class="download-btn" onclick="downloadPNG()">Download Social Card (PNG)</button>
+        <div class="title-top">CARD SOSIAL 3IREBORN</div>
+
+        <div class="photo-box" id="photoBox">PHOTO DI SINI</div>
+
+        <div class="scan-bottom">SCAN QR CODE</div>
+
+        <div class="qr-box" id="qrBox"></div>
+
+        <p style="font-size:13px;margin-top:12px;color:#4EA8FF">
+            <span id="nameShow"></span><br>
+            WA: <span id="waShow"></span>
+        </p>
+
+    </div>
+
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
-
-function normalize(number){
-    return number.replace(/[^0-9]/g,'').trim();
-}
-
-function generate(){
-    let nama = document.getElementById("nama").value.trim();
-    let wa   = normalize(document.getElementById("wa").value);
-    let slug = document.getElementById("slug").value.trim().toLowerCase();
+function buatCard(){
+    let nama = document.getElementById('nama').value.trim();
+    let wa   = document.getElementById('wa').value.trim();
+    let slug = document.getElementById('slug').value.trim();
 
     if(!nama || !wa){
-        alert("Nama dan nomor WhatsApp wajib diisi!");
+        alert("Nama dan WA wajib diisi");
         return;
     }
 
-    let s = slug ? slug : nama.toLowerCase().replace(/\s+/g,'-');
-
+    // Link referral
     let base = "https://3ireborn.github.io/pendaftaran-online";
+    let link = `${base}/lp-master-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${slug}`;
 
-    let lpMaster = `${base}/lp-master-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
-    let lpHot    = `${base}/lp-hot-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
-    let form     = `${base}/form-pendaftaran-v3.1.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
+    // QR code API
+    let qr = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
 
-    let card = document.getElementById("card");
-    card.innerHTML = `
-        <img src="https://i.ibb.co/QmJR8Gk/logo-3ireborn-gold.png" width="120">
-        <h2 style="margin:10px 0;">${nama}</h2>
-        <p style="margin:5px 0;">WhatsApp: ${wa}</p>
-        <canvas id="qr"></canvas>
-    `;
-
-    let qrCanvas = document.getElementById("qr");
-
-    let qr = new QRious({
-        element: qrCanvas,
-        value: lpMaster,
-        size: 180
-    });
-
-    window.master = lpMaster;
-    window.hot = lpHot;
-    window.form = form;
-
-    document.getElementById("preview").style.display = "block";
+    // Tampilkan
+    document.getElementById('cardPreview').style.display = "block";
+    document.getElementById('nameShow').innerText = nama;
+    document.getElementById('waShow').innerText = wa;
+    document.getElementById('qrBox').innerHTML = `<img src="${qr}">`;
 }
-
-function downloadPNG(){
-    html2canvas(document.getElementById("card")).then(canvas=>{
-        let link = document.createElement("a");
-        link.download = "social-card-3ireborn.png";
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
-
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </body>
 </html>
