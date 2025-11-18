@@ -1,62 +1,95 @@
-
-<!-- FILE: lp-master-simple.html -->
+<!-- lp-master-v6.6.html -->
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LP MASTER — Mengapa Harus 3iReborn?</title>
-  <meta name="theme-color" content="#0b3d91" />
-  <style>
-    :root{--bg:#f6f9ff;--card:#fff;--brand:#0b3d91;--muted:#6b7aa6}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#0b2245}
-    .wrap{max-width:900px;margin:18px auto;padding:20px}
-    .hero{background:linear-gradient(180deg,#ffffff,#eef6ff);border:1px solid #e2ecff;border-radius:14px;padding:22px;text-align:center}
-    .hero h1{margin:0;font-size:28px;color:var(--brand)}
-    .hero p{margin:8px 0 0;color:var(--muted)}
-    .section{background:#fff;border:1px solid #e8f0ff;padding:16px;border-radius:12px;margin-top:14px}
-    .testi{background:#f6fbff;padding:12px;border-left:4px solid #dbeeff;border-radius:8px;margin:10px 0}
-    .count{font-weight:800;color:var(--brand);font-size:18px}
-    .cta{display:inline-block;margin-top:14px;padding:12px 18px;background:var(--brand);color:#fff;border-radius:10px;text-decoration:none;font-weight:700}
-    .footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LP Master — 3iReborn v6.6</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Poppins',sans-serif;margin:0;background:#f6faff;color:#1b2553}
+  .wrap{max-width:980px;margin:auto;padding:18px}
+  .hero{background:#fff;border:1px solid #e2ecff;border-radius:16px;padding:24px}
+  .presenter{display:inline-block;padding:6px 10px;border-radius:999px;background:#eaf2ff;color:#0b3d91;font-weight:700}
+  h1{color:#0b3d91;margin:10px 0}
+  .lead{color:#627096}
+  .btn{display:inline-block;padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:800}
+  .btn.cta{background:#0b3d91;color:#fff}
+  .btn.outline{background:#fff;border:1px solid #e2ecff;color:#0b3d91}
+  .card{background:#fff;border:1px solid #e2ecff;border-radius:12px;padding:16px;margin-top:14px}
+  .count{font-weight:800;color:#0b3d91;padding:10px;background:#eef6ff;border-radius:8px}
+  footer{color:#627096;text-align:center;margin-top:18px}
+</style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
-      <h1>Mengapa Harus <span style="color:#1e90ff">3iReborn?</span></h1>
-      <p>Proteksi • Investasi • Penghasilan — satu premi, tiga manfaat.</p>
+      <div id="presented" class="presenter">Memuat leader…</div>
+      <h1 id="title">Siap Melangkah Lebih Jauh?</h1>
+      <p class="lead">Berikut bukti nyata & langkah praktis untuk mulai hari ini juga.</p>
+      <div style="margin-top:12px">
+        <button id="btnDaftar" class="btn cta">Daftar Sekarang</button>
+        <button id="btnWA" class="btn outline">Tanya Dulu via WhatsApp</button>
+      </div>
     </div>
 
-    <div class="section">
-      <h3>Ringkasan Singkat</h3>
-      <p>3iReborn membantu Anda membangun proteksi keluarga, menumbuhkan investasi, dan membuka peluang penghasilan melalui sistem yang mudah diduplikasi.</p>
-      <div class="testi">“Awalnya ragu, sekarang hasilnya nyata.” — Agnes</div>
-      <div class="testi">“Mulai dari Rp350.000 saja. Sistem menjelaskan jalannya.” — Rahma</div>
+    <div class="card">
+      <h2 style="color:#0b3d91;margin:0 0 8px">3 Alasan Kenapa Banyak Orang Memulai</h2>
+      <ul>
+        <li><b>Produk jelas:</b> proteksi jiwa + investasi jangka panjang.</li>
+        <li><b>Modal fleksibel:</b> mulai Rp350.000/bulan.</li>
+        <li><b>Duplikasi digital:</b> otomatis lewat link presentasi & form.</li>
+      </ul>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px;color:#0b3d91">Jadwal Zoom (Hari Ini)</h3>
+        <div id="count" class="count">Memuat…</div>
+        <p class="lead" style="margin-top:8px">Ikut Zoom 19:00 WIB untuk pemahaman utuh.</p>
+      </div>
     </div>
 
-    <div class="section" style="text-align:center">
-      <div class="count" id="countdown">Memuat jadwal Zoom...</div>
-      <a id="waLink" class="cta" href="#">💬 Chat WhatsApp Leader</a>
+    <div class="card" style="margin-top:14px">
+      <h2 style="color:#0b3d91;margin:0 0 8px">Langkah Mulai</h2>
+      <ol>
+        <li>Klik “Daftar Sekarang” → isi form singkat.</li>
+        <li>Ikut Zoom 19:00 WIB.</li>
+        <li>Dibimbing leader.</li>
+      </ol>
     </div>
 
-    <p class="footer">#Terkirim dengan 💞 dari NPA Smart System — 3iReborn</p>
+    <p style="text-align:center;color:#627096;margin-top:18px">#Terkirim dengan 💞 dari NPA Smart System</p>
   </div>
 
 <script>
-(function(){
-  // baca param leader & wa
-  const p=new URLSearchParams(location.search);
-  const name=p.get('name')||p.get('leader')||'Leader 3iReborn';
-  const wa=p.get('wa')||p.get('phone')||'6285218453131';
-  document.getElementById('waLink').href = `https://wa.me/${encodeURIComponent(wa)}?text=${encodeURIComponent('Halo '+name+' , saya tertarik dengan 3iReborn')}`;
+/* Params from URL */
+const Q = new URLSearchParams(location.search);
+const L = { name: Q.get('name') || 'Leader', wa: Q.get('wa') || '6285218453131', slug: Q.get('slug') || '' };
+document.getElementById('presented').textContent = `Bisnis ini dipresentasikan oleh ${L.name}`;
+document.getElementById('btnDaftar').onclick = ()=> {
+  const base = 'https://3ireborn.github.io/pendaftaran-online/form-pendaftaran-v3.3.html';
+  location.href = `${base}?name=${encodeURIComponent(L.name)}&wa=${encodeURIComponent(L.wa)}&slug=${encodeURIComponent(L.slug)}`;
+};
+document.getElementById('btnWA').onclick = ()=> {
+  const msg = `Halo ${L.name}, saya ingin tanya sebelum daftar.`;
+  location.href = `https://wa.me/${L.wa}?text=${encodeURIComponent(msg)}`;
+};
 
-  // simple countdown ke jam 19:00 WIB (next scheduled Zoom)
-  function nowWIB(){const t=new Date();const utc=t.getTime()+t.getTimezoneOffset()*60000;return new Date(utc+7*3600000)}
-  function update(){const n=nowWIB();let target=new Date(n);target.setHours(19,0,0,0);if(n>target) target.setDate(target.getDate()+1);const d=target-n;const h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000);const s=Math.floor((d%60000)/1000);document.getElementById('countdown').textContent = `Zoom berikutnya: ${h}j ${m}m ${s}s`;}
-  update();setInterval(update,1000);
-})();
+/* simple countdown to 19:00 WIB */
+function nowWIB(){
+  const t = new Date();
+  const u = t.getTime() + t.getTimezoneOffset()*60000;
+  return new Date(u + 7*3600000);
+}
+function updateCount(){
+  const n = nowWIB();
+  let target = new Date(n);
+  target.setHours(19,0,0,0);
+  if(n > target) target.setDate(target.getDate()+1);
+  const d = target - n;
+  const h = Math.floor(d/3600000); const m = Math.floor((d%3600000)/60000); const s = Math.floor((d%60000)/1000);
+  document.getElementById('count').textContent = `Mulai dalam ${h}j ${m}m ${s}d`;
+}
+updateCount(); setInterval(updateCount,1000);
 </script>
 </body>
-</html>
+  </html>
