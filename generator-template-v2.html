@@ -3,150 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generator Link Leader 3iReborn</title>
+<title>Template Generator – 3iReborn</title>
 
 <style>
-  body{
-    font-family: 'Poppins', sans-serif;
-    margin:0;
-    background:#0a1a33;
-    color:white;
-    padding:20px;
-  }
-  .wrap{
-    max-width:480px;
-    margin:auto;
-    background:#112244;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 0 20px rgba(0,0,0,.4);
-  }
-  h1{
-    text-align:center;
-    margin-top:0;
-    font-size:24px;
-    font-weight:700;
-  }
-  label{
-    font-weight:600;
-    margin-top:12px;
-    display:block;
-  }
-  input{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:0;
-    margin-top:5px;
-  }
-  button{
-    width:100%;
-    padding:14px;
-    margin-top:20px;
-    background:#1e90ff;
-    border:0;
-    border-radius:12px;
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-    font-size:15px;
-  }
-  button:hover{ background:#1875d6; }
-  .result-box{
-    background:#0e1f3d;
-    padding:18px;
-    border-radius:12px;
-    margin-top:20px;
-  }
-  .qr{
-    text-align:center;
-    margin-top:15px;
-  }
-</style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#0b1a33;
+        color:#fff;
+        margin:0;
+        padding:0;
+    }
+    .wrap{
+        max-width:600px;
+        margin:auto;
+        padding:20px;
+    }
+    h2{text-align:center;margin-bottom:20px;color:#ffd260}
+    label{font-weight:bold;margin-top:15px;display:block;color:#ffd260}
+    input{
+        width:100%;padding:12px;border-radius:10px;
+        border:2px solid #ffd260;background:#0d2247;color:#fff;
+        margin-top:6px;font-size:16px;
+    }
+    button{
+        width:100%;padding:15px;margin-top:20px;border:0;
+        border-radius:10px;background:#ffd260;color:#0b1a33;
+        font-weight:bold;font-size:18px;cursor:pointer;
+    }
+    button:hover{background:#ffcc33}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    .preview-box{
+        border:2px solid #ffd260;
+        border-radius:15px;
+        background:#0d2247;
+        padding:20px;
+        margin-top:25px;
+        text-align:center;
+    }
+
+    .card{
+        width:100%;
+        background:#fff;
+        border-radius:20px;
+        padding:15px;
+        color:#000;
+        text-align:center;
+    }
+
+    .qr{
+        margin-top:10px;
+    }
+
+    .download-btn{
+        background:#25D366;
+        color:#fff;
+        margin-top:15px;
+    }
+</style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <h1>Generator Link Leader</h1>
+<h2>TEMPLATE GENERATOR<br>3iReborn</h2>
 
-  <label>Nama Leader</label>
-  <input id="name" placeholder="cth: Sugiarto KSM">
+<label>Nama Leader</label>
+<input type="text" id="nama" placeholder="contoh: Sugiarto KSM">
 
-  <label>Nomor WA Leader</label>
-  <input id="wa" placeholder="62822...">
+<label>Nomor WhatsApp</label>
+<input type="text" id="wa" placeholder="contoh: 6282240001731 / 966xxxx / 65xxxx">
 
-  <label>Slug Leader</label>
-  <input id="slug" placeholder="sugiarto-ksm">
+<label>Slug (Opsional)</label>
+<input type="text" id="slug" placeholder="contoh: ksm-mendunia">
 
-  <button onclick="generate()">Generate Link & QR</button>
+<button onclick="generate()">BUAT LINK & QR CODE</button>
 
-  <div id="result"></div>
-
+<div id="preview" class="preview-box" style="display:none;">
+    <h3 style="color:#ffd260;margin-top:0;">Preview</h3>
+    <div id="card" class="card"></div>
+    <button class="download-btn" onclick="downloadPNG()">Download Social Card (PNG)</button>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
+
+function normalize(number){
+    return number.replace(/[^0-9]/g,'').trim();
+}
+
 function generate(){
-  const name = encodeURIComponent(document.getElementById("name").value.trim());
-  const wa   = encodeURIComponent(document.getElementById("wa").value.trim());
-  let slug   = document.getElementById("slug").value.trim();
+    let nama = document.getElementById("nama").value.trim();
+    let wa   = normalize(document.getElementById("wa").value);
+    let slug = document.getElementById("slug").value.trim().toLowerCase();
 
-  if(!slug){
-    slug = document.getElementById("name").value.toLowerCase().replace(/\s+/g,'-');
-  }
+    if(!nama || !wa){
+        alert("Nama dan nomor WhatsApp wajib diisi!");
+        return;
+    }
 
-  const base = "https://3ireborn.github.io/pendaftaran-online";
+    let s = slug ? slug : nama.toLowerCase().replace(/\s+/g,'-');
 
-  // 3 link
-  const lpMaster = `${base}/lp-master-v6.6.html?name=${name}&wa=${wa}&slug=${slug}`;
-  const lpHot    = `${base}/lp-hot-v6.6.html?name=${name}&wa=${wa}&slug=${slug}`;
-  const formReg  = `${base}/form-pendaftaran-v3.1.html?name=${name}&wa=${wa}&slug=${slug}`;
+    let base = "https://3ireborn.github.io/pendaftaran-online";
 
-  // MENU utama (satu link)
-  const menuURL = `${base}/menu.html?name=${name}&wa=${wa}&slug=${slug}`;
+    let lpMaster = `${base}/lp-master-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
+    let lpHot    = `${base}/lp-hot-v6.6.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
+    let form     = `${base}/form-pendaftaran-v3.1.html?name=${encodeURIComponent(nama)}&wa=${wa}&slug=${s}`;
 
-  // tampilkan hasil
-  document.getElementById("result").innerHTML = `
-    <div class="result-box">
-      <b>Link MENU (1 QR saja):</b><br>
-      <a href="${menuURL}" target="_blank" style="color:#4dd2ff">${menuURL}</a>
+    let card = document.getElementById("card");
+    card.innerHTML = `
+        <img src="https://i.ibb.co/QmJR8Gk/logo-3ireborn-gold.png" width="120">
+        <h2 style="margin:10px 0;">${nama}</h2>
+        <p style="margin:5px 0;">WhatsApp: ${wa}</p>
+        <canvas id="qr"></canvas>
+    `;
 
-      <div class="qr">
-        <canvas id="qr"></canvas><br>
-        <button onclick="downloadQR()">Download QR</button>
-      </div>
+    let qrCanvas = document.getElementById("qr");
 
-      <hr style="border-color:#334">
+    let qr = new QRious({
+        element: qrCanvas,
+        value: lpMaster,
+        size: 180
+    });
 
-      <b>LP Master:</b><br>
-      <a href="${lpMaster}" target="_blank" style="color:#4dd2ff">${lpMaster}</a><br><br>
+    window.master = lpMaster;
+    window.hot = lpHot;
+    window.form = form;
 
-      <b>LP Hot:</b><br>
-      <a href="${lpHot}" target="_blank" style="color:#4dd2ff">${lpHot}</a><br><br>
-
-      <b>Form Pendaftaran:</b><br>
-      <a href="${formReg}" target="_blank" style="color:#4dd2ff">${formReg}</a>
-    </div>
-  `;
-
-  // generate QR
-  const qr = new QRious({
-    element: document.getElementById('qr'),
-    size: 220,
-    value: menuURL
-  });
+    document.getElementById("preview").style.display = "block";
 }
 
-function downloadQR(){
-  const canvas = document.getElementById("qr");
-  const link = document.createElement("a");
-  link.download = "QR-Menu-Leader.png";
-  link.href = canvas.toDataURL();
-  link.click();
+function downloadPNG(){
+    html2canvas(document.getElementById("card")).then(canvas=>{
+        let link = document.createElement("a");
+        link.download = "social-card-3ireborn.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
 }
+
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </body>
 </html>
