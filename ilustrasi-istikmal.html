@@ -1,467 +1,208 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ilustrasi Istikmal — 3iReborn</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root{
-      --green-dark:#14532d;
-      --green-main:#166534;
-      --green-soft:#bbf7d0;
-      --bg:#f3f4f6;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --border:#e2e8f0;
-      --accent:#0ea5e9;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilustrasi Istikmal Syariah — 3iReborn</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #F2F5F1;
+        margin: 0;
+        padding: 0;
+        color: #222;
     }
-    *{box-sizing:border-box;font-family:"Poppins",sans-serif}
-    body{
-      margin:0;
-      padding:16px;
-      background:var(--bg);
-      color:var(--text);
+    .header {
+        background: #1C6B3C;
+        padding: 28px;
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
     }
-    .wrap{
-      max-width:960px;
-      margin:0 auto 40px;
+    .subheader {
+        background: #EAF3EC;
+        padding: 10px;
+        text-align: center;
+        color: #1C6B3C;
+        font-size: 14px;
+        font-weight: 600;
     }
-    .hero{
-      background:var(--green-dark);
-      color:#fff;
-      border-radius:18px;
-      padding:20px 18px 22px;
-      box-shadow:0 18px 35px rgba(15,23,42,0.35);
-      margin-bottom:18px;
+    .container {
+        padding: 20px;
+        max-width: 850px;
+        margin: auto;
     }
-    .hero-title{
-      font-size:26px;
-      font-weight:700;
-      margin:0 0 4px;
-      text-align:center;
+    h2 {
+        color: #1C6B3C;
+        margin-top: 30px;
     }
-    .hero-sub{
-      font-size:14px;
-      text-align:center;
-      color:#e2f3ff;
+    .box {
+        background: white;
+        padding: 18px;
+        border-radius: 14px;
+        margin-top: 15px;
+        border: 1px solid #d6e6d8;
     }
-    .hero-chip{
-      display:inline-block;
-      padding:4px 10px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.4);
-      font-size:11px;
-      margin-top:10px;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
     }
-    .card{
-      background:var(--card);
-      border-radius:16px;
-      padding:16px 14px 18px;
-      border:1px solid var(--border);
-      box-shadow:0 8px 18px rgba(15,23,42,0.08);
-      margin-bottom:14px;
+    table, th, td {
+        border: 1px solid #cfe3d1;
     }
-    h2{
-      margin:0 0 10px;
-      font-size:17px;
+    th {
+        background: #1C6B3C;
+        color: white;
+        padding: 10px;
+        text-align: center;
     }
-    p{
-      margin:4px 0;
-      font-size:13px;
-      color:var(--muted);
+    td {
+        padding: 8px;
+        text-align: center;
+        background: #FBFFFC;
     }
-    label{
-      font-size:13px;
-      font-weight:500;
-      display:block;
-      margin-bottom:6px;
-      color:var(--text);
+    .note {
+        background: #FFF7D6;
+        padding: 14px;
+        border-left: 5px solid #E0B100;
+        margin-top: 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.5;
     }
-    select{
-      width:100%;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      font-size:14px;
-      outline:none;
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        margin-top: 35px;
+        padding-bottom: 30px;
     }
-    .pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:10px;
-    }
-    .pill{
-      flex:1;
-      min-width:130px;
-      border-radius:14px;
-      background:#f8fafc;
-      border:1px solid var(--border);
-      padding:10px 10px;
-    }
-    .pill-label{
-      font-size:11px;
-      color:var(--muted);
-      margin-bottom:2px;
-    }
-    .pill-value{
-      font-size:14px;
-      font-weight:600;
-    }
-    .tabs{
-      display:flex;
-      gap:8px;
-      margin-top:14px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
-    }
-    .tab-btn{
-      flex:1;
-      min-width:120px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      padding:8px 10px;
-      font-size:13px;
-      background:#f8fafc;
-      cursor:pointer;
-      font-weight:500;
-      color:var(--muted);
-    }
-    .tab-btn.active{
-      background:var(--green-main);
-      border-color:var(--green-main);
-      color:#fff;
-    }
-    .tab-pane{display:none;}
-    .tab-pane.active{display:block;}
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:12px;
-      margin-top:6px;
-    }
-    th,td{
-      padding:6px 6px;
-      border-bottom:1px solid #e5e7eb;
-      text-align:right;
-      white-space:nowrap;
-    }
-    th{
-      background:#f1f5f9;
-      font-weight:600;
-      color:#0f172a;
-    }
-    td.label, th.label{text-align:left;}
-    .badge{
-      display:inline-block;
-      border-radius:999px;
-      padding:2px 8px;
-      font-size:10px;
-      background:#e0f2fe;
-      color:#0369a1;
-    }
-    .note{
-      font-size:11px;
-      color:var(--muted);
-      margin-top:8px;
-    }
-    .disclaimer{
-      font-size:11px;
-      color:#9ca3af;
-      margin-top:10px;
-      background:#f1f5f9;
-      border-radius:10px;
-      padding:8px 10px;
-    }
-    .leader{
-      font-size:12px;
-      margin-top:8px;
-      color:#e5f3ff;
-    }
-    .leader span{
-      font-weight:600;
-    }
-    @media (min-width:720px){
-      .hero{
-        padding:22px 26px 24px;
-      }
-      .hero-title{font-size:30px;}
-      .hero-sub{font-size:15px;}
-      .pill-value{font-size:15px;}
-    }
-  </style>
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-chip">Ilustrasi Istikmal Syariah — 3iReborn</div>
-      <h1 class="hero-title">Simulasi Manfaat Nilai Investasi</h1>
-      <p class="hero-sub">
-        Masa bayar 5 tahun, masa kepesertaan 7 tahun. Fokus pada
-        ilustrasi pertumbuhan dana investasi Istikmal Syariah.
-      </p>
-      <div class="leader">
-        Dipresentasikan oleh: <span id="leaderName">Leader 3iReborn</span><br />
-        Kontak WhatsApp: <span id="leaderWA">-</span>
-      </div>
-    </section>
 
-    <!-- INPUT PREMI -->
-    <section class="card">
-      <h2>1. Pilih Premi Bulanan</h2>
-      <p>Pilih kontribusi bulanan yang ingin disimulasikan. Kamu bisa jelaskan ke prospek bahwa ini hanya gambaran kasar untuk membantu mereka punya bayangan.</p>
+<div class="header">Ilustrasi Istikmal Syariah 3iReborn</div>
+<div class="subheader">Simulasi Manfaat Asuransi + Investasi Syariah (Versi Edukasi Aman)</div>
 
-      <label for="premiSelect">Premi bulanan</label>
-      <select id="premiSelect">
-        <option value="350000">Rp 350.000 / bulan</option>
-        <option value="500000" selected>Rp 500.000 / bulan (Rekomendasi Umroh)</option>
-        <option value="700000">Rp 700.000 / bulan</option>
-        <option value="1000000">Rp 1.000.000 / bulan</option>
-        <option value="2000000">Rp 2.000.000 / bulan</option>
-      </select>
+<div class="container">
 
-      <div class="pill-row">
-        <div class="pill">
-          <div class="pill-label">Masa bayar kontribusi</div>
-          <div class="pill-value">5 tahun (60 bulan)</div>
-        </div>
-        <div class="pill">
-          <div class="pill-label">Masa kepesertaan</div>
-          <div class="pill-value">7 tahun (84 bulan)</div>
-        </div>
-        <div class="pill">
-          <div class="pill-label">Asumsi hasil investasi</div>
-          <div class="pill-value">± 7% per tahun</div>
-        </div>
-      </div>
+    <h2>1. Budaya Menabung 5 Tahun</h2>
+    <div class="box">
+        Program Istikmal Syariah mendorong budaya menabung teratur selama <b>5 tahun (60 bulan)</b>.
+        <br><br>
+        Contoh ilustrasi premi:
+        <ul>
+            <li>Rp 350.000 / bulan</li>
+            <li>Rp 500.000 / bulan (rekomendasi Umroh)</li>
+            <li>Rp 700.000 / bulan</li>
+            <li>Rp 1.000.000 / bulan</li>
+            <li>Rp 2.000.000 / bulan</li>
+        </ul>
+        Total setoran premi = premi bulanan × 60 bulan.
+    </div>
 
-      <div class="pill-row" id="summaryRow">
-        <div class="pill">
-          <div class="pill-label">Total setoran 5 tahun</div>
-          <div class="pill-value" id="sumSetoran">Rp 0</div>
-        </div>
-        <div class="pill">
-          <div class="pill-label">Ilustrasi nilai akhir tahun ke-7</div>
-          <div class="pill-value" id="sumNilaiAkhir">Rp 0</div>
-        </div>
-        <div class="pill">
-          <div class="pill-label">Estimasi keuntungan investasi</div>
-          <div class="pill-value" id="sumKeuntungan">Rp 0</div>
-        </div>
-      </div>
+    <h2>2. Alokasi Premi (Tanpa Angka Perhitungan)</h2>
+    <div class="box">
+        Setiap premi peserta dialokasikan ke 4 komponen sesuai ketentuan CAR Life Insurance:
+        <ul>
+            <li><b>Ujrah / Biaya Kepesertaan</b></li>
+            <li><b>Iuran Tabarru'</b> – dana tolong-menolong</li>
+            <li><b>Iuran Pengelolaan Risiko</b></li>
+            <li><b>Dana Investasi Peserta</b></li>
+        </ul>
 
-      <p class="disclaimer">
-        <strong>PENTING:</strong> Ini <strong>hanya ilustrasi sederhana</strong> untuk membantu calon nasabah
-        memahami manfaat investasi. Perhitungan resmi dan lengkap dapat dilihat di
-        <strong>MOBISS 3iReborn / ilustrasi resmi CAR Life Insurance</strong>. Hasil akhir
-        bisa berbeda tergantung kinerja investasi dan kebijakan perusahaan.
-      </p>
-    </section>
+        Sisa premi setelah biaya dialokasikan ke instrumen investasi Syariah.
+    </div>
 
-    <!-- TAB VIEW -->
-    <section class="card">
-      <h2>2. Lihat Ilustrasi Manfaat</h2>
-      <p>Pilih tampilan yang ingin kamu gunakan saat presentasi — bisa mulai dari ringkasan singkat lalu lanjut ke detail tahunan jika prospek tertarik.</p>
+    <h2>3. Ilustrasi Pertumbuhan Dana (Contoh Resmi CAR)</h2>
+    <div class="box">
+        Menggunakan contoh ilustrasi perusahaan dengan asumsi konservatif ±7% per tahun.
+        <br><br>
+        <b>Contoh ilustrasi resmi premi Rp 350.000/bulan:</b>
 
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="ringkasan">Ringkasan Nilai Akhir</button>
-        <button class="tab-btn" data-tab="detail">Detail Tahunan (7 Tahun)</button>
-      </div>
-
-      <!-- RINGKASAN -->
-      <div class="tab-pane active" id="tab-ringkasan">
         <table>
-          <tbody>
             <tr>
-              <th class="label">Premi bulanan</th>
-              <td id="rkPremi"></td>
+                <th>Tahun</th>
+                <th>Total Setoran</th>
+                <th>Dana Investasi</th>
+                <th>Keterangan</th>
             </tr>
             <tr>
-              <th class="label">Total setoran 5 tahun</th>
-              <td id="rkSetoran"></td>
+                <td>1</td>
+                <td>Rp 4.200.000</td>
+                <td>Rp 1.667.189</td>
+                <td>Dana mulai terbentuk</td>
             </tr>
             <tr>
-              <th class="label">Ilustrasi nilai akhir tahun ke-7</th>
-              <td id="rkNilaiAkhir"></td>
+                <td>2</td>
+                <td>Rp 8.400.000</td>
+                <td>Rp 5.076.161</td>
+                <td>Bertumbuh stabil</td>
             </tr>
             <tr>
-              <th class="label">Estimasi keuntungan investasi</th>
-              <td id="rkKeuntungan"></td>
+                <td>3</td>
+                <td>Rp 12.600.000</td>
+                <td>Rp 9.298.687</td>
+                <td>Mulai terlihat compounding</td>
             </tr>
-          </tbody>
+            <tr>
+                <td>4</td>
+                <td>Rp 16.800.000</td>
+                <td>Rp 14.192.992</td>
+                <td>Pertumbuhan makin kuat</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Rp 21.000.000</td>
+                <td>Rp 19.412.272</td>
+                <td>Tahun terakhir masa bayar</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>—</td>
+                <td>Rp 20.701.177</td>
+                <td>Tidak bayar premi</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>—</td>
+                <td><b>Rp 22.075.653</b></td>
+                <td><b>WAJIB dicairkan</b></td>
+            </tr>
         </table>
-        <p class="note">
-          📌 Mindset presentasi:<br/>
-          “Bapak/Ibu menyetor selama 5 tahun, tapi dana dibiarkan tumbuh hingga tahun ke-7.
-          Di tahun ke-7 ini <strong>WAJIB dicairkan</strong> — bisa dipakai untuk
-          biaya Umroh, pendidikan, dana darurat, atau tujuan masa depan lainnya.”
-        </p>
-      </div>
+    </div>
 
-      <!-- DETAIL TAHUNAN -->
-      <div class="tab-pane" id="tab-detail">
-        <table>
-          <thead>
-            <tr>
-              <th class="label">Th</th>
-              <th>Setoran / th</th>
-              <th>Saldo awal</th>
-              <th>Hasil investasi (7%)</th>
-              <th>Saldo akhir</th>
-              <th class="label">Keterangan</th>
-            </tr>
-          </thead>
-          <tbody id="detailBody">
-            <!-- diisi via JS -->
-          </tbody>
-        </table>
-        <p class="note">
-          Tahun 1–5: masih masa bayar kontribusi.<br/>
-          Tahun 6–7: bebas setoran, dana tetap berkembang dari hasil investasi.
-        </p>
-      </div>
+    <h2>4. Manfaat Penggunaan Dana</h2>
+    <div class="box">
+        Dana di tahun ke-7 bisa digunakan untuk:
+        <ul>
+            <li>🕋 Biaya Umroh</li>
+            <li>🎓 Pendidikan Anak</li>
+            <li>💼 Dana Hari Esok</li>
+            <li>💸 Dana Darurat</li>
+            <li>🏡 Modal Usaha</li>
+        </ul>
+    </div>
 
-      <p class="disclaimer">
-        <strong>Disclaimer:</strong> Perhitungan di halaman ini menggunakan model
-        sederhana (setoran tahunan dan asumsi return rata-rata 7% per tahun). Tidak
-        mewakili perhitungan aktuaria resmi perusahaan. Gunakan ilustrasi ini
-        sebagai alat edukasi, bukan janji hasil pasti.
-      </p>
-    </section>
+    <h2>5. Catatan Syariah & Disclaimer Resmi</h2>
+    <div class="note">
+        <b>PENTING:</b> Halaman ini hanya ilustrasi edukasi untuk mempermudah penjelasan manfaat Istikmal Syariah.
+        <br><br>
+        Perhitungan resmi, lengkap, dan sesuai ketentuan perusahaan terdapat di:
+        <br>
+        <b>MOBISS 3iReborn → Ilustrasi Resmi CAR Life Insurance.</b>
+        <br><br>
+        Hasil akhir dapat berbeda tergantung kinerja investasi & regulasi perusahaan.
+    </div>
 
-    <section class="card">
-      <h2>3. Lanjut ke Presentasi Bisnis</h2>
-      <p>
-        Setelah prospek memahami manfaat <strong>Insurance + Investment</strong>,
-        kamu bisa arahkan ke:
-      </p>
-      <ul style="margin:6px 0 0 18px;padding:0;font-size:13px;color:var(--muted);">
-        <li>LP Master untuk penjelasan lengkap 3iReborn.</li>
-        <li>LP Hot untuk follow up closing & pemilihan premi.</li>
-        <li>Form Pendaftaran Online v3.3 untuk proses input data resmi.</li>
-      </ul>
-      <p class="note">
-        Dengan alur ini, halaman ilustrasi hanya menjadi “jembatan edukasi”
-        sebelum nasabah masuk ke alur utama NPA Smart System.
-      </p>
-    </section>
-  </div>
+</div>
 
-<script>
-  // -------- Helper format rupiah ----------
-  function formatRupiah(num){
-    return new Intl.NumberFormat('id-ID',{
-      style:'currency',
-      currency:'IDR',
-      maximumFractionDigits:0
-    }).format(Math.round(num));
-  }
+<div class="footer">
+    © 3iReborn — Halaman Edukasi Istikmal Syariah<br>
+    Tidak menggantikan ilustrasi resmi MOBISS / CAR.
+</div>
 
-  // -------- Baca parameter URL (opsional) ----------
-  (function initLeaderFromQuery(){
-    const params = new URLSearchParams(window.location.search);
-    const name = params.get('name') || 'Leader 3iReborn';
-    const wa   = params.get('wa')   || '-';
-    document.getElementById('leaderName').textContent = name;
-    document.getElementById('leaderWA').textContent   = wa;
-  })();
-
-  const premiSelect   = document.getElementById('premiSelect');
-  const sumSetoranEl  = document.getElementById('sumSetoran');
-  const sumNilaiEl    = document.getElementById('sumNilaiAkhir');
-  const sumUntungEl   = document.getElementById('sumKeuntungan');
-
-  const rkPremiEl     = document.getElementById('rkPremi');
-  const rkSetoranEl   = document.getElementById('rkSetoran');
-  const rkNilaiEl     = document.getElementById('rkNilaiAkhir');
-  const rkUntungEl    = document.getElementById('rkKeuntungan');
-  const detailBody    = document.getElementById('detailBody');
-
-  function hitungSimulasi(){
-    const premiBulanan = parseInt(premiSelect.value || '0',10);
-    const kontribusiTahunan = premiBulanan * 12;
-    const masaBayar = 5;
-    const masaKepesertaan = 7;
-    const r = 0.07; // 7% / tahun
-
-    let saldo = 0;
-    const rows = [];
-
-    for(let tahun=1; tahun<=masaKepesertaan; tahun++){
-      const setoran = tahun <= masaBayar ? kontribusiTahunan : 0;
-      const saldoAwal = saldo;
-      const hasilInv = saldoAwal * r;
-      const saldoAkhir = saldoAwal + hasilInv + setoran;
-      saldo = saldoAkhir;
-
-      let ket = '';
-      if(tahun <= masaBayar){
-        ket = 'Masa bayar kontribusi';
-      }else if(tahun < masaKepesertaan){
-        ket = 'Bebas setoran, dana tetap tumbuh';
-      }else{
-        ket = 'Tahun ke-7: ilustrasi pencairan dana';
-      }
-
-      rows.push({
-        tahun,
-        setoran,
-        saldoAwal,
-        hasilInv,
-        saldoAkhir,
-        ket
-      });
-    }
-
-    const totalSetoran = kontribusiTahunan * masaBayar;
-    const nilaiAkhir = saldo;
-    const keuntungan = nilaiAkhir - totalSetoran;
-
-    // --- update ringkasan ---
-    sumSetoranEl.textContent = formatRupiah(totalSetoran);
-    sumNilaiEl.textContent   = formatRupiah(nilaiAkhir);
-    sumUntungEl.textContent  = formatRupiah(keuntungan);
-
-    rkPremiEl.textContent     = formatRupiah(premiBulanan) + ' / bulan';
-    rkSetoranEl.textContent   = formatRupiah(totalSetoran);
-    rkNilaiEl.textContent     = formatRupiah(nilaiAkhir);
-    rkUntungEl.textContent    = formatRupiah(keuntungan);
-
-    // --- update tabel detail ---
-    detailBody.innerHTML = rows.map(r=>{
-      return `
-        <tr>
-          <td class="label">${r.tahun}</td>
-          <td>${r.setoran ? formatRupiah(r.setoran) : '-'}</td>
-          <td>${r.saldoAwal ? formatRupiah(r.saldoAwal) : '-'}</td>
-          <td>${r.hasilInv ? formatRupiah(r.hasilInv) : '-'}</td>
-          <td>${formatRupiah(r.saldoAkhir)}</td>
-          <td class="label"><span class="badge">${r.ket}</span></td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  premiSelect.addEventListener('change', hitungSimulasi);
-  hitungSimulasi();
-
-  // -------- Tab switching ----------
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const target = btn.getAttribute('data-tab');
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-
-      document.querySelectorAll('.tab-pane').forEach(p=>{
-        p.classList.remove('active');
-      });
-      document.getElementById('tab-'+target).classList.add('active');
-    });
-  });
-</script>
 </body>
-  </html>
+</html>
