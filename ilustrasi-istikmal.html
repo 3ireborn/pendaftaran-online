@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ilustrasi Istikmal 3iReborn</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --green:#0f5132;
+    --green-soft:#d1e7dd;
+    --text:#1b1b1b;
+    --white:#ffffff;
+    --muted:#6c757d;
+    --primary:#198754;
+    --primary-dark:#0f6d42;
+  }
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{margin:0;background:#f5f7f5;color:var(--text);padding:20px;}
+  .wrap{max-width:900px;margin:auto;}
+
+  .header{
+    background:var(--green);
+    color:var(--white);
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    margin-bottom:25px;
+  }
+  h1{margin:0;font-size:26px;}
+  .muted{color:var(--muted);font-size:14px;margin-top:4px;}
+
+  .card{
+    background:var(--white);
+    border:1px solid #e3e3e3;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+  }
+
+  select,input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #d4d4d4;
+    margin-top:8px;
+  }
+
+  .mode-switch{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+  }
+  .mode-btn{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .active{
+    background:var(--primary);
+    color:white;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:18px;
+  }
+  th,td{
+    border:1px solid #d4d4d4;
+    padding:10px;
+    font-size:14px;
+  }
+  th{background:var(--green-soft);}
+
+  .btn-download{
+    margin-top:20px;
+    width:100%;
+    background:var(--primary);
+    color:white;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .btn-download:hover{background:var(--primary-dark);}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>Ilustrasi Istikmal 3iReborn</h1>
+    <div class="muted">Simulasi manfaat Asuransi + Investasi Syariah</div>
+  </div>
+
+  <!-- Premi -->
+  <div class="card">
+    <label>Pilih Premi Bulanan</label>
+    <select id="premiSelect">
+      <option value="350000">Rp 350.000 / bulan</option>
+      <option value="500000">Rp 500.000 / bulan (Rekomendasi 2026)</option>
+    </select>
+
+    <div class="mode-switch">
+      <button id="btnResmi" class="mode-btn active">Tabel Resmi</button>
+      <button id="btnPremium" class="mode-btn">Tabel Premium</button>
+    </div>
+  </div>
+
+  <!-- Tabel Resmi -->
+  <div class="card" id="tabelResmi">
+    <h3 style="margin-top:0;color:var(--green)">Tabel Ilustrasi Resmi CAR</h3>
+    <table>
+      <tbody id="tableResmiBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Tabel Premium -->
+  <div class="card" id="tabelPremium" style="display:none">
+    <h3 style="margin-top:0;color:var(--green)">Tabel Premium – Fokus Nilai Akhir</h3>
+    <table>
+      <tbody id="tablePremiumBody"></tbody>
+    </table>
+  </div>
+
+  <button class="btn-download" id="btnDownload">Download PDF Ilustrasi</button>
+
+</div>
+
+<script>
+const premiSelect = document.getElementById("premiSelect");
+
+const tabelResmi = document.getElementById("tabelResmi");
+const tabelPremium = document.getElementById("tabelPremium");
+
+const btnResmi = document.getElementById("btnResmi");
+const btnPremium = document.getElementById("btnPremium");
+
+const tableResmiBody = document.getElementById("tableResmiBody");
+const tablePremiumBody = document.getElementById("tablePremiumBody");
+
+function format(x){
+  return Number(x).toLocaleString("id-ID");
+}
+
+function hitung(){
+  const p = Number(premiSelect.value);
+
+  // Resmi
+  const nominalSantunan = 21000000;
+  const nilaiInvestAkhir = p === 350000 ? 22000000 : 33000000;
+
+  tableResmiBody.innerHTML = `
+    <tr><th>Premi Bulanan</th><td>Rp ${format(p)}</td></tr>
+    <tr><th>Masa Bayar</th><td>5 Tahun</td></tr>
+    <tr><th>Masa Kepesertaan</th><td>7 Tahun</td></tr>
+    <tr><th>Santunan Kecelakaan</th><td>Rp ${format(nominalSantunan)}</td></tr>
+    <tr><th>Santunan Non-Kecelakaan</th><td>Rp ${format(nominalSantunan)}</td></tr>
+    <tr><th>Estimasi Nilai Investasi</th><td>Rp ${format(nilaiInvestAkhir)}</td></tr>
+  `;
+
+  // Premium
+  tablePremiumBody.innerHTML = `
+    <tr><th>Premi</th><td><b>Rp ${format(p)}</b></td></tr>
+    <tr><th>Nilai Akhir (7 Tahun)</th><td><b style="color:#0f5132">Rp ${format(nilaiInvestAkhir)}</b></td></tr>
+    <tr><th>Total Setoran</th><td>Rp ${format(p * 60)}</td></tr>
+    <tr><th>Keuntungan</th><td>Rp ${format(nilaiInvestAkhir - (p * 60))}</td></tr>
+  `;
+}
+hitung();
+
+// Switch mode
+btnResmi.onclick = () => {
+  btnResmi.classList.add("active");
+  btnPremium.classList.remove("active");
+  tabelResmi.style.display = "block";
+  tabelPremium.style.display = "none";
+};
+
+btnPremium.onclick = () => {
+  btnPremium.classList.add("active");
+  btnResmi.classList.remove("active");
+  tabelResmi.style.display = "none";
+  tabelPremium.style.display = "block";
+};
+
+// PDF
+document.getElementById("btnDownload").onclick = () =>{
+  alert("Versi PDF siap dibuat kapan saja — tinggal kamu bilang mau dibuatkan!");
+};
+</script>
+
+</body>
+</html>
