@@ -1,174 +1,150 @@
-<!doctype html>
-<html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ilustrasi Istikmal 3iReborn</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;font-family:'Poppins',sans-serif}
-    body{margin:0;padding:20px;background:#f1f5f3;color:#0f172a}
-    .wrap{max-width:960px;margin:0 auto}
-    h1{font-size:26px;margin:0 0 6px;font-weight:700;color:#065f46}
-    h2{font-size:20px;margin:0 0 12px;font-weight:700;color:#14532d}
-    p{margin:4px 0 10px;font-size:14px;line-height:1.5}
-    .badge{display:inline-block;background:#064e3b;color:#ecfdf5;font-size:12px;font-weight:600;
-           padding:3px 10px;border-radius:999px;margin-bottom:4px}
-    .card{background:#ffffff;border-radius:16px;padding:18px 18px 16px;
-          box-shadow:0 10px 30px rgba(15,23,42,0.10);margin-bottom:18px;border:1px solid #d1fae5}
-    .section-head{font-size:18px;font-weight:700;color:#166534;margin-bottom:10px}
-    label{display:block;margin-bottom:6px;font-size:14px;color:#0f172a;font-weight:500}
-    select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #cbd5e1;
-           font-size:14px;background:#ffffff}
-    .grid{display:grid;gap:12px}
-    @media(min-width:700px){
-      .grid-2{grid-template-columns:1fr 1fr}
-    }
-    .pill{background:#ecfdf3;border-radius:14px;padding:10px 12px;font-size:14px}
-    .pill-title{font-size:13px;color:#16a34a;font-weight:600;margin-bottom:4px;text-transform:uppercase}
-    .pill-main{font-size:16px;font-weight:700;color:#14532d}
-    .list{padding-left:18px;margin:4px 0 10px}
-    .list li{margin-bottom:4px;font-size:14px}
-    .tagline{font-size:13px;color:#475569}
-    .note{background:#fef3c7;border-radius:12px;padding:10px 12px;font-size:13px;border:1px solid #facc15}
-    .muted{font-size:13px;color:#64748b}
-    .strong{font-weight:600}
-    .divider{height:1px;background:#e2e8f0;margin:18px 0}
-    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-          font-size:13px;white-space:pre-line}
-  </style>
-</head>
-<body>
-<div class="wrap">
-  <span class="badge">Ilustrasi edukasi Istikmal Syariah</span>
-  <h1>Ilustrasi Istikmal 3iReborn</h1>
-  <p class="tagline">
-    Simulasi sederhana untuk menjelaskan budaya menabung + proteksi + investasi syariah.
-    <br><span class="strong">Angka resmi tetap mengacu pada ilustrasi MOBISS 3iReborn.</span>
-  </p>
-  <!-- 1. PILIH PREMI -->
-<div class="card">
-  <div class="section-head">1. Pilih Premi Bulanan</div>
-  <p>Pilih kontribusi bulanan yang ingin disimulasikan. Sistem ini hanya menunjukkan <span class="strong">total setoran 5 tahun</span>.</p>
+<!-- =============== 3) Ilustrasi Resmi + Narasi Manfaat =============== -->
+<section class="card" id="ilustrasi-resmi">
+  <div class="section-head">
+    <h2>3. Ilustrasi Resmi &amp; Narasi Manfaat</h2>
+    <p class="muted">
+      Bagian ini dipakai saat presentasi untuk menampilkan
+      <span class="strong">ilustrasi resmi Istikmal Syariah</span>
+      dari MOBISS 3iReborn / CAR Life Insurance dan narasi edukasi manfaatnya.
+    </p>
+  </div>
 
-  <label for="premiSelect">Premi bulanan</label>
-  <select id="premiSelect">
-    <option value="350000">Rp 350.000 / bulan</option>
-    <option value="500000" selected>Rp 500.000 / bulan (Rekomendasi Umroh)</option>
-    <option value="700000">Rp 700.000 / bulan</option>
-    <option value="1000000">Rp 1.000.000 / bulan</option>
-    <option value="2000000">Rp 2.000.000 / bulan</option>
-  </select>
+  <!-- PILIH PREMI UNTUK GAMBARNYA -->
+  <div class="card-inner">
+    <label for="ilustrasi-premi" class="strong">Pilih ilustrasi premi (gambar resmi)</label>
+    <select id="ilustrasi-premi">
+      <option value="500">Rp 500.000 / bulan</option>
+      <option value="350">Rp 350.000 / bulan</option>
+      <option value="700">Rp 700.000 / bulan</option>
+      <option value="1000">Rp 1.000.000 / bulan</option>
+      <option value="2000">Rp 2.000.000 / bulan</option>
+    </select>
 
-  <div class="grid grid-2" style="margin-top:14px">
-    <div class="pill">
-      <div class="pill-title">Masa bayar</div>
-      <div class="pill-main">5 tahun (60 bulan)</div>
+    <div class="muted small" style="margin-top:8px">
+      Gambar di bawah ini diambil dari ilustrasi resmi MOBISS / CAR Life Insurance.
+      <strong>Angka di dalam gambar jangan diubah.</strong>
     </div>
-    <div class="pill">
-      <div class="pill-title">Masa kepesertaan</div>
-      <div class="pill-main">7 tahun (84 bulan)</div>
+
+    <!-- WRAPPER Gambar supaya tidak keluar garis -->
+    <div class="ilustrasi-img-wrap">
+      <img
+        id="ilustrasi-img"
+        src="img/istikmal-500k.jpg"
+        alt="Ilustrasi Istikmal Syariah premi Rp 500.000"
+      />
     </div>
   </div>
 
-  <div class="pill" style="margin-top:12px">
-    <div class="pill-title">Total Setoran 5 Tahun</div>
-    <div class="pill-main" id="totalSetoranText">Rp 30.000.000</div>
-  </div>
+  <hr class="soft-divider" />
 
-  <p class="muted" style="margin-top:8px">
-    Premi <span id="premiLabelText" class="strong">Rp 500.000/bulan</span> × 60 bulan = target ibadah / menabung aman 5 tahun.  
-    Nilai investasi akhir → lihat ilustrasi resmi MOBISS 3iReborn.
-  </p>
-</div>
-<!-- 2. MANFAAT ASURANSI -->
-<div class="card">
-  <div class="section-head">2. Manfaat Asuransi</div>
-  <ul class="list">
-    <li>Meninggal karena kecelakaan → santunan asuransi + nilai investasi.</li>
-    <li>Meninggal non-kecelakaan tahun 1–2 → pengembalian premi + investasi.</li>
-    <li>Meninggal non-kecelakaan tahun 3–7 → santunan + investasi.</li>
-  </ul>
-  <p class="muted">Nominal detail mengikuti ilustrasi resmi dalam MOBISS.</p>
-</div>
+  <!-- NARASI COPYWRITING – FIX UNTUK PREMI 350K (AMAN KARENA DATA MOBISS) -->
+  <div class="card-inner">
+    <h3>4. Narasi Ilustrasi Manfaat Nilai Investasi</h3>
+    <p class="muted">
+      Narasi di bawah ini memakai <strong>contoh ilustrasi resmi</strong> untuk
+      <strong>premi Rp 350.000/bulan, masa bayar 5 tahun, masa kepesertaan 7 tahun</strong>.
+      Angka untuk premi lain (500k, 700k, 1M, 2M) silakan selalu cek
+      di <strong>MOBISS 3iReborn</strong> / ilustrasi resmi CAR Life Insurance.
+    </p>
 
-<!-- 3. MANFAAT INVESTASI -->
-<div class="card">
-  <div class="section-head">3. Manfaat Investasi</div>
-  <p>Premi dialokasikan menjadi Ujrah, Tabarru’, biaya risiko, dan Dana Investasi Peserta (Syariah).</p>
-  <p class="muted">Nilai akhir tidak dihitung di halaman ini → wajib lihat MOBISS.</p>
-</div>
+    <h4>📘 ILUSTRASI MANFAAT NILAI INVESTASI — ISTIKMAL 3iReborn</h4>
+    <p class="muted mono">
+      (Premi Rp 350.000/bulan – Masa Bayar 5 Tahun – Masa Kepesertaan 7 Tahun)
+    </p>
 
-<!-- 4. ILUSTRASI RESMI PREMI 350K -->
-<div class="card">
-  <div class="section-head">4. Contoh Ilustrasi Resmi — Premi Rp 350.000/bulan</div>
+    <h5>1. Skema Alokasi Premi</h5>
+    <p>
+      Setiap bulan, premi yang dibayarkan Rp 350.000 dialokasikan menjadi:
+    </p>
+    <ul>
+      <li>Ujrah / biaya kepesertaan</li>
+      <li>Iuran Tabarru’ (dana tolong-menolong)</li>
+      <li>Iuran Pengelolaan Risiko</li>
+      <li>Dana Investasi Peserta</li>
+    </ul>
+    <p>
+      Setelah dikurangi biaya-biaya tersebut, sisa premi diinvestasikan ke
+      <strong>instrumen investasi Syariah</strong> sesuai ketentuan
+      <strong>CAR Life Insurance</strong>.
+    </p>
 
-  <p class="muted">
-    Contoh real dari sistem MOBISS premi Rp 350.000/bulan — masa bayar 5 tahun, kepesertaan 7 tahun.
-    <br><span class="strong">Angka tidak boleh diubah.</span>
-  </p>
+    <h5>📈 2. Perkembangan Nilai Investasi<br>
+      <span class="muted">(Asumsi imbal hasil 7% per tahun – data contoh dari ilustrasi resmi)</span>
+    </h5>
 
-  <p class="strong">Ringkasan Perkembangan Nilai Investasi (Asumsi 7%)</p>
+    <p class="mono">
+      Tahun 1 (usia 40) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 1.667.189<br>
+      Tahun 2 (usia 41) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 5.076.161<br>
+      Tahun 3 (usia 42) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 9.298.687<br>
+      Tahun 4 (usia 43) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 14.192.992<br>
+      Tahun 5 (usia 44) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 19.412.272<br>
+      Tahun 6 (usia 45) – <em>tidak bayar premi</em> → Dana investasi peserta: Rp 20.701.177<br>
+      Tahun 7 (usia 46) – <em>tidak bayar premi</em> → Dana investasi peserta: Rp 22.075.653 (wajib dicairkan)
+    </p>
 
-  <div class="mono">
-Tahun 1 (usia 40) — Total: Rp 4.200.000 → Dana: Rp 1.667.189  
-Tahun 2 (usia 41) — Total: Rp 4.200.000 → Dana: Rp 5.076.161  
-Tahun 3 (usia 42) — Total: Rp 4.200.000 → Dana: Rp 9.298.687  
-Tahun 4 (usia 43) — Total: Rp 4.200.000 → Dana: Rp 14.192.992  
-Tahun 5 (usia 44) — Total: Rp 4.200.000 → Dana: Rp 19.412.272  
-Tahun 6 (usia 45) — Tidak bayar → Dana: Rp 20.701.177  
-Tahun 7 (usia 46) — Tidak bayar → Dana: Rp 22.075.653 (WAJIB dicairkan)
-  </div>
+    <h5>💰 3. Total Nilai Investasi Pada Akhir Tahun ke-7</h5>
+    <p class="strong">
+      ≈ Rp 22.075.653
+    </p>
+    <h5>🌙 5. Catatan Penting Syariah</h5>
+        <ul>
+            <li>Pengelolaan dana mengikuti akad <strong>Mudharabah &amp; Tabarru’</strong>.</li>
+            <li><strong>Dana investasi sepenuhnya milik peserta.</strong></li>
+            <li>
+                CAR Life Insurance <strong>tidak menjamin hasil tertentu</strong>.
+                Ilustrasi di atas berdasarkan asumsi konservatif imbal hasil 7% per tahun.
+            </li>
+        </ul>
 
-  <div class="divider"></div>
+        <h5>🧩 6. Kesimpulan Nilai Investasi Istikmal</h5>
+        <p>
+            Dengan premi terjangkau Rp 350.000/bulan selama 5 tahun, peserta
+            mendapatkan proteksi sekaligus membangun dana investasi yang:
+        </p>
+        <ul>
+            <li>✔ Bertumbuh stabil &amp; konsisten dalam jangka menengah</li>
+            <li>✔ Dikelola sesuai prinsip <strong>Syariah compliant</strong></li>
+            <li>✔ <strong>Wajib cair</strong> sekitar Rp 22 juta pada tahun ke-7</li>
+            <li>✔ Cocok untuk target finansial seperti Umroh, Pendidikan, Dana Darurat, dan lainnya</li>
+        </ul>
 
-  <p class="strong">Nilai Akhir Tahun ke-7 ≈ Rp 22.075.653</p>
-
-  <ul class="list">
-    <li>🕋 Biaya Umroh</li>
-    <li>🎓 Pendidikan Anak</li>
-    <li>💼 Dana Hari Esok</li>
-    <li>💸 Dana Darurat</li>
-    <li>🏡 Modal Usaha</li>
-  </ul>
-</div>
-<!-- 5. DISCLAIMER -->
-<div class="card">
-  <div class="section-head">5. Catatan Syariah & Disclaimer</div>
-  <ul class="list">
-    <li>Investasi mengikuti akad Mudharabah & Tabarru’.</li>
-    <li>Nilai investasi bisa naik turun.</li>
-    <li>Halaman ini hanya ilustrasi edukasi.</li>
-    <li>Data resmi wajib mengacu pada MOBISS 3iReborn.</li>
-  </ul>
-  <div class="note">
-    <strong>PENTING:</strong> Jika ada perbedaan dengan ilustrasi resmi, maka yang dipakai hanya ilustrasi MOBISS.
-  </div>
-</div>
-
-<p class="muted" style="text-align:center;margin-top:10px">
-  3iReborn — NPA Smart System • Ilustrasi Edukasi Istikmal
-</p>
-
-</div> <!-- end wrap -->
-
-<script>
-  function formatRupiah(num){return 'Rp ' + num.toLocaleString('id-ID');}
-
-  const premiSelect = document.getElementById('premiSelect');
-  const totalSetoranText = document.getElementById('totalSetoranText');
-  const premiLabelText = document.getElementById('premiLabelText');
-
-  function updatePremi(){
-    const premi = parseInt(premiSelect.value);
-    const total = premi * 60;
-    totalSetoranText.textContent = formatRupiah(total);
-    premiLabelText.textContent = formatRupiah(premi) + '/bulan';
-  }
-
-  premiSelect.addEventListener('change', updatePremi);
-  updatePremi();
-</script>
-
+        <div class="warning-box">
+            <strong>PENTING:</strong> Halaman ini hanya ilustrasi edukasi untuk mempermudah
+            penjelasan manfaat Istikmal Syariah.<br>
+            <strong>Perhitungan resmi selalu mengacu pada ilustrasi dari
+            MOBISS 3iReborn / CAR Life Insurance.</strong>
+        </div>
+    </div>
+</section>
 </body>
 </html>
+    <p>
+      Nilai ini merupakan hasil akumulasi dari:
+    </p>
+    <ul>
+      <li>Dana yang diinvestasikan selama 5 tahun pembayaran premi</li>
+      <li>
+        Ditambah pertumbuhan ±7%/tahun selama masa kepesertaan 7 tahun
+        (sesuai ilustrasi resmi yang dikeluarkan perusahaan)
+      </li>
+    </ul>
+    <p>
+      Uang ini <strong>WAJIB dicairkan pada akhir tahun ke-7</strong> dan menjadi
+      <strong>hak penuh peserta</strong>.
+    </p>
+
+    <h5>🎯 4. Manfaat Penggunaan Dana Investasi</h5>
+    <p>Dana tersebut bisa digunakan untuk:</p>
+    <ul>
+      <li>🕋 Biaya Umroh</li>
+      <li>🎓 Biaya Pendidikan Anak</li>
+      <li>💼 Dana Hari Esok</li>
+      <li>💸 Dana Darurat</li>
+      <li>🏡 Tambahan Modal Usaha</li>
+      <li>📝 Rencana keuangan pribadi lainnya</li>
+    </ul>
+
+    <h5>🌙 5. Catatan Penting Syariah</h5>
+    <ul>
+      <li>Pengelolaan dana mengikuti akad <strong>Mudharabah &amp; Tabarru’</strong>.</li>
+      <li><strong>Dana investasi sepenuhnya milik peserta.</strong></li>
