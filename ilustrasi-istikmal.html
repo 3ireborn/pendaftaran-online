@@ -1,208 +1,87 @@
-<!DOCTYPE html>
-<html lang="id">
+<!-- Ilustrasi Istikmal 3iReborn HTML Start --><!DOCTYPE html><html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ilustrasi Istikmal Syariah — 3iReborn</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #F2F5F1;
-        margin: 0;
-        padding: 0;
-        color: #222;
-    }
-    .header {
-        background: #1C6B3C;
-        padding: 28px;
-        text-align: center;
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-    }
-    .subheader {
-        background: #EAF3EC;
-        padding: 10px;
-        text-align: center;
-        color: #1C6B3C;
-        font-size: 14px;
-        font-weight: 600;
-    }
-    .container {
-        padding: 20px;
-        max-width: 850px;
-        margin: auto;
-    }
-    h2 {
-        color: #1C6B3C;
-        margin-top: 30px;
-    }
-    .box {
-        background: white;
-        padding: 18px;
-        border-radius: 14px;
-        margin-top: 15px;
-        border: 1px solid #d6e6d8;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-    }
-    table, th, td {
-        border: 1px solid #cfe3d1;
-    }
-    th {
-        background: #1C6B3C;
-        color: white;
-        padding: 10px;
-        text-align: center;
-    }
-    td {
-        padding: 8px;
-        text-align: center;
-        background: #FBFFFC;
-    }
-    .note {
-        background: #FFF7D6;
-        padding: 14px;
-        border-left: 5px solid #E0B100;
-        margin-top: 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    .footer {
-        text-align: center;
-        font-size: 12px;
-        color: #666;
-        margin-top: 35px;
-        padding-bottom: 30px;
-    }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ilustrasi Istikmal 3iReborn</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7f9fa; margin:0; padding:0; color:#0a2540; }
+    .container { max-width:900px; margin:20px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,0.08); }
+    h1 { text-align:center; margin-bottom:8px; color:#0d3a6d; }
+    .sub { text-align:center; margin-bottom:25px; color:#4a4a4a; }
+    .section { margin-top:25px; padding:20px; background:#eef5f0; border-radius:12px; border-left:6px solid #0a8f4a; }
+    select { width:100%; padding:14px; border-radius:10px; border:1px solid #ccc; font-size:16px; margin-top:8px; }
+    .card { background:#fff; border-radius:12px; padding:18px; margin-top:16px; border:1px solid #e2e2e2; }
+    .title { font-size:20px; margin-bottom:10px; color:#0a8f4a; font-weight:bold; }
+    .disclaimer { background:#fff7d1; padding:15px; border-radius:10px; margin-top:20px; border-left:6px solid #c49600; }
+  </style>
 </head>
 <body>
-
-<div class="header">Ilustrasi Istikmal Syariah 3iReborn</div>
-<div class="subheader">Simulasi Manfaat Asuransi + Investasi Syariah (Versi Edukasi Aman)</div>
-
 <div class="container">
+  <h1>Ilustrasi Istikmal 3iReborn</h1>
+  <div class="sub">Simulasi edukasi manfaat Istikmal Syariah — aman, ringan, dan sesuai aturan</div><label><strong>Pilih Premi Bulanan</strong></label> <select id="premiSelect" onchange="updateIlustrasi()"> <option value="350000">Rp 350.000 / bulan</option> <option value="500000" selected>Rp 500.000 / bulan (Rekomendasi Umroh)</option> <option value="700000">Rp 700.000 / bulan</option> <option value="1000000">Rp 1.000.000 / bulan</option> <option value="2000000">Rp 2.000.000 / bulan</option> </select>
 
-    <h2>1. Budaya Menabung 5 Tahun</h2>
-    <div class="box">
-        Program Istikmal Syariah mendorong budaya menabung teratur selama <b>5 tahun (60 bulan)</b>.
-        <br><br>
-        Contoh ilustrasi premi:
-        <ul>
-            <li>Rp 350.000 / bulan</li>
-            <li>Rp 500.000 / bulan (rekomendasi Umroh)</li>
-            <li>Rp 700.000 / bulan</li>
-            <li>Rp 1.000.000 / bulan</li>
-            <li>Rp 2.000.000 / bulan</li>
-        </ul>
-        Total setoran premi = premi bulanan × 60 bulan.
-    </div>
+  <div id="ilustrasiBox"></div>  <script>
+    function formatRupiah(n){return "Rp " + n.toLocaleString("id-ID")}
+    function updateIlustrasi(){
+      let p = parseInt(document.getElementById('premiSelect').value);
+      let total = p * 60;
 
-    <h2>2. Alokasi Premi (Tanpa Angka Perhitungan)</h2>
-    <div class="box">
-        Setiap premi peserta dialokasikan ke 4 komponen sesuai ketentuan CAR Life Insurance:
-        <ul>
-            <li><b>Ujrah / Biaya Kepesertaan</b></li>
-            <li><b>Iuran Tabarru'</b> – dana tolong-menolong</li>
-            <li><b>Iuran Pengelolaan Risiko</b></li>
-            <li><b>Dana Investasi Peserta</b></li>
-        </ul>
+      let html = `
+        <div class='section'>
+          <div class='card'>
+            <div class='title'>1. Total Setoran (5 Tahun / 60 Bulan)</div>
+            <p>Premi bulanan: <b>${formatRupiah(p)}</b></p>
+            <p>Total setoran 5 tahun: <b>${formatRupiah(total)}</b></p>
+            <p>Ini adalah ilustrasi edukasi untuk membangun budaya menabung jangka menengah.</p>
+          </div>
 
-        Sisa premi setelah biaya dialokasikan ke instrumen investasi Syariah.
-    </div>
+          <div class='card'>
+            <div class='title'>2. Manfaat Asuransi</div>
+            <ul>
+              <li>Santunan meninggal <b>karena kecelakaan</b>: Rp 21.000.000 + nilai investasi (jika ada)</li>
+              <li>Santunan meninggal <b>non-kecelakaan tahun 1–2</b>: pengembalian seluruh premi + nilai investasi</li>
+              <li>Santunan meninggal <b>non-kecelakaan tahun 3–7</b>: Rp 21.000.000 + nilai investasi</li>
+            </ul>
+          </div>
 
-    <h2>3. Ilustrasi Pertumbuhan Dana (Contoh Resmi CAR)</h2>
-    <div class="box">
-        Menggunakan contoh ilustrasi perusahaan dengan asumsi konservatif ±7% per tahun.
-        <br><br>
-        <b>Contoh ilustrasi resmi premi Rp 350.000/bulan:</b>
+          <div class='card'>
+            <div class='title'>3. Manfaat Investasi</div>
+            <p>Sebagian premi dialokasikan ke <b>dana investasi syariah</b> setelah dikurangi Ujrah & Tabarru'.</p>
+            <p>Pertumbuhan dana mengikuti kinerja instrumen syariah & dapat dilihat resmi melalui aplikasi MOBISS 3iReborn.</p>
+          </div>
 
-        <table>
-            <tr>
-                <th>Tahun</th>
-                <th>Total Setoran</th>
-                <th>Dana Investasi</th>
-                <th>Keterangan</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Rp 4.200.000</td>
-                <td>Rp 1.667.189</td>
-                <td>Dana mulai terbentuk</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Rp 8.400.000</td>
-                <td>Rp 5.076.161</td>
-                <td>Bertumbuh stabil</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Rp 12.600.000</td>
-                <td>Rp 9.298.687</td>
-                <td>Mulai terlihat compounding</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Rp 16.800.000</td>
-                <td>Rp 14.192.992</td>
-                <td>Pertumbuhan makin kuat</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Rp 21.000.000</td>
-                <td>Rp 19.412.272</td>
-                <td>Tahun terakhir masa bayar</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>—</td>
-                <td>Rp 20.701.177</td>
-                <td>Tidak bayar premi</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>—</td>
-                <td><b>Rp 22.075.653</b></td>
-                <td><b>WAJIB dicairkan</b></td>
-            </tr>
-        </table>
-    </div>
+          <div class='card'>
+            <div class='title'>4. Tujuan Keuangan (Rekomendasi)</div>
+            <ul>
+              <li>🕋 Biaya Umroh</li>
+              <li>🎓 Pendidikan Anak</li>
+              <li>💼 Dana Hari Esok</li>
+              <li>💸 Dana Darurat</li>
+              <li>🏡 Modal Usaha</li>
+            </ul>
+          </div>
 
-    <h2>4. Manfaat Penggunaan Dana</h2>
-    <div class="box">
-        Dana di tahun ke-7 bisa digunakan untuk:
-        <ul>
-            <li>🕋 Biaya Umroh</li>
-            <li>🎓 Pendidikan Anak</li>
-            <li>💼 Dana Hari Esok</li>
-            <li>💸 Dana Darurat</li>
-            <li>🏡 Modal Usaha</li>
-        </ul>
-    </div>
+          <div class='card'>
+            <div class='title'>5. Manfaat Bisnis</div>
+            <p>Peserta bisa mendapatkan bonus income jika membantu memperluas jaringan sesuai aturan AAJI & AASI.</p>
+          </div>
 
-    <h2>5. Catatan Syariah & Disclaimer Resmi</h2>
-    <div class="note">
-        <b>PENTING:</b> Halaman ini hanya ilustrasi edukasi untuk mempermudah penjelasan manfaat Istikmal Syariah.
-        <br><br>
-        Perhitungan resmi, lengkap, dan sesuai ketentuan perusahaan terdapat di:
-        <br>
-        <b>MOBISS 3iReborn → Ilustrasi Resmi CAR Life Insurance.</b>
-        <br><br>
-        Hasil akhir dapat berbeda tergantung kinerja investasi & regulasi perusahaan.
-    </div>
+          <div class='disclaimer'>
+            <b>PENTING:</b> Halaman ini hanya ilustrasi edukasi untuk mempermudah penjelasan manfaat Istikmal Syariah. Perhitungan resmi, nilai investasi, dan tabel lengkap dapat dilihat di <b>MOBISS 3iReborn</b> atau ilustrasi resmi CAR Life Insurance.
+          </div>
+        </div>`;
 
-</div>
+      document.getElementById('ilustrasiBox').innerHTML = html;
+    }
 
-<div class="footer">
-    © 3iReborn — Halaman Edukasi Istikmal Syariah<br>
-    Tidak menggantikan ilustrasi resmi MOBISS / CAR.
-</div>
-
+    updateIlustrasi();
+  </script></div>
+</body>
+</html>
+<!-- Ilustrasi Istikmal 3iReborn HTML End --><!-- Placeholder: We will build structured HTML with dropdown and responsive table. -->
+<html>
+<head></head>
+<body>
+<!-- Content will be added -->
 </body>
 </html>
