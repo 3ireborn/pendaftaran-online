@@ -45,10 +45,11 @@
 
   iframe {
     width: 100%;
-    height: 600px;
+    height: 650px;
     border: none;
     border-radius: 12px;
     margin-top: 15px;
+    background: #ffffff;
   }
 
   .loading {
@@ -90,7 +91,6 @@
 
 <div class="box">
   <h3>🧩 Penjelasan Singkat</h3>
-
   <p>Setiap premi otomatis dibagi menjadi:</p>
   <ul>
     <li>Ujrah / biaya kepesertaan</li>
@@ -133,10 +133,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setTimeout(() => {
       const fileName = pdfMap[premi];
-      pdfViewer.src = baseURL + fileName;
+      const pdfURL = baseURL + fileName;
+
+      // FIX: PDF MUNCUL DI HP ANDROID
+      pdfViewer.src =
+        "https://docs.google.com/gview?embedded=true&url=" +
+        encodeURIComponent(pdfURL);
+
       loading.style.display = "none";
       pdfViewer.style.opacity = "1";
-    }, 900);
+    }, 600);
   }
 
   select.addEventListener("change", function () {
