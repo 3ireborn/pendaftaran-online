@@ -1,98 +1,266 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
-<meta charset="UTF-8" />
-<title>Upload PDF ke GitHub - 3IReborn</title>
-<style>
+  <meta charset="utf-8" />
+  <title>Upload PDF ke GitHub (Folder ilustrasi)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        max-width: 500px;
-        margin: auto;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 16px;
     }
-    input, button {
-        width: 100%;
-        padding: 12px;
-        margin-top: 10px;
-        font-size: 16px;
+    .card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d0d7de;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    input[type="file"] {
+      padding: 6px 2px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #6e7781;
+      margin-top: -6px;
+      margin-bottom: 10px;
+    }
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #444;
     }
     button {
-        background: #28a745;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 8px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      background: #16a34a;
+      color: #fff;
+      cursor: pointer;
     }
-    button:hover {
-        background: #218838;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
-</style>
+    .status {
+      margin-top: 14px;
+      font-size: 13px;
+    }
+    .status.ok {
+      color: #15803d;
+    }
+    .status.err {
+      color: #b91c1c;
+    }
+    .repo-info {
+      font-size: 12px;
+      color: #6e7781;
+      margin-bottom: 12px;
+    }
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
+  <div class="card">
+    <h1>📂 Upload PDF ke GitHub</h1>
+    <p class="subtitle">
+      File akan disimpan di folder <span class="code">ilustrasi/</span>  
+      repo <span class="code">3ireborn/pendaftaran-online</span>.
+    </p>
 
-<h2>📤 Upload PDF ke GitHub (Folder ilustrasi)</h2>
+    <div class="repo-info">
+      1️⃣ Buka halaman ini hanya untuk admin sendiri.<br />
+      2️⃣ Token disimpan <strong>hanya di HP / browser ini</strong> (localStorage).<br />
+      3️⃣ Jangan kirim link halaman ini ke orang lain.
+    </div>
 
-<p><strong>Repo:</strong> 3ireborn / pendaftaran-online / ilustrasi</p>
+    <label for="token">GitHub Personal Access Token</label>
+    <input
+      id="token"
+      type="password"
+      placeholder="ghp_xxxxxxxxxxxxxxxxx"
+      autocomplete="off"
+    />
+    <div class="hint">
+      Token minimal punya akses <span class="code">repo</span>.  
+      Bisa pakai yang sudah kamu buat sebelumnya.
+    </div>
 
-<label>💡 Masukkan GitHub Token (tidak akan disimpan)</label>
-<input type="password" id="token" placeholder="github_pat_xxxxxxxxxxxxxxxxx">
+    <div class="remember-row">
+      <input type="checkbox" id="rememberToken" />
+      <label for="rememberToken" style="margin: 0; font-weight: 400;">
+        Simpan token di perangkat ini (biar nggak perlu ketik lagi)
+      </label>
+    </div>
 
-<label>Pilih file PDF</label>
-<input type="file" id="fileInput" accept="application/pdf">
+    <label for="file">Pilih file PDF</label>
+    <input id="file" type="file" accept="application/pdf" />
+    <div class="hint">
+      Contoh nama file: <span class="code">premi-350.pdf</span>, <span class="code">premi-500.pdf</span>, dst.
+    </div>
 
-<button onclick="upload()">🚀 Upload ke GitHub</button>
+    <button id="uploadBtn">🚀 Upload ke GitHub</button>
 
-<p id="status"></p>
+    <div id="status" class="status"></div>
+  </div>
 
-<script>
-async function upload() {
-    const token = document.getElementById("token").value.trim();
-    const fileInput = document.getElementById("fileInput");
-    const status = document.getElementById("status");
+  <script>
+    // ====== KONFIGURASI REPO (kalau nanti ganti, ubah di sini) ======
+    const OWNER = "3ireborn";
+    const REPO  = "pendaftaran-online";
+    const FOLDER_PATH = "ilustrasi";
 
-    if (!token) {
-        alert("Token belum diisi.");
-        return;
+    const tokenInput   = document.getElementById("token");
+    const rememberChk  = document.getElementById("rememberToken");
+    const fileInput    = document.getElementById("file");
+    const uploadBtn    = document.getElementById("uploadBtn");
+    const statusEl     = document.getElementById("status");
+
+    // 🔄 Saat halaman dibuka, coba ambil token yang pernah disimpan
+    (function loadSavedToken() {
+      try {
+        const saved = localStorage.getItem("npa_github_token");
+        if (saved) {
+          tokenInput.value = saved;
+          rememberChk.checked = true;
+        }
+      } catch (e) {
+        console.warn("Tidak bisa membaca localStorage:", e);
+      }
+    })();
+
+    function showStatus(msg, isError = false) {
+      statusEl.textContent = msg;
+      statusEl.className = "status " + (isError ? "err" : "ok");
     }
-    if (!fileInput.files.length) {
-        alert("Pilih file PDF dulu.");
+
+    async function uploadFile() {
+      const token = tokenInput.value.trim();
+      const file = fileInput.files[0];
+
+      if (!token) {
+        showStatus("Token belum diisi.", true);
+        tokenInput.focus();
         return;
-    }
+      }
+      if (!file) {
+        showStatus("Pilih dulu 1 file PDF.", true);
+        fileInput.focus();
+        return;
+      }
+      if (!file.name.toLowerCase().endsWith(".pdf")) {
+        showStatus("File harus berformat .pdf", true);
+        return;
+      }
 
-    const file = fileInput.files[0];
-    const fileName = file.name;
-    const reader = new FileReader();
+      // Simpan token ke localStorage jika checkbox dicentang
+      try {
+        if (rememberChk.checked) {
+          localStorage.setItem("npa_github_token", token);
+        } else {
+          localStorage.removeItem("npa_github_token");
+        }
+      } catch (e) {
+        console.warn("Gagal menyimpan ke localStorage:", e);
+      }
 
-    reader.onloadend = async () => {
-        const content = reader.result.split(",")[1]; // base64
+      uploadBtn.disabled = true;
+      showStatus("Mengupload ke GitHub… mohon tunggu…", false);
 
-        status.innerHTML = "⏳ Mengupload... tunggu sebentar...";
-
-        const response = await fetch(
-            `https://api.github.com/repos/3ireborn/pendaftaran-online/contents/ilustrasi/${fileName}`, 
-            {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: `Upload ${fileName}`,
-                    content: content
-                })
-            }
+      try {
+        // Baca file dan ubah ke base64
+        const arrayBuffer = await file.arrayBuffer();
+        const base64Data = btoa(
+          String.fromCharCode(...new Uint8Array(arrayBuffer))
         );
 
-        if (response.ok) {
-            status.innerHTML = "✅ Berhasil di-upload ke GitHub!";
-        } else {
-            status.innerHTML = "❌ Gagal upload. Error: " + response.statusText;
+        const path = `${FOLDER_PATH}/${file.name}`;
+        const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}`;
+
+        const body = {
+          message: `Upload ${file.name} via upload-ilustrasi`,
+          content: base64Data
+        };
+
+        const resp = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          console.error("GitHub error:", resp.status, err);
+          if (resp.status === 422) {
+            showStatus("File dengan nama itu mungkin sudah ada. Coba ganti nama atau cek di GitHub.", true);
+          } else if (resp.status === 401) {
+            showStatus("Token salah / tidak punya izin. Coba buat token baru dengan scope repo.", true);
+          } else {
+            showStatus("Gagal upload. Kode: " + resp.status, true);
+          }
+          return;
         }
-    };
 
-    reader.readAsDataURL(file);
-}
-</script>
+        const data = await resp.json();
+        const fileUrl = data && data.content && data.content.html_url
+          ? data.content.html_url
+          : `(cek manual di GitHub: ${path})`;
 
+        showStatus("Berhasil upload! 🎉\nLokasi: " + fileUrl, false);
+      } catch (e) {
+        console.error(e);
+        showStatus("Terjadi error saat upload. Cek koneksi internet lalu coba lagi.", true);
+      } finally {
+        uploadBtn.disabled = false;
+      }
+    }
+
+    uploadBtn.addEventListener("click", uploadFile);
+  </script>
 </body>
 </html>
