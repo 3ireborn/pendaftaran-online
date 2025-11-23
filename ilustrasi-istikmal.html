@@ -1,662 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <title>Ilustrasi Manfaat Nilai Investasi — Istikmal 3iReborn</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ilustrasi Nilai Investasi Istikmal 3iReborn</title>
 
-    body {
-      margin: 0;
-      padding: 16px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: #f5f7f8;
-      color: #102a43;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f3f7f5;
+    color: #0b3d2e;
+  }
 
-    .page {
-      max-width: 900px;
-      margin: 0 auto 48px auto;
-    }
+  .container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
 
-    .card-main {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 24px 20px 28px;
-      box-shadow: 0 10px 30px rgba(15, 123, 60, 0.1);
-      border: 1px solid rgba(15, 123, 60, 0.12);
-    }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
 
-    h1 {
-      font-size: 1.6rem;
-      line-height: 1.4;
-      margin: 0 0 8px;
-      color: #0f7b3c;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
+  h2, h3, h4, h5 {
+    margin-top: 25px;
+    color: #0b3d2e;
+  }
 
-    .subtitle {
-      margin: 4px 0 16px;
-      font-size: 0.95rem;
-      color: #4b5563;
-    }
+  .box {
+    background: white;
+    padding: 18px;
+    margin-top: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  }
 
-    .for-whom {
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
+  .highlight {
+    font-weight: bold;
+    color: #0a5c3b;
+  }
 
-    .premi-info {
-      font-weight: 600;
-      margin-bottom: 18px;
-    }
+  select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #0b3d2e;
+    font-size: 16px;
+    margin-top: 10px;
+  }
 
-    .section {
-      margin-top: 22px;
-      padding: 18px 16px 20px;
-      border-radius: 18px;
-      background: #f8fafc;
-      border: 1px solid rgba(15, 123, 60, 0.12);
-      position: relative;
-    }
+  iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 15px;
+  }
 
-    .section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      border-left: 5px solid #0f7b3c;
-      pointer-events: none;
-    }
-
-    .section-title {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      color: #065f46;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
-    }
-
-    .section-title .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: #0f7b3c;
-      color: #ffffff;
-      font-size: 0.9rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .section p {
-      margin: 6px 0;
-      font-size: 0.95rem;
-      line-height: 1.55;
-    }
-
-    ul {
-      margin: 6px 0 0 1.1rem;
-      padding: 0;
-      font-size: 0.95rem;
-      line-height: 1.55;
-    }
-
-    li + li {
-      margin-top: 4px;
-    }
-
-    .emoji {
-      font-size: 1.1rem;
-      margin-right: 2px;
-    }
-
-    /* Dropdown premi */
-    .premi-card {
-      margin-top: 18px;
-      margin-bottom: 10px;
-      background: #f8fafc;
-      border-radius: 18px;
-      padding: 14px 14px 16px;
-      border: 1px solid rgba(15, 123, 60, 0.18);
-    }
-
-    .premi-label {
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-      color: #4b5563;
-    }
-
-    select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      font-size: 0.95rem;
-      outline: none;
-      background: #ffffff;
-    }
-
-    select:focus {
-      border-color: #0f7b3c;
-      box-shadow: 0 0 0 1px rgba(15, 123, 60, 0.3);
-    }
-
-    /* Kartu total setoran */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .summary-box {
-      background: #ecfdf5;
-      border-radius: 15px;
-      padding: 10px 12px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .summary-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #047857;
-      margin-bottom: 2px;
-    }
-
-    .summary-value {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: #065f46;
-    }
-
-    .summary-note {
-      font-size: 0.8rem;
-      color: #4b5563;
-      margin-top: 3px;
-    }
-
-    /* Kartu gambar */
-    .image-card {
-      margin-top: 22px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 14px 14px 16px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-    }
-
-    .image-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #111827;
-    }
-
-    .image-wrapper {
-      background: #f3f4f6;
-      border-radius: 14px;
-      padding: 8px;
-      overflow: hidden;
-    }
-
-    .image-wrapper img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    .image-caption {
-      font-size: 0.8rem;
-      color: #6b7280;
-      margin-top: 6px;
-    }
-
-    /* Catatan bawah */
-    .disclaimer {
-      margin-top: 18px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: #fffbeb;
-      border: 1px solid #facc15;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      color: #78350f;
-    }
-
-    .disclaimer strong {
-      font-weight: 700;
-    }
-
-    /* Konten copywriting dinamis */
-    #ilustrasi-detail {
-      margin-top: 22px;
-    }
-
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
-      font-size: 0.86rem;
-      line-height: 1.65;
-      white-space: pre-line;
-      background: #f1f5f9;
-      border-radius: 14px;
-      padding: 10px 12px;
-      border: 1px dashed #cbd5e1;
-      margin-top: 4px;
-    }
-
-    @media (min-width: 640px) {
-      .card-main {
-        padding: 28px 26px 32px;
-      }
-
-      .summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      h1 {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+  .loading {
+    display: none;
+    padding: 12px;
+    margin-top: 10px;
+    background: #e5f8ed;
+    border-radius: 10px;
+    text-align: center;
+    color: #0b3d2e;
+    font-weight: bold;
+  }
+</style>
 </head>
+
+
 <body>
-  <div class="page">
-    <div class="card-main">
-      <h1>
-        📘 ILUSTRASI MANFAAT NILAI INVESTASI — ISTIKMAL 3iReborn
-      </h1>
-      <p class="subtitle">
-        Simulasi edukasi untuk membantu menjelaskan pola menabung + investasi
-        syariah di program Istikmal 3iReborn.
-      </p>
+<div class="container">
 
-      <p class="for-whom">
-        Untuk: <strong>Anda</strong>
-      </p>
-      <p class="premi-info" id="premi-info-text">
-        (Premi Rp 350.000/bulan – Masa Bayar 5 Tahun – Masa Kepesertaan 7 Tahun)
-      </p>
+<!-- Judul -->
+<h1>📘 ILUSTRASI MANFAAT NILAI INVESTASI — ISTIKMAL 3iReborn</h1>
 
-      <!-- Pilih premi -->
-      <div class="premi-card">
-        <div class="premi-label">Pilih premi bulanan yang ingin dijelaskan:</div>
-        <select id="premi-select">
-          <option value="350000">
-            Rp 350.000 / bulan (minimal ilustrasi)
-          </option>
-          <option value="500000" selected>
-            Rp 500.000 / bulan (rekomendasi Umroh)
-          </option>
-          <option value="700000">
-            Rp 700.000 / bulan
-          </option>
-          <option value="1000000">
-            Rp 1.000.000 / bulan
-          </option>
-          <option value="2000000">
-            Rp 2.000.000 / bulan
-          </option>
-        </select>
+<p><strong>Untuk:</strong> Anda</p>
+<p>(Premi sesuai pilihan — Masa Bayar 5 Tahun — Masa Kepesertaan 7 Tahun)</p>
 
-        <div class="summary-grid">
-          <div class="summary-box">
-            <div class="summary-label">Masa Bayar</div>
-            <div class="summary-value">5 tahun (60 bulan)</div>
-          </div>
-          <div class="summary-box">
-            <div class="summary-label">Total Setoran 5 Tahun</div>
-            <div class="summary-value" id="total-setoran-text">
-              Rp 30.000.000
-            </div>
-            <div class="summary-note">
-              Ilustrasi menabung konsisten selama 60 bulan.
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- 1. Skema alokasi premi -->
-      <section class="section">
-        <h3 class="section-title">
-          <span class="badge">1</span>
-          Skema Alokasi Premi
-        </h3>
-        <p>
-          Setiap bulan, premi yang dibayarkan dialokasikan menjadi:
-        </p>
-        <ul>
-          <li>Ujrah / biaya kepesertaan</li>
-          <li>Iuran Tabarru’ (dana tolong-menolong)</li>
-          <li>Iuran Pengelolaan Risiko</li>
-          <li>Dana Investasi Peserta</li>
-        </ul>
-        <p>
-          Setelah dikurangi biaya-biaya tersebut, sisa premi
-          <strong>diinvestasikan ke instrumen Syariah</strong> sesuai ketentuan
-          <strong>CAR Life Insurance</strong>.
-        </p>
-      </section>
+<!-- PILIH PREMI -->
+<div class="box">
+  <h3>💰 Pilih Premi Bulanan</h3>
 
-      <!-- Kartu gambar ilustrasi dari MOBISS -->
-      <div class="image-card">
-        <div class="image-title">
-          📄 Ilustrasi resmi Istikmal dari MOBISS / sistem perusahaan
-        </div>
-        <div class="image-wrapper">
-          <!--
-            Ganti src berikut dengan URL / path gambar kamu sendiri:
+  <select id="premiSelect">
+    <option value="350">Premi Rp 350.000 / bulan</option>
+    <option value="500">Premi Rp 500.000 / bulan</option>
+    <option value="700">Premi Rp 700.000 / bulan</option>
+    <option value="1000">Premi Rp 1.000.000 / bulan</option>
+    <option value="2000">Premi Rp 2.000.000 / bulan</option>
+  </select>
 
-            - Premi 350k  → img/istikmal-350k.jpg
-            - Premi 500k  → img/istikmal-500k.jpg
-            - Premi 700k  → img/istikmal-700k.jpg
-            - Premi 1 jt  → img/istikmal-1000k.jpg
-            - Premi 2 jt  → img/istikmal-2000k.jpg
-          -->
-          <img
-            id="ilustrasi-img"
-            src="img/istikmal-500k.jpg"
-            alt="Ilustrasi resmi Istikmal dari sistem MOBISS"
-          />
-        </div>
-        <div class="image-caption">
-          Contoh ilustrasi di atas <strong>diambil langsung dari sistem MOBISS
-          3iReborn / ilustrasi resmi CAR Life Insurance</strong>. Agen tidak
-          diperbolehkan mengubah angka pada file resmi tersebut.
-        </div>
-      </div>
+  <div id="loading" class="loading">⏳ Sedang memuat PDF ilustrasi…</div>
 
-      <!-- Dislaimer utama -->
-      <div class="disclaimer">
-        <strong>PENTING:</strong> Halaman ini hanya ilustrasi edukasi untuk
-        membantu menjelaskan manfaat Istikmal Syariah dan budaya menabung
-        jangka menengah. Perhitungan lengkap, termasuk proyeksi nilai investasi,
-        <strong>selalu mengikuti ilustrasi resmi yang dikeluarkan perusahaan
-        melalui sistem MOBISS 3iReborn</strong>.
-      </div>
+  <iframe id="pdfViewer" src=""></iframe>
+</div>
 
-      <!-- Detail copywriting dinamis -->
-      <div id="ilustrasi-detail"></div>
-    </div>
-  </div>
 
-  <!-- TEMPLATE: detail khusus premi 350k (pakai angka resmi dari gambar pertama) -->
-  <template id="template-350">
-    <section class="section">
-      <h3 class="section-title">
-        <span class="badge">2</span>
-        Ringkasan Perkembangan Nilai Investasi
-        <span class="emoji">📈</span>
-      </h3>
-      <p>
-        Bagian ini boleh dipakai saat presentasi sebagai
-        <strong>contoh ilustrasi resmi</strong> untuk premi
-        <strong>Rp 350.000/bulan</strong> (data diambil dari sistem MOBISS,
-        masa bayar 5 tahun, masa kepesertaan 7 tahun). <strong>Jangan diubah
-        angkanya.</strong>
-      </p>
+<!-- Narasi -->
+<div class="box">
+  <h3>🧩 Penjelasan Singkat</h3>
 
-      <p><strong>Ringkasan Perkembangan Nilai Investasi (Asumsi 7% / tahun):</strong></p>
-      <div class="mono">
-Tahun 1 (usia 40) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 1.667.189  
-Tahun 2 (usia 41) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 5.076.161  
-Tahun 3 (usia 42) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 9.298.687  
-Tahun 4 (usia 43) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 14.192.992  
-Tahun 5 (usia 44) – Total kontribusi: Rp 4.200.000 → Dana investasi peserta: Rp 19.412.272 (tahun terakhir masa bayar)  
-Tahun 6 (usia 45) – Tidak bayar premi → Dana investasi peserta: Rp 20.701.177  
-Tahun 7 (usia 46) – Tidak bayar premi → Dana investasi peserta: Rp 22.075.653 (WAJIB dicairkan)
-      </div>
+  <p>Setiap premi otomatis dibagi menjadi:</p>
+  <ul>
+    <li>Ujrah / biaya kepesertaan</li>
+    <li>Iuran Tabarru’ (tolong-menolong)</li>
+    <li>Iuran Pengelolaan Risiko</li>
+    <li>Dana Investasi Peserta</li>
+  </ul>
 
-      <p>
-        Terlihat bahwa setelah masa bayar 5 tahun selesai, dana terus
-        bertumbuh murni dari <strong>hasil investasi Syariah</strong> hingga
-        akhir tahun ke-7.
-      </p>
-    </section>
+  <p>Sisa premi setelah biaya akan diinvestasikan ke instrumen <strong>Syariah</strong> sesuai ketentuan <strong>CAR Life Insurance</strong>.</p>
+</div>
 
-    <section class="section">
-      <h3 class="section-title">
-        <span class="badge">3</span>
-        Total Nilai Investasi Akhir Tahun ke-7
-      </h3>
-      <p>
-        Berdasarkan ilustrasi resmi di atas, estimasi nilai investasi pada
-        akhir tahun ke-7 sekitar:
-      </p>
-      <p>
-        <strong>± Rp 22.075.653</strong>
-      </p>
-      <p>
-        Nilai ini merupakan hasil akumulasi dari:
-      </p>
-      <ul>
-        <li>Dana yang diinvestasikan selama 5 tahun pembayaran premi.</li>
-        <li>Pertumbuhan investasi dengan asumsi ± 7% per tahun.</li>
-      </ul>
-      <p>
-        Uang ini <strong>WAJIB dicairkan</strong> pada akhir tahun ke-7 dan
-        menjadi <strong>hak penuh peserta</strong>.
-      </p>
-    </section>
 
-    <section class="section">
-      <h3 class="section-title">
-        <span class="badge">4</span>
-        🎯 Manfaat Penggunaan Dana Investasi
-      </h3>
-      <p>Dana tersebut bisa digunakan untuk:</p>
-      <ul>
-        <li>🕋 Biaya Umroh</li>
-        <li>🎓 Biaya Pendidikan Anak</li>
-        <li>💼 Dana Hari Esok</li>
-        <li>💸 Dana Darurat</li>
-        <li>🏡 Tambahan Modal Usaha</li>
-        <li>📝 Rencana keuangan pribadi lainnya</li>
-      </ul>
-    </section>
+<!-- Catatan -->
+<div class="box" style="background:#fff8e5;">
+  <h3>⚠️ Catatan Penting</h3>
+  <p>Halaman ini hanya ilustrasi edukasi. Seluruh angka investasi mengikuti file ilustrasi resmi CAR Life Insurance dari sistem MOBISS 3iReborn.</p>
+</div>
 
-    <section class="section">
-      <h3 class="section-title">
-        <span class="badge">5</span>
-        🌙 Catatan Penting Syariah
-      </h3>
-      <ul>
-        <li>
-          Pengelolaan dana mengikuti akad <strong>Mudharabah &amp; Tabarru’</strong>.
-        </li>
-        <li>
-          <strong>Dana investasi sepenuhnya milik peserta.</strong>
-        </li>
-        <li>
-          <strong>CAR Life Insurance</strong> tidak menjamin hasil, namun
-          ilustrasi menggunakan asumsi konservatif 7% per tahun.
-        </li>
-      </ul>
-    </section>
+</div>
 
-    <section class="section">
-      <h3 class="section-title">
-        <span class="badge">6</span>
-        🧩 Kesimpulan Nilai Investasi Istikmal
-      </h3>
-      <p>
-        Dengan premi terjangkau <strong>Rp 350.000/bulan</strong> selama
-        5 tahun, peserta tidak hanya memiliki proteksi, namun juga membangun
-        dana investasi yang:
-      </p>
-      <ul>
-        <li>✔ Bertumbuh stabil dengan prinsip Syariah.</li>
-        <li>✔ Amanah &amp; transparan melalui ilustrasi resmi perusahaan.</li>
-        <li>✔ Wajib cair sekitar ± Rp 22 juta pada akhir tahun ke-7.</li>
-        <li>✔ Cocok untuk rencana finansial jangka menengah (Umroh, pendidikan, dll).</li>
-      </ul>
-    </section>
-  </template>
 
-  <!-- TEMPLATE: penjelasan generik untuk premi selain 350k -->
-<template id="template-generic">
-  <section class="section">
-    <h3 class="section-title">
-      <span class="badge">2</span>
-      📈 Gambaran Pertumbuhan Nilai Investasi
-    </h3>
-    <p>
-      Untuk premi yang Anda pilih, pola kerjanya sama:
-      <strong>5 tahun menabung aktif, 2 tahun dibiarkan tumbuh sebagai
-      investasi</strong> dengan asumsi hasil investasi ± 7% per tahun sesuai
-      ilustrasi resmi perusahaan.
-    </p>
-    <p>
-      Detail angka nominal (saldo tiap tahun, hasil investasi, dan sebagainya)
-      <strong>mengikuti file ilustrasi resmi dari sistem MOBISS 3iReborn /
-      CAR Life Insurance</strong>. Agen tidak boleh mengubah perhitungannya.
-    </p>
-    <p>Saat presentasi, Anda cukup tunjukkan:</p>
-    <ul>
-      <li>File ilustrasi resmi sesuai premi & usia prospek.</li>
-      <li>Tekankan bahwa selama 5 tahun peserta menyetor rutin.</li>
-      <li>
-        Setelah itu dana <strong>tetap bekerja</strong> hingga akhir tahun
-        ke-7.
-      </li>
-      <li>
-        Pada akhir masa kepesertaan,
-        <strong>dana wajib dicairkan dan menjadi hak peserta 100%</strong>.
-      </li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h3 class="section-title">
-      <span class="badge">3</span>
-      🎯 Fokus Edukasi ke Prospek
-    </h3>
-    <p>
-      Untuk menghindari miskomunikasi, arahkan pembahasan ke
-      <strong>budaya menabung + proteksi + potensi hasil investasi</strong>,
-      bukan menjanjikan angka tertentu.
-    </p>
-    <p>Beberapa poin edukasi yang bisa ditekankan:</p>
-    <ul>
-      <li>
-        Program ini membantu peserta
-        <strong>disiplin menyisihkan sebagian penghasilan</strong>
-        selama 5 tahun.
-      </li>
-      <li>
-        Selama kepesertaan, peserta terlindungi oleh
-        <strong>asuransi jiwa syariah</strong>.
-      </li>
-      <li>
-        Di akhir tahun ke-7, peserta memiliki
-        <strong>dana investasi</strong>
-        yang bisa dipakai untuk rencana besar (Umroh, pendidikan, dll).
-      </li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h3 class="section-title">
-      <span class="badge">4</span>
-      💡 Contoh Pemanfaatan Dana Akhir
-    </h3>
-    <p>
-      Berapapun premi yang dipilih, Anda bisa ajak prospek membayangkan:
-    </p>
-    <ul>
-      <li>🕋 Dana untuk mewujudkan Umroh impian.</li>
-      <li>🎓 Menyiapkan pendidikan anak.</li>
-      <li>💼 Menambah modal usaha atau karier.</li>
-      <li>💸 Menguatkan dana darurat keluarga.</li>
-    </ul>
-    <p>
-      Tekankan bahwa <strong>semua angka detail wajib mengacu pada ilustrasi
-      resmi</strong> yang dicetak dari sistem perusahaan.
-    </p>
-  </section>
-
-  <section class="section">
-    <h3 class="section-title">
-      <span class="badge">5</span>
-      🌙 Catatan Syariah & Kepatuhan
-    </h3>
-    <ul>
-      <li>
-        Pengelolaan dana mengikuti akad
-        <strong>Mudharabah & Tabarru’</strong>.
-      </li>
-      <li>
-        <strong>Dana investasi sepenuhnya milik peserta</strong>
-        dan akan diserahkan pada saat jatuh tempo sesuai polis.
-      </li>
-      <li>
-        <strong>CAR Life Insurance</strong> tidak menjamin hasil; semua
-        perhitungan menggunakan asumsi konservatif yang sudah diatur dalam
-        ilustrasi resmi.
-      </li>
-    </ul>
-  </section>
-</template>
+<!-- SCRIPT PDF -->
 <script>
-  (function () {
-    const premiSelect = document.getElementById("premi-select");
-    const premiInfoText = document.getElementById("premi-info-text");
-    const totalSetoranText = document.getElementById("total-setoran-text");
-    const ilustrasiImg = document.getElementById("ilustrasi-img");
-    const detailContainer = document.getElementById("ilustrasi-detail");
+document.addEventListener("DOMContentLoaded", function () {
 
-    function formatRupiah(num) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0,
-      }).format(num);
-    }
+  const pdfViewer = document.getElementById("pdfViewer");
+  const select = document.getElementById("premiSelect");
+  const loading = document.getElementById("loading");
 
-    function updatePremi() {
-      const value = premiSelect.value;
+  const baseURL =
+    "https://raw.githubusercontent.com/3ireborn/pendaftaran-online/main/ilustrasi/";
 
-      const premi = parseInt(value, 10);
-      const totalSetoran = premi * 60;
-      totalSetoranText.textContent = formatRupiah(totalSetoran);
+  const pdfMap = {
+    "350": "premi-350.pdf",
+    "500": "premi-500.pdf",
+    "700": "premi-700.pdf",
+    "1000": "premi-1000.pdf",
+    "2000": "premi-2000.pdf"
+  };
 
-      premiInfoText.textContent =
-        "(Premi " +
-        formatRupiah(premi) +
-        "/bulan – Masa Bayar 5 Tahun – Masa Kepesertaan 7 Tahun)";
+  function updatePdf(premi) {
+    loading.style.display = "block";
+    pdfViewer.style.opacity = "0.2";
 
-      let src = "img/istikmal-350k.jpg";
-      if (value === "350000") src = "img/istikmal-350k.jpg";
-      else if (value === "500000") src = "img/istikmal-500k.jpg";
-      else if (value === "700000") src = "img/istikmal-700k.jpg";
-      else if (value === "1000000") src = "img/istikmal-1000k.jpg";
-      else if (value === "2000000") src = "img/istikmal-2000k.jpg";
+    setTimeout(() => {
+      const fileName = pdfMap[premi];
+      pdfViewer.src = baseURL + fileName;
+      loading.style.display = "none";
+      pdfViewer.style.opacity = "1";
+    }, 900);
+  }
 
-      ilustrasiImg.src = src;
+  select.addEventListener("change", function () {
+    updatePdf(this.value);
+  });
 
-      if (value === "350000") {
-        const tpl = document.getElementById("template-350");
-        detailContainer.innerHTML = tpl.innerHTML;
-      } else {
-        const tpl = document.getElementById("template-generic");
-        detailContainer.innerHTML = tpl.innerHTML;
-      }
-    }
-
-    premiSelect.addEventListener("change", updatePremi);
-    updatePremi();
-  })();
+  updatePdf(select.value);
+});
 </script>
 
 </body>
