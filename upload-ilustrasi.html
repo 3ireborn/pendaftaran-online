@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload PDF Ilustrasi Istikmal</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f3f7f5;
+      color: #0b3d2e;
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    p {
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px 16px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-top: 18px;
+    }
+    .label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 14px;
+    }
+    input[type="password"],
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 12px;
+      border: 1.5px solid #0b3d2e33;
+      padding: 10px 12px;
+      font-size: 15px;
+      outline: none;
+    }
+    input[type="password"]:focus,
+    input[type="text"]:focus,
+    input[type="file"]:focus {
+      border-color: #0b8f5a;
+      box-shadow: 0 0 0 1px #0b8f5a22;
+    }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 11px 16px;
+      margin-top: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      background: linear-gradient(135deg,#0b8f5a,#0b5a3c);
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .note {
+      font-size: 13px;
+      color: #446;
+      margin-top: 6px;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .status.ok {
+      color: #0b8f5a;
+    }
+    .status.err {
+      color: #b00020;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #0b8f5a11;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0b5a3c;
+      margin-bottom: 6px;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .checkbox-row input {
+      width: 16px;
+      height: 16px;
+    }
+    .muted {
+      font-size: 12px;
+      color: #667;
+      margin-top: 8px;
+    }
+    .badge-admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #0b3d2e;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .small {
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <h1>🗂️ Upload PDF Ilustrasi Istikmal</h1>
+  <p class="small">
+    Halaman khusus admin untuk mengunggah file ilustrasi resmi
+    (<strong>premi-350.pdf</strong>, <strong>premi-500.pdf</strong>, dll)
+    ke folder <code>ilustrasi/</code> di GitHub.
+  </p>
+
+  <!-- CARD LOGIN ADMIN -->
+  <div id="loginCard" class="card">
+    <div class="pill">🔐 Admin Login</div>
+    <label class="label" for="adminPass">Password admin</label>
+    <input
+      id="adminPass"
+      type="password"
+      placeholder="Masukkan password admin"
+      autocomplete="off"
+    />
+    <button id="btnLogin" class="btn">Masuk sebagai admin</button>
+    <div id="loginStatus" class="status"></div>
+    <p class="muted">
+      Password ini <strong>bukan</strong> password GitHub.  
+      Khusus untuk mengunci halaman upload ini saja.
+    </p>
+  </div>
+
+  <!-- CARD UPLOADER (disembunyikan dulu) -->
+  <div id="uploaderCard" class="card" style="display:none;">
+    <div class="badge-admin">
+      👑 Admin mode aktif
+      <span id="adminIndicator"></span>
+    </div>
+
+    <div class="pill">📤 Upload ke folder: <code>ilustrasi/</code></div>
+
+    <label class="label" for="tokenInput">GitHub Personal Access Token</label>
+    <input
+      id="tokenInput"
+      type="password"
+      placeholder="ghp_xxxxxxxxxxxxxxxxxxxxx"
+      autocomplete="off"
+    />
+    <div class="checkbox-row">
+      <input type="checkbox" id="rememberToken" />
+      <label for="rememberToken">Simpan token di HP ini (biar nggak ketik lagi)</label>
+    </div>
+
+    <p class="note">
+      Token minimal punya izin <code>repo</code>.  
+      Kalau sudah pernah buat, pakai yang lama saja.
+    </p>
+
+    <label class="label" for="fileInput">Pilih file PDF ilustrasi</label>
+    <input id="fileInput" type="file" accept="application/pdf" />
+
+    <p class="note">
+      Disarankan nama file:
+      <code>premi-350.pdf</code>,
+      <code>premi-500.pdf</code>,
+      <code>premi-700.pdf</code>,
+      <code>premi-1000.pdf</code>,
+      <code>premi-2000.pdf</code>.
+    </p>
+
+    <button id="btnUpload" class="btn">🚀 Upload ke GitHub</button>
+
+    <div id="uploadStatus" class="status"></div>
+
+    <p class="muted">
+      Token dan file hanya dikirim langsung ke GitHub melalui HTTPS.  
+      Halaman ini statis di GitHub Pages — tidak ada server lain.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  // ====== KONFIGURASI DASAR ======
+  const ADMIN_PASSWORD = "nganggur3i"; // password admin dari kamu
+  const OWNER = "3ireborn";
+  const REPO  = "pendaftaran-online";
+  const BRANCH = "main";
+  const TARGET_FOLDER = "ilustrasi";
+
+  const STORAGE_KEYS = {
+    admin:  "ilustrasiAdminOK",
+    token:  "ilustrasiGithubToken",
+    remember: "ilustrasiRememberToken"
+  };
+
+  // ====== ELEMENT DOM ======
+  const loginCard     = document.getElementById("loginCard");
+  const uploaderCard  = document.getElementById("uploaderCard");
+  const adminPass     = document.getElementById("adminPass");
+  const btnLogin      = document.getElementById("btnLogin");
+  const loginStatus   = document.getElementById("loginStatus");
+
+  const tokenInput    = document.getElementById("tokenInput");
+  const rememberToken = document.getElementById("rememberToken");
+  const fileInput     = document.getElementById("fileInput");
+  const btnUpload     = document.getElementById("btnUpload");
+  const uploadStatus  = document.getElementById("uploadStatus");
+  const adminIndicator= document.getElementById("adminIndicator");
+
+  // ====== FUNGSI BANTU ======
+  function showStatus(el, message, type) {
+    el.textContent = message;
+    el.className = "status " + (type || "");
+  }
+
+  function base64Encode(arrayBuffer) {
+    let binary = "";
+    const bytes = new Uint8Array(arrayBuffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
+  function setLoading(isLoading) {
+    btnUpload.disabled = isLoading;
+    btnUpload.textContent = isLoading ? "⏳ Mengunggah..." : "🚀 Upload ke GitHub";
+  }
+
+  // ====== LOGIN ADMIN ======
+  function openUploader() {
+    loginCard.style.display = "none";
+    uploaderCard.style.display = "block";
+    adminIndicator.textContent = "(password benar)";
+  }
+
+  // Cek apakah sudah pernah login admin di HP ini
+  (function initAdmin() {
+    const isAdmin = localStorage.getItem(STORAGE_KEYS.admin) === "yes";
+    if (isAdmin) {
+      openUploader();
+    }
+  })();
+
+  btnLogin.addEventListener("click", function () {
+    const pass = adminPass.value.trim();
+    if (!pass) {
+      showStatus(loginStatus, "Password tidak boleh kosong.", "err");
+      return;
+    }
+    if (pass !== ADMIN_PASSWORD) {
+      showStatus(loginStatus, "Password salah. Coba lagi.", "err");
+      return;
+    }
+    localStorage.setItem(STORAGE_KEYS.admin, "yes");
+    showStatus(loginStatus, "Berhasil! Mode admin aktif.", "ok");
+    setTimeout(openUploader, 400);
+  });
+
+  // ====== MUAT TOKEN DARI LOCALSTORAGE ======
+  (function initToken() {
+    const remember = localStorage.getItem(STORAGE_KEYS.remember) === "yes";
+    rememberToken.checked = remember;
+    if (remember) {
+      const savedToken = localStorage.getItem(STORAGE_KEYS.token);
+      if (savedToken) {
+        tokenInput.value = savedToken;
+      }
+    }
+  })();
+
+  rememberToken.addEventListener("change", function () {
+    localStorage.setItem(STORAGE_KEYS.remember, this.checked ? "yes" : "no");
+    if (!this.checked) {
+      localStorage.removeItem(STORAGE_KEYS.token);
+    }
+  });
+
+  // ====== FUNGSI UPLOAD KE GITHUB ======
+  async function uploadFile() {
+    uploadStatus.textContent = "";
+
+    const token = tokenInput.value.trim();
+    const file  = fileInput.files[0];
+
+    if (!token) {
+      showStatus(uploadStatus, "Token GitHub belum diisi.", "err");
+      return;
+    }
+    if (!file) {
+      showStatus(uploadStatus, "Pilih file PDF terlebih dahulu.", "err");
+      return;
+    }
+    if (!file.name.toLowerCase().endsWith(".pdf")) {
+      showStatus(uploadStatus, "File harus berformat .pdf", "err");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      showStatus(uploadStatus, "Membaca file dan menyiapkan upload…");
+
+      // Simpan token lokal jika diminta
+      if (rememberToken.checked) {
+        localStorage.setItem(STORAGE_KEYS.token, token);
+      }
+
+      // Baca file -> base64
+      const arrayBuffer = await file.arrayBuffer();
+      const contentBase64 = base64Encode(arrayBuffer);
+
+      const path = `${TARGET_FOLDER}/${file.name}`;
+      const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}`;
+
+      // Cek apakah file sudah ada untuk ambil SHA
+      let existingSha = null;
+      const headRes = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
+      if (headRes.ok) {
+        const headJson = await headRes.json();
+        existingSha = headJson.sha;
+      }
+
+      showStatus(uploadStatus, "Mengupload ke GitHub…");
+
+      const putBody = {
+        message: `Upload ilustrasi ${file.name}`,
+        content: contentBase64,
+        branch: BRANCH
+      };
+      if (existingSha) {
+        putBody.sha = existingSha;
+      }
+
+      const putRes = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(putBody)
+      });
+
+      const result = await putRes.json();
+
+      if (!putRes.ok) {
+        console.error("GitHub error:", result);
+        let msg = "Gagal upload ke GitHub.";
+        if (result && result.message) msg += " (" + result.message + ")";
+        showStatus(uploadStatus, msg, "err");
+        return;
+      }
+
+      const htmlUrl = result.content && result.content.html_url
+        ? result.content.html_url
+        : apiUrl.replace("api.github.com/repos", "github.com").replace("/contents/", "/blob/");
+
+      showStatus(
+        uploadStatus,
+        `✅ Berhasil upload <strong>${file.name}</strong> ke folder <code>${TARGET_FOLDER}</code>.<br>` +
+        `Link file: <a href="${htmlUrl}" target="_blank" rel="noopener noreferrer">${htmlUrl}</a>`,
+        "ok"
+      );
+    } catch (err) {
+      console.error(err);
+      showStatus(uploadStatus, "Terjadi error jaringan / browser: " + err.message, "err");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  btnUpload.addEventListener("click", uploadFile);
+</script>
+</body>
+</html>
