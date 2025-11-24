@@ -1,689 +1,426 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ilustrasi Nilai Investasi Istikmal 3iReborn</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilustrasi Nilai Investasi Istikmal 3iReborn – Premi 500rb/bulan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f5f8f7;
-      --card: #ffffff;
-      --primary: #0b6445;
-      --primary-soft: #e3f2eb;
-      --accent: #18a067;
-      --text-main: #063528;
-      --text-muted: #556b5f;
-      --border-soft: #d3e1d9;
-      --shadow-soft: 0 12px 30px rgba(6, 53, 40, 0.08);
-      --radius-lg: 18px;
-      --radius-md: 14px;
-      --radius-pill: 999px;
-      --transition-fast: 0.22s ease-out;
+    :root{
+      --bg:#f3f7f5;
+      --card:#ffffff;
+      --ink:#0b3d2e;
+      --muted:#6b7280;
+      --accent:#0b3d91;
+      --accent-soft:#dbeafe;
+      --accent-gold:#fbbf24;
+      --border:#e5e7eb;
+      --cta:#16a34a;
+      --cta-hover:#15803d;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .wrap{
+      max-width:960px;
+      margin:0 auto;
+      padding:20px 16px 40px;
+    }
+    .hero{
+      background:linear-gradient(135deg,#020617,#0f172a);
+      color:#f9fafb;
+      border-radius:18px;
+      padding:26px 20px 24px;
+      margin-bottom:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      background:radial-gradient(circle at top right,rgba(248,250,252,.08),transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero-inner{position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:12px;
+      background:rgba(15,23,42,.8);
+      border:1px solid rgba(248,250,252,.12);
+      margin-bottom:8px;
+    }
+    .eyebrow span{color:var(--accent-gold);font-weight:600}
+    .hero h1{
+      font-size:24px;
+      line-height:1.4;
+      margin-bottom:10px;
+    }
+    .hero p{
+      font-size:14px;
+      color:#e5e7eb;
+      max-width:620px;
+    }
+    .badge-premi{
+      margin-top:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(22,163,74,.12);
+      color:#bbf7d0;
+      font-size:13px;
+      font-weight:600;
+      border:1px solid rgba(34,197,94,.4);
+    }
+    .badge-premi strong{color:#4ade80}
+
+    section{
+      background:var(--card);
+      border-radius:16px;
+      border:1px solid var(--border);
+      padding:18px 16px 20px;
+      margin-bottom:14px;
+    }
+    @media(min-width:768px){
+      .hero{padding:32px 26px 28px}
+      .hero h1{font-size:28px}
+      section{padding:22px 20px 24px}
     }
 
-    * {
-      box-sizing: border-box;
+    h2{
+      font-size:18px;
+      margin-bottom:8px;
+      color:var(--accent);
     }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, sans-serif;
-      background: radial-gradient(circle at top left, #eef7f3, #f6faf8);
-      color: var(--text-main);
+    h3{
+      font-size:15px;
+      margin:12px 0 6px;
+      color:var(--ink);
     }
-
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px 16px 32px;
+    p{margin-bottom:8px;font-size:14px;}
+    ul,ol{margin:4px 0 8px 20px;font-size:14px;}
+    li{margin:2px 0 4px;}
+    .pill{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      font-size:11px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      margin-bottom:8px;
+      font-weight:600;
     }
-
-    @media (min-width: 768px) {
-      .page {
-        padding: 32px 20px 40px;
+    .highlight{color:#0a5c3b;font-weight:600}
+    .note{
+      background:#fffbeb;
+      border-radius:12px;
+      padding:10px 12px;
+      border:1px solid #fef3c7;
+      font-size:13px;
+      color:#92400e;
+    }
+    .two-col{
+      display:grid;
+      gap:12px;
+    }
+    @media(min-width:780px){
+      .two-col{
+        grid-template-columns:1.1fr .9fr;
       }
     }
-
-    .badge-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      border-radius: var(--radius-pill);
-      background: rgba(11, 100, 69, 0.06);
-      color: var(--primary);
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 12px;
+    .check-list li::marker{color:#16a34a}
+    .cta-box{
+      text-align:center;
+      padding-top:6px;
     }
-
-    .badge-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), #53d394);
-      box-shadow: 0 0 0 5px rgba(24, 160, 103, 0.15);
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:12px 22px;
+      border-radius:999px;
+      background:var(--cta);
+      color:#ecfdf3;
+      border:none;
+      font-weight:700;
+      font-size:15px;
+      margin-top:6px;
+      text-decoration:none;
+      cursor:pointer;
+      transition:.18s;
+      box-shadow:0 10px 30px rgba(22,163,74,.35);
     }
-
-    h1 {
-      margin: 0 0 6px;
-      font-size: 26px;
-      line-height: 1.3;
-      letter-spacing: 0.01em;
+    .cta-btn:hover{
+      background:var(--cta-hover);
+      transform:translateY(-1px);
+      box-shadow:0 14px 36px rgba(22,163,74,.45);
     }
-
-    .subtitle {
-      margin: 0 0 18px;
-      font-size: 14px;
-      color: var(--text-muted);
+    .cta-sub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
     }
-
-    .sub-meta {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
+    .divider{
+      height:1px;
+      background:linear-gradient(to right,transparent,#e5e7eb,transparent);
+      margin:10px 0 12px;
     }
-
-    .highlight {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 16px 20px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(211, 225, 217, 0.8);
-      position: relative;
-      overflow: hidden;
-    }
-
-    @media (min-width: 768px) {
-      .card {
-        padding: 22px 22px 24px;
-      }
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border-radius: inherit;
-      background: radial-gradient(
-        circle at top left,
-        rgba(24, 160, 103, 0.06),
-        transparent 60%
-      );
-      opacity: 0.8;
-    }
-
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 14px;
-      background: var(--primary-soft);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .card-title {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .card-sub {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    select {
-      width: 100%;
-      padding: 13px 14px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border-soft);
-      font-size: 15px;
-      background: #fdfefe;
-      color: var(--text-main);
-      outline: none;
-      transition: border-color var(--transition-fast),
-        box-shadow var(--transition-fast), transform var(--transition-fast);
-      appearance: none;
-      background-image: linear-gradient(
-          45deg,
-          transparent 50%,
-          var(--primary) 50%
-        ),
-        linear-gradient(135deg, var(--primary) 50%, transparent 50%);
-      background-position: calc(100% - 18px) calc(50% - 3px),
-        calc(100% - 13px) calc(50% - 3px);
-      background-size: 7px 7px, 7px 7px;
-      background-repeat: no-repeat;
-    }
-
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(24, 160, 103, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .pdf-shell {
-      margin-top: 14px;
-      border-radius: var(--radius-md);
-      background: #0b1f17;
-      padding: 8px;
-      position: relative;
-      box-shadow: 0 10px 26px rgba(3, 20, 13, 0.5);
-      overflow: hidden;
-    }
-
-    .pdf-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(24, 160, 103, 0.18),
-        transparent 40%,
-        rgba(255, 255, 255, 0.08)
-      );
-      mix-blend-mode: soft-light;
-      pointer-events: none;
-    }
-
-    .pdf-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      color: #b3c7bc;
-      padding: 4px 2px 6px;
-    }
-
-    .pdf-toolbar-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #ff6b6b;
-    }
-
-    .dot:nth-child(2) {
-      background: #ffd93b;
-    }
-
-    .dot:nth-child(3) {
-      background: #51cf66;
-    }
-
-    .pdf-frame {
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      background: #000;
-      border: 1px solid #123426;
-    }
-
-    iframe {
-      width: 100%;
-      height: min(620px, 85vh);
-      border: none;
-      display: block;
-      transition: opacity 0.35s ease-out, filter 0.35s ease-out;
-    }
-
-    .pdf-loading-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, #0c1c15, #020806);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #e3f2eb;
-      text-align: center;
-      padding: 16px;
-      transition: opacity 0.3s ease-out;
-      pointer-events: none;
-    }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      border: 3px solid rgba(227, 242, 235, 0.25);
-      border-top-color: #53d394;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 10px;
-    }
-
-    .pdf-loading-text {
-      font-size: 13px;
-      color: #d3f6e5;
-    }
-
-    .pdf-url {
-      font-size: 10px;
-      opacity: 0.65;
-      margin-top: 4px;
-      word-break: break-all;
-    }
-
-    .btn-row {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .btn {
-      border-radius: var(--radius-pill);
-      border: none;
-      font-size: 13px;
-      padding: 9px 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      transition: background var(--transition-fast),
-        box-shadow var(--transition-fast), transform var(--transition-fast),
-        color var(--transition-fast);
-      outline: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: #ffffff;
-      box-shadow: 0 12px 20px rgba(11, 100, 69, 0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 26px rgba(11, 100, 69, 0.42);
-    }
-
-    .btn-ghost {
-      background: rgba(11, 100, 69, 0.05);
-      color: var(--primary);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(11, 100, 69, 0.1);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: #ffffff;
-      color: var(--primary);
-      border: 1px solid var(--border-soft);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      box-shadow: 0 8px 16px rgba(6, 53, 40, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .btn-icon {
-      font-size: 15px;
-    }
-
-    .section-list {
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .section-list li + li {
-      margin-top: 4px;
-    }
-
-    .text-muted {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .warning-card {
-      background: #fff7e8;
-      border-radius: var(--radius-lg);
-      padding: 16px 14px 18px;
-      border: 1px solid rgba(255, 184, 64, 0.5);
-      box-shadow: 0 10px 24px rgba(179, 132, 47, 0.15);
-      margin-top: 4px;
-    }
-
-    @media (min-width: 768px) {
-      .warning-card {
-        padding: 18px 18px 20px;
-      }
-    }
-
-    .warning-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #9a5b06;
-    }
-
-    .warning-title span {
-      font-size: 18px;
-    }
-
-    .warning-text {
-      margin: 0;
-      font-size: 14px;
-      color: #6b4a1b;
-    }
-
-    .footer-note {
-      margin-top: 18px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in {
-      animation: fadeInUp 0.45s ease-out both;
+    footer{
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <!-- HEADER -->
-    <div class="badge-title fade-in">
-      <span class="badge-dot"></span>
-      <span>Simulasi manfaat Asuransi + Investasi Syariah</span>
-    </div>
+  <div class="wrap">
 
-    <h1 class="fade-in">📘 ILUSTRASI MANFAAT NILAI INVESTASI — ISTIKMAL 3iReborn</h1>
-    <p class="subtitle fade-in">
-      <strong>Untuk: <span id="namaPeserta">Anda</span></strong>
-    </p>
-    <p class="sub-meta fade-in">
-      (Premi sesuai pilihan — Masa Bayar <span class="highlight">5 Tahun</span> — Masa Kepesertaan
-      <span class="highlight">7 Tahun</span>)
-    </p>
-
-    <!-- CARD PREMI + PDF -->
-    <section class="card fade-in">
-      <div class="card-inner">
-        <header class="card-header">
-          <div class="card-icon">💰</div>
-          <div>
-            <h2 class="card-title">Pilih Premi Bulanan</h2>
-            <p class="card-sub">Sesuaikan dengan kemampuan &amp; target finansial (Umroh, pendidikan, dll).</p>
-          </div>
-        </header>
-
-        <label for="premiSelect" class="text-muted" style="display:block;margin-bottom:6px;font-size:13px;">
-          Premi bulanan:
-        </label>
-        <select id="premiSelect">
-          <option value="500">Premi Rp 500.000 / bulan (Rekomendasi Umroh)</option>
-          <option value="350">Premi Rp 350.000 / bulan</option>
-          <option value="700">Premi Rp 700.000 / bulan</option>
-          <option value="1000">Premi Rp 1.000.000 / bulan</option>
-          <option value="2000">Premi Rp 2.000.000 / bulan</option>
-        </select>
-
-        <!-- PDF VIEWER SHELL -->
-        <div class="pdf-shell">
-          <div class="pdf-toolbar">
-            <div class="pdf-toolbar-left">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span style="margin-left:8px;">Ilustrasi resmi Istikmal (MOBISS)</span>
-            </div>
-            <div id="premiLabelMini">Premi 500k</div>
-          </div>
-
-          <div class="pdf-frame">
-            <iframe id="pdfViewer" title="Ilustrasi Istikmal 3iReborn"></iframe>
-            <div id="pdfLoading" class="pdf-loading-overlay">
-              <div class="spinner"></div>
-              <div class="pdf-loading-text">
-                Memuat ilustrasi resmi dari sistem MOBISS 3iReborn…
-              </div>
-              <div id="pdfUrlInfo" class="pdf-url"></div>
-            </div>
-          </div>
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">
+          <span>ISTIKMAL 3iReborn</span>
+          • Proteksi • Investasi • Income
         </div>
-
-        <!-- ACTION BUTTONS -->
-        <div class="btn-row">
-          <button id="btnDownload" class="btn btn-primary" type="button">
-            <span class="btn-icon">⬇️</span>
-            <span>Download PDF</span>
-          </button>
-
-          <button id="btnWhatsApp" class="btn btn-ghost" type="button">
-            <span class="btn-icon">📲</span>
-            <span>Kirim via WhatsApp</span>
-          </button>
-
-          <a href="./" class="btn btn-secondary" style="margin-left:auto;">
-            <span class="btn-icon">🏠</span>
-            <span>Kembali ke Dashboard</span>
-          </a>
+        <h1>
+          Bukan Sekadar Menabung. Ini Cara Cerdas & Syariah untuk Merencanakan Umroh
+          <span style="color:#facc15;">+ Melindungi Keluarga.</span>
+        </h1>
+        <p>
+          Dengan kontribusi <strong>Rp 500.000 per bulan</strong>, Anda membangun dana
+          Umroh sambil mendapatkan perlindungan jiwa dan nilai investasi yang terus
+          bertumbuh secara Syariah.
+        </p>
+        <div class="badge-premi">
+          Premi tetap: <strong>Rp 500.000/bulan</strong> • Masa bayar 5 tahun •
+          Masa kepesertaan 7 tahun
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- PENJELASAN SINGKAT -->
-    <section class="card fade-in">
-      <div class="card-inner">
-        <header class="card-header">
-          <div class="card-icon">🧩</div>
-          <div>
-            <h2 class="card-title">Penjelasan Singkat</h2>
-            <p class="card-sub">Cara kerja premi Istikmal Syariah di 3iReborn.</p>
-          </div>
-        </header>
-
-        <p class="text-muted">
-          Setiap premi yang disetorkan setiap bulan secara otomatis akan terbagi menjadi beberapa komponen:
-        </p>
-        <ul class="section-list">
-          <li>Ujrah / biaya kepesertaan</li>
-          <li>Iuran Tabarru’ (dana tolong-menolong sesama peserta)</li>
-          <li>Iuran Pengelolaan Risiko</li>
-          <li>Dana Investasi Peserta (dialokasikan ke instrumen Syariah)</li>
-        </ul>
-
-        <p class="text-muted" style="margin-top:10px;">
-          Setelah dikurangi biaya-biaya tersebut, sisa premi diinvestasikan ke instrumen
-          <strong>Syariah</strong> sesuai ketentuan
-          <strong>CAR Life Insurance</strong>. Nilai investasi akan berkembang mengikuti kinerja portofolio
-          investasi perusahaan.
-        </p>
-      </div>
-    </section>
-
-    <!-- CATATAN PENTING -->
-    <section class="warning-card fade-in">
-      <div class="warning-title">
-        <span>⚠️</span>
-        <span>Catatan Penting &amp; Disclaimer Resmi</span>
-      </div>
-      <p class="warning-text">
-        Halaman ini hanya ilustrasi edukasi untuk membantu menjelaskan manfaat Istikmal Syariah dan
-        budaya menabung jangka menengah.
-        <br /><br />
-        Seluruh angka kontribusi, ujrah, nilai investasi, dan manfaat Asuransi yang Anda lihat pada PDF
-        di atas <strong>diambil langsung dari file ilustrasi resmi CAR Life Insurance melalui sistem MOBISS
-        3iReborn</strong>. Agen dan mitra <strong>tidak diperkenankan mengubah angka</strong> pada ilustrasi
-        resmi tersebut.
-        <br /><br />
-        Hasil investasi di masa depan tidak dijamin dan dapat naik atau turun mengikuti kinerja
-        investasi. Keputusan akhir penerimaan polis, manfaat, dan nilai tunai tetap mengacu pada
-        ketentuan resmi perusahaan.
+    <!-- SEKSI 1: MENGAPA -->
+    <section>
+      <span class="pill">📌 Mengapa Banyak Orang Memilih Program Ini?</span>
+      <h2>Kenapa Istikmal 3iReborn Bukan Tabungan Biasa?</h2>
+      <p>
+        Banyak orang ingin berangkat Umroh, tapi sering tertunda karena:
+      </p>
+      <ul>
+        <li>Tabungan tidak disiplin & sering terpakai untuk kebutuhan lain.</li>
+        <li>Belum punya sistem yang jelas dan terukur untuk mencapai target dana.</li>
+        <li>Ragu dengan produk keuangan yang tidak transparan dan tidak Syariah.</li>
+      </ul>
+      <p>
+        Program <strong>Istikmal 3iReborn</strong> hadir sebagai solusi:
+        <span class="highlight">bukan hanya menabung, tetapi
+        membangun dana Umroh dengan skema proteksi & investasi berbasis Syariah</span>
+        yang dikelola oleh <strong>CAR Life Insurance</strong>.
       </p>
     </section>
 
-    <p class="footer-note fade-in">
-      3iReborn • Istikmal Syariah • CAR Life Insurance — digunakan untuk presentasi internal &amp; edukasi
-      calon peserta.
-    </p>
-  </main>
+    <!-- SEKSI 2: PREMI 500K -->
+    <section class="two-col">
+      <div>
+        <span class="pill">💰 Fokus: Premi Rp 500.000/bulan</span>
+        <h2>Kenapa Premi 500 Ribu Ideal untuk Target Umroh?</h2>
+        <p>
+          Premi <strong>Rp 500.000/bulan</strong> dipilih sebagai angka yang
+          <strong>masih terjangkau</strong> namun cukup kuat untuk membangun
+          dana jangka menengah:
+        </p>
+        <ul class="check-list">
+          <li>Masih realistis untuk banyak keluarga Indonesia.</li>
+          <li>Cukup kuat untuk mengejar target biaya Umroh beberapa tahun ke depan.</li>
+          <li>Didukung sistem investasi Syariah yang terukur.</li>
+        </ul>
+        <p>
+          Polanya sederhana:
+        </p>
+        <ul>
+          <li><strong>Masa bayar:</strong> 5 tahun (60 kali setor premi).</li>
+          <li><strong>Masa kepesertaan:</strong> 7 tahun (2 tahun berikutnya dana dibiarkan tumbuh).</li>
+          <li><strong>Tujuan utama:</strong> Dana Umroh + Proteksi keluarga.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Ringkasan Manfaat Utama</h3>
+        <ul class="check-list">
+          <li><strong>Proteksi jiwa</strong> selama masa kepesertaan.</li>
+          <li><strong>Nilai investasi</strong> terbentuk dan terus berkembang.</li>
+          <li><strong>Berbasis Syariah</strong>, bebas riba & spekulasi.</li>
+          <li><strong>Berpotensi mendekati target dana Umroh</strong> dalam 5–7 tahun.</li>
+        </ul>
+        <div class="note">
+          <strong>Penting:</strong> Angka detail & nilai akhir
+          mengikuti <strong>ilustrasi resmi</strong> dari sistem
+          <strong>MOBISS 3iReborn – CAR Life Insurance</strong>.
+          Halaman ini bersifat penjelasan edukasi, bukan simulasi angka resmi.
+        </div>
+      </div>
+    </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // --- Nama peserta dari query string (?nama=...)
-      const params = new URLSearchParams(window.location.search);
-      const nama = params.get("nama");
-      if (nama) {
-        document.getElementById("namaPeserta").textContent = nama;
-      }
+    <!-- SEKSI 3: CARA KERJA -->
+    <section>
+      <span class="pill">⚙️ Cara Kerja (Bahasa Sederhana)</span>
+      <h2>Bagaimana Program Ini Bekerja Setiap Bulan?</h2>
+      <p>Setiap kali Anda membayar premi Rp 500.000 per bulan, dananya akan dialokasikan ke beberapa komponen:</p>
+      <ol>
+        <li><strong>Ujrah / biaya kepesertaan</strong> – biaya pengelolaan program.</li>
+        <li><strong>Iuran Tabarru’</strong> – dana tolong-menolong antar peserta sesuai prinsip Syariah.</li>
+        <li><strong>Iuran risiko</strong> – terkait manfaat perlindungan jiwa.</li>
+        <li><strong>Dana investasi peserta</strong> – bagian yang diinvestasikan ke aset Syariah.</li>
+      </ol>
+      <p>
+        <span class="highlight">Sisa dana setelah biaya, masuk ke dana investasi peserta.</span>
+        Dana inilah yang dikelola secara profesional oleh CAR Life Insurance dalam
+        instrumen <strong>keuangan Syariah</strong>.
+      </p>
+      <div class="divider"></div>
+      <p>
+        Selama <strong>5 tahun masa bayar</strong>, dana investasi terus terbentuk.
+        Lalu pada <strong>tahun ke-6 dan ke-7</strong>, meskipun premi tidak lagi dibayar,
+        <span class="highlight">nilai investasi tetap bekerja & berpotensi terus tumbuh</span>.
+      </p>
+    </section>
 
-      const baseURL =
-        "https://raw.githubusercontent.com/3ireborn/pendaftaran-online/main/ilustrasi/";
+    <!-- SEKSI 4: PROTEKSI -->
+    <section class="two-col">
+      <div>
+        <span class="pill">🛡️ Proteksi yang Menenangkan</span>
+        <h2>Selama Menabung, Keluarga Tetap Terlindungi</h2>
+        <p>
+          Berbeda dengan tabungan biasa, program ini memberikan <strong>manfaat perlindungan jiwa</strong>.
+        </p>
+        <p>Secara garis besar, manfaat proteksi meliputi:</p>
+        <ul>
+          <li><strong>Jika peserta meninggal dunia</strong> (sesuai ketentuan polis), ahli waris berhak atas manfaat asuransi.</li>
+          <li>Selain itu, <strong>nilai investasi yang sudah terbentuk</strong> juga menjadi hak ahli waris.</li>
+        </ul>
+        <p>
+          Jadi, saat Anda menyiapkan dana Umroh, keluarga juga mendapatkan perlindungan finansial apabila terjadi risiko.
+        </p>
+      </div>
+      <div>
+        <h3>Ilustrasi Sederhana</h3>
+        <p>
+          Misalnya dalam perjalanan 5–7 tahun:
+        </p>
+        <ul>
+          <li>Jika Allah memanggil lebih cepat, keluarga tetap menerima manfaat.</li>
+          <li>Jika sehat sampai akhir masa kepesertaan, Anda menerima nilai investasi yang terbentuk.</li>
+        </ul>
+        <p>
+          <span class="highlight">Ini yang membuat program ini berbeda dari tabungan manual biasa.</span>
+        </p>
+      </div>
+    </section>
 
-      const pdfMap = {
-        "350": "premi-350.pdf",
-        "500": "premi-500.pdf",
-        "700": "premi-700.pdf",
-        "1000": "premi-1000.pdf",
-        "2000": "premi-2000.pdf"
-      };
+    <!-- SEKSI 5: FOKUS UMROH -->
+    <section>
+      <span class="pill">🕋 Fokus Target: Dana Umroh</span>
+      <h2>Menjadikan Premi 500 Ribu/Bulan Sebagai “Mesin Menuju Umroh”</h2>
+      <p>
+        Tujuan utama dari kontribusi Rp 500.000/bulan ini adalah
+        <strong>membangun dana terarah untuk Umroh</strong>.
+      </p>
+      <p>
+        Dengan disiplin selama 5 tahun dan masa kepesertaan 7 tahun, dana yang terkumpul dan berkembang
+        bisa diarahkan untuk:
+      </p>
+      <ul>
+        <li>Biaya paket Umroh utama.</li>
+        <li>Biaya paspor & administrasi perjalanan.</li>
+        <li>Biaya perlengkapan ibadah & kebutuhan pribadi.</li>
+        <li>Cadangan finansial selama perjalanan.</li>
+      </ul>
+      <p>
+        Polanya bukan “kalau ada sisa uang lalu ditabung”, tetapi
+        <span class="highlight">membalik konsepnya menjadi: sisihkan dulu untuk ibadah, baru atur kebutuhan lain.</span>
+      </p>
+      <div class="note" style="margin-top:10px;">
+        <strong>Catatan:</strong> Nominal akhir dan proyeksi hasil investasi yang lebih detail
+        selalu mengacu pada <strong>ilustrasi resmi di sistem MOBISS 3iReborn</strong>,
+        yang akan dijelaskan langsung oleh agen/leaders Anda.
+      </div>
+    </section>
 
-      const pdfViewer = document.getElementById("pdfViewer");
-      const pdfLoading = document.getElementById("pdfLoading");
-      const pdfUrlInfo = document.getElementById("pdfUrlInfo");
-      const premiSelect = document.getElementById("premiSelect");
-      const premiLabelMini = document.getElementById("premiLabelMini");
-      const btnDownload = document.getElementById("btnDownload");
-      const btnWhatsApp = document.getElementById("btnWhatsApp");
+    <!-- SEKSI 6: SIAPA COCOK -->
+    <section class="two-col">
+      <div>
+        <span class="pill">🎯 Untuk Siapa Program Ini Cocok?</span>
+        <h2>Profil Peserta yang Tepat</h2>
+        <p>Program Istikmal 3iReborn dengan premi 500 ribu cocok untuk Anda yang:</p>
+        <ul class="check-list">
+          <li>Ingin merencanakan Umroh dalam jangka 5–7 tahun ke depan.</li>
+          <li>Mengutamakan program keuangan berbasis <strong>Syariah</strong>.</li>
+          <li>Ingin sekaligus melindungi keluarga saat menabung.</li>
+          <li>Sanggup disiplin menyisihkan Rp 500.000/bulan secara konsisten.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Kenapa Harus Mulai dari Sekarang?</h3>
+        <ul>
+          <li>Biaya Umroh cenderung naik dari tahun ke tahun.</li>
+          <li>Semakin cepat mulai, semakin ringan beban bulanannya.</li>
+          <li>Waktu 5–7 tahun akan terasa cepat jika tidak ada perencanaan.</li>
+        </ul>
+        <p>
+          <span class="highlight">Bismillah, langkah kecil yang konsisten hari ini
+          jauh lebih kuat daripada rencana besar yang terus ditunda.</span>
+        </p>
+      </div>
+    </section>
 
-      function formatPremiLabel(p) {
-        switch (p) {
-          case "350":
-            return "Premi 350k";
-          case "500":
-            return "Premi 500k";
-          case "700":
-            return "Premi 700k";
-          case "1000":
-            return "Premi 1 juta";
-          case "2000":
-            return "Premi 2 juta";
-          default:
-            return "Premi " + p;
-        }
-      }
+    <!-- SEKSI 7: CTA -->
+    <section>
+      <span class="pill">🌙 Penutup</span>
+      <h2>Ringkasan Manfaat Premi 500 Ribu per Bulan</h2>
+      <ul class="check-list">
+        <li>✅ Menyiapkan dana Umroh dengan cara Syariah & terarah.</li>
+        <li>✅ Mendapatkan perlindungan jiwa selama masa kepesertaan.</li>
+        <li>✅ Membangun nilai investasi yang terus bertumbuh.</li>
+        <li>✅ Tidak sekadar menabung, tetapi <strong>membangun aset ibadah</strong>.</li>
+      </ul>
 
-      function getPdfUrl(premiValue) {
-        const fileName = pdfMap[premiValue];
-        return baseURL + fileName;
-      }
+      <p>
+        <i>
+          “Mungkin kita bisa menunda banyak hal dalam hidup, tetapi
+          jangan terlalu lama menunda niat menyempurnakan ibadah.”
+        </i>
+      </p>
 
-      function showLoading(url) {
-        pdfLoading.style.opacity = "1";
-        pdfLoading.style.pointerEvents = "auto";
-        pdfViewer.style.opacity = "0.15";
-        pdfViewer.style.filter = "blur(1px)";
-        pdfUrlInfo.textContent = url;
-      }
+      <div class="cta-box">
+        <a
+          class="cta-btn"
+          href="https://wa.me/6285218453131?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20program%20Istikmal%203iReborn%20premi%20500rb%20per%20bulan%20untuk%20target%20Umroh."
+          target="_blank"
+        >
+          💬 Konsultasi Istikmal & Umroh via WhatsApp
+        </a>
+        <div class="cta-sub">
+          Ilustrasi resmi akan dijelaskan melalui sistem MOBISS 3iReborn.
+        </div>
+      </div>
+    </section>
 
-      function hideLoading() {
-        pdfLoading.style.opacity = "0";
-        pdfLoading.style.pointerEvents = "none";
-        pdfViewer.style.opacity = "1";
-        pdfViewer.style.filter = "none";
-      }
+    <footer>
+      3iReborn • Istikmal Syariah • NPA Smart System<br>
+      <span style="font-size:11px;">Halaman edukasi. Bukan simulasi resmi.</span>
+    </footer>
 
-      function updatePdf(premiValue) {
-        const url = getPdfUrl(premiValue);
-        premiLabelMini.textContent = formatPremiLabel(premiValue);
-        showLoading(url);
-        pdfViewer.src = url;
-      }
-
-      // Event: iframe loaded
-      pdfViewer.addEventListener("load", function () {
-        // Sedikit delay biar transisi terlihat smooth
-        setTimeout(hideLoading, 250);
-      });
-
-      // Event: ganti premi
-      premiSelect.addEventListener("change", function () {
-        updatePdf(this.value);
-      });
-
-      // Tombol Download PDF
-      btnDownload.addEventListener("click", function () {
-        const premiValue = premiSelect.value;
-        const url = getPdfUrl(premiValue);
-        window.open(url, "_blank");
-      });
-
-      // Tombol kirim via WhatsApp
-      btnWhatsApp.addEventListener("click", function () {
-        const premiValue = premiSelect.value;
-        const premiText = premiSelect.options[premiSelect.selectedIndex].text;
-        const pdfUrl = getPdfUrl(premiValue);
-        const pageUrl = window.location.href.split("#")[0];
-
-        const message =
-          "*ILUSTRASI ISTIKMAL 3iReborn*\n\n" +
-          "Premi yang dipilih: " + premiText + "\n" +
-          "Link halaman ilustrasi:\n" + pageUrl + "\n\n" +
-          "File ilustrasi resmi (PDF):\n" + pdfUrl + "\n\n" +
-          "_(Angka-angka mengikuti ilustrasi resmi CAR Life Insurance via MOBISS 3iReborn)_";
-
-        const waUrl =
-          "https://wa.me/?text=" + encodeURIComponent(message);
-        window.open(waUrl, "_blank");
-      });
-
-      // Load pertama (pakai nilai default select)
-      updatePdf(premiSelect.value);
-    });
-  </script>
+  </div>
 </body>
 </html>
