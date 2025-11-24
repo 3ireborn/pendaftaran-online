@@ -1,426 +1,166 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ilustrasi Nilai Investasi Istikmal 3iReborn – Premi 500rb/bulan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f3f7f5;
-      --card:#ffffff;
-      --ink:#0b3d2e;
-      --muted:#6b7280;
-      --accent:#0b3d91;
-      --accent-soft:#dbeafe;
-      --accent-gold:#fbbf24;
-      --border:#e5e7eb;
-      --cta:#16a34a;
-      --cta-hover:#15803d;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:'Poppins',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.7;
-    }
-    .wrap{
-      max-width:960px;
-      margin:0 auto;
-      padding:20px 16px 40px;
-    }
-    .hero{
-      background:linear-gradient(135deg,#020617,#0f172a);
-      color:#f9fafb;
-      border-radius:18px;
-      padding:26px 20px 24px;
-      margin-bottom:18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:-40px;
-      background:radial-gradient(circle at top right,rgba(248,250,252,.08),transparent 60%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .hero-inner{position:relative;z-index:1}
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:4px 10px;
-      border-radius:999px;
-      font-size:12px;
-      background:rgba(15,23,42,.8);
-      border:1px solid rgba(248,250,252,.12);
-      margin-bottom:8px;
-    }
-    .eyebrow span{color:var(--accent-gold);font-weight:600}
-    .hero h1{
-      font-size:24px;
-      line-height:1.4;
-      margin-bottom:10px;
-    }
-    .hero p{
-      font-size:14px;
-      color:#e5e7eb;
-      max-width:620px;
-    }
-    .badge-premi{
-      margin-top:12px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 12px;
-      border-radius:999px;
-      background:rgba(22,163,74,.12);
-      color:#bbf7d0;
-      font-size:13px;
-      font-weight:600;
-      border:1px solid rgba(34,197,94,.4);
-    }
-    .badge-premi strong{color:#4ade80}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ilustrasi Istikmal 3iReborn — Premi 500rb</title>
 
-    section{
-      background:var(--card);
-      border-radius:16px;
-      border:1px solid var(--border);
-      padding:18px 16px 20px;
-      margin-bottom:14px;
-    }
-    @media(min-width:768px){
-      .hero{padding:32px 26px 28px}
-      .hero h1{font-size:28px}
-      section{padding:22px 20px 24px}
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f3f7f5;
+    color: #0b3d2e;
+  }
 
-    h2{
-      font-size:18px;
-      margin-bottom:8px;
-      color:var(--accent);
-    }
-    h3{
-      font-size:15px;
-      margin:12px 0 6px;
-      color:var(--ink);
-    }
-    p{margin-bottom:8px;font-size:14px;}
-    ul,ol{margin:4px 0 8px 20px;font-size:14px;}
-    li{margin:2px 0 4px;}
-    .pill{
-      display:inline-block;
-      padding:4px 9px;
-      border-radius:999px;
-      font-size:11px;
-      background:var(--accent-soft);
-      color:var(--accent);
-      margin-bottom:8px;
-      font-weight:600;
-    }
-    .highlight{color:#0a5c3b;font-weight:600}
-    .note{
-      background:#fffbeb;
-      border-radius:12px;
-      padding:10px 12px;
-      border:1px solid #fef3c7;
-      font-size:13px;
-      color:#92400e;
-    }
-    .two-col{
-      display:grid;
-      gap:12px;
-    }
-    @media(min-width:780px){
-      .two-col{
-        grid-template-columns:1.1fr .9fr;
-      }
-    }
-    .check-list li::marker{color:#16a34a}
-    .cta-box{
-      text-align:center;
-      padding-top:6px;
-    }
-    .cta-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:12px 22px;
-      border-radius:999px;
-      background:var(--cta);
-      color:#ecfdf3;
-      border:none;
-      font-weight:700;
-      font-size:15px;
-      margin-top:6px;
-      text-decoration:none;
-      cursor:pointer;
-      transition:.18s;
-      box-shadow:0 10px 30px rgba(22,163,74,.35);
-    }
-    .cta-btn:hover{
-      background:var(--cta-hover);
-      transform:translateY(-1px);
-      box-shadow:0 14px 36px rgba(22,163,74,.45);
-    }
-    .cta-sub{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:4px;
-    }
-    .divider{
-      height:1px;
-      background:linear-gradient(to right,transparent,#e5e7eb,transparent);
-      margin:10px 0 12px;
-    }
-    footer{
-      text-align:center;
-      font-size:12px;
-      color:var(--muted);
-      margin-top:10px;
-    }
-  </style>
+  .container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .leader-box {
+    background: #e8fff3;
+    padding: 12px 16px;
+    border-left: 5px solid #15b374;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .box {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #0b3d2e;
+  }
+
+  ul li {
+    margin-bottom: 6px;
+  }
+
+  .cta {
+    background: #0b3d2e;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-weight: 700;
+    display: block;
+    margin-top: 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .cta:hover {
+    background: #063a29;
+  }
+
+  .note {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #555;
+  }
+</style>
 </head>
+
 <body>
-  <div class="wrap">
+<div class="container">
 
-    <!-- HERO -->
-    <header class="hero">
-      <div class="hero-inner">
-        <div class="eyebrow">
-          <span>ISTIKMAL 3iReborn</span>
-          • Proteksi • Investasi • Income
-        </div>
-        <h1>
-          Bukan Sekadar Menabung. Ini Cara Cerdas & Syariah untuk Merencanakan Umroh
-          <span style="color:#facc15;">+ Melindungi Keluarga.</span>
-        </h1>
-        <p>
-          Dengan kontribusi <strong>Rp 500.000 per bulan</strong>, Anda membangun dana
-          Umroh sambil mendapatkan perlindungan jiwa dan nilai investasi yang terus
-          bertumbuh secara Syariah.
-        </p>
-        <div class="badge-premi">
-          Premi tetap: <strong>Rp 500.000/bulan</strong> • Masa bayar 5 tahun •
-          Masa kepesertaan 7 tahun
-        </div>
-      </div>
-    </header>
+<h1>📘 Ilustrasi Nilai Investasi Istikmal 3iReborn</h1>
 
-    <!-- SEKSI 1: MENGAPA -->
-    <section>
-      <span class="pill">📌 Mengapa Banyak Orang Memilih Program Ini?</span>
-      <h2>Kenapa Istikmal 3iReborn Bukan Tabungan Biasa?</h2>
-      <p>
-        Banyak orang ingin berangkat Umroh, tapi sering tertunda karena:
-      </p>
-      <ul>
-        <li>Tabungan tidak disiplin & sering terpakai untuk kebutuhan lain.</li>
-        <li>Belum punya sistem yang jelas dan terukur untuk mencapai target dana.</li>
-        <li>Ragu dengan produk keuangan yang tidak transparan dan tidak Syariah.</li>
-      </ul>
-      <p>
-        Program <strong>Istikmal 3iReborn</strong> hadir sebagai solusi:
-        <span class="highlight">bukan hanya menabung, tetapi
-        membangun dana Umroh dengan skema proteksi & investasi berbasis Syariah</span>
-        yang dikelola oleh <strong>CAR Life Insurance</strong>.
-      </p>
-    </section>
+<div id="leaderBox" class="leader-box">Memuat data leader…</div>
 
-    <!-- SEKSI 2: PREMI 500K -->
-    <section class="two-col">
-      <div>
-        <span class="pill">💰 Fokus: Premi Rp 500.000/bulan</span>
-        <h2>Kenapa Premi 500 Ribu Ideal untuk Target Umroh?</h2>
-        <p>
-          Premi <strong>Rp 500.000/bulan</strong> dipilih sebagai angka yang
-          <strong>masih terjangkau</strong> namun cukup kuat untuk membangun
-          dana jangka menengah:
-        </p>
-        <ul class="check-list">
-          <li>Masih realistis untuk banyak keluarga Indonesia.</li>
-          <li>Cukup kuat untuk mengejar target biaya Umroh beberapa tahun ke depan.</li>
-          <li>Didukung sistem investasi Syariah yang terukur.</li>
-        </ul>
-        <p>
-          Polanya sederhana:
-        </p>
-        <ul>
-          <li><strong>Masa bayar:</strong> 5 tahun (60 kali setor premi).</li>
-          <li><strong>Masa kepesertaan:</strong> 7 tahun (2 tahun berikutnya dana dibiarkan tumbuh).</li>
-          <li><strong>Tujuan utama:</strong> Dana Umroh + Proteksi keluarga.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Ringkasan Manfaat Utama</h3>
-        <ul class="check-list">
-          <li><strong>Proteksi jiwa</strong> selama masa kepesertaan.</li>
-          <li><strong>Nilai investasi</strong> terbentuk dan terus berkembang.</li>
-          <li><strong>Berbasis Syariah</strong>, bebas riba & spekulasi.</li>
-          <li><strong>Berpotensi mendekati target dana Umroh</strong> dalam 5–7 tahun.</li>
-        </ul>
-        <div class="note">
-          <strong>Penting:</strong> Angka detail & nilai akhir
-          mengikuti <strong>ilustrasi resmi</strong> dari sistem
-          <strong>MOBISS 3iReborn – CAR Life Insurance</strong>.
-          Halaman ini bersifat penjelasan edukasi, bukan simulasi angka resmi.
-        </div>
-      </div>
-    </section>
+<p><strong>Premi:</strong> Rp 500.000 / bulan</p>
+<p><strong>Masa Bayar:</strong> 5 Tahun (60 bulan)</p>
+<p><strong>Masa Kepesertaan:</strong> 7 Tahun</p>
 
-    <!-- SEKSI 3: CARA KERJA -->
-    <section>
-      <span class="pill">⚙️ Cara Kerja (Bahasa Sederhana)</span>
-      <h2>Bagaimana Program Ini Bekerja Setiap Bulan?</h2>
-      <p>Setiap kali Anda membayar premi Rp 500.000 per bulan, dananya akan dialokasikan ke beberapa komponen:</p>
-      <ol>
-        <li><strong>Ujrah / biaya kepesertaan</strong> – biaya pengelolaan program.</li>
-        <li><strong>Iuran Tabarru’</strong> – dana tolong-menolong antar peserta sesuai prinsip Syariah.</li>
-        <li><strong>Iuran risiko</strong> – terkait manfaat perlindungan jiwa.</li>
-        <li><strong>Dana investasi peserta</strong> – bagian yang diinvestasikan ke aset Syariah.</li>
-      </ol>
-      <p>
-        <span class="highlight">Sisa dana setelah biaya, masuk ke dana investasi peserta.</span>
-        Dana inilah yang dikelola secara profesional oleh CAR Life Insurance dalam
-        instrumen <strong>keuangan Syariah</strong>.
-      </p>
-      <div class="divider"></div>
-      <p>
-        Selama <strong>5 tahun masa bayar</strong>, dana investasi terus terbentuk.
-        Lalu pada <strong>tahun ke-6 dan ke-7</strong>, meskipun premi tidak lagi dibayar,
-        <span class="highlight">nilai investasi tetap bekerja & berpotensi terus tumbuh</span>.
-      </p>
-    </section>
+<div class="box">
+  <h3>🧩 Skema Alokasi Premi</h3>
+  <p>Setiap premi Rp 500.000 dibagi menjadi beberapa komponen penting:</p>
 
-    <!-- SEKSI 4: PROTEKSI -->
-    <section class="two-col">
-      <div>
-        <span class="pill">🛡️ Proteksi yang Menenangkan</span>
-        <h2>Selama Menabung, Keluarga Tetap Terlindungi</h2>
-        <p>
-          Berbeda dengan tabungan biasa, program ini memberikan <strong>manfaat perlindungan jiwa</strong>.
-        </p>
-        <p>Secara garis besar, manfaat proteksi meliputi:</p>
-        <ul>
-          <li><strong>Jika peserta meninggal dunia</strong> (sesuai ketentuan polis), ahli waris berhak atas manfaat asuransi.</li>
-          <li>Selain itu, <strong>nilai investasi yang sudah terbentuk</strong> juga menjadi hak ahli waris.</li>
-        </ul>
-        <p>
-          Jadi, saat Anda menyiapkan dana Umroh, keluarga juga mendapatkan perlindungan finansial apabila terjadi risiko.
-        </p>
-      </div>
-      <div>
-        <h3>Ilustrasi Sederhana</h3>
-        <p>
-          Misalnya dalam perjalanan 5–7 tahun:
-        </p>
-        <ul>
-          <li>Jika Allah memanggil lebih cepat, keluarga tetap menerima manfaat.</li>
-          <li>Jika sehat sampai akhir masa kepesertaan, Anda menerima nilai investasi yang terbentuk.</li>
-        </ul>
-        <p>
-          <span class="highlight">Ini yang membuat program ini berbeda dari tabungan manual biasa.</span>
-        </p>
-      </div>
-    </section>
+  <ul>
+    <li>Ujrah (biaya kepesertaan)</li>
+    <li>Iuran Tabarru’ (tolong-menolong peserta lain)</li>
+    <li>Iuran Pengelolaan Risiko</li>
+    <li>Dana Investasi Peserta</li>
+  </ul>
 
-    <!-- SEKSI 5: FOKUS UMROH -->
-    <section>
-      <span class="pill">🕋 Fokus Target: Dana Umroh</span>
-      <h2>Menjadikan Premi 500 Ribu/Bulan Sebagai “Mesin Menuju Umroh”</h2>
-      <p>
-        Tujuan utama dari kontribusi Rp 500.000/bulan ini adalah
-        <strong>membangun dana terarah untuk Umroh</strong>.
-      </p>
-      <p>
-        Dengan disiplin selama 5 tahun dan masa kepesertaan 7 tahun, dana yang terkumpul dan berkembang
-        bisa diarahkan untuk:
-      </p>
-      <ul>
-        <li>Biaya paket Umroh utama.</li>
-        <li>Biaya paspor & administrasi perjalanan.</li>
-        <li>Biaya perlengkapan ibadah & kebutuhan pribadi.</li>
-        <li>Cadangan finansial selama perjalanan.</li>
-      </ul>
-      <p>
-        Polanya bukan “kalau ada sisa uang lalu ditabung”, tetapi
-        <span class="highlight">membalik konsepnya menjadi: sisihkan dulu untuk ibadah, baru atur kebutuhan lain.</span>
-      </p>
-      <div class="note" style="margin-top:10px;">
-        <strong>Catatan:</strong> Nominal akhir dan proyeksi hasil investasi yang lebih detail
-        selalu mengacu pada <strong>ilustrasi resmi di sistem MOBISS 3iReborn</strong>,
-        yang akan dijelaskan langsung oleh agen/leaders Anda.
-      </div>
-    </section>
+  <p>Sisa premi setelah biaya dimasukkan ke investasi Syariah sesuai ketentuan CAR Life Insurance.</p>
+</div>
 
-    <!-- SEKSI 6: SIAPA COCOK -->
-    <section class="two-col">
-      <div>
-        <span class="pill">🎯 Untuk Siapa Program Ini Cocok?</span>
-        <h2>Profil Peserta yang Tepat</h2>
-        <p>Program Istikmal 3iReborn dengan premi 500 ribu cocok untuk Anda yang:</p>
-        <ul class="check-list">
-          <li>Ingin merencanakan Umroh dalam jangka 5–7 tahun ke depan.</li>
-          <li>Mengutamakan program keuangan berbasis <strong>Syariah</strong>.</li>
-          <li>Ingin sekaligus melindungi keluarga saat menabung.</li>
-          <li>Sanggup disiplin menyisihkan Rp 500.000/bulan secara konsisten.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Kenapa Harus Mulai dari Sekarang?</h3>
-        <ul>
-          <li>Biaya Umroh cenderung naik dari tahun ke tahun.</li>
-          <li>Semakin cepat mulai, semakin ringan beban bulanannya.</li>
-          <li>Waktu 5–7 tahun akan terasa cepat jika tidak ada perencanaan.</li>
-        </ul>
-        <p>
-          <span class="highlight">Bismillah, langkah kecil yang konsisten hari ini
-          jauh lebih kuat daripada rencana besar yang terus ditunda.</span>
-        </p>
-      </div>
-    </section>
+<div class="box">
+  <h3>📈 Perjalanan Nilai Investasi (Edukasi)</h3>
 
-    <!-- SEKSI 7: CTA -->
-    <section>
-      <span class="pill">🌙 Penutup</span>
-      <h2>Ringkasan Manfaat Premi 500 Ribu per Bulan</h2>
-      <ul class="check-list">
-        <li>✅ Menyiapkan dana Umroh dengan cara Syariah & terarah.</li>
-        <li>✅ Mendapatkan perlindungan jiwa selama masa kepesertaan.</li>
-        <li>✅ Membangun nilai investasi yang terus bertumbuh.</li>
-        <li>✅ Tidak sekadar menabung, tetapi <strong>membangun aset ibadah</strong>.</li>
-      </ul>
+  <p>
+    Peserta yang rutin membayar Rp 500.000 setiap bulan selama 5 tahun akan
+    membentuk dana investasi yang terus tumbuh selama masa kepesertaan.
+  </p>
 
-      <p>
-        <i>
-          “Mungkin kita bisa menunda banyak hal dalam hidup, tetapi
-          jangan terlalu lama menunda niat menyempurnakan ibadah.”
-        </i>
-      </p>
+  <p>
+    Pada akhir tahun ke-7, dana investasi wajib dicairkan dan menjadi hak penuh peserta.
+    Pertumbuhan dana mengikuti instrumen Syariah (bukan bunga).
+  </p>
 
-      <div class="cta-box">
-        <a
-          class="cta-btn"
-          href="https://wa.me/6285218453131?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20program%20Istikmal%203iReborn%20premi%20500rb%20per%20bulan%20untuk%20target%20Umroh."
-          target="_blank"
-        >
-          💬 Konsultasi Istikmal & Umroh via WhatsApp
-        </a>
-        <div class="cta-sub">
-          Ilustrasi resmi akan dijelaskan melalui sistem MOBISS 3iReborn.
-        </div>
-      </div>
-    </section>
+  <p class="note">
+    *Angka detail dapat dilihat pada ilustrasi resmi di sistem MOBISS 3iReborn.
+  </p>
+</div>
 
-    <footer>
-      3iReborn • Istikmal Syariah • NPA Smart System<br>
-      <span style="font-size:11px;">Halaman edukasi. Bukan simulasi resmi.</span>
-    </footer>
+<div class="box">
+  <h3>🎯 Potensi Penggunaan Dana Akhir</h3>
+  <ul>
+    <li>🕋 Biaya Umroh</li>
+    <li>🎓 Pendidikan anak</li>
+    <li>💸 Dana darurat</li>
+    <li>🏡 Dana hari esok</li>
+    <li>💼 Modal usaha</li>
+  </ul>
+</div>
 
-  </div>
+<div class="box" style="background:#fff8e5;">
+  <h3>⚠️ Catatan Penting</h3>
+  <p>
+    Halaman ini hanya ilustrasi edukasi. Seluruh angka resmi mengikuti ilustrasi perusahaan melalui
+    sistem MOBISS ketika melakukan simulasi pendaftaran.
+  </p>
+</div>
+
+<a id="ctaBtn" href="#" class="cta">Diskusi Ilustrasi via WhatsApp</a>
+
+</div>
+
+<script>
+/* Ambil query dari URL */
+const Q = new URLSearchParams(window.location.search);
+
+const name = Q.get("name") || "Leader 3iReborn";
+const wa   = Q.get("wa")   || "6281234567890";
+
+/* Tampilkan nama leader */
+document.getElementById("leaderBox").innerHTML =
+  "🌟 Halaman ini dipandu oleh: <strong>" + name + "</strong>";
+
+/* WA CTA */
+const msg =
+  "Halo " + name + ", saya ingin diskusi ilustrasi premi 500rb untuk Istikmal 3iReborn.";
+document.getElementById("ctaBtn").href =
+  "https://wa.me/" + wa + "?text=" + encodeURIComponent(msg);
+</script>
+
 </body>
 </html>
