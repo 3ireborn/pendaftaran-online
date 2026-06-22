@@ -121,24 +121,16 @@ function generateWa(){
     premi:  get('premi')
   };
 
-  const msg =
-    const params =
+  
+  const params =
 new URLSearchParams(window.location.search);
 
 const nomor =
 params.get("wa");
 
 const msg = `
-isi pesan
-`;
+*FORM PENDAFTARAN ONLINE - 3iReborn*
 
-document.getElementById("waBtn2").href =
-"https://wa.me/" +
-nomor +
-"?text=" +
-encodeURIComponent(msg);
-  
-`*FORM PENDAFTARAN ONLINE — 3iReborn*
 ■ Nama : ${data.nama}
 ■ Tempat & Tgl Lahir : ${data.ttl}
 ■ Jenis Kelamin : ${data.jk}
@@ -156,10 +148,19 @@ encodeURIComponent(msg);
 ■ Ahli Waris Bisnis : ${data.waris}
 ■ Pilihan Premi : ${data.premi}
 
-Silakan bantu proses pendaftaran sesuai SOP MOBIS. Terima kasih.`;
-  
-  document.getElementById('out').textContent = msg;
-}
+Silakan bantu proses pendaftaran sesuai SOP MOBIS.
+Terima kasih.
+`;
+
+window.open(
+"https://wa.me/" +
+nomor +
+"?text=" +
+encodeURIComponent(msg),
+"_blank"
+);
+
+document.getElementById("out").textContent = msg;
 
 function get(id){ return document.getElementById(id).value.trim(); }
 </script>
