@@ -153,14 +153,11 @@ const msg = `
 Silakan bantu proses pendaftaran sesuai SOP MOBIS.
 Terima kasih.
 `;
-
-window.open(
+location.href =
 "https://wa.me/" +
 nomor +
 "?text=" +
-encodeURIComponent(msg),
-"_blank"
-);
+encodeURIComponent(msg);
 
 document.getElementById("out").textContent = msg;
 
