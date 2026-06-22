@@ -122,6 +122,22 @@ function generateWa(){
   };
 
   const msg =
+    const params =
+new URLSearchParams(window.location.search);
+
+const nomor =
+params.get("wa");
+
+const msg = `
+isi pesan
+`;
+
+document.getElementById("waBtn2").href =
+"https://wa.me/" +
+nomor +
+"?text=" +
+encodeURIComponent(msg);
+  
 `*FORM PENDAFTARAN ONLINE — 3iReborn*
 ■ Nama : ${data.nama}
 ■ Tempat & Tgl Lahir : ${data.ttl}
@@ -141,14 +157,14 @@ function generateWa(){
 ■ Pilihan Premi : ${data.premi}
 
 Silakan bantu proses pendaftaran sesuai SOP MOBIS. Terima kasih.`;
-
-  <a id="waBtn2" class="btn">
-Hubungi WhatsApp
-</a>
   
   document.getElementById('out').textContent = msg;
 }
-
+document.getElementById("waBtn2").href =
+"https://wa.me/" +
+nomor +
+"?text=" +
+encodeURIComponent(msg);
 function get(id){ return document.getElementById(id).value.trim(); }
 </script>
 </body>
