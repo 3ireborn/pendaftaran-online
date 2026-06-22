@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Form Pendaftaran — 3iReborn v3.3</title>
+<title>Form Pendaftaran — 3iReborn v3.4</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   body{
@@ -31,14 +31,14 @@
     background:#0d1f3e;color:#d9e7ff;
     padding:14px;border-radius:10px;
     margin-top:20px;font-size:14px;
+    line-height:1.5;
   }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Form Pendaftaran Online — 3iReborn v3.3</h1>
+  <h1>Form Pendaftaran Online — 3iReborn v3.4</h1>
 
-  <!-- INPUT -->
   <label>Nama Lengkap</label>
   <input id="nama" type="text">
 
@@ -105,7 +105,7 @@ function generateWa(){
   const data = {
     nama:   get('nama'),
     ttl:    get('ttl'),
-    jk:     get('jk'),
+    jk:     get('jk') === 'L' ? 'Laki-laki' : 'Perempuan',
     alamat: get('alamat'),
     hp:     get('hp'),
     email:  get('email'),
@@ -121,28 +121,51 @@ function generateWa(){
     premi:  get('premi')
   };
 
-  
-  const params =
-new URLSearchParams(window.location.search);
+  // Ambil nomor WA dari query parameter (?wa=628xxxxxxxxxx)
+  const params = new URLSearchParams(window.location.search);
+  const nomor = params.get("wa");
 
-const nomor =
-params.get("wa");
+  if (!nomor) {
+    alert("Nomor WhatsApp tidak ditemukan! Gunakan link dengan ?wa=628xxxxxxxxxx");
+    return;
+  }
 
-alert("Nomor WA: " + nomor);
+  const msg = 
+`✅ *PENDAFTARAN BARU - 3iReborn*
 
-const msg = `TEST BERHASIL`;
-`;
-window.location.href =
-"whatsapp://send?phone=" +
-  
-nomor +
-"?text=" +
-encodeURIComponent(msg);
+*Nama Lengkap:* ${data.nama}
+*Tempat & Tgl Lahir:* ${data.ttl}
+*Jenis Kelamin:* ${data.jk}
+*Alamat:* ${data.alamat}
+*No HP:* ${data.hp}
+*Email:* ${data.email}
+*No KTP:* ${data.ktp}
+*Nama Ibu Kandung:* ${data.ibu}
 
-document.getElementById("out").textContent = msg;
-    } 
-  
-function get(id){ return document.getElementById(id).value.trim(); }
+*Data Rekening:*
+• Bank: ${data.bank}
+• No Rek: ${data.norek}
+• Nama Rek: ${data.namarek}
+
+*Pekerjaan:* ${data.pekerjaan}
+*Penghasilan/Tahun:* ${data.gaji}
+*Tinggi & Berat:* ${data.tb}
+*Ahli Waris:* ${data.waris}
+*Pilihan Premi:* ${data.premi}
+
+Mohon diproses ya Admin. Terima kasih.`;
+
+  // Tampilkan di halaman
+  document.getElementById("out").textContent = msg;
+
+  // Buka WhatsApp
+  const waLink = `whatsapp://send?phone=${nomor}&text=${encodeURIComponent(msg)}`;
+  window.location.href = waLink;
+}
+
+function get(id){ 
+  return document.getElementById(id).value.trim(); 
+}
 </script>
 </body>
 </html>
