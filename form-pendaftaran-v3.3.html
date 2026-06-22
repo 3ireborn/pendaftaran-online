@@ -153,8 +153,9 @@ const msg = `
 Silakan bantu proses pendaftaran sesuai SOP MOBIS.
 Terima kasih.
 `;
-location.href =
-"https://wa.me/" +
+window.location.href =
+"whatsapp://send?phone=" +
+  
 nomor +
 "?text=" +
 encodeURIComponent(msg);
